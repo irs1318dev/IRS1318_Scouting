@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body>
+    <div id="msg"></div>
+    <script src="Scripts/lib/jquery-2.0.3.min.js"></script>
+    <script>
+        var OfflineUtility = function (onlineCallback, offlineCallback) {
+            var
+                autoReloadOnCacheUpdate = function () {
+                    window.applicationCache.swapCache();
+                    location.reload();
+                };
+
+            if (onlineCallback) {
+                $(window).on('online', onlineCallback);
+            }
+
+            if (offlineCallback) {
+                $(window).on('offline', offlineCallback);
+            }
+
+            if (window.applicationCache) {
+                $(windows.applicationCache).on('updateready', autoReloadOnCacheUpdate);
+            }
+
+            if (navigator.onLine) {
+                onlineCallback();
+            }
+            else {
+                offlineCallback();
+            }
+        };
+
+        $(function () {
+            var
+                msg = $('#msg'),
+
+                doWhenOnline = function () {
+                    msg.text('online');
+                },
+                doWhenOffline = function () {
+                    msg.text('OFFLINE');
+                };
+
+            var offlineUtility = new OfflineUtility(doWhenOnline, doWhenOffline);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+﻿@model Scouter.Web.ViewModels.TeamsListViewModel
+@using Scouter.Models
+
+@{
+    Layout = "~/Views/Shared/_LayoutTeams.cshtml";
+    ViewBag.Title = "Teams";
+    ViewBag.IncludeManifest = true;
+}
+
+
+@section scripts {
+<script>
+    $(function () {
+        teamsDataService.syncAllLocal();
+
+        //////////////////////////////////////////////////////////////////
+        // OFFLINE DETECTION
+        var isOffline = false,
+            goingOffline = function () {
+                isOffline = true;
+                //$('#offlinedialog').dialog("open");
+                //setTimeout(function () { document.location = '/teams/offline'; }, 5000);
+            },
+            goingOnline = function () {
+                if (!isOffline) return;
+                isOffline = false;
+                $('#offlinedialog').dialog("close");
+            }
+
+        var offlineUtility = new OfflineUtility(goingOnline, goingOffline);
+
+       //////////////////////////////////////////////////////////////////
+        // CACHE DETECTION
+        applicationCache.ondownloading = function (e) {
+            $('#manifeststatus')[0].textContent = e.type;
+            $("#manifeststates").css('display', 'block');
+        }
+
+        applicationCache.onprogress = function (e) {
+            var percentage = e.loaded / e.total * 100;
+            $("#prog").val(percentage);
+        };
+
+        var complete = function (e) {
+            $('#manifeststatus')[0].textContent = e.type;
+            setTimeout(displayNone, 2000);
+        }
+        var displayNone = function () {
+            $("#manifeststates").css('display', 'none');
+            $('#filt').fadeIn();
+        }
+        applicationCache.oncached = complete;
+        applicationCache.onupdateready = complete;
+        applicationCache.onerror = complete;
+        applicationCache.onobsolete = complete;
+        applicationCache.onnoupdate = complete;
+
+        //////////////////////////////////////////////////////////////////
+        // VIEWMODEL
+        var ViewModel = function()
+        {
+            var self = this;
+            //self.synchPerformed = teamsDataService.syncAllLocal();
+
+            self.teams = ko.observableArray(@Html.Raw(Model.TeamsJSON));
+            teamsDataService.saveTeamsLocal(@Html.Raw(Model.TeamsJSON)); // also put list in cache in case this instance goes offline
+
+            self.errorMessage = ko.observable();
+
+            self.teamFilter = ko.observable();
+
+            self.showError = function (error) { $('#error-container').fadeIn(); };
+
+            self.filteredItems = ko.computed(function () {
+                var filter = self.teamFilter();
+                if (!filter) {
+                    return self.teams();
+                } else {
+                    filter = filter.toLowerCase();
+                    return ko.utils.arrayFilter(self.teams(), function (team) {
+                        return ko.utils.stringStartsWith(String(team.number).toLowerCase(), filter);
+                    });
+                }
+            });
+
+            self.requestDelConfirm = function (team) {
+                vm.currentTeam = team;
+                $('#del-confirm').modal();
+            };
+
+            self.del = function () {
+                var team = ko.toJS(vm.currentTeam);
+
+                teamsDataService.del(team).done(function(response) {
+                    vm.teams.remove(function(item) {
+                        return item.id === team.id;
+                    });
+                }).fail(function(error) {
+                    vm.showError(error);
+                }).always(function() {
+                    $('#del-confirm').modal('hide');
+                });
+            };
+        };
+
+        $('#offlinedialog').dialog({
+            autoOpen: false,
+            modal: true,
+            width: 420, height: 350,
+            closeOnEscape: false,
+            show: { effect: "explode" },
+            dialogClass: 'alert',
+            dialogClass: 'no-close'
+        });
+
+        var vm = new ViewModel();
+
+        _.each(vm.teams(), function (team) {
+            team.imageUrl = ko.computed(function () {
+                var
+                    imgName = team.imageName,
+                    fileName = (imgName == null) ? 'no-image.png' : imgName,
+                    url = '@Model.ImageUrlPrefix' + fileName;
+                return url;
+            });
+        });
+
+           
+        ko.applyBindings(vm);
+    });
+</script>
+}
+
+<style>
+    .no-close .ui-dialog-titlebar-close {
+        display: none;
+    }
+    .head {
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
+    }
+    .endcap {
+        border-right: 1px solid black;
+    }
+</style>
+
+
+<div class="page-header">
+    <p class="lead">Manage Teams</p>
+    <div class="row">
+        <div class="btn-group pull-right col-md-5">
+            <a href="/teams/offline">Go offline</a>
+        </div>
+    </div>
+    <div id="manifeststates" style="width: 25%; height: 10px; margin: 0 auto; display: none;">
+        <p id="manifeststatus"></p>
+        <progress id="prog" max="100" value="0"></progress>
+    </div>
+</div>
+
+<div id="error-container" class="hidden">
+    <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h4>Oops..</h4>
+        <p>Something went wrong. Here's the error message:</p>
+        <p data-bind="text: errorMessage"></p>
+    </div>
+</div>
+
+
+<div id="list-container">
+    <div id="filt" class="row" style="display: none">
+        <div class="btn-group pull-right col-md-5">
+            <input class="glyphicon glyphicon-search" type="search" placeholder="Team Search" data-bind="value: teamFilter" />
+        </div>
+    </div>
+    <div data-bind="template: { name: 'list-template', foreach: filteredItems }"></div>
+</div>
+
+<script type="text/html" id="list-template">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h3 data-bind="text: 'Team ' + number + ' - ' + name"/>                
+            </div>
+            <div class="col-sm-8">
+                <p></p>
+                <a href="#" class="btn alert-danger" data-bind="click: $parent.requestDelConfirm">Delete</a>&nbsp;<a class="btn btn-primary" style="color:white;" data-bind="attr: { href: '/teams/edit/' + id }">Edit</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <img data-bind="attr: { src: imageUrl }" height="115" width="170" class="fancy" />
+            </div>
+            <div class="col-sm-8">
+                <!--Description-->
+                <div class="row">
+                    <div class="col-xs-2">
+                        <h4>Description:</h4>
+                    </div>
+                    <div class="col-xs-8">
+                        <label id="description"
+                               data-bind="text: description"
+                               title="Description"/>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2 head">
+                        Drivetrain
+                    </div>
+                    <div class="col-xs-2 head">
+                        Wheels
+                    </div>
+                    <div class="col-xs-1 head">
+                        Len
+                    </div>
+                    <div class="col-xs-1 head">
+                        Wd
+                    </div>
+                    <div class="col-xs-1 head">
+                        Ht
+                    </div>
+                    <div class="col-xs-1 head">
+                        Wt
+                    </div>
+                    <div class="col-xs-2 head">
+                        Ball Start
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2 endcap">
+                        <label data-bind="text: drivetrainName"></label>
+                    </div>
+                    <div class="col-xs-2 endcap">
+                        <label data-bind="text: wheelCount"></label>
+                    </div>
+                    <div class="col-xs-1 endcap">
+                        <label data-bind="text: length"></label>
+                    </div>
+                    <div class="col-xs-1 endcap">
+                        <label data-bind="text: width"></label>
+                    </div>
+                    <div class="col-xs-1 endcap">
+                        <label data-bind="text: height"></label>
+                    </div>
+                    <div class="col-xs-1 endcap">
+                        <label data-bind="text: weight"></label>
+                    </div>
+                    <div class="col-xs-2 endcap">
+                        <label data-bind="text: ball"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+</script>
+
+<div id="del-confirm" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="del-confirm-label" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+        <h3 id="del-confirm-label">Confirm Delete</h3>
+    </div>
+    <div class="modal-body">
+        <p>Are you sure you want to delete this team?</p>
+        <p class="alert alert-error push-down"><strong>Note:</strong>There is no undo for this action.</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-primary" data-bind="click: del">Delete Team</button>
+    </div>
+</div>
+
+<!-- Offline Support -->
+<div id="offlinedialog" style="background-color: paleturquoise; border: solid; display: none;">
+    <h2 class="alert alert-danger">Your Device is now Offline</h2><br /><br />
+    <p>Your device will now go to the offine page.</p>
+</div>

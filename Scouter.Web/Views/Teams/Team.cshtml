@@ -1,0 +1,470 @@
+﻿@model Scouter.Web.ViewModels.TeamViewModel
+
+@{
+    ViewBag.Title = "Team";
+    Layout = "~/Views/Shared/_LayoutTeams.cshtml";
+    ViewBag.IncludeManifest = false;
+}
+
+@section styles {
+    <style>
+        #success-msg-container,
+        #fail-msg-container,
+        #delete-msg-container,
+        #img-fail-msg-container {
+            display: none;
+        }
+    </style>
+}
+
+@section scripts {
+    <script>
+        $(function () {
+            var
+                teamDataForm = $("#team-data-form")[0],
+                progressBar = $('#progress-bar');
+
+            //////////////////////////////////////////////////////////////////
+            // OFFLINE DETECTION
+            var isOffline = false,
+                goingOffline = function () {
+                    isOffline = true;
+                    //$('#dialog').dialog("open");
+                },
+                goingOnline = function () {
+                    if (!isOffline) return;
+                    isOffline = false;
+                    //$('#dialog').dialog("close");
+                };
+
+            var offlineUtility = new OfflineUtility(goingOnline, goingOffline);
+
+            //
+            // CLIENT SIDE MODDEL
+            //
+            var Team = function () {
+                this.id = ko.observable("@Model.Team.Id");
+                this.name = ko.observable("@Model.Team.Name");
+                this.number = ko.observable(@Model.Team.Number);
+                this.description = ko.observable("@Model.Team.Description");
+                this.drivetrain = ko.observable("@Model.Team.Drivetrain");
+                this.drivetrainName = ko.observable("@Model.Team.DrivetrainName");
+                this.wheelCount = ko.observable(@Model.Team.WheelCount);
+                this.length = ko.observable(@Model.Team.Length);
+                this.width = ko.observable(@Model.Team.Width);
+                this.height = ko.observable(@Model.Team.Height);
+                this.weight = ko.observable(@Model.Team.Weight);
+                this.ball = ko.observable(@Model.Team.Ball.ToString().ToLower());
+                this.imageName = ko.observable("@Model.Team.ImageName");
+                this.imageURL = ko.computed({
+                    read: function () {
+                        var
+                            fileName = (this.imageName() === '') ? 'no-image-large.png' : this.imageName(),
+                            url = '@Model.ImageUrlPrefix' + fileName;
+                        return url;
+                    },
+                    write: function (value) {
+                        var parts = value.split('/');
+                        this.imageName(parts[parts.length - 1]);
+                    },
+                    owner: this
+                });
+            }
+            
+            //
+            // CLIENT SIDE VIEWMODEL
+            //
+            var ViewModel = function (team) {
+                this.model = team; // client side model
+
+                this.drivetrainTypes = ko.observableArray(['Mechanum','Tank','Omniwheel','Swerve','Ackermann']);
+                this.selectedDriveTrain = ko.observable();
+
+                this.errorMessage = ko.observable();
+
+                this.hideProgressBar = function (showAfterHideFunc) {
+                    progressBar.fadeOut(function() {
+                        showAfterHideFunc();
+                    });
+                };
+
+                this.showError = function (error){
+                    var resetUI = function () {
+                        $('#command-buttons').fadeIn();
+                        $('#fail-msg-container').fadeIn();
+                    };
+
+                    vm.hideProgressBar(resetUI);
+
+                    if (error.statusText) {
+                        vm.errorMessage(error.statusText);
+                    }
+
+                    if (error.responseText) {
+                        var
+                            msg = JSON.parse(error.responseText),
+                            keys = _.keys(msg),
+                            txt = '';
+
+                        _.each(keys, function (key) {
+                            txt += msg[key] + ' ';
+                        });
+                        vm.errorMessage(txt);
+                    }
+                };
+
+                this.showImageUpload = function () {
+                    $('#upload-button').hide();
+                    $('#upload-form-container').removeClass('hidden');
+                };
+
+                this.hideImageUpload = function () {
+                    $('#upload-button').show();
+                    $('#upload-form-container').addClass('hidden');
+                };
+
+                this.showImageError = function (error) {
+                    $('#img-fail-msg-container').fadeIn();
+                    vm.errorMessage(error.statusText);
+                };
+
+                this.showSuccess = function () {
+                    var resetUI = function () {
+                        $('#command-buttons').fadeIn();
+                        $('#fail-msg-container').fadeOut();
+                        $('#delete-msg-container').fadeOut();
+                        $('#success-msg-container').fadeIn();
+                    };
+
+                    vm.hideProgressBar(resetUI);
+
+                    $("#upload-form")[0].reset();
+
+                    var fadeOut = function () {
+                        $('#success-msg-container').fadeOut()
+                    };
+
+                    _.delay(fadeOut, 5000);
+                };
+
+                this.showDelete = function () {
+                    $('#fail-msg-container').fadeOut();
+                    $('#delete-msg-container').fadeIn();
+
+                    $('.cmd').each(function (i, element) {
+                        $(element).prop('disabled', true).addClass('muted');
+                    });
+                };
+
+                this.uploadImage = function () {
+                    if (window.FormData !== undefined) {
+                        var
+                            data = new FormData(),
+                            file = $('#image-upload')[0].files[0];
+
+                        data.append('image', file);
+                        data.append('id', vm.model.id());
+                        return teamsDataService.saveImage(data);
+                    }
+                };
+
+                this.hasImageToUpload = function () {
+                    return $('#image-upload')[0].files.length > 0;
+                };
+
+                this.save = function () {
+                    vm.hideImageUpload();
+
+                    var validationUtility = new ValidationUtility();
+
+                    if (validationUtility.validate('team-data-form')) {
+                        $('#command-buttons').hide();
+                        $('#progress-bar').fadeIn();
+
+                        teamsDataService.save(team).done(function (response) {
+                            if (response.id) {
+                                vm.model.id(response.id);
+                            }
+                            teamsDataService.saveLocal(team);
+
+                            if (vm.hasImageToUpload()) {
+                                vm.uploadImage().done(function (result) {
+
+                                    if (result.status === 'error') {
+                                        vm.showImageError(result);
+                                    }
+                                    else {
+                                        vm.model.imageURL(result.imageUrl);
+                                        vm.showSuccess();
+                                    }
+                                }).fail(function (error) {
+                                    vm.showImageError(error);
+                                });
+                            }
+                            else {
+                                vm.showSuccess();
+                            }
+                        }).fail(function (error) {
+                            vm.showError(error);
+                        });
+                    }
+                };
+
+                this.requestDelConfirm = function () {
+                    $('#del-confirm').model();
+                };
+
+                this.del = function () {
+                    var team = ko.toJS(this.model);
+                    teamsDataService.del(team).done(function (response) {
+                        vm.showDelete();
+                    }).fail(function (error) {
+                        vm.showError(error);
+                    }).always(function () {
+                        $('#del-confirm').model('hide');
+                    });
+                };
+            };
+
+            $('#dialog').dialog({
+                autoOpen: false,
+                modal: true,
+                width: 420, height: 350,
+                closeOnEscape: false,
+                show: { effect: "explode" },
+                dialogClass: 'alert'
+            });
+
+            var vm = new ViewModel(new Team());
+            ko.applyBindings(vm);
+
+            H5F.setup([teamDataForm], {
+                validClass: "valid",
+                invalidClass: "invalid",
+                requiredClass: "required"
+            });
+        })
+    </script>
+}
+
+<div class="container">
+    <div class="row">
+        <!--Team Image-->
+        <div class="col-md-6">
+            <div>
+                <a href="/teams/" class="btn btn-group-sm">Return to Teams</a>
+                <img data-bind="attr: { src: model.imageURL }" class="img-responsive" />
+            </div>
+            <button id="upload-button" data-bind="click: showImageUpload" class="btn btn-sm">
+                <i class="glyphicon glyphicon-upload"></i> Upload Image
+            </button>
+            <div id="upload-form-container" class="hidden alert alert-success">
+                <form id="upload-form" action="/teams/uploadimage" method="post" enctype="multipart/form-data">
+                    <button class="btn btn-sm pull-right" data-bind="click: hideImageUpload">x</button>
+                    <input id="image-upload" type="file" name="image" />
+                </form>
+            </div>
+            <div id="img-fail-msg-container" class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <h4>Error</h4>
+                <p>Ooops, something bad happened! This is what the server had to say about it: </p>
+                <p data-bind="text: errorMessage"></p>
+            </div>
+        </div>
+
+<form id="team-data-form">
+
+        <!--Team Data-->
+        <div class="col-md-6">
+            <!--Name-->
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-8">
+                    <label  id="name"
+                           data-bind="text: 'Team ' + model.number() + ' - ' + model.name()"
+                           title="Team Number">
+                    </label>
+                </div>
+            </div>
+            <!--Description-->
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Description:</h4>
+                </div>
+                <div class="col-md-8">
+                    <input id="description" name="description"
+                            data-bind="value: model.description"
+                            type="text"
+                            title="Description"
+                            placeholder="Description" />
+
+                </div>
+            </div>
+            <!--Drivetrain-->
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Drive Train:</h4>
+                </div>
+                <div class="col-md-8">
+                    <select data-bind="options: drivetrainTypes, value: model.drivetrain, optionsCaption: 'Choose...'"></select>
+                </div>
+            </div>
+            <!--WheelCount-->
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Wheel Count:</h4>
+                </div>
+                <div class="col-md-8">
+                    <input id="WheelCount" name="Wheel Count"
+                           data-bind="value: model.wheelCount"
+                           type="text"
+                           title="Wheel Count"
+                           placeholder="139457613986708 Wheels" />
+
+                </div>
+            </div>
+            <!--Length-->
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Length:</h4>
+                </div>
+                <div class="col-md-8">
+                    <input id="Length" name="Length"
+                           data-bind="value: model.length"
+                           type="text"
+                           title="Length"
+                           placeholder="Over 9000" />
+
+                </div>
+            </div>
+            <!--Width-->
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Width:</h4>
+                </div>
+                <div class="col-md-8">
+                    <input id="Width" name="Width"
+                           data-bind="value: model.width"
+                           type="text"
+                           title="Width"
+                           placeholder="Pretty wide, I guess" />
+
+                </div>
+            </div>
+            <!--Height-->
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Height:</h4>
+                </div>
+                <div class="col-md-8">
+                    <input id="Height" name="Height"
+                           data-bind="value: model.height"
+                           type="text"
+                           title="Height"
+                           placeholder="A tall order!" />
+
+                </div>
+            </div>
+            <!--Weight-->
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Weight:</h4>
+                </div>
+                <div class="col-md-8">
+                    <input id="Weight" name="Weight"
+                           data-bind="value: model.weight"
+                           type="text"
+                           title="Weight"
+                           placeholder="Weight" />
+                </div>
+            </div>
+            <!--Can start with ball-->
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Can start with ball:</h4>
+                </div>
+                <div class="col-md-6">
+                    <input id="ball" name="Ball"
+                           data-bind="checked: model.ball"
+                           type="checkbox"
+                           title="Can start with ball" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-xs-10">
+                <div id="progress-bar" class="progress progress-striped active fade">
+                    <div class="bar" style="width: 100%;"></div>
+                </div>
+                <div id="command-buttons" class="pull-right">
+                @if (!Model.IsNew)
+                {
+                    <a href="#" id="delete-link" class="btn btn-lg btn-warning cmd online deferred" data-bind="click: requestDelConfirm" tabindex="-1">Delete</a>
+                }
+                    <button data-bind="click: save" type="button" class="btn btn-primary btn-lg cmd">Save</button>
+                </div>
+            </div>
+        </div>
+</form>
+
+        <!-- Message Containers  TODO (time point 5:26 of chapter 7.6 -->
+        <div class="row">
+            <div id="success-msg-container" class="col-md-12 alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <h4>Changes Saved</h4>
+                <p>
+                    The team information is saved.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="fail-msg-container" class="col-md-12 alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <h4>Error</h4>
+                <p>
+                    Oops, something bad happened! This is what the server had to say about it:
+                </p>
+                <p data-bind="text: errorMessage"></p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="delete-msg-container" class="col-md-12 alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <h4>Team Deleted</h4>
+                <p>
+                    The team is now removed from the system.
+                </p>
+                <p>
+                    You can return to the @Html.ActionLink("full teams list", "Index", "Teams") or
+                    @Html.ActionLink("add a new team", "new", "Teams").
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="del-confirm" class="modal hidden fade" tabindex="-1" role="dialog" aria-labelledby="del-confirm-label" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+        <h3 id="del-confirm-label">Confirm Delete</h3>
+    </div>
+    <div class="modal-body">
+        <p>Are you sure you want this tea?</p>
+        <p class="alert alert-danger"><strong>Note:</strong> There is no undo for this action.</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-primary" data-bind="click: del">Delete Team</button>
+    </div>
+</div>
+
+<!-- Offline Support -->
+<div id="dialog" style="background-color:paleturquoise; border: solid;">
+    <h2 class="alert alert-danger">Your&nbsp;Device&nbsp;is&nbsp;now&nbsp;Offline</h2><br /><br />
+    <a href="/teams/offline" class="btn btn-link center-block">
+        Go here0
+    </a>
+</div>

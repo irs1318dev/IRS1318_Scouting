@@ -1,0 +1,110 @@
+﻿@model Scouter.Web.ViewModels.FRCEventViewViewModel
+
+@{
+    ViewBag.Title = "Event";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles {
+    <style>
+        #success-msg-container,
+        #fail-msg-container,
+        #delete-msg-container,
+        #img-fail-msg-container {
+            display: none;
+        }
+    </style>
+}
+
+@section scripts {
+    <script>
+    $(function ()
+    {
+        var eventDataForm = $("#event-data-form")[0];
+        var progressBar = $('#progress-bar');
+
+        //
+        // CLIENT SIDE MODEL
+        //
+        var Event = function ()
+        {
+            this.id = ko.observable("@Model.Event.Id");
+            this.name = ko.observable("@Model.Event.Name");
+            this.beginDate = ko.observable("@Model.Event.BeginDate");
+            this.finishDate = ko.observable("@Model.Event.FinishDate");
+            this.venue = ko.observable("@Model.Event.Venue");
+            this.city = ko.observable("@Model.Event.City");
+            this.state = ko.observable("@Model.Event.State");
+            this.type = ko.observable("@Model.Event.Type");
+            this.imageName = ko.observable("@Model.Event.ImageName");
+            this.createdOn = ko.observable("@Model.Event.CreatedOn");
+            this.modifiedOn = ko.observable("@Model.Event.ModifiedOn");
+        };
+
+        //
+        // CLIENT SIDE VIEWMODEL
+        //
+        var ViewModel = function (event)
+        {
+            this.Matches = ko.observableArray(@Html.Raw(Model.MatchesJSON));
+            this.model = event;
+
+            this.errorMessage = ko.observable();
+
+            this.back = function ()
+            {
+                navigate('..');
+            }
+
+        }
+        var vm = new ViewModel(new Event());
+        ko.applyBindings(vm);
+
+    });
+    </script>
+}
+
+
+<div class="panel-group" id="accordion">
+    <div id="list-container">
+        <div data-bind="template: { name: 'list-template', foreach: Matches }"></div>
+    </div>
+</div>
+
+<script type="text/html" id="list-template">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" data-bind="text: 'match ' + sequenceNumber, attr: {href: '#' + sequenceNumber}" />
+            </h4>
+        </div>
+        <div data-bind="attr: {id: sequenceNumber}" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3" style="background-color: #ff3a3a""> Red Alliance </div>
+                    <div class="col-md-3 col-sm-3" style="background-color: red">
+                        <a data-bind="text: redAlliance.team1.name, attr:{href: '/Teams/edit/' + redAlliance.team1.id}" />
+                    </div>
+                    <div class="col-md-3 col-sm-3" style="background-color: #ff3a3a">
+                        <a data-bind="text: redAlliance.team2.name, attr:{href: '/Teams/edit/' + redAlliance.team2.id}" />
+                    </div>
+                    <div class="col-md-3 col-sm-3" style="background-color: red">
+                        <a data-bind="text: redAlliance.team3.name, attr:{href: '/Teams/edit/' + redAlliance.team3.id}" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 col-sm-3" style="background-color: skyblue; "> Blue Alliance </div>
+                    <div class="col-md-3 col-sm-3" style="background-color: deepskyblue">
+                        <a data-bind="text: blueAlliance.team1.name, attr:{href: '/Teams/edit/' + blueAlliance.team1.id}" />
+                    </div>
+                    <div class="col-md-3 col-sm-3" style="background-color: skyblue">
+                        <a data-bind="text: blueAlliance.team2.name, attr:{href: '/Teams/edit/' + blueAlliance.team2.id}" />
+                    </div>
+                    <div class="col-md-3 col-sm-3" style="background-color: deepskyblue">
+                        <a data-bind="text: blueAlliance.team3.name, attr:{href: '/Teams/edit/' + blueAlliance.team3.id}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

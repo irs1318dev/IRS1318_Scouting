@@ -1,0 +1,82 @@
+﻿@model Scouter.Web.ViewModels.FRCEventsListViewModel
+@using Scouter.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "FRCEvents";
+}
+
+@section scripts{
+<script>
+    $(function ()
+    {
+        var ViewModel = function ()
+        {
+            this.FRCEvents = ko.observableArray(@Html.Raw(Model.FRCEventsJSON));
+
+            @if(true)
+            {
+<text>
+                this.currentEvent = {};
+                this.errorMessage = ko.observable();
+                this.showError = function (error)
+                {
+                    $('#error-container').fadeIn();
+                };
+                this.requestDelConfirm = function (event)
+                {
+                    vm.currentEvent = event;
+                    $('#del-confirm').modal();
+                };
+                this.del = function ()
+                {
+                    var event = ko.toJS(vm.currentEvent);
+
+                    FRCEventsDataService.del(event).done(function (response)
+                    {
+                        vm.event.remove(function (item)
+                        {
+                            return item.id === team.id;
+                        });
+                    }).fail(function (error)
+                    {
+                        vm.showError(error);
+                    }).always(function ()
+                    {
+                        $('#del-confirm').modal('hide');
+                    });
+                };
+</text>
+            }
+        }
+        var vm = new ViewModel();
+
+        ko.applyBindings(vm);
+    });
+</script>
+}
+
+<div id="list-container">
+    <div data-bind="template: { name: 'list-template', foreach: FRCEvents }"></div>
+</div>
+
+<script type="text/html" id="list-template">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <span style="font-weight:bold" data-bind="text: 'Event Name: ' + name"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <span data-bind="text: 'Location: ' + city + ', ' + state + ' &#64; ' + venue " />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <a class="btn btn-sm btn-info" data-bind="attr: { href: '/FRCEvents/View/' + id }">View</a>
+                <a class="btn btn-sm btn-default" data-bind="attr: { href: '/FRCEvents/Edit/' + id }">Edit</a>
+            </div>
+        </div>
+        <div class="row">  </div>
+</script>

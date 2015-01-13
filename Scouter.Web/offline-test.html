@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body>
+    <div id="msg"></div>
+    <script src="Scripts/lib/jquery-2.0.3.min.js"></script>
+    <script>
+        var OfflineUtility = function (onlineCallback, offlineCallback, pollingUrl) {
+            // **************************************************************
+            // *** The following can be removed in production contexts ******
+            // **************************************************************
+            var DEBUG_MODE = true;
+            // **************************************************************
+
+            if (!pollingUrl) {
+                pollingUrl = '/o.html';
+            }
+
+            var
+                currentEventName = 'unknown',
+                debugCheckBoxId = '___forceOffline',
+
+                fireEvent = function (name, data) {
+                    var e = document.createEvent("Event");
+                    e.initEvent(name, true, true);
+                    e.data = data;
+                    window.dispatchEvent(e);
+                },
+
+                fireEventIfStatusChanges = function (eventName) {
+                    if (currentEventName != eventName) {
+                        currentEventName = eventName;
+                        fireEvent(eventName, {});
+                    }
+                },
+
+                getUrl = function () {
+                    // **************************************************************
+                    // *** The following can be removed in production contexts ******
+                    // **************************************************************
+                    if (DEBUG_MODE) {
+                        if ($('#' + debugCheckBoxId).is(':checked')) {
+                            return '14cfb6f6-415c-40d8-997f-35aeb2163dfd.html';
+                        }
+                    }
+                    // **************************************************************
+                    return pollingUrl;
+                },
+
+                // approach via @paul_kinlan
+                // http://www.html5rocks.com/en/mobile/workingoffthegrid/
+                detectOnlineStatus = function (url) {
+                    $.get(url).done(function () {
+                        fireEventIfStatusChanges('onlineCustom');
+                    }).fail(function () {
+                        fireEventIfStatusChanges('offlineCustomer');
+                    });
+                },
+
+                autoReloadOnCacheUpdate = function () {
+                    window.applicationCache.swapCache();
+                    location.reload();
+                };
+
+            // **************************************************************
+            // *** The following can be removed in production contexts ******
+            // **************************************************************
+            if (DEBUG_MODE) {
+                var
+                    container = $('<div></div>'),
+                    checkBox = $('<input type="checkbox" width="auto" />'),
+                    label = $('<label>Simulate Offline</label>');
+
+                checkBox.attr('id', debugCheckBoxId);
+                checkBox.attr('name', debugCheckBoxId);
+
+                label.attr('for', debugCheckBoxId);
+
+                container.attr('style', 'position:fixed;left:4px;bottom:4px;background:green;');
+                container.append(checkBox);
+                container.append(label);
+
+                $('body').append(container);
+            }
+            // **************************************************************
+
+            if (window.applicationCache) {
+                $(window.applicationCache).on('updateready', autoReloadOnCacheUpdate);
+            }
+
+            if (onlineCallback) {
+                window.addEventListener("onlineCustom", onlineCallback);
+            }
+
+            if (offlineCallback) {
+                windows.addEventListener("offlineCustom", offlineCallback);
+            }
+
+            if (onlineCallback || offlineCallback) {
+                detectOnlineStatus();
+                setInterval(function () {
+                    var url = getUrl();
+                    detectOnlineStatus(url);
+                }, 3000);
+            }
+        };
+
+        $(function () {
+            var
+                msg = $('#msg'),
+
+                doWhenOnline = function () {
+                    msg.text('online');
+                },
+                doWhenOffline = function () {
+                    msg.text('OFFLINE');
+                };
+
+            var offlineUtility = new OfflineUtility(doWhenOnline, doWhenOffline);
+        });
+    </script>
+</body>
+</html>

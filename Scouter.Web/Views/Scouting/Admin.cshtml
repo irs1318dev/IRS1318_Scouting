@@ -1,0 +1,323 @@
+﻿@model Scouter.Web.ViewModels.ScouterAdminViewModel
+
+@{
+	ViewBag.Title = "Scouting Manager";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+	<script>
+		$(function ()
+		{
+			var MatchData = function()
+			{
+				this.MatchNumber = ko.observable(0);
+				this.Red1 = ko.observable(0);
+				this.Red2 = ko.observable(0);
+				this.Red3 = ko.observable(0);
+				this.Blue1 = ko.observable(0);
+				this.Blue2 = ko.observable(0);
+				this.Blue3 = ko.observable(0);
+			}
+			var CurrentScoutData = function()
+			{
+				this.match_ID = ko.observable(0);
+				this.matchNumber = ko.observable(@Model.MatchNumber);
+
+				this.red1Name = ko.observable("NoInfo");
+				this.red1Status = ko.observable("NoInfo");
+				this.red1MatchNumber = ko.observable(0);
+
+				this.red2Name = ko.observable("NoInfo");
+				this.red2Status = ko.observable("NoInfo");
+				this.red2MatchNumber = ko.observable(0);
+
+				this.red3Name = ko.observable("NoInfo");
+				this.red3Status = ko.observable("NoInfo");
+				this.red3MatchNumber = ko.observable(0);
+
+				this.blue1Name = ko.observable("NoInfo");
+				this.blue1Status = ko.observable("NoInfo");
+				this.blue1MatchNumber = ko.observable(0);
+
+				this.blue2Name = ko.observable("NoInfo");
+				this.blue2Status = ko.observable("NoInfo");
+				this.blue2MatchNumber = ko.observable(0);
+
+				this.blue3Name = ko.observable("NoInfo");
+				this.blue3Status = ko.observable("NoInfo");
+				this.blue3MatchNumber = ko.observable(0);
+			}
+			var ViewModel = function(data)
+			{
+				this.model = data;
+
+				this.errorMessage = ko.observable();
+
+				this.showError = function (error)
+				{
+					$('#fail-msg-container').fadeIn();
+
+					if (error.statusText)
+					{
+						vm.errorMessage(error.statusText);
+					}
+
+					if (error.responseText)
+					{
+						var
+                            msg = JSON.parse(error.responseText),
+                            keys = _.keys(msg),
+                            txt = '';
+
+						_.each(keys, function (key)
+						{
+							txt += msg[key] + ' ';
+						});
+						vm.errorMessage(txt);
+					}
+					setTimeout(function () { $('#fail-msg-container').fadeOut(); }, 5000);
+				};
+
+				this.showSuccess = function ()
+				{
+					$('#success-msg-container').fadeIn()
+					var fadeOut = function ()
+					{
+						$('#success-msg-container').fadeOut()
+					};
+
+					_.delay(fadeOut, 5000);
+				};
+
+				this.getStatus = function(status)
+				{
+					switch(status)
+					{
+						case 0:
+							return "No Scout";
+						case 1:
+							return "Autonomous";
+						case 2:
+							return "Teleoperated";
+						case 3:
+							return "Taking Notes";
+						case 4:
+							return "Waiting For Match";
+					}
+				}
+				
+				this.nextMatch = function()
+				{
+					var matchnum = match.value;
+					scouterDataService.getMatchData(matchnum).done(function (data)
+					{
+						red1.value = data.RedAlliance.Team1.Number;
+						red2.value = data.RedAlliance.Team2.Number;
+						red3.value = data.RedAlliance.Team3.Number;
+						blue1.value = data.BlueAlliance.Team1.Number;
+						blue2.value = data.BlueAlliance.Team2.Number;
+						blue3.value = data.BlueAlliance.Team3.Number;
+					}).fail(function (error)
+					{
+						vm.showError(error);
+					});
+				}
+
+				this.setMatch = function()
+				{
+					var matchinfo = new MatchData();
+					matchinfo.MatchNumber(match.value);
+					matchinfo.Red1(red1.value);
+					matchinfo.Red2(red2.value);
+					matchinfo.Red3(red3.value);
+					matchinfo.Blue1(blue1.value);
+					matchinfo.Blue2(blue2.value);
+					matchinfo.Blue3(blue3.value);
+
+					scouterDataService.setMatch(ko.toJS(matchinfo)).done(function(data)
+					{
+						vm.showSuccess();
+					}).fail(function (error)
+					{
+						vm.showError(error);
+					});
+				}
+
+				this.updateLoop = function()
+				{
+					scouterDataService.getScoutData().done(function(info)
+					{
+						vm.model.match_ID(info.Match_ID);
+						vm.model.matchNumber(info.MatchNumber)
+
+						vm.model.red1MatchNumber(info.Red1Match.SequenceNumber);
+						vm.model.red1Name(info.Red1.Number);
+						vm.model.red1Status(vm.getStatus(info.Red1Status));
+
+						vm.model.red2MatchNumber(info.Red2Match.SequenceNumber);
+						vm.model.red2Name(info.Red2.Number);
+						vm.model.red2Status(vm.getStatus(info.Red2Status));
+
+						vm.model.red3MatchNumber(info.Red3Match.SequenceNumber);
+						vm.model.red3Name(info.Red3.Number);
+						vm.model.red3Status(vm.getStatus(info.Red3Status));
+
+						vm.model.blue1MatchNumber(info.Blue1Match.SequenceNumber);
+						vm.model.blue1Name(info.Blue1.Number);
+						vm.model.blue1Status(vm.getStatus(info.Blue1Status));
+
+						vm.model.blue2MatchNumber(info.Blue2Match.SequenceNumber);
+						vm.model.blue2Name(info.Blue2.Number);
+						vm.model.blue2Status(vm.getStatus(info.Blue2Status));
+
+						vm.model.blue3MatchNumber(info.Blue3Match.SequenceNumber);
+						vm.model.blue3Name(info.Blue3.Number);
+						vm.model.blue3Status(vm.getStatus(info.Blue3Status));
+					})
+				}
+
+				setInterval(this.updateLoop, 1000);
+
+				$('#success-msg-container').fadeOut()
+				$('#fail-msg-container').fadeOut()
+			}
+			var vm = new ViewModel(new CurrentScoutData());
+			ko.applyBindings(vm);
+		})
+	</script>
+}
+
+<div class="row">
+	<div class="row">
+		<div class="col-xs-12">
+			<span>Match:</span><input id="match" name="match"
+				type="number" class="full"
+				data-role="validate"
+				style="width:150px"
+				title="Match"
+				data-content="The Match Number is required."
+				placeholder="Match Number"/><button class="btn btn-xs btn-primary" data-bind="click: nextMatch">Get Match Info</button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-2">
+			<span>Red1</span><input id="red1" name="red1"
+			   type="number" class="full"
+			   data-role="validate"
+			   title="Red 1"
+			   data-content="The Team Number is required."
+			   placeholder="Team Number" required />
+		</div>
+		<div class="col-xs-2">
+			<span>Red2</span>
+			<input id="red2" name="red2"
+				   type="number" class="full"
+				   data-role="validate"
+				   title="Red 2"
+				   data-content="The Team Number is required."
+				   placeholder="Team Number" required />
+		</div>
+		<div class="col-xs-2">
+			<span>Red3</span>
+			<input id="red3" name="red3"
+					type="number" class="full"
+					data-role="validate"
+					title="Red 3"
+					data-content="The Team Number is required."
+					placeholder="Team Number" required />
+		</div>
+		<div class="col-xs-2">
+			<span>Blue1</span>
+			<input id="blue1" name="blue1"
+					type="number" class="full"
+					data-role="validate"
+					title="Blue 1"
+					data-content="The Team Number is required."
+					placeholder="Team Number" required />
+		</div>
+		<div class="col-xs-2">
+			<span>Blue2</span>
+			<input id="blue2" name="blue2"
+				   type="number" class="full"
+				   data-role="validate"
+				   title="Blue 2"
+				   data-content="The Team Number is required."
+				   placeholder="Team Number" required />
+		</div>
+		<div class="col-xs-1">
+			<span>Blue3</span>
+			<input id="blue3" name="blue3"
+				   type="number" class="full"
+				   data-role="validate"
+				   title="Blue 3"
+				   data-content="The Team Number is required."
+				   placeholder="Team Number" required />
+		</div>
+		<div class="col-xs-1">
+			<button class="btn btn-xs btn-info" data-bind="click: setMatch">Set Match</button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			<div id="success-msg-container" class="col-xs-12 alert alert-success">
+				<h4>Success</h4>
+				<p>
+					Match set.
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12">
+			<div id="fail-msg-container" class="col-xs-12 alert alert-danger">
+				<h4>Error</h4>
+				<p>
+					Oops, something bad happened! This is what the server had to say about it:
+				</p>
+				<p data-bind="text: errorMessage"></p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-4" style="background-color:red">
+		<p>Red1</p>
+		<p>Status: <span data-bind="text: model.red1Status()"/></p>
+		<p>Match: <span data-bind="text: model.red1MatchNumber()"/></p>
+		<p>Team: <span data-bind="text: model.red1Name()"/></p>
+	</div>
+	<div class="col-xs-4" style="background-color:#ff2525">
+		<p>Red2</p>
+		<p>Status: <span data-bind="text: model.red2Status()" /></p>
+		<p>Match: <span data-bind="text: model.red2MatchNumber()" /></p>
+		<p>Team: <span data-bind="text: model.red2Name()" /></p>
+	</div>
+	<div class="col-xs-4" style="background-color:red">
+		<p>Red3</p>
+		<p>Status: <span data-bind="text: model.red3Status()" /></p>
+		<p>Match: <span data-bind="text: model.red3MatchNumber()" /></p>
+		<p>Team: <span data-bind="text: model.red3Name()" /></p>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-4" style="background-color:deepskyblue">
+		<p>Blue1</p>
+		<p>Status: <span data-bind="text: model.blue1Status()" /></p>
+		<p>Match: <span data-bind="text: model.blue1MatchNumber()" /></p>
+		<p>Team: <span data-bind="text: model.blue1Name()" /></p>
+	</div>
+	<div class="col-xs-4" style="background-color:lightblue">
+		<p>Blue2</p>
+		<p>Status: <span data-bind="text: model.blue2Status()" /></p>
+		<p>Match: <span data-bind="text: model.blue2MatchNumber()" /></p>
+		<p>Team: <span data-bind="text: model.blue2Name()" /></p>
+	</div>
+	<div class="col-xs-4" style="background-color:deepskyblue">
+		<p>Blue3</p>
+		<p>Status: <span data-bind="text: model.blue3Status()" /></p>
+		<p>Match: <span data-bind="text: model.blue3MatchNumber()" /></p>
+		<p>Team: <span data-bind="text: model.blue3Name()" /></p>
+	</div>
+</div>
