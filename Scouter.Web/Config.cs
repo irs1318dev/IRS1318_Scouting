@@ -21,6 +21,7 @@ namespace Scouter.Web
             {
                 if (ConfigurationManager.AppSettings["UsersTableName"] != null)
                     return ConfigurationManager.AppSettings["UsersTableName"].ToString();
+
                 return "Users";
             }
         }
