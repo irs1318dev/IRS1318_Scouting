@@ -329,6 +329,8 @@
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\Scouter.pubxml" />
     <None Include="Scripts\lib\jquery-2.1.0.intellisense.js" />
+    <None Include="Images\irs1318.png" />
+    <Content Include="Images\scouter.png" />
     <Content Include="Scripts\app\ScouterDataService.js" />
     <Content Include="Scripts\lib\bootstrap.js" />
     <Content Include="Scripts\lib\bootstrap.min.js" />
@@ -444,11 +446,6 @@
       <Project>{8f424fb5-1acf-494d-a884-44ee362283b3}</Project>
       <Name>Scouter.Models</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\knockout\knockout.d.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
