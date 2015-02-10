@@ -10,24 +10,9 @@ namespace Scouter.Models
     }
 
     public enum RobotEventType
-    {
-        StartedInGoalBox = 0,
-		ScoredLow = 1,
-		ScoredHigh = 2,
-		MissedLow = 3,
-		MissedHigh = 4,
-		Pass = 5,
-		TrussCatch = 6,
-		Truss = 7,
-		AutonomousMoved = 8,
-		BlockedShot = 9,
-		BlockedPass = 10,
-		BlockedRobot = 11,
-		Foul = 12,
-		TechFoul = 13,
-		Inbound = 14,
-		MissedInbound = 15,
-		LostBall = 16
+    {,
+		AutonomousMoved = 0,
+		Foul = 1,
     }
 
     public class RobotEvent : IAuditInfo
