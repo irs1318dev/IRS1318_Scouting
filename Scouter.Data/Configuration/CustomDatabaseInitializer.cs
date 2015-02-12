@@ -225,12 +225,12 @@ namespace Scouter.Data.Configuration
             switch (rand.Next(3))
             {
                 case 0:
-                    autonEvent.RobotEventType = RobotEventType.ScoredHigh;
+                    autonEvent.RobotEventType = (RobotEventType)0;
                     if (rand.Next(2) == 1)
                         autonEvent.GoalWasHot = true;
                     break;
                 case 1:
-                    autonEvent.RobotEventType = RobotEventType.ScoredLow;
+                    autonEvent.RobotEventType = (RobotEventType)0;
                     if (rand.Next(2) == 1)
                         autonEvent.GoalWasHot = true;
                     break;
@@ -254,19 +254,19 @@ namespace Scouter.Data.Configuration
                 switch (rand.Next(5))
                 {
                     case 0:
-                        evnt.RobotEventType = RobotEventType.BlockedShot;
+                        evnt.RobotEventType = (RobotEventType)0;
                         break;
                     case 1:
-                        evnt.RobotEventType = RobotEventType.Pass;
+                        evnt.RobotEventType = (RobotEventType)0;
                         break;
                     case 2:
-                        evnt.RobotEventType = RobotEventType.Truss;
+                        evnt.RobotEventType = (RobotEventType)0;
                         break;
                     case 3:
-                        evnt.RobotEventType = RobotEventType.ScoredHigh;
+                        evnt.RobotEventType = (RobotEventType)0;
                         break;
                     case 4:
-                        evnt.RobotEventType = RobotEventType.ScoredLow;
+                        evnt.RobotEventType = (RobotEventType)0;
                         break;
                 }
                 events.Add(evnt);

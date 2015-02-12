@@ -10,9 +10,9 @@ namespace Scouter.Models
     }
 
     public enum RobotEventType
-    {,
+    {
 		AutonomousMoved = 0,
-		Foul = 1,
+		Foul = 1
     }
 
     public class RobotEvent : IAuditInfo
