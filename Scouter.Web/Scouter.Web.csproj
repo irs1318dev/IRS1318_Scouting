@@ -210,8 +210,8 @@
     <Compile Include="Controllers\api\FRCMatchApiController.cs" />
     <Compile Include="Controllers\api\NotesApiController.cs" />
     <Compile Include="Controllers\api\RobotEventsApiController.cs" />
-    <Compile Include="Controllers\api\ScoutCountApiController.cs" />
     <Compile Include="Controllers\api\ScoutDataApiController.cs" />
+    <Compile Include="Controllers\api\ScouterApiController.cs" />
     <Compile Include="Controllers\api\ScoutManagerApiController.cs" />
     <Compile Include="Controllers\api\TeamsApiController.cs" />
     <Compile Include="Controllers\FRCEventsController.cs" />
@@ -436,6 +436,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\NotesApi\" />
     <Folder Include="Views\ScoutCountApi\" />
+    <Folder Include="Views\ScouterApi\" />
     <Folder Include="Views\ScoutManagerApi\" />
   </ItemGroup>
   <ItemGroup>
@@ -454,6 +455,15 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ConsoleApp|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />

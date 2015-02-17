@@ -8,8 +8,8 @@ namespace Scouter.Web
         {
             get
             {
-                if (ConfigurationManager.AppSettings[System.Environment.MachineName] != null)
-                    return ConfigurationManager.AppSettings[System.Environment.MachineName];
+                if (ConfigurationManager.AppSettings[System.Environment.MachineName.ToLower()] != null)
+                    return ConfigurationManager.AppSettings[System.Environment.MachineName.ToLower()];
 
                 return "DefaultConnection";
             }

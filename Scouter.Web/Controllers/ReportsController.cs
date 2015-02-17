@@ -65,7 +65,7 @@ namespace Scouter.Web.Controllers
 
             ReportViewModel um = new ReportViewModel();
             um.TeamNumber = id;
-            um.AllFRCEvents = (from e in _unit.FRCEvents.GetAll() orderby e.BeginDate select new AllEvents{ EventId = e.Id, Name = e.Name }).ToList();
+            um.AllFRCEvents = (from e in _unit.FRCCompetitions.GetAll() orderby e.BeginDate select new AllEvents{ EventId = e.Id, Name = e.Name }).ToList();
             um.CurrentEventID = eventId;
             um.CurrentMatchSeq = CurrentMatch();
             um.AllIRSMatches = ams;
@@ -162,7 +162,7 @@ namespace Scouter.Web.Controllers
 
             ReportViewModel vm = new ReportViewModel();
             vm.IRSMatches = um;
-            vm.CurrentEventName = (from e in _unit.FRCEvents.GetAll() where e.Id == eventId select e.Name).First();
+            vm.CurrentEventName = (from e in _unit.FRCCompetitions.GetAll() where e.Id == eventId select e.Name).First();
             return View("UpcomingMatch", vm);
         }
 
@@ -175,7 +175,7 @@ namespace Scouter.Web.Controllers
 
             ReportViewModel vm = new ReportViewModel();
             vm.TeamRankings = tss;
-            vm.CurrentEventName = (from e in _unit.FRCEvents.GetAll() where e.Id == id select e.Name).First();
+            vm.CurrentEventName = (from e in _unit.FRCCompetitions.GetAll() where e.Id == id select e.Name).First();
             return View("TeamRankings", vm);
         }
 

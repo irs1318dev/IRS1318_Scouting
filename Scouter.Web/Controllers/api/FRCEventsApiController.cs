@@ -15,21 +15,21 @@ namespace Scouter.Web.Controllers
     {
         private ApplicationUnit _unit = new ApplicationUnit();
         
-        public IEnumerable<FRCEvent> Get()
+        public IEnumerable<FRCCompetition> Get()
         {
-            return _unit.FRCEvents.GetAll();   
+            return _unit.FRCCompetitions.GetAll();   
         }
 
-        public FRCEvent Get(int id)
+        public FRCCompetition Get(int id)
         {
-            FRCEvent FRCEvent = _unit.FRCEvents.GetById(id);
+            FRCCompetition FRCEvent = _unit.FRCCompetitions.GetById(id);
             if (FRCEvent == null)
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
 
             return FRCEvent;
         }
 
-        public HttpResponseMessage Put(int id, FRCEvent FRCEvent)
+        public HttpResponseMessage Put(int id, FRCCompetition FRCEvent)
         {
             if (!ModelState.IsValid)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
@@ -37,13 +37,13 @@ namespace Scouter.Web.Controllers
             if (id != FRCEvent.Id)
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
 
-            FRCEvent existingFRCEvent = this._unit.FRCEvents.GetById(id);
-            _unit.FRCEvents.Detach(existingFRCEvent);
+            FRCCompetition existingFRCEvent = this._unit.FRCCompetitions.GetById(id);
+            _unit.FRCCompetitions.Detach(existingFRCEvent);
 
             // Keep the orginal CreatedOn value
             FRCEvent.CreatedOn = existingFRCEvent.CreatedOn;
 
-            this._unit.FRCEvents.Update(FRCEvent);
+            this._unit.FRCCompetitions.Update(FRCEvent);
 
             try
             {
@@ -62,13 +62,13 @@ namespace Scouter.Web.Controllers
             }
         }
 
-        public HttpResponseMessage Post(FRCEvent FRCEvent)
+        public HttpResponseMessage Post(FRCCompetition FRCEvent)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    this._unit.FRCEvents.Add(FRCEvent);
+                    this._unit.FRCCompetitions.Add(FRCEvent);
                     this._unit.SaveChanges();
 
                     HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.Created, FRCEvent);
@@ -90,19 +90,19 @@ namespace Scouter.Web.Controllers
         
         public HttpResponseMessage Delete(int id)
         {
-            FRCEvent FRCEvent = this._unit.FRCEvents.GetById(id);
+            FRCCompetition FRCEvent = this._unit.FRCCompetitions.GetById(id);
             if (FRCEvent == null)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
 
             return Delete(FRCEvent);
         }
 
-        public HttpResponseMessage Delete(FRCEvent FRCEvent)
+        public HttpResponseMessage Delete(FRCCompetition FRCEvent)
         {
             if (FRCEvent == null)
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "No FRCEvent specified.");
 
-            this._unit.FRCEvents.Delete(FRCEvent);
+            this._unit.FRCCompetitions.Delete(FRCEvent);
 
             try
             {

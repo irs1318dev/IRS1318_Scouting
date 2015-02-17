@@ -9,8 +9,6 @@ namespace Scouter.Data
 {
     public class FRCMatchRepository : GenericRepository<FRCMatch>
     {
-        protected DbSet<FRCMatch> DBSet { get; set; }
-        protected DbContext Context { get; set; }
         public FRCMatchRepository(DbContext context) : base(context) { this.Context = context; }
     }
 }

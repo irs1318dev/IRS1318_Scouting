@@ -37,33 +37,12 @@ namespace Scouter.Data.Configuration
         protected override void Seed(DataContext context)
         {
             Random rand = new Random();
-            //string[] teamdescriptions = new string[10] {
-            //    "Nice team with friendly members.",
-            //    "A truly beautiful robot!",
-            //    "From a school on a nice quiet street",
-            //    "The school is freeway accessible with a hugh green lawn",
-            //    "Lots of members and a big pit.",
-            //    "Robot is well-kept by team",
-            //    "Includes frisbee thrower, pyramid climber and a cup holder.",
-            //    "The kit needs some work (cardboard!) but the design is good",
-            //    "Includes a huge recliner for a good first persion point of view",
-            //    "From a powerhouse school"
-            //};
-
-            //for (int i = 9; i > 0; i--)
-            //{
-            //    Team team = new Team();
-            //    team.Name = string.Format("Team {0}", i);
-            //    team.Description = teamdescriptions[i];
-            //    team.ImageName = "noimg.jpg";
-            //    context.Teams.Add(team);
-            //}
 
 			context.CurrentScoutData.Add(new CurrentScoutData());
 			context.SaveChanges();
 
             Console.WriteLine("Creating Events");
-			FRCEvent Auburn = new FRCEvent()
+			FRCCompetition Auburn = new FRCCompetition()
 			{
 				Name = "PNW FIRST Robotics Auburn Mountainview District Event",
 				Venue = "Auburn Mountain View High School",
@@ -75,7 +54,7 @@ namespace Scouter.Data.Configuration
 			};
 			context.FRCEvents.Add(Auburn);
 
-            FRCEvent GlacierPeak = new FRCEvent();
+            FRCCompetition GlacierPeak = new FRCCompetition();
             GlacierPeak.Name = "PNW FIRST Robotics Glacier Peak District Event";
             GlacierPeak.Venue = "Glacier Peak High School";
             GlacierPeak.City = "Snohomish";
@@ -85,7 +64,7 @@ namespace Scouter.Data.Configuration
             GlacierPeak.FinishDate = new DateTime(2014, 3, 8, 5, 0, 0);
             context.FRCEvents.Add(GlacierPeak);
 
-            FRCEvent Portland = new FRCEvent();
+            FRCCompetition Portland = new FRCCompetition();
             Portland.Name = "Autodesk PNW FRC Championship";
             Portland.Venue = "Memorial Coliseum";
             Portland.City = "Portland";
@@ -97,9 +76,6 @@ namespace Scouter.Data.Configuration
 
             Console.WriteLine("Saving Events");
             context.SaveChanges();
-            //Role role = new Role();
-            //role.RoleName = "Ball Scout";
-            //context.Roles.Add(role);
 
             Role role = new Role();
             role = new Role();
@@ -114,6 +90,11 @@ namespace Scouter.Data.Configuration
             role.RoleName = "Coordinator";
             context.Roles.Add(role);
 			context.SaveChanges();
+
+            context.CurrentScoutData.First().Event_ID = 1;
+
+
+            /////////////SEED MATCHES//////////////////////////////
 			if (SeedMatches)
 			{
 				Console.WriteLine("Creating Teams");
@@ -144,7 +125,7 @@ namespace Scouter.Data.Configuration
 					FRCMatch m = new FRCMatch();
 					m.SequenceNumber = i + 1;
 
-					m.FRCEvent = GlacierPeak;
+					m.FRCEvent = Auburn;
 
 					context.FRCMatches.Add(m);
 				}
@@ -155,7 +136,7 @@ namespace Scouter.Data.Configuration
 				Console.WriteLine("0%");
 				DateTime startTime = DateTime.Now;
 				int iteration = 0;
-				foreach (FRCMatch m in GlacierPeak.Matches)
+				foreach (FRCMatch m in Auburn.Matches)
 				{
 					Alliance red, blue;
 					GenerateUniqueAlliances(m, teams, rand, context.Alliances, out red, out blue);

@@ -17,7 +17,7 @@ namespace Scouter.Web.Controllers
         public ActionResult Index()
         {
             FRCEventsListViewModel vm = new FRCEventsListViewModel();
-            var query = from v in this._unit.FRCEvents.GetAll()
+            var query = from v in this._unit.FRCCompetitions.GetAll()
                         select new FRCEventDataTransfer() { Id = v.Id, Venue = v.Venue, FinishDate = v.FinishDate,
                             BeginDate = v.BeginDate, Name = v.Name, City = v.City, State = v.State};
             vm.FRCEvents = query.ToList();
@@ -28,7 +28,7 @@ namespace Scouter.Web.Controllers
         public ActionResult GetForEdit(int id)
         {
             FRCEventViewModel vm = new FRCEventViewModel();
-            vm.Event = this._unit.FRCEvents.GetById(id);
+            vm.Event = this._unit.FRCCompetitions.GetById(id);
 
             if (vm.Event != null)
                 return View("Edit", vm);
@@ -40,7 +40,7 @@ namespace Scouter.Web.Controllers
         public ActionResult Get(int id)
         {
             FRCEventViewViewModel vm = new FRCEventViewViewModel();
-            vm.Event = this._unit.FRCEvents.GetById(id);
+            vm.Event = this._unit.FRCCompetitions.GetById(id);
             //var query = this._unit.FRCMatches.GetAll().Where(p => p.FRCEventKey == vm.Event.Id).OrderBy(s => s.SequenceNumber);
             var q = from e in this._unit.FRCMatches.GetAll()
                     where e.FRCEvent.Id == id

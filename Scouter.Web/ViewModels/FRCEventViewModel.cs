@@ -8,12 +8,12 @@ namespace Scouter.Web.ViewModels
 {
     public class FRCEventViewModel
     {
-        public FRCEvent Event { get; set; }
+        public FRCCompetition Event { get; set; }
         public bool IsNew { get; set; }
 
         public FRCEventViewModel()
         {
-            this.Event = new FRCEvent();
+            this.Event = new FRCCompetition();
         }
     }
 }
