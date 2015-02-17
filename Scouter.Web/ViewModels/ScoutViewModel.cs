@@ -25,7 +25,7 @@ namespace Scouter.Web.ViewModels
                     types.Add(type, (int)Enum.Parse(typeof(RobotEventType), type));
                 }
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
-                return serializer.Serialize(types);
+                return serializer.Serialize(types).Replace("&quot;", "\"");
             }
         }
     }

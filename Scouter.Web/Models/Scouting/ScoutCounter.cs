@@ -8,11 +8,11 @@ namespace Scouter.Web.Models.Scouting
 	//include ...Count in name
     public class ScoutCounter
 	{
-        public int TotesStackedCount { get; set; }
-        public int RightToteMovedCount { get; set; }
-        public int CenterToteMovedCount { get; set; }
-        public int LeftToteMovedCount { get; set; }
-        public int YellowTotesMovedToStepCount { get; set; }
+        public int TotesStacked { get; set; }
+        public int RightToteMoved { get; set; }
+        public int CenterToteMoved { get; set; }
+        public int LeftToteMoved { get; set; }
+        public int YellowTotesMovedToStep { get; set; }
 
         public int ContainersFromStep { get; set; } //same counter in A and T
         public int RightContainerMoved { get; set; }
@@ -21,7 +21,7 @@ namespace Scouter.Web.Models.Scouting
 
         public Boolean AutonomousMoved { get; set; }
         public Boolean NoAutonomous { get; set; }
-        public Boolean AutoResultClutter { get; set; }
+        public Boolean AutoAttemptClutter { get; set; }
         public int AutoFoul { get; set; } // different foul-counters between A and T
 
         public int ChutePickUp { get; set; }

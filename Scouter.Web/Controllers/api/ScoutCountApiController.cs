@@ -59,11 +59,11 @@ namespace Scouter.Web.Controllers.api
 
 				return new ScoutCounter()
 				{
-				    TotesStackedCount = 0,
-                    RightToteMovedCount = 0,
-                    CenterToteMovedCount = 0,
-                    LeftToteMovedCount = 0,
-                    YellowTotesMovedToStepCount = 0,
+				    TotesStacked = 0,
+                    RightToteMoved = 0,
+                    CenterToteMoved = 0,
+                    LeftToteMoved = 0,
+                    YellowTotesMovedToStep = 0,
                     
                     ContainersFromStep = 0,
                     RightContainerMoved = 0,
@@ -72,7 +72,7 @@ namespace Scouter.Web.Controllers.api
 
                     AutonomousMoved = false,
                     NoAutonomous = false,
-                    AutoResultClutter = false,
+                    AutoAttemptClutter = false,
                     AutoFoul = 0,
 
                     ChutePickUp = 0,
