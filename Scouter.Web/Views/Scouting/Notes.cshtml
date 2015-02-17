@@ -7,6 +7,8 @@
 
 @section scripts{
 	<script>
+        var vm;
+
 		$(function ()
 		{
 			var Scout = function()
@@ -39,72 +41,73 @@
             //
             var ViewModel = function (scout)
             {
-            	this.model = scout;
-            	this.errorMessage = ko.observable("Waiting for next Match... If you believe that you should have advance, notify the lead scout that you are infact ready to advance. Then wait for further instructions.");
+                var self = this;
+                self.model = scout;
+            	self.errorMessage = ko.observable("Waiting for next Match... If you believe that you should have advance, notify the lead scout that you are infact ready to advance. Then wait for further instructions.");
 
-            	this.disabledClicked = ko.observable(false);
-            	this.ballStuckClicked = ko.observable(false);
-            	this.lowPowerShotClicked = ko.observable(false);
-            	this.reliableShooterClicked = ko.observable(false);
-            	this.badCollectorClicked = ko.observable(false);
+            	self.disabledClicked = ko.observable(false);
+            	self.ballStuckClicked = ko.observable(false);
+            	self.lowPowerShotClicked = ko.observable(false);
+            	self.reliableShooterClicked = ko.observable(false);
+            	self.badCollectorClicked = ko.observable(false);
 
-            	this.showWait = ko.observable(false);
+            	self.showWait = ko.observable(false);
 
-            	this.notes = ko.observable("");
+            	self.notes = ko.observable("");
 
-            	this.disabled = function()
+            	self.disabled = function()
             	{
-            		this.disabledClicked(!this.disabledClicked());
-            		this.setNotes();
+            		self.disabledClicked(!self.disabledClicked());
+            		self.setNotes();
             	}
-            	this.ballStuck = function ()
+            	self.ballStuck = function ()
             	{
-            		this.ballStuckClicked(!this.ballStuckClicked());
-            		this.setNotes();
+            		self.ballStuckClicked(!self.ballStuckClicked());
+            		self.setNotes();
             	}
-            	this.lowPowerShot = function ()
+            	self.lowPowerShot = function ()
             	{
-            		this.lowPowerShotClicked(!this.lowPowerShotClicked());
-            		this.setNotes();
+            		self.lowPowerShotClicked(!self.lowPowerShotClicked());
+            		self.setNotes();
             	}
-            	this.reliableShooter = function ()
+            	self.reliableShooter = function ()
             	{
-            		this.reliableShooterClicked(!this.reliableShooterClicked());
-            		this.setNotes();
+            		self.reliableShooterClicked(!self.reliableShooterClicked());
+            		self.setNotes();
             	}
-            	this.badCollector = function ()
+            	self.badCollector = function ()
             	{
-            		this.badCollectorClicked(!this.badCollectorClicked());
-            		this.setNotes();
-            	}
-
-            	this.setNotes = function()
-            	{
-            		this.notes("");
-					if(this.disabledClicked())
-						this.notes("Robot was disabled during the match. ");
-            		if (this.ballStuckClicked())
-            			this.notes(this.notes() + "A ball got stuck in the robot during the match. ");
-            		if (this.lowPowerShotClicked())
-            			this.notes(this.notes() + "low power shot? ");
-            		if (this.reliableShooterClicked())
-            			this.notes(this.notes() + "This robot had a reliable shooter. ");
-            		if (this.badCollectorClicked())
-            			this.notes(this.notes() + "This robot had a poor collector design. ");
+            		self.badCollectorClicked(!self.badCollectorClicked());
+            		self.setNotes();
             	}
 
-            	this.nav = function()
+            	self.setNotes = function()
+            	{
+            		self.notes("");
+					if(self.disabledClicked())
+						self.notes("Robot was disabled during the match. ");
+            		if (self.ballStuckClicked())
+            			self.notes(self.notes() + "A ball got stuck in the robot during the match. ");
+            		if (self.lowPowerShotClicked())
+            			self.notes(self.notes() + "low power shot? ");
+            		if (self.reliableShooterClicked())
+            			self.notes(self.notes() + "self robot had a reliable shooter. ");
+            		if (self.badCollectorClicked())
+            			self.notes(self.notes() + "self robot had a poor collector design. ");
+            	}
+
+            	self.nav = function()
             	{
             		var v = scouterDataService.getScoutData().done(function (data)
             		{
             			scouterDataService.addNotes(new ScoutNotes());
-            			if (data.Match_ID == vm.model.matchID())
+            			if (data.Match_ID == self.model.matchID())
             			{
 
             				var d = new ScoutInfo();
-            				d.scouter = vm.model.scoutID;
+            				d.scouter = self.model.scoutID;
             				d.scouterStatus = 4;
-            				d.match_Id = vm.model.matchID;
+            				d.match_Id = self.model.matchID;
 
             				$('#row1').collapse('hide');
             				$('#row2').collapse('hide');
@@ -112,7 +115,7 @@
 							{
 								if (error.statusText)
 								{
-									vm.errorMessage(error.statusText);
+									self.errorMessage(error.statusText);
 								}
 
 								if (error.responseText)
@@ -126,13 +129,13 @@
 									{
 										txt += msg[key] + ' ';
 									});
-									vm.errorMessage(txt);
+									self.errorMessage(txt);
 								}
 
-								vm.errorMessage("Oops. something happened. Still waiting for a match, but the Scout Admin doesn't know.\n" + vm.errorMessage());
+								self.errorMessage("Oops. something happened. Still waiting for a match, but the Scout Admin doesn't know.\n" + self.errorMessage());
 							});
-            				vm.showWait(true);
-            				setTimeout(vm.navigation, 1000);
+            				self.showWait(true);
+            				setTimeout(self.navigation, 1000);
             			}
             			else
             			{
@@ -146,7 +149,7 @@
 						
             			if (error.statusText)
             			{
-            				vm.errorMessage(error.statusText);
+            				self.errorMessage(error.statusText);
             			}
 
             			if (error.responseText)
@@ -160,25 +163,25 @@
             				{
             					txt += msg[key] + ' ';
             				});
-            				vm.errorMessage(txt);
+            				self.errorMessage(txt);
             			}
 
-            			vm.errorMessage("Oops. something happened.\n" + vm.errorMessage());
+            			self.errorMessage("Oops. something happened.\n" + self.errorMessage());
 
-            			setTimeout(vm.navigation, 5000);
+            			setTimeout(self.navigation, 5000);
             		})
             	}
 
-            	this.navigation = function()
+            	self.navigation = function()
             	{
             		var v = scouterDataService.getScoutData().done(function (data)
             		{
-            			if (data.Match_ID != vm.model.matchID())
+            			if (data.Match_ID != self.model.matchID())
             			{
             				document.location = '/scouting/Auto/@Model.Scouter_Id';
             			}
 
-            			setTimeout(vm.navigation, 1000);
+            			setTimeout(self.navigation, 1000);
             		}).fail(function (error)
             		{
             			$('#row1').collapse('hide');
@@ -187,7 +190,7 @@
 
             			if (error.statusText)
             			{
-            				vm.errorMessage(error.statusText);
+            				self.errorMessage(error.statusText);
             			}
 
             			if (error.responseText)
@@ -201,37 +204,37 @@
             				{
             					txt += msg[key] + ' ';
             				});
-            				vm.errorMessage(txt);
+            				self.errorMessage(txt);
             			}
 
-            			vm.errorMessage("Oops. something happened.\n" + vm.errorMessage());
+            			self.errorMessage("Oops. something happened.\n" + self.errorMessage());
 
-            			setTimeout(vm.navigation, 5000);
+            			setTimeout(self.navigation, 5000);
             		})
             	}
 
-            	if (this.model.scoutID() < 4)
+            	if (self.model.scoutID() < 4)
             	{
-            		this.color = 'red';
-            		this.clickColor = 'lightpink';
-            		this.colorAlt = '#FF4444';
+            		self.color = 'red';
+            		self.clickColor = 'lightpink';
+            		self.colorAlt = '#FF4444';
             	}
             	else
             	{
-            		this.color = 'deepskyblue';
-            		this.clickColor = 'lightcyan';
-            		this.colorAlt = 'skyblue';
+            		self.color = 'deepskyblue';
+            		self.clickColor = 'lightcyan';
+            		self.colorAlt = 'skyblue';
             	}
 
             	var d = new ScoutInfo();
-            	d.scouter = this.model.scoutID;
+            	d.scouter = self.model.scoutID;
             	d.scouterStatus = 3;
-            	d.match_Id = this.model.matchID;
-            	d.team_Id = this.model.teamID;
+            	d.match_Id = self.model.matchID;
+            	d.team_Id = self.model.teamID;
 
 				scouterDataService.updateScoutData(ko.toJS(d));
             }
-            var vm = new ViewModel(new Scout());
+            vm = new ViewModel(new Scout());
             ko.applyBindings(vm);
         })
 	</script>

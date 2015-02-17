@@ -332,6 +332,8 @@
     <None Include="Properties\PublishProfiles\Scouter.pubxml" />
     <None Include="Scripts\lib\jquery-2.1.0.intellisense.js" />
     <None Include="Images\irs1318.png" />
+    <Content Include="Images\irs1318auto.png" />
+    <Content Include="Images\irs1318teleop.png" />
     <Content Include="Images\scouter.png" />
     <Content Include="Scripts\app\ScouterDataService.js" />
     <Content Include="Scripts\lib\bootstrap.js" />
@@ -409,15 +411,15 @@
     <Content Include="Views\Teams\Index.cshtml" />
     <Content Include="Views\Alliances\Index.cshtml" />
     <Content Include="Views\Teams\Team.cshtml" />
-    <Content Include="Views\FRCEvents\Index.cshtml" />
-    <Content Include="Views\FRCEvents\Edit.cshtml" />
+    <Content Include="Views\Home\FRCEvents\Index.cshtml" />
+    <Content Include="Views\Home\FRCEvents\Edit.cshtml" />
     <Content Include="Views\FRCMatches\Index.cshtml" />
     <Content Include="Views\Teams\Manifest.cshtml" />
     <Content Include="Views\Teams\Manifest-Debug.cshtml" />
     <Content Include="Views\Shared\OfflineLayout.cshtml" />
     <Content Include="Views\Teams\Offline.cshtml" />
     <Content Include="Views\FRCMatches\Match.cshtml" />
-    <Content Include="Views\FRCEvents\View.cshtml" />
+    <Content Include="Views\Home\FRCEvents\View.cshtml" />
     <Content Include="Views\Scouting\Index.cshtml" />
     <Content Include="test.html" />
     <Content Include="Views\Shared\_LayoutTeams.cshtml" />

@@ -1,14 +1,17 @@
 ﻿@model Scouter.Web.ViewModels.ScoutViewModel
 
 @{
-    ViewBag.Title = "Autonomous Scouter: " + Model.Scouter_Id;
+    ViewBag.Title = "Autonomous Scouter";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section scripts{
     <script>
-		$(function ()
-		{
+        var vm;
+        var robotEventTypes = @Html.Raw(Model.RobotEventTypes);
+        
+        $(function ()
+		{   
 			var Scout = function()
 			{
 				this.color = ko.observable(@Model.Color);
@@ -19,14 +22,15 @@
 				this.teamNumber = ko.observable(@Model.Team.Number);
 				this.scoutID = ko.observable(@Model.Scouter_Id);
 			}
-			var Event = function()
+
+		    var Event = function ()
 			{
 				this.id = 0;
 				this.scouter_Id = 0;
 				this.robotMode = 0;
 				this.robotEventType = 0;
-				this.goalWasHot = false;
-			}
+		    }
+
 			var ScoutInfo = function()
 			{
 				this.scouter = 0;
@@ -47,123 +51,304 @@
             //
             var ViewModel = function (scout)
             {
-                this.model = scout;
+                var self = this;
+                self.model = scout;
 
                 //Add isClicked Booleans here/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                this.numMovedTotesToAutoClicked = ko.observable(false);
+                self.TotesStackedClicked = ko.observable(false);
+                self.RightToteMovedClicked = ko.observable(false);
+                self.CenterToteMovedClicked = ko.observable(false);
+                self.LeftToteMovedClicked = ko.observable(false);
+                self.YellowTotesMovedToStepClicked = ko.observable(false);
+
+                self.ContainersFromStepClicked = ko.observable(false);
+                self.RightContainerMovedClicked = ko.observable(false);
+                self.CenterContainerMovedClicked = ko.observable(false);
+                self.LeftContainerMovedClicked = ko.observable(false);
+                
+                self.AutonomousMovedClicked = ko.observable(false); //checkbox
+                self.NoAutonomousClicked = ko.observable(false); //checkbox
+                self.AutoAttemptClutterClicked = ko.observable(false); //checkbox
+                self.AutoFoulClicked = ko.observable(false);
 
                 //Add Count integers here/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            	this.numMovedTotesToAutoCount = ko.observable(0);
+            	self.TotesStackedCount = ko.observable(0);
+            	self.RightToteMovedCount = ko.observable(0);
+            	self.CenterToteMovedCount = ko.observable(0);
+            	self.LeftToteMovedCount = ko.observable(0);
+            	self.YellowTotesMovedToStepCount = ko.observable(0);
 
-            	this.resetButtonClicked = function()
+            	self.ContainersFromStepCount = ko.observable(0);
+            	self.RightContainerMovedCount = ko.observable(0);
+            	self.CenterContainerMovedCount = ko.observable(0);
+            	self.LeftContainerMovedCount = ko.observable(0);
+
+            	self.AutonomousMovedCount = ko.observable(false); 
+            	self.NoAutonomousCount = ko.observable(false); 
+            	self.AutoAttemptClutterCount = ko.observable(false); 
+            	self.AutoFoulCount = ko.observable(0);
+
+            	self.clear = function()
             	{
                     //Set all isClickd booleans to false here/////////////////////////////////////////////////////////////////////////////////////////////
-            	    vm.numMovedTotesToAutoClicked(false);
-            	}
-                
-                //Add on clicked functions here///////////////////////////////////////////////////////////////////////////////////////////////////////////
-            	this.numMovedTotesToAuto = function()
-            	{
-                    //reset all buttons to original color and then set this button to clicked color
-            	    this.resetButtonClicked();
-            	    this.numMovedTotesToAutoClicked(true);
+            	    self.TotesStackedClicked(false);
+            	    self.RightToteMovedClicked(false);
+            	    self.CenterToteMovedClicked(false);
+            	    self.LeftToteMovedClicked(false);
+            	    self.YellowTotesMovedToStepClicked(false);
+
+            	    self.ContainersFromStepClicked(false);
+            	    self.RightContainerMovedClicked(false);
+            	    self.CenterContainerMovedClicked(false);
+            	    self.LeftContainerMovedClicked(false);
                     
-                    //add one to the count of clicks
-            	    vm.numMovedTotesToAutoCount(vm.numMovedTotesToAutoCount() + 1);
-
-                    //Create a new robot event and set it's variables
-            		var e = new Event();
-            		e.scouter_Id = this.model.scoutID;
-            		e.robotMode = 1;    //You may want to remove magic numbers
-            		e.robotEventType = 2;
-            		e.goalWasHot = true;
-
-                    //Send the robot event to the server
-            		scouterDataService.save(ko.toJS(e));
+            	    self.AutonomousMovedClicked(false); 
+            	    self.NoAutonomousClicked(false); 
+            	    self.AutoAttemptClutterClicked(false); 
+            	    self.AutoFoulClicked(false);
             	}
 
+                //Add on clicked functions here///////////////////////////////////////////////////////////////////////////////////////////////////////////
+            	self.abstractButtonFunction = function(clicked, count, robotEv)
+            	{
+            	    //reset all buttons to original color and then set self button to clicked color
+            	    self.clear(); 
 
-            	this.updateCounter = function()
+            	    clicked(true);
+            	    //add one to the count of clicks
+
+            	    if (typeof(count()) == typeof(0)) {
+            	        count(count() + 1);
+            	    }
+            	    else if (typeof(count()) == typeof(false)) {
+            	        count(!count());
+            	    }
+            	    else {
+                        // terrible 
+                    }
+            	    //Create a new robot event and set it's variables
+            	    var e = new Event(); 
+            	    e.scouter_Id = self.model.ScoutID;
+            	    e.robotMode = 1;
+            	    e.robotEventType = robotEv;
+            	    //Send the robot event to the server
+            	    scouterDataService.save(ko.toJS(e));
+            	}
+
+            	self.updateCounter = function()
             	{
             		scouterDataService.updateCounter(@Model.Scouter_Id).done(function (data)
             		{
                         //set your counts to the server counts////////////////////////////////////////////////////////////////////////////////////////////
-            		    vm.numMovedTotesToAutoCount(data.HighHotCount);
+            		    self.TotesStackedCount(data.TotesStacked);
+            		    self.RightToteMovedCount(data.RightToteMoved);
+            		    self.CenterToteMovedCount(data.CenterToteMoved);
+                        self.LeftToteMovedCount(data.LeftToteMoved);
+            		    self.YellowTotesMovedToStepCount(data.YellowTotesMovedToStep);
+                        
+            		    self.ContainersFromStepCount(data.ContainersFromStep);
+            		    self.RightContainerMovedCount(data.RightContainerMoved);
+            		    self.CenterContainerMovedCount(data.CenterContainerMoved);
+            		    self.LeftContainerMovedCount(data.LeftContainerMoved);
+                        
+            		    self.AutonomousMovedCount(data.AutonomousMoved);
+            		    self.NoAutonomousCount(data.NoAutonomous);
+            		    self.AutoAttemptClutterCount(data.AutoAttemptClutter);
+            		    self.AutoFoulCount(data.AutoFoul);
             		})
             	}
 
-            	this.nav = function ()
+            	self.nav = function ()
             	{
             		document.location = '/Scouting/Teleop/@Model.Scouter_Id';
             	}
 
                 //set the colors for the buttons
-            	if (this.model.scoutID() < 4)//red scouts
+            	if (self.model.scoutID() < 4)//red scouts
             	{
-            		this.color = 'red';
-            		this.clickColor = 'pink';
-            		this.colorAlt = '#FF4444';
+            		self.color = 'red';
+            		self.clickColor = 'pink';
+            		self.colorAlt = '#FF4444';
             	}
             	else//blue scouts
             	{
-            		this.color = 'deepskyblue';
-            		this.clickColor = 'lightblue';
-            		this.colorAlt = 'skyblue';
+            		self.color = 'deepskyblue';
+            		self.clickColor = 'lightblue';
+            		self.colorAlt = 'skyblue';
             	}
 
                 //tell the server that you are in autonomous
             	var d = new ScoutInfo();
-            	d.scouter = this.model.scoutID;
+            	d.scouter = self.model.scoutID;
             	d.scouterStatus = 1;
-            	d.match_Id = this.model.matchID;
-            	d.team_Id = this.model.teamID;
+            	d.match_Id = self.model.matchID;
+            	d.team_Id = self.model.teamID;
 
             	scouterDataService.updateScoutData(ko.toJS(d)).done(function (data)
             	{
-            		vm.updateCounter();
+            		self.updateCounter();
             	});
             	
             }
 
             //create the viewmodel and apply bindings
-            var vm = new ViewModel(new Scout());
+            vm = new ViewModel(new Scout());
             ko.applyBindings(vm);
         })
     </script>
 }
-
-<div class="row">
-<span style="color:red">Autonomous</span> <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' + model.teamNumber() + ' ('+ model.teamName() + ')'"/>
+<div class="row" style="color:white">
+    <span style="color:red">Autonomous</span> <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' + model.teamNumber() + ' ('+ model.teamName() + ')'" />
 </div>
 
-<div class="row">
+<div class="row" style="color:white">
     Totes
 </div>
 <div class="row">
-    <!-- This is where you should create the buttons for the row. the color should either be color or colorAlt(or any other colors you define)
+    <!-- vm is where you should create the buttons for the row. the color should either be color or colorAlt(or any other colors you define)
          the class that I was using for the "small" buttons was col-xs-2 and col-xs-4 for the longer ones. One limitation of Bootstraps
          tables is that the rows can have a max of 12 columns -->
-
     <!-- data-bind="click: <your onClickeFunction>, style: {backgroundColor: <your isClickedBoolean>() ? clickColor : [color | colorAlt]} class="col-xs-2"-->
-    <div style="border-style: solid; border-width: medium; border-color: white" data-bind="click: numMovedTotesToAuto, style: {backgroundColor: numMovedTotesToAutoClicked() ? clickColor : color}" class="col-xs-2">
+    <div onclick="vm.abstractButtonFunction(vm.TotesStackedClicked, vm.TotesStackedCount, robotEventTypes['TotesStacked'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="style: {backgroundColor: TotesStackedClicked() ? clickColor : color}" class="col-xs-2">
         <br />
         <br />
         <!--  Labels! -->
-        <span># Moved to Auto</span>
+        <span># Stacked</span>
         <br />
         <!--  data-bind="text: <Your countvariable>()" -->
-        <span data-bind="text: numMovedTotesToAutoCount()"></span>
+        <span data-bind="text: TotesStackedCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.RightToteMovedClicked, vm.RightToteMovedCount, robotEventTypes['RightToteMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="style: {backgroundColor: RightToteMovedClicked() ? clickColor : colorAlt}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Right Moved</span>
+        <br />
+        <span data-bind="text: RightToteMovedCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.CenterToteMovedClicked, vm.CenterToteMovedCount, robotEventTypes['CenterToteMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: CenterToteMovedClicked() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Center Moved</span>
+        <br />
+        <span data-bind="text: CenterToteMovedCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.LeftToteMovedClicked, vm.LeftToteMovedCount, robotEventTypes['LeftToteMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: LeftToteMovedClicked() ? clickColor : colorAlt}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Left Moved</span>
+        <br />
+        <span data-bind="text: LeftToteMovedCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.YellowTotesMovedToStepClicked, vm.YellowTotesMovedToStepCount, robotEventTypes['YellowTotesMovedToStep'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="style: {backgroundColor: YellowTotesMovedToStepClicked() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Yellow Moved to Step</span>
+        <br />
+        <span data-bind="text: YellowTotesMovedToStepCount()"></span>
+        <br />
+        <br />
+    </div>
+</div>
+<div class="row" style="color:white">
+    Recycling Containers
+</div>
+<div class="row">
+    <div onclick="vm.abstractButtonFunction(vm.ContainersFromStepClicked, vm.ContainersFromStepCount, robotEventTypes['ContainersFromStep'])" style="border-style: solid; border-width: medium; border-color: white" data-bind=" style: {backgroundColor: ContainersFromStepClicked() ? clickColor : colorAlt}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Taken from Step</span>
+        <br />
+        <span data-bind="text: ContainersFromStepCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.RightContainerMovedClicked, vm.RightContainerMovedCount, robotEventTypes['RightContainerMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: RightContainerMovedClicked() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Right Moved</span>
+        <br />
+        <span data-bind="text: RightContainerMovedCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.CenterContainerMovedClicked, vm.RightContainerMovedCount, robotEventTypes['RightContainerMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: CenterContainerMovedClicked() ? clickColor : colorAlt}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Center Moved</span>
+        <br />
+        <span data-bind="text: CenterContainerMovedCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.LeftContainerMovedClicked, vm.LeftContainerMovedCount, robotEventTypes['LeftContainerMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: LeftContainerMovedClicked() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Left Moved</span>
+        <br />
+        <span data-bind="text: LeftContainerMovedCount()"></span>
+        <br />
+        <br />
+    </div>
+</div>
+<div class="row" style="color:white">
+    At end of Autonomous...
+</div>
+<div class="row">
+    <div onclick="vm.abstractButtonFunction(vm.AutonomousMovedClicked, vm.AutonomousMovedCount, robotEventTypes['AutonomousMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: AutonomousMovedCount() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Robot in AutoZone</span>
+        <br />
+        <span data-bind="text: AutonomousMovedCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.NoAutonomousClicked, vm.NoAutonomousCount, robotEventTypes['NoAutonomous'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: NoAutonomousCount() ? clickColor : colorAlt}" class="col-xs-2">
+        <br />
+        <br />
+        <span>No Autonomous</span>
+        <br />
+        <span data-bind="text: NoAutonomousCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.AutoAttemptClutterClicked, vm.AutoAttemptClutterCount, robotEventTypes['AutoAttemptClutter'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: AutoAttemptClutterCount() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Excess Clutter Result</span>
+        <br />
+        <span data-bind="text: AutoAttemptClutterCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.AutoFoulClicked, vm.AutoFoulCount, robotEventTypes['AutoFoul'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: AutoFoulClicked() ? clickColor : colorAlt}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Autonomous Fouls</span>
+        <br />
+        <span data-bind="text: AutoFoulCount()"></span>
         <br />
         <br />
     </div>
 </div>
 <div class="row">
-	<div data-bind="click: nav, style: {backgroundColor: color}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Teleop</span>
-		<br />
-		<br />
-		<br />
-	</div>
+    <div data-bind="click: nav, style: {backgroundColor: color}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Teleop</span>
+        <br />
+        <br />
+        <br />
+    </div>
 </div>
+<body>
+
+</body>

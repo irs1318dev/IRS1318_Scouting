@@ -27,7 +27,9 @@ namespace Scouter.Data.Configuration
 					case "a4970693":
 						return true;
 					case "irs001-pc":
-						return true;
+                        return true;
+                    case "prestonlaptop":
+                        return true;
 					default:
 						return false;
 				}
@@ -223,7 +225,7 @@ namespace Scouter.Data.Configuration
                     Team = team,
                     Match = match,
                     Id = nums++,
-                    RobotEventType = RobotEventType.AutonomousMoved,
+                   // RobotEventType = RobotEventType.AutonomousMoved,
                     RobotMode = RobotMode.Autonomous
                 };
                 events.Add(evnt);
