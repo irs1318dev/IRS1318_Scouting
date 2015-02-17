@@ -45,58 +45,75 @@
                 self.model = scout;
             	self.errorMessage = ko.observable("Waiting for next Match... If you believe that you should have advance, notify the lead scout that you are infact ready to advance. Then wait for further instructions.");
 
-            	self.disabledClicked = ko.observable(false);
-            	self.ballStuckClicked = ko.observable(false);
-            	self.lowPowerShotClicked = ko.observable(false);
-            	self.reliableShooterClicked = ko.observable(false);
-            	self.badCollectorClicked = ko.observable(false);
+            	self.leftTotesInTheWayClicked = ko.observable(false);
+            	self.leftContainersInTheWayClicked = ko.observable(false);
+            	self.blockedAlliesClicked = ko.observable(false);
+            	self.tippedOverClicked = ko.observable(false);
+            	self.disabledByJudgesClicked = ko.observable(false);
+            	self.mechanismBrokenClicked = ko.observable(false);
+            	self.mechanismJammedClicked = ko.observable(false);
 
             	self.showWait = ko.observable(false);
 
             	self.notes = ko.observable("");
 
-            	self.disabled = function()
+            	self.leftTotesInTheWay = function ()
             	{
-            		self.disabledClicked(!self.disabledClicked());
+            	    self.leftTotesInTheWayClicked(!self.leftTotesInTheWayClicked());
             		self.setNotes();
             	}
-            	self.ballStuck = function ()
+            	self.leftContainersInTheWay = function()
             	{
-            		self.ballStuckClicked(!self.ballStuckClicked());
-            		self.setNotes();
+            	    self.leftContainersInTheWayClicked(!leftContainersInTheWayClicked());
+            	    self.setNotes();
             	}
-            	self.lowPowerShot = function ()
+            	self.blockedAllies = function()
             	{
-            		self.lowPowerShotClicked(!self.lowPowerShotClicked());
-            		self.setNotes();
+            	    self.blockedAlliesClicked(!blockedAlliesClicked());
+            	    self.setNotes();
             	}
-            	self.reliableShooter = function ()
+            	self.tippedOver = function()
             	{
-            		self.reliableShooterClicked(!self.reliableShooterClicked());
-            		self.setNotes();
+            	    self.tippedOverClicked(!tippedOverClicked());
+            	    self.setNotes();
             	}
-            	self.badCollector = function ()
+            	self.disabledByJudges = function()
             	{
-            		self.badCollectorClicked(!self.badCollectorClicked());
-            		self.setNotes();
+            	    self.disabledByJudgesClicked(!disabledByJudgesClicked());
+            	    self.setNotes();
             	}
+            	self.mechanismBroken = function()
+            	{
+            	    self.mechanismBrokenClicked(!mechanismBrokenClicked());
+            	    self.setNotes();
+            	}
+            	self.mechanismJammed = function()
+            	{
+            	    self.mechanismJammedClicked(!mechanismJammedClicked());
+            	    self.setNotes();
+            	}
+            	
 
             	self.setNotes = function()
             	{
             		self.notes("");
-					if(self.disabledClicked())
-						self.notes("Robot was disabled during the match. ");
-            		if (self.ballStuckClicked())
-            			self.notes(self.notes() + "A ball got stuck in the robot during the match. ");
-            		if (self.lowPowerShotClicked())
-            			self.notes(self.notes() + "low power shot? ");
-            		if (self.reliableShooterClicked())
-            			self.notes(self.notes() + "self robot had a reliable shooter. ");
-            		if (self.badCollectorClicked())
-            			self.notes(self.notes() + "self robot had a poor collector design. ");
-            	}
+					if (self.leftTotesInTheWayClicked())
+            			self.notes(self.notes() + "Robot left totes in the way. ");
+					if (self.leftContainersInTheWayClicked())
+					    self.notes(self.notes() + "Robot left containers in the way. ");
+					if (self.blockedAlliesClicked())
+					    self.notes(self.notes() + "Robot blocked other ally robots. ");
+					if (self.tippedOverClicked())
+					    self.notes(self.notes() + "Robot fell over during the match. ");
+					if (self.disabledByJudgesClicked())
+					    self.notes(self.notes() + "Robot was disabled by the judges. ");
+					if (self.mechanismBrokenClicked())
+					    self.notes(self.notes() + "A mechanism broke. ");
+					if (self.mechanismJammedClicked())
+					    self.notes(self.notes() + "A mechanism got jammed. ");
+				}
 
-            	self.nav = function()
+                self.nav = function ()
             	{
             		var v = scouterDataService.getScoutData().done(function (data)
             		{
@@ -245,14 +262,14 @@
 </div>
 
 <div class="row panel-collapse collapse in" id="row1">
-	<div data-bind="click: disabled, style: {backgroundColor: disabledClicked() ? clickColor : color}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Disabled</span>
-		<br />
-		<br />
-		<br />
-	</div>
+    <div data-bind="click: leftTotesInTheWay, style: {backgroundColor: disabledClicked() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Disabled</span>
+        <br />
+        <br />
+        <br />
+    </div>
 	<div data-bind="click: ballStuck, style: {backgroundColor: ballStuckClicked() ? clickColor : colorAlt}" class="col-xs-2">
 		<br />
 		<br />

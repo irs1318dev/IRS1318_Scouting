@@ -38,14 +38,9 @@ namespace Scouter.Models
         ClearTote = 22,
         ClearLitter = 23,
        
-        //eek will change
-        //TotesPlacedOnExistingCoopertition = 24,
-        //TotesPlacedOnExistingStack = 25,
-        //ContainerPlacedAtHeight = 26,
-
-        LitterPlacedAtHeight = 27,
-        BulldozeLitterToLandfill = 28,
-        TeleopFoul = 29
+        LitterPlacedAtHeight = 24,
+        BulldozeLitterToLandfill = 25,
+        TeleopFoul = 26
     }
 
     public class RobotEvent : IAuditInfo

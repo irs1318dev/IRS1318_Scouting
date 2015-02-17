@@ -213,32 +213,31 @@
 </div>
 
 <div class="row" style="color:white">
-    Interactions with Totes and Field Pieces
+    Totes and Field
 </div>
 
 <div class="row">
     <div onclick="vm.abstractButtonFunction(vm.ChutePickUpClicked, vm.ChutePickUpCount, robotEventTypes['ChutePickUp'])" data-bind="    style: { backgroundColor: ChutePickUpClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
-        <br />
         <span>Chute PickUp</span>
         <br />
         <span data-bind="text: ChutePickUpCount()"></span>
         <br />
+        <br/>
         <br />
     </div>
     <div onclick="vm.abstractButtonFunction(vm.GroundPickUpClicked, vm.GroundPickUpCount, robotEventTypes['GroundPickUp'])" data-bind="    style: {backgroundColor: GroundPickUpClicked() ? clickColor : colorAlt}" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
         <br />
         <span>Ground PickUp</span>
         <br />
         <span data-bind="text: GroundPickUpCount()"></span>
         <br />
+        <br/>
         <br />
     </div>
     <div onclick="vm.abstractButtonFunction(vm.DriveOverPlatformClicked, vm.DriveOverPlatformCount, robotEventTypes['DriveOverPlatform'])" data-bind="    style: {backgroundColor: DriveOverPlatformClicked() ? clickColor : color}" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
-        <br />
-        <span>Drove over Platform</span>
+        <span>Drove over White Platform</span>
         <br />
         <span data-bind="text: DriveOverPlatformCount()"></span>
         <br />
@@ -246,8 +245,7 @@
     </div>
     <div onclick="vm.abstractButtonFunction(vm.HumanPlayerShootsClicked, vm.HumanPlayerShootsCount, robotEventTypes['HumanPlayerShoots'])" data-bind="    style: {backgroundColor: HumanPlayerShootsClicked() ? clickColor : colorAlt}" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
-        <br />
-        <span>Human threw litter over step</span>
+        <span>Human throws to Opponent!</span> <!--Human failed throw-->
         <br />
         <span data-bind="text: HumanPlayerShootsCount()"></span>
         <br />
@@ -256,12 +254,11 @@
 </div>
 
 <div class="row" style="color:white">
-    Assisting others on the Platform
+    Assists
 </div>
 
 <div class="row">
     <div onclick="vm.abstractButtonFunction(vm.OrientContainerClicked, vm.OrientContainerCount, robotEventTypes['OrientContainer'])" data-bind="style: { backgroundColor: OrientContainerClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
         <br />
         <span>Orient Container</span>
         <br />
@@ -271,15 +268,14 @@
     </div>
     <div onclick="vm.abstractButtonFunction(vm.OrientToteClicked, vm.OrientToteCount, robotEventTypes['OrientTote'])" data-bind="style: { backgroundColor: OrientToteClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
+        <span>Orient Tote </span>
         <br />
-        <span>Orient Tote</span>
         <br />
         <span data-bind="text: OrientToteCount()"></span>
         <br />
         <br />
     </div>
     <div onclick="vm.abstractButtonFunction(vm.ClearContainerClicked, vm.ClearContainerCount, robotEventTypes['ClearContainer'])" data-bind="    style: { backgroundColor: ClearContainerClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
         <br />
         <span>Clear away Container</span>
         <br />
@@ -289,7 +285,6 @@
     </div>
     <div onclick="vm.abstractButtonFunction(vm.ClearToteClicked, vm.ClearToteCount, robotEventTypes['ClearTote'])" data-bind="    style: { backgroundColor: ClearToteClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
-        <br />
         <span>Clear away Tote</span>
         <br />
         <span data-bind="text: ClearToteCount()"></span>
@@ -297,7 +292,6 @@
         <br />
     </div>
     <div onclick="vm.abstractButtonFunction(vm.ClearLitterClicked, vm.ClearLitterCount, robotEventTypes['ClearLitter'])" data-bind="style: { backgroundColor: ClearLitterClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
         <br />
         <span>Clear away litter</span>
         <br />
@@ -308,12 +302,11 @@
 </div>
 
 <div class="row" style="color:white">
-    Litter and on the border
+    Litter and Landfill
 </div>
 
 <div class="row">
     <div onclick="vm.abstractButtonFunction(vm.LitterPlacedAtHeightClicked, vm.LitterPlacedAtHeightCount, robotEventTypes['LitterPlacedAtHeight'])" data-bind="style: { backgroundColor: LitterPlacedAtHeightClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
         <br />
         <span>Litter put in stacked Container</span>
         <br />
@@ -323,8 +316,7 @@
     </div>
     <div onclick="vm.abstractButtonFunction(vm.BulldozeLitterToLandfillClicked, vm.BulldozeLitterToLandfillCount, robotEventTypes['BulldozeLitterToLandfill'])" data-bind="style: { backgroundColor: BulldozeLitterToLandfillClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
-        <br />
-        <span>Litter to Landfill</span>
+        <span>Litter Moved to Landfill</span>
         <br />
         <span data-bind="text: BulldozeLitterToLandfillCount()"></span>
         <br />
@@ -333,15 +325,13 @@
 
     <div onclick="vm.abstractButtonFunction(vm.ContainersFromStepClicked, vm.ContainersFromStepCount, robotEventTypes['ContainersFromStep'])" data-bind="style: { backgroundColor: ContainersFromStepClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
-        <br />
-        <span>Containers from Step</span>
+        <span>Containers Taken from Step</span>
         <br />
         <span data-bind="text: ContainersFromStepCount()"></span>
         <br />
         <br />
     </div>
     <div onclick="vm.abstractButtonFunction(vm.TeleopFoulClicked, vm.TeleopFoulCount, robotEventTypes['TeleopFoul'])" data-bind="    style: { backgroundColor: TeleopFoulClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
         <br />
         <span>Teleop Foul</span>
         <br />
@@ -377,7 +367,6 @@
 </div>
 <div class="row">
 	<div data-bind="click: nav, style: {backgroundColor: colorAlt}"class="col-xs-2">
-		<br />
 		<br />
 		<span>Notes</span>
 		<br />
