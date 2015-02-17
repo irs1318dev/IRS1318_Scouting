@@ -11,41 +11,46 @@ namespace Scouter.Models
 
     public enum RobotEventType
     {
-        TotesStacked = 1,
-        RightToteMoved = 2,
-        CenterToteMoved = 3,
-        LeftToteMoved = 4,
-        YellowTotesMovedToStep = 5,
+        TotesStacked,
+        RightToteMoved,
+        CenterToteMoved,
+        LeftToteMoved,
+        YellowTotesMovedToStep,
 
-        ContainersFromStep = 6,
-        RightContainerMoved = 8,
-        CenterContainerMoved = 9,
-        LeftContainerMoved = 10,
+        ContainersFromStep,
+        RightContainerMoved,
+        CenterContainerMoved,
+        LeftContainerMoved,
 
-        AutonomousMoved = 11,
-        NoAutonomous = 12,
-        AutoResultClutter = 13,
-        AutoFoul = 14,
+        AutonomousMoved,
+        NoAutonomous,
+        AutoResultClutter,
+        AutoFoul,
 
-        ChutePickUp = 15,
-        GroundPickUp = 16,
-        DriveOverPlatform = 17,
-        HumanPlayerShoots = 18,
+        ChutePickUp,
+        GroundPickUp,
+        DriveOverPlatform,
+        HumanPlayerShoots,
 
-        OrientContainer = 19,
-        OrientTote = 20,
-        ClearContainer = 21,
-        ClearTote = 22,
-        ClearLitter = 23,
+        OrientContainer,
+        OrientTote,
+        ClearContainer,
+        ClearTote,
+        ClearLitter,
        
         //eek will change
-        //TotesPlacedOnExistingCoopertition = 24,
-        //TotesPlacedOnExistingStack = 25,
-        //ContainerPlacedAtHeight = 26,
+        //TotesPlacedOnExistingCoopertition,
+        //TotesPlacedOnExistingStack,
+        //ContainerPlacedAtHeight,
 
-        LitterPlacedAtHeight = 27,
-        BulldozeLitterToLandfill = 28,
-        TeleopFoul = 29
+        LitterPlacedAtHeight,
+        BulldozeLitterToLandfill,
+        TeleopFoul,
+
+
+
+        //Used for seeding, must be last
+        MAX
     }
 
     public class RobotEvent : IAuditInfo

@@ -203,21 +203,6 @@ namespace Scouter.Data.Configuration
 
         protected void GenerateScores(FRCMatch match, Team team, Random rand, DbSet<RobotEvent> events)
         {
-            RobotEvent autonEvent = new RobotEvent() { Team = team, Match = match, Id = nums++, RobotMode = RobotMode.Autonomous};
-            events.Add(autonEvent);
-            switch (rand.Next(3))
-            {
-                case 0:
-                    autonEvent.RobotEventType = (RobotEventType)0;
-                    if (rand.Next(2) == 1)
-                        autonEvent.GoalWasHot = true;
-                    break;
-                case 1:
-                    autonEvent.RobotEventType = (RobotEventType)0;
-                    if (rand.Next(2) == 1)
-                        autonEvent.GoalWasHot = true;
-                    break;
-            }
             if (rand.Next(100) < 98)
             {
                 RobotEvent evnt = new RobotEvent()
@@ -225,7 +210,7 @@ namespace Scouter.Data.Configuration
                     Team = team,
                     Match = match,
                     Id = nums++,
-                   // RobotEventType = RobotEventType.AutonomousMoved,
+                    RobotEventType = RobotEventType.AutonomousMoved,
                     RobotMode = RobotMode.Autonomous
                 };
                 events.Add(evnt);
@@ -234,24 +219,7 @@ namespace Scouter.Data.Configuration
             for (int i = 0; i < num; i++)
             {
                 RobotEvent evnt = new RobotEvent() { Team = team, Match = match, Id = nums++};
-                switch (rand.Next(5))
-                {
-                    case 0:
-                        evnt.RobotEventType = (RobotEventType)0;
-                        break;
-                    case 1:
-                        evnt.RobotEventType = (RobotEventType)0;
-                        break;
-                    case 2:
-                        evnt.RobotEventType = (RobotEventType)0;
-                        break;
-                    case 3:
-                        evnt.RobotEventType = (RobotEventType)0;
-                        break;
-                    case 4:
-                        evnt.RobotEventType = (RobotEventType)0;
-                        break;
-                }
+                evnt.RobotEventType = (RobotEventType)rand.Next((int)RobotEventType.MAX);
                 events.Add(evnt);
             }
         }
