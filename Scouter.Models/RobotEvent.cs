@@ -38,10 +38,7 @@ namespace Scouter.Models
         ClearTote,
         ClearLitter,
        
-        //eek will change
-        //TotesPlacedOnExistingCoopertition,
-        //TotesPlacedOnExistingStack,
-        //ContainerPlacedAtHeight,
+        
 
         LitterPlacedAtHeight,
         BulldozeLitterToLandfill,
