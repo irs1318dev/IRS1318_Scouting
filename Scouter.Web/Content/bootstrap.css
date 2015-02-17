@@ -757,9 +757,8 @@ pre code {
 .container-fluid {
   padding-right: 15px;
   padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
 }
+
 .row {
   margin-right: -15px;
   margin-left: -15px;
@@ -1987,7 +1986,7 @@ select[multiple].input-lg {
   top: 0;
   right: 15px;
 }
-.btn {
+.btn-big {
   display: inline-block;
   padding: 6px 12px;
   margin-bottom: 0;
@@ -2026,8 +2025,8 @@ select[multiple].input-lg {
     from {background-color: rgba(209,36,159,0.0); }
     to {background-color: rgba(247, 254,46, 0.75); }
 }
-.btn:hover,
-.btn:focus {
+.btn-big:hover,
+.btn-big:focus {
   -webkit-animation-name: btnanim;
   -webkit-animation-duration:1s;
   -webkit-animation-iteration-count:1;
@@ -4428,7 +4427,12 @@ a.list-group-item.active > .badge,
   }
 }
 .flexbox {
-    background: url("/images/irs1318.png") bottom no-repeat #000}
+    background: url("/images/irs1318.png") bottom no-repeat #000; 
+    width:1349px;
+    height:827px;
+    position:fixed;
+
+}
 .thumbnail {
   display: block;
   padding: 4px;
