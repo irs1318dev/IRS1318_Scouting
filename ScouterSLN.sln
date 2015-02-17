@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Web
+# Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scouter.Models", "Scouter.Models\Scouter.Models.csproj", "{8F424FB5-1ACF-494D-A884-44EE362283B3}"
@@ -20,26 +20,34 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9D2897
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
+		ConsoleApp|Any CPU = ConsoleApp|Any CPU
 		Release|Any CPU = Release|Any CPU
+		WebSiteDebug|Any CPU = WebSiteDebug|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8F424FB5-1ACF-494D-A884-44EE362283B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8F424FB5-1ACF-494D-A884-44EE362283B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F424FB5-1ACF-494D-A884-44EE362283B3}.ConsoleApp|Any CPU.ActiveCfg = ConsoleApp|Any CPU
+		{8F424FB5-1ACF-494D-A884-44EE362283B3}.ConsoleApp|Any CPU.Build.0 = ConsoleApp|Any CPU
 		{8F424FB5-1ACF-494D-A884-44EE362283B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F424FB5-1ACF-494D-A884-44EE362283B3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7C1A4E7F-DCE0-4AD5-A515-9850A5CDC680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7C1A4E7F-DCE0-4AD5-A515-9850A5CDC680}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F424FB5-1ACF-494D-A884-44EE362283B3}.WebSiteDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F424FB5-1ACF-494D-A884-44EE362283B3}.WebSiteDebug|Any CPU.Build.0 = Debug|Any CPU
+		{7C1A4E7F-DCE0-4AD5-A515-9850A5CDC680}.ConsoleApp|Any CPU.ActiveCfg = ConsoleApp|Any CPU
+		{7C1A4E7F-DCE0-4AD5-A515-9850A5CDC680}.ConsoleApp|Any CPU.Build.0 = ConsoleApp|Any CPU
 		{7C1A4E7F-DCE0-4AD5-A515-9850A5CDC680}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C1A4E7F-DCE0-4AD5-A515-9850A5CDC680}.Release|Any CPU.Build.0 = Release|Any CPU
-		{66EE6184-48F5-4AD9-85BD-A8349F86718E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66EE6184-48F5-4AD9-85BD-A8349F86718E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C1A4E7F-DCE0-4AD5-A515-9850A5CDC680}.WebSiteDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C1A4E7F-DCE0-4AD5-A515-9850A5CDC680}.WebSiteDebug|Any CPU.Build.0 = Debug|Any CPU
+		{66EE6184-48F5-4AD9-85BD-A8349F86718E}.ConsoleApp|Any CPU.ActiveCfg = ConsoleApp|Any CPU
+		{66EE6184-48F5-4AD9-85BD-A8349F86718E}.ConsoleApp|Any CPU.Build.0 = ConsoleApp|Any CPU
 		{66EE6184-48F5-4AD9-85BD-A8349F86718E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66EE6184-48F5-4AD9-85BD-A8349F86718E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{838ACDB7-6670-45F8-8742-2D94ECFA353E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{838ACDB7-6670-45F8-8742-2D94ECFA353E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66EE6184-48F5-4AD9-85BD-A8349F86718E}.WebSiteDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66EE6184-48F5-4AD9-85BD-A8349F86718E}.WebSiteDebug|Any CPU.Build.0 = Debug|Any CPU
+		{838ACDB7-6670-45F8-8742-2D94ECFA353E}.ConsoleApp|Any CPU.ActiveCfg = ConsoleApp|Any CPU
 		{838ACDB7-6670-45F8-8742-2D94ECFA353E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{838ACDB7-6670-45F8-8742-2D94ECFA353E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{838ACDB7-6670-45F8-8742-2D94ECFA353E}.WebSiteDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{838ACDB7-6670-45F8-8742-2D94ECFA353E}.WebSiteDebug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

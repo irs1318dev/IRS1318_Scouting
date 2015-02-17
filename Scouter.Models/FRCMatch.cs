@@ -13,7 +13,7 @@ namespace Scouter.Models
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
 
-        public virtual FRCEvent FRCEvent { get; set; }
+        public virtual FRCCompetition FRCEvent { get; set; }
 
         public override string ToString()
         {

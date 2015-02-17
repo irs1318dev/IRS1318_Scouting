@@ -1,7 +1,7 @@
 ﻿@model Scouter.Web.ViewModels.ScoutViewModel
 
 @{
-    ViewBag.Title = "Autonomous Scouter: " + Model.Scouter_Id;
+    ViewBag.Title = "Autonomous Scouter";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -197,7 +197,6 @@
         })
     </script>
 }
-
 <div class="row" style="color:white">
     <span style="color:red">Autonomous</span> <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' + model.teamNumber() + ' ('+ model.teamName() + ')'" />
 </div>
@@ -209,7 +208,6 @@
     <!-- vm is where you should create the buttons for the row. the color should either be color or colorAlt(or any other colors you define)
          the class that I was using for the "small" buttons was col-xs-2 and col-xs-4 for the longer ones. One limitation of Bootstraps
          tables is that the rows can have a max of 12 columns -->
-
     <!-- data-bind="click: <your onClickeFunction>, style: {backgroundColor: <your isClickedBoolean>() ? clickColor : [color | colorAlt]} class="col-xs-2"-->
     <div onclick="vm.abstractButtonFunction(vm.TotesStackedClicked, vm.TotesStackedCount, robotEventTypes['TotesStacked'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="style: {backgroundColor: TotesStackedClicked() ? clickColor : color}" class="col-xs-2">
         <br />
@@ -342,12 +340,15 @@
     </div>
 </div>
 <div class="row">
-	<div data-bind="click: nav, style: {backgroundColor: color}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Teleop</span>
-		<br />
-		<br />
-		<br />
-	</div>
+    <div data-bind="click: nav, style: {backgroundColor: color}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Teleop</span>
+        <br />
+        <br />
+        <br />
+    </div>
 </div>
+<body>
+
+</body>

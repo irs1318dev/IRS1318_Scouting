@@ -7,7 +7,7 @@ namespace Scouter.Data
     {
         private DataContext _context = new DataContext();
 
-        private IRepository<FRCEvent> _frcevents = null;
+        private IRepository<FRCCompetition> _frcevents = null;
         private FRCMatchRepository _frcmatches = null;
         private IRepository<Team> _teams = null;
         private IRepository<Alliance> _alliances = null;
@@ -16,12 +16,12 @@ namespace Scouter.Data
 		private IRepository<CurrentScoutData> _currentscoutdata = null;
 		private IRepository<ScoutingNotes> _scoutingnotes = null;
 
-        public IRepository<FRCEvent> FRCEvents
+        public IRepository<FRCCompetition> FRCCompetitions
         {
             get
             {
                 if (this._frcevents == null)
-                    this._frcevents = new GenericRepository<FRCEvent>(this._context);
+                    this._frcevents = new GenericRepository<FRCCompetition>(this._context);
                 return this._frcevents;
             }
         }

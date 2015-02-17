@@ -4433,6 +4433,12 @@ a.list-group-item.active > .badge,
     position:fixed;
 
 }
+.autoback {
+    background: url("/images/irs1318auto.png") bottom no-repeat #000!important;
+}
+.teleopback {
+    background: url("/images/irs1318teleop.png") bottom no-repeat #000!important;
+}
 .thumbnail {
   display: block;
   padding: 4px;

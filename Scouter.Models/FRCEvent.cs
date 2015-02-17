@@ -6,7 +6,7 @@ namespace Scouter.Models
     /// <summary>
     /// Represents a single event at a place
     /// </summary>
-    public class FRCEvent : IAuditInfo
+    public class FRCCompetition : IAuditInfo
     {
         public int Id { get; set; }
         public string Name { get; set; }

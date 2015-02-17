@@ -1,7 +1,7 @@
 ﻿@model Scouter.Web.ViewModels.ScoutViewModel
 
 @{
-	ViewBag.Title = "Teleop Scouter: " + Model.Scouter_Id;
+	ViewBag.Title = "Teleop Scouter";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -207,7 +207,6 @@
         })
 	</script>
 }
-
 <div class="row" style="color:white">
 	Teleoperated <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' +model.teamNumber() + ' ('+ model.teamName() + ')'" />
 </div>
@@ -342,9 +341,13 @@
 </div>
 
 <table>
-    <thead><tr>
-        <th>Initial Stack Height</th><th>Added Totes</th><th>Added Container</th>
-    </tr></thead>
+    <thead>
+        <tr>
+            <th>Initial Stack Height</th>
+            <th>Added Totes</th>
+            <th>Added Container</th>
+        </tr>
+    </thead>
     <!--<tbody data-bind="foreach: StacksList">
         <tr data-bind="foreach: StackData">
             <td data-bind="value: StackData().StartingHeight"></td>
@@ -366,7 +369,7 @@
         -->
 </div>
 <div class="row">
-	<div data-bind="click: nav, style: {backgroundColor: colorAlt}"class="col-xs-2">
+    <div data-bind="click: nav, style: {backgroundColor: colorAlt}" class="col-xs-2">
 		<br />
 		<span>Notes</span>
 		<br />

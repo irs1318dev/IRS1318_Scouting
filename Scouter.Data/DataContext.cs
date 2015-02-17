@@ -11,7 +11,7 @@ namespace Scouter.Data
 {
     public class DataContext : DbContext
     {
-        public DbSet<FRCEvent> FRCEvents { get; set; }
+        public DbSet<FRCCompetition> FRCEvents { get; set; }
         public DbSet<FRCMatch> FRCMatches { get; set; }
         public DbSet<Alliance> Alliances { get; set; }
         public DbSet<Team> Teams { get; set; }
@@ -26,8 +26,8 @@ namespace Scouter.Data
         {
             get
             {
-                if (ConfigurationManager.AppSettings[Environment.MachineName] != null)
-                    return ConfigurationManager.AppSettings[Environment.MachineName];
+                if (ConfigurationManager.AppSettings[Environment.MachineName.ToLower()] != null)
+                    return ConfigurationManager.AppSettings[Environment.MachineName.ToLower()];
 
                 return "DefaultConnection";
             }
