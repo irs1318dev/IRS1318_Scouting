@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
+using System.Web.Script.Serialization;
 
 namespace Scouter.Web.ViewModels
 {
@@ -12,5 +14,19 @@ namespace Scouter.Web.ViewModels
         public Team Team { get; set; }
 		public FRCMatch Match { get; set; }
 		public int Scouter_Id { get; set; }
+
+        public string RobotEventTypes 
+        { 
+            get
+            {
+                Dictionary<string, int> types = new Dictionary<string, int>();
+                foreach(var type in Enum.GetNames(typeof(RobotEventType)))
+                {
+                    types.Add(type, (int)Enum.Parse(typeof(RobotEventType), type));
+                }
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                return serializer.Serialize(types);
+            }
+        }
     }
 }

@@ -242,7 +242,7 @@ namespace Scouter.Data.Configuration
                     Team = team,
                     Match = match,
                     Id = nums++,
-                    RobotEventType = RobotEventType.AutonomousMoved,
+                   // RobotEventType = RobotEventType.AutonomousMoved,
                     RobotMode = RobotMode.Autonomous
                 };
                 events.Add(evnt);

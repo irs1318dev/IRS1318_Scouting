@@ -59,8 +59,45 @@ namespace Scouter.Web.Controllers.api
 
 				return new ScoutCounter()
 				{
-					HighCount = 0
-				};
+				    TotesStackedCount = 0,
+                    RightToteMovedCount = 0,
+                    CenterToteMovedCount = 0,
+                    LeftToteMovedCount = 0,
+                    YellowTotesMovedToStepCount = 0,
+                    
+                    ContainersFromStep = 0,
+                    RightContainerMoved = 0,
+                    CenterContainerMoved = 0,
+                    LeftContainerMoved = 0,
+
+                    AutonomousMoved = false,
+                    NoAutonomous = false,
+                    AutoResultClutter = false,
+                    AutoFoul = 0,
+
+                    ChutePickUp = 0,
+                    GroundPickUp = 0,
+                    DriveOverPlatform = 0,
+                    HumanPlayerShoots = 0,
+
+                    OrientContainer = 0,
+                    OrientTote = 0,
+                    ClearContainer = 0,
+                    ClearTote = 0,
+                    ClearLitter = 0,
+
+                    //eek will change
+                    //TotesPlacedOnExistingCoopertition = 0,
+                    //TotesPlacedOnExistingStack = 0,
+                    //ContainerPlacedAtHeight = 0,
+
+                    LitterPlacedAtHeight = 0,
+                    BulldozeLitterToLandfill = 0,
+                    TeleopFoul = 0
+
+
+
+                };
 			return null;
         }
 	}

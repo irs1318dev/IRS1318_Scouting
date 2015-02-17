@@ -11,8 +11,41 @@ namespace Scouter.Models
 
     public enum RobotEventType
     {
-		AutonomousMoved = 0,
-		Foul = 1
+        TotesStacked = 1,
+        RightToteMoved = 2,
+        CenterToteMoved = 3,
+        LeftToteMoved = 4,
+        YellowTotesMovedToStep = 5,
+
+        ContainersFromStep = 6,
+        RightContainerMoved = 8,
+        CenterContainerMoved = 9,
+        LeftContainerMoved = 10,
+
+        AutonomousMoved = 11,
+        NoAutonomous = 12,
+        AutoResultClutter = 13,
+        AutoFoul = 14,
+
+        ChutePickUp = 15,
+        GroundPickUp = 16,
+        DriveOverPlatform = 17,
+        HumanPlayerShoots = 18,
+
+        OrientContainer = 19,
+        OrientTote = 20,
+        ClearContainer = 21,
+        ClearTote = 22,
+        ClearLitter = 23,
+       
+        //eek will change
+        //TotesPlacedOnExistingCoopertition = 24,
+        //TotesPlacedOnExistingStack = 25,
+        //ContainerPlacedAtHeight = 26,
+
+        LitterPlacedAtHeight = 27,
+        BulldozeLitterToLandfill = 28,
+        TeleopFoul = 29
     }
 
     public class RobotEvent : IAuditInfo
@@ -21,7 +54,6 @@ namespace Scouter.Models
         public virtual Team Team { get; set; }
         public virtual FRCMatch Match { get; set; }
         public RobotMode RobotMode { get; set; }
-        //public zzLocation Location { get; set; }
         public RobotEventType RobotEventType { get; set; }
         public bool GoalWasHot { get; set; }
         public DateTime CreatedOn { get; set; }

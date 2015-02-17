@@ -7,6 +7,7 @@
 
 @section scripts{
 	<script>
+        var vm;
 		$(function ()
 		{
 			var Scout = function()
@@ -25,7 +26,6 @@
 				this.scouter_Id = 0;
 				this.robotMode = 0;
 				this.robotEventType = 0;
-				this.goalWasHot = false;
 			}
 			var ScoutInfo = function ()
 			{
@@ -40,212 +40,100 @@
             //
             var ViewModel = function (scout)
             {
-            	this.model = scout;
-            	this.highClicked = ko.observable(false);
-            	this.highMissedClicked = ko.observable(false);
-            	this.passClicked = ko.observable(false);
-            	this.blockedPassClicked = ko.observable(false);
-            	this.blockedRobotClicked = ko.observable(false);
-            	this.lowClicked = ko.observable(false);
-            	this.lowMissedClicked = ko.observable(false);
-            	this.trussClicked = ko.observable(false);
-            	this.catchClicked = ko.observable(false);
-            	this.blockedShotClicked = ko.observable(false);
-            	this.foulClicked = ko.observable(false);
-            	this.techFoulClicked = ko.observable(false);
-            	this.oopsClicked = ko.observable(false);
-            	this.showWait = ko.observable(false);
-            	this.inboundClicked = ko.observable(false);
-            	this.missedInboundClicked = ko.observable(false);
-            	this.lostBallClicked = ko.observable(false);
+                var self = this;
+                self.model = scout;
+                
+                //Add isClicked Booleans here/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                self.ChutePickUpClicked = ko.observable(false);
+                self.GroundPickUpClicked = ko.observable(false);
+                self.DriveOverPlatformClicked = ko.observable(false);
+                self.HumanPlayerShootsClicked = ko.observable(false);
+                
+                self.OrientContainerClicked = ko.observable(false);
+                self.OrientToteClicked = ko.observable(false);
+                self.ClearContainerClicked = ko.observable(false);
+                self.ClearToteClicked = ko.observable(false);
+                self.ClearLitterClicked = ko.observable(false);
 
-            	this.highCount = ko.observable(0);
-            	this.highMissedCount = ko.observable(0);
-            	this.lowCount = ko.observable(0);
-            	this.lowMissedCount = ko.observable(0);
-            	this.blockedPassCount = ko.observable(0);
-            	this.blockedShotCount = ko.observable(0);
-            	this.blockedRobotCount = ko.observable(0);
-            	this.passCount = ko.observable(0);
-            	this.trussCount = ko.observable(0);
-            	this.catchCount = ko.observable(0);
-            	this.foulCount = ko.observable(0);
-            	this.techFoulCount = ko.observable(0);
-            	this.inboundCount = ko.observable(0);
-            	this.missedInboundCount = ko.observable(0);
-            	this.lostBallCount = ko.observable(0);
+                self.LitterPlacedAtHeightClicked = ko.observable(false);
+                self.BulldozeLitterToLandfillClicked = ko.observable(false);
+                self.TeleopFoulClicked = ko.observable(false);
+                self.ContainersFromStepClicked = ko.observable(false);
 
-            	this.clear = function()
+                self.TotesPlacedOnExistingCoopertitionClicked = ko.observable(false);
+                self.TotesPlacedOnExistingStackClicked = ko.observable(false);
+                self.ContainerPlacedAtHeightClicked = ko.observable(false);
+
+                //Add Count integers here/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                self.ChutePickUpCount = ko.observable(0);
+                self.GroundPickUpCount = ko.observable(0);
+                self.DriveOverPlatformCount = ko.observable(0);
+                self.HumanPlayerShootsCount = ko.observable(0);
+
+                self.OrientContainerCount = ko.observable(0);
+                self.OrientToteCount = ko.observable(0);
+                self.ClearContainerCount = ko.observable(0);
+                self.ClearToteCount = ko.observable(0);
+                self.ClearLitterCount = ko.observable(0);
+
+                self.LitterPlacedAtHeightCount = ko.observable(0);
+                self.BulldozeLitterToLandfillCount = ko.observable(0);
+                self.TeleopFoulCount = ko.observable(0);
+                self.ContainersFromStepCount = ko.observable(0);
+
+                self.TotesPlacedOnExistingCoopertitionCount = ko.observable(0);
+                self.TotesPlacedOnExistingStackCount = ko.observable(0);
+                self.ContainerPlacedAtHeightCount = ko.observable(0);
+
+            	self.clear = function()
             	{
-            		vm.highClicked(false);
-            		vm.highMissedClicked(false);
-            		vm.passClicked(false);
-            		vm.blockedPassClicked(false);
-            		vm.blockedRobotClicked(false);
-            		vm.lowClicked(false);
-            		vm.lowMissedClicked(false);
-            		vm.trussClicked(false);
-            		vm.catchClicked(false);
-            		vm.foulClicked(false);
-            		vm.techFoulClicked(false);
-            		vm.blockedShotClicked(false);
-            		vm.oopsClicked(false);
-            		vm.inboundClicked(false);
-            		vm.missedInboundClicked(false);
-            		vm.lostBallClicked(false);
+            	    //Set all isClickd booleans to false here/////////////////////////////////////////////////////////////////////////////////////////////
+            	    self.ChutePickUpClicked(false);
+            	    self.GroundPickUpClicked(false);
+            	    self.DriveOverPlatformClicked(false);
+            	    self.HumanPlayerShootsClicked(false);
+                    
+            	    self.OrientContainerClicked(false);
+            	    self.OrientToteClicked(false);
+            	    self.ClearContainerClicked(false);
+            	    self.ClearToteClicked(false);
+            	    self.ClearLitterClicked(false);
+
+            	    self.LitterPlacedAtHeightClicked(false);
+            	    self.BulldozeLitterToLandfillClicked(false);
+            	    self.TeleopFoulClicked(false);
+            	    self.ContainersFromStepClicked(false);
+                    
+            	    self.TotesPlacedOnExistingCoopertitionClicked(false);
+            	    self.TotesPlacedOnExistingStackClicked(false);
+            	    self.ContainerPlacedAtHeightClicked(false);
             	}
 
-            	this.highShot = function()
-            	{
-            		this.clear();
-            		vm.highCount(vm.highCount() + 1);
-            		this.highClicked(true);
-            		var e = new Event();
-            		e.scouter_Id = this.model.scoutID;
-            		e.robotEventType = 2;
-            		scouterDataService.save(ko.toJS(e));
+                //Add on clicked functions here///////////////////////////////////////////////////////////////////////////////////////////////////////////
+            	self.abstractButtonFunction = function(clicked, count, robotEv) {
+            	    //reset all buttons to original color and then set this button to clicked color
+            	    self.clear();
+            	    clicked(true);
+            	    //add one to the count of clicks
+            	    count(count() + 1);
+            	    //Create a new robot event and set it's variables
+            	    var e = new Event();
+            	    e.scouter_Id = self.model.ScoutID;
+            	    e.robotMode = 0;
+            	    e.robotEventType = robotEv;
+            	    //Send the robot event to the server
+            	    scouterDataService.save(ko.toJS(e));
             	}
-            	this.highShotMissed = function()
-            	{
-            		this.clear();
-            		vm.highMissedCount(vm.highMissedCount() + 1);
-            		this.highMissedClicked(true);
-            		var e = new Event();
-            		e.scouter_Id = this.model.scoutID;
-            		e.robotEventType = 4;
-            		scouterDataService.save(ko.toJS(e));
-            	}
-            	this.pass = function()
-            	{
-            		this.clear();
-            		vm.passCount(vm.passCount() + 1);
-            		this.passClicked(true);
-            		var e = new Event();
-            		e.scouter_Id = this.model.scoutID;
-            		e.robotEventType = 5;
-            		scouterDataService.save(ko.toJS(e));
-            	}
-            	this.blockedPass = function()
-            	{
-            		this.clear();
-            		vm.blockedPassCount(vm.blockedPassCount() + 1);
-            		this.blockedPassClicked(true);
-            		var e = new Event();
-            		e.scouter_Id = this.model.scoutID;
-            		e.robotEventType = 10;
-            		scouterDataService.save(ko.toJS(e));
-            	}
-            	this.blockedRobot = function()
-            	{
-            		this.clear();
-            		vm.blockedRobotCount(vm.blockedRobotCount() + 1);
-            		this.blockedRobotClicked(true);
-            		var e = new Event();
-            		e.scouter_Id = this.model.scoutID;
-            		e.robotEventType = 11;
-            		scouterDataService.save(ko.toJS(e));
-            	}
-            	this.lowShot = function()
-            	{
-            		this.clear();
-            		vm.lowCount(vm.lowCount() + 1);
-            		this.lowClicked(true);
-            		var e = new Event();
-            		e.scouter_Id = this.model.scoutID;
-            		e.robotEventType = 1;
-            		scouterDataService.save(ko.toJS(e));
-            	}
-            	this.lowShotMissed = function()
-            	{
-            		this.clear();
-            		vm.lowMissedCount(vm.lowMissedCount() + 1);
-            		this.lowMissedClicked(true);
-            		var e = new Event();
-            		e.scouter_Id = this.model.scoutID;
-            		e.robotEventType = 3;
-            		scouterDataService.save(ko.toJS(e));
-            	}
-            	this.truss = function()
-            	{
-            		this.clear();
-            		vm.trussCount(vm.trussCount() + 1);
-            		this.trussClicked(true);
-            		var e = new Event();
-            		e.scouter_Id = this.model.scoutID;
-            		e.robotEventType = 7;
-            		scouterDataService.save(ko.toJS(e));
-            	}
-            	this.caught = function()
-            	{
-            		this.clear();
-            		vm.catchCount(vm.catchCount() + 1);
-            		this.catchClicked(true);
-            		var e = new Event();
-            		e.scouter_Id = this.model.scoutID;
-            		e.robotEventType = 6;
-            		scouterDataService.save(ko.toJS(e));
-            	}
-            	this.blockedShot = function()
-            	{
-            		this.clear();
-            		vm.blockedShotCount(vm.blockedShotCount() + 1);
-            		this.blockedShotClicked(true);
-            		var e = new Event();
-            		e.scouter_Id = this.model.scoutID;
-            		e.robotEventType = 9;
-            		scouterDataService.save(ko.toJS(e));
-            	}
-            	this.foul = function()
-            	{
-            		this.clear();
-            		vm.foulCount(vm.foulCount() + 1);
-            		this.foulClicked(true);
-            		var e = new Event();
-            		e.scouter_Id = this.model.scoutID;
-            		e.robotEventType = 12;
-            		scouterDataService.save(ko.toJS(e));
-            	}
-            	this.techFoul = function()
-            	{
-            		this.clear();
-            		vm.techFoulCount(vm.techFoulCount() + 1);
-            		this.techFoulClicked(true);
-            		var e = new Event();
-            		e.scouter_Id = this.model.scoutID;
-            		e.robotEventType = 13;
-            		scouterDataService.save(ko.toJS(e));
-            	}
-            	this.inbound = function()
-            	{
-            		this.clear()
-            		vm.inboundCount(vm.inboundCount() + 1);
-            		this.inboundClicked(true);
-            		var e = new Event();
-            		e.scouter_Id = this.model.scoutID;
-            		e.robotEventType = 14;
-            		scouterDataService.save(ko.toJS(e));
-            	}
-            	this.missedInbound = function ()
-            	{
-            		this.clear()
-            		vm.missedInboundCount(vm.missedInboundCount() + 1);
-            		this.missedInboundClicked(true);
-            		var e = new Event();
-            		e.scouter_Id = this.model.scoutID;
-            		e.robotEventType = 15;
-            		scouterDataService.save(ko.toJS(e));
-            	}
-            	this.lostBall = function ()
-            	{
-            		this.clear()
-            		vm.lostBallCount(vm.lostBallCount() + 1);
-            		this.lostBallClicked(true);
-            		var e = new Event();
-            		e.scouter_Id = this.model.scoutID;
-            		e.robotEventType = 16;
-            		scouterDataService.save(ko.toJS(e));
-            	}
-            	this.oops = function()
+
+                //this.TotesPlacedOnExistingCoopertition()
+                //this.TotesPlacedOnExistingStack()
+                //this. ContainerPlacedAtHeight
+
+                //i can't implement the awkward arrays
+                //nor did i fix the magic numbers
+
+                //NEEDS TO BE FIXED AND ALSO ADDED TO AUTONOMOUS
+            	self.oops = function()
             	{
             		this.clear();
             		this.oopsClicked(true);
@@ -257,58 +145,63 @@
             			var what = 3;
             		});
             	}
-            	this.updateCounter = function()
+            	self.updateCounter = function()
             	{
             		scouterDataService.updateCounter(@Model.Scouter_Id).done(function (data)
             		{
-            			vm.highCount(data.HighCount);
-            			vm.highMissedCount(data.HighMissedCount);
-            			vm.lowCount(data.LowCount);
-            			vm.lowMissedCount(data.LowMissedCount);
-            			vm.blockedPassCount(data.BlockedPassCount);
-            			vm.blockedShotCount(data.BlockedShotCount);
-            			vm.blockedRobotCount(data.BlockedRobotCount);
-            			vm.passCount(data.PassCount);
-            			vm.trussCount(data.TrussCount);
-            			vm.catchCount(data.CatchCount);
-            			vm.foulCount(data.FoulCount);
-            			vm.techFoulCount(data.TechFoulCount);
-            			vm.inboundCount(data.InboundCount);
-            			vm.missedInboundCount(data.MissedInboundCount);
-            			vm.lostBallCount(data.LostBallCount);
+                        //REALLY JUST THE SAME?? data has unnecessary fields in it
+            		    self.ChutePickUpCount(data.ChutePickUp);
+            			self.GroundPickUpCount(data.GroundPickUp);
+            			self.DriveOverPlatformCount(data.DriveOverPlatform);
+            			self.HumanPlayerShootsCount(data.HumanPlayerShoots);
+                        
+            			self.OrientContainerCount(data.OrientContainer);
+            			self.OrientToteCount(data.OrientTote);
+            			self.ClearContainerCount(data.ClearContainer);
+            			self.ClearToteCount(data.ClearTote);
+            			self.ClearLitterCount(data.ClearLitter);
+
+            			self.LitterPlacedAtHeightCount(data.LitterPlacedAtHeight);
+            			self.BulldozeLitterToLandfillCount(data.BulldozeLitterToLandfill);
+            			self.TeleopFoulCount(data.TeleopFoul);
+            			self.ContainersFromStepCount(data.ContainersFromStep);
+                        
+            			//self.TotesPlacedOnExistingCoopertitionCount(data.TotesPlacedOnExistingCoopertitionCount);
+            			//self.TotesPlacedOnExistingStackCount(data.TotesPlacedOnExistingStackCount);
+            			//self.ContainerPlacedAtHeightCount(data.ContainerPlacedAtHeightCount);
+
             		})
             	}
-
-            	this.nav = function()
+            	self.nav = function()
             	{
             		document.location = '/scouting/Notes/@Model.Scouter_Id';
             	}
 
-            	if (this.model.scoutID() < 4)
+            	if (self.model.scoutID() < 4)
             	{
-            		this.color = 'red';
-            		this.clickColor = 'pink';
-            		this.colorAlt = '#FF4444';
+            		self.color = 'red';
+            		self.clickColor = 'pink';
+            		self.colorAlt = '#FF4444';
             	}
             	else
             	{
-            		this.color = 'deepskyblue';
-            		this.clickColor = 'lightcyan';
-            		this.colorAlt = 'skyblue';
+            		self.color = 'deepskyblue';
+            		self.clickColor = 'lightcyan';
+            		self.colorAlt = 'skyblue';
             	}
 
             	var d = new ScoutInfo();
-            	d.scouter = this.model.scoutID;
+            	d.scouter = self.model.scoutID;
             	d.scouterStatus = 2;
-            	d.match_Id = this.model.matchID;
-            	d.team_Id = this.model.teamID;
+            	d.match_Id = self.model.matchID;
+            	d.team_Id = self.model.teamID;
 
             	scouterDataService.updateScoutData(ko.toJS(d)).done(function(data)
             	{
-            		vm.updateCounter();
+            		self.updateCounter();
             	});
             }
-            var vm = new ViewModel(new Scout());
+            vm = new ViewModel(new Scout());
             ko.applyBindings(vm);
         })
 	</script>
@@ -318,156 +211,168 @@
 	Teleoperated <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' +model.teamNumber() + ' ('+ model.teamName() + ')'" />
 </div>
 
-<div class="row panel-collapse collapse in" id="row1">
-	<div data-bind="click: highShot, style: {backgroundColor: highClicked() ? clickColor : color}" class="col-xs-2">
-		<br />
-		<br />
-		<span>High</span>
-		<br />
-		<span data-bind="text: highCount()"></span>
-		<br />
-		<br />
-	</div>
-	<div data-bind="click: highShotMissed, style: {backgroundColor: highMissedClicked() ? clickColor : colorAlt}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Missed</span>
-		<br />
-		<span data-bind="text: highMissedCount()"></span>
-		<br />
-		<br />
-	</div>
-	<div data-bind="click: pass, style: {backgroundColor: passClicked() ? clickColor : color}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Pass</span>
-		<br />
-		<span data-bind="text: passCount()"></span>
-		<br />
-		<br />
-	</div>
-	<div data-bind="click: blockedPass, style: {backgroundColor: blockedPassClicked() ? clickColor : colorAlt}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Blocked Pass</span>
-		<br />
-		<span data-bind="text: blockedPassCount()"></span>
-		<br />
-		<br />
-	</div>
-	<div data-bind="click: blockedRobot, style: {backgroundColor: blockedRobotClicked() ? clickColor : color}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Blocked Robot</span>
-		<br />
-		<span data-bind="text: blockedRobotCount()"></span>
-		<br />
-		<br />
-	</div>
-	<div data-bind="click: blockedShot, style: {backgroundColor: blockedShotClicked() ? clickColor : colorAlt}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Blocked Shot</span>
-		<br />
-		<span data-bind="text: blockedShotCount()"></span>
-		<br />
-		<br />
-	</div>
+<div class="row">
+    Interactions with Totes and Field Pieces
 </div>
-<div class="row panel-collapse collapse in" id="row2">
-	<div data-bind="click: lowShot, style: {backgroundColor: lowClicked() ? clickColor : colorAlt}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Low</span>
-		<br />
-		<span data-bind="text: lowCount()"></span>
-		<br />
-		<br />
-	</div>
-	<div data-bind="click: lowShotMissed, style: {backgroundColor: lowMissedClicked() ? clickColor : color}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Missed</span>
-		<br />
-		<span data-bind="text: lowMissedCount()"></span>
-		<br />
-		<br />
-	</div>
-	<div data-bind="click: truss, style: {backgroundColor: trussClicked() ? clickColor : colorAlt}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Truss</span>
-		<br />
-		<span data-bind="text: trussCount()"></span>
-		<br />
-		<br />
-	</div>
-	<div data-bind="click: caught, style: {backgroundColor: catchClicked() ? clickColor : color}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Catch</span>
-		<br />
-		<span data-bind="text: catchCount()"></span>
-		<br />
-		<br />
-	</div>
-	<div data-bind="click: inbound, style: {backgroundColor: inboundClicked() ? clickColor : colorAlt}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Inbound</span>
-		<br />
-		<span data-bind="text: inboundCount()"></span>
-		<br />
-		<br />
-	</div>
-	<div data-bind="click: missedInbound, style: {backgroundColor: missedInboundClicked() ? clickColor : color}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Missed Inbound</span>
-		<br />
-		<span data-bind="text: missedInboundCount()"></span>
-		<br />
-		<br />
-	</div>
+
+<div class="row">
+    <div onclick="vm.abstractButtonFunction(vm.ChutePickUpClicked, vm.ChutePickUpCount, 15)" data-bind="style: { backgroundColor: ChutePickUpClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <br />
+        <span>Chute PickUp</span>
+        <br />
+        <span data-bind="text: ChutePickUpCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.GroundPickUpClicked, vm.GroundPickUpCount, 16)" data-bind="style: {backgroundColor: GroundPickUpClicked() ? clickColor : colorAlt}" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <br />
+        <span>Ground PickUp</span>
+        <br />
+        <span data-bind="text: GroundPickUpCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.DriveOverPlatformClicked, vm.DriveOverPlatformCount, 17)" data-bind="style: {backgroundColor: DriveOverPlatformClicked() ? clickColor : color}" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <br />
+        <span>Drove over Platform</span>
+        <br />
+        <span data-bind="text: DriveOverPlatformCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.HumanPlayerShootsClicked, vm.HumanPlayerShootsCount, 18)" data-bind="    style: {backgroundColor: HumanPlayerShootsClicked() ? clickColor : colorAlt}" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <br />
+        <span>Human threw litter over step</span>
+        <br />
+        <span data-bind="text: HumanPlayerShootsCount()"></span>
+        <br />
+        <br />
+    </div>
 </div>
-<div class="row panel-collapse collapse in" id="row3">
-	<div data-bind="click: lostBall, style: {backgroundColor: lostBallClicked() ? clickColor : color}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Lost Ball</span>
-		<br />
-		<span data-bind="text: lostBallCount()"></span>
-		<br />
-		<br />
-	</div>
-	<div class="col-xs-4">
-	</div>
-	<div data-bind="click: foul, style: {backgroundColor: foulClicked() ? clickColor : colorAlt}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Foul</span>
-		<br />
-		<span data-bind="text: foulCount()"></span>
-		<br />
-		<br />
-	</div>
-	<div data-bind="click: techFoul, style: {backgroundColor: techFoulClicked() ? clickColor : color}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Tech Foul</span>
-		<br />
-		<span data-bind="text: techFoulCount()"></span>
-		<br />
-		<br />
-	</div>
-	<div data-bind="click: oops, style: {backgroundColor: oopsClicked() ? clickColor : colorAlt}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Oops</span>
-		<br />
-		<br />
-		<br />
-	</div>
+
+<div class="row">
+    Assisting others on the Platform 
+</div>
+
+<div class="row">
+    <div onclick="vm.abstractButtonFunction(vm.OrientContainerClicked, vm.OrientContainerCount, 19)" data-bind="    style: { backgroundColor: OrientContainerClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <br />
+        <span>Orient Container</span>
+        <br />
+        <span data-bind="text: OrientContainerCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.OrientToteClicked, vm.OrientToteCount, 20)" data-bind="    style: { backgroundColor: OrientToteClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <br />
+        <span>Orient Tote</span>
+        <br />
+        <span data-bind="text: OrientToteCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.ClearContainerClicked, vm.ClearContainerCount, 21)" data-bind="    style: { backgroundColor: ClearContainerClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <br />
+        <span>Clear away Container</span>
+        <br />
+        <span data-bind="text: ClearContainerCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.ClearToteClicked, vm.ClearToteCount, 22)" data-bind="    style: { backgroundColor: ClearToteClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <br />
+        <span>Clear away Tote</span>
+        <br />
+        <span data-bind="text: ClearToteCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.ClearLitterClicked, vm.ClearLitterCount, 23)" data-bind="    style: { backgroundColor: ClearLitterClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <br />
+        <span>Clear away litter</span>
+        <br />
+        <span data-bind="text: ClearLitterCount()"></span>
+        <br />
+        <br />
+    </div>
+</div>
+
+<div class="row">
+    Litter and on the border
+</div>
+
+<div class="row">
+    <div onclick="vm.abstractButtonFunction(vm.LitterPlacedAtHeightClicked, vm.LitterPlacedAtHeightCount, 27)" data-bind="    style: { backgroundColor: LitterPlacedAtHeightClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <br />
+        <span>Litter put in stacked Container</span>
+        <br />
+        <span data-bind="text: LitterPlacedAtHeightCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.BulldozeLitterToLandfillClicked, vm.BulldozeLitterToLandfillCount, 28)" data-bind="    style: { backgroundColor: BulldozeLitterToLandfillClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <br />
+        <span>Litter to Landfill</span>
+        <br />
+        <span data-bind="text: BulldozeLitterToLandfillCount()"></span>
+        <br />
+        <br />
+    </div>
+
+    <div onclick="vm.abstractButtonFunction(vm.ContainersFromStepClicked, vm.ContainersFromStepCount, 6)" data-bind="    style: { backgroundColor: ContainersFromStepClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <br />
+        <span>Containers from Step</span>
+        <br />
+        <span data-bind="text: ContainersFromStepCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.TeleopFoulClicked, vm.TeleopFoulCount, 29)" data-bind="    style: { backgroundColor: TeleopFoulClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <br />
+        <span>Teleop Foul</span>
+        <br />
+        <span data-bind="text: TeleopFoulCount()"></span>
+        <br />
+        <br />
+    </div>
+</div>
+
+<table>
+    <thead><tr>
+        <th>Initial Stack Height</th><th>Added Totes</th><th>Added Container</th>
+    </tr></thead>
+    <!--<tbody data-bind="foreach: StacksList">
+        <tr data-bind="foreach: StackData">
+            <td data-bind="value: StackData().StartingHeight"></td>
+            <td data-bind="value: StackData().NumTotes"></td>
+        </tr>
+    </tbody>
+        -->
+</table>
+
+<div class="row">
+    <!--<div data-bind="click: oops, style: {backgroundColor: oopsClicked() ? clickColor : colorAlt}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Oops</span>
+        <br />
+        <br />
+        <br />
+    </div>
+        -->
 </div>
 <div class="row">
 	<div data-bind="click: nav, style: {backgroundColor: colorAlt}"class="col-xs-2">
