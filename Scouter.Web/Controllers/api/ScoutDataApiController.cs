@@ -15,6 +15,9 @@ namespace Scouter.Web.Controllers.api
     public class ScoutDataApiController : ApiController
     {
 		private ApplicationUnit _unit = new ApplicationUnit();
+
+        //GetScoutData is in ScouterApiController
+
         /// <summary>
         /// Gets the current event count for the given scouter
         /// </summary>

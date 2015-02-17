@@ -57,7 +57,7 @@ namespace Scouter.Web.Controllers.api
         /// Creates the match if it doesn't exist
         /// </summary>
         /// <param name="info">the information about the match</param>
-        [HttpPost]
+        [HttpPut]
         public HttpResponseMessage SetMatch(MatchInfoDataTransfer info)
         {
             //get the competition ID

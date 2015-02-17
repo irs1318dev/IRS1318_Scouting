@@ -89,7 +89,7 @@ var scouterDataService = (function ()
     	{
     		return $.ajax(
 				{
-					type: httpVerbs.POST,
+					type: httpVerbs.PUT,
 					url: '/api/ScoutManagerApi/',
 					data: data,
 					dataType: 'JSON'
