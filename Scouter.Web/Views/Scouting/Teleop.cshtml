@@ -1,7 +1,7 @@
 ﻿@model Scouter.Web.ViewModels.ScoutViewModel
 
 @{
-	ViewBag.Title = "Teleop Scouter: " + Model.Scouter_Id;
+	ViewBag.Title = "Teleop Scouter";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -207,7 +207,6 @@
         })
 	</script>
 }
-<html class="flexbox teleopback">
 <div class="row" style="color:white">
     Teleoperated <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' +model.teamNumber() + ' ('+ model.teamName() + ')'" />
 </div>
@@ -390,4 +389,3 @@
     </div>
 </div>
 <body></body>
-</html>

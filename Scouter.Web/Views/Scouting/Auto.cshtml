@@ -1,7 +1,7 @@
 ﻿@model Scouter.Web.ViewModels.ScoutViewModel
 
 @{
-    ViewBag.Title = "Autonomous Scouter: " + Model.Scouter_Id;
+    ViewBag.Title = "Autonomous Scouter";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -197,7 +197,6 @@
         })
     </script>
 }
-<html class="autoback flexbox">
 <div class="row" style="color:white">
     <span style="color:red">Autonomous</span> <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' + model.teamNumber() + ' ('+ model.teamName() + ')'" />
 </div>
@@ -353,4 +352,3 @@
 <body>
 
 </body>
-</html>
