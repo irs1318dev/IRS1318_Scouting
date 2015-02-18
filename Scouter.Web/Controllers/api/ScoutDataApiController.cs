@@ -74,7 +74,7 @@ namespace Scouter.Web.Controllers.api
             if(scoutStatus == ScoutStatus.Autonomous)
                 robotMode = RobotMode.Autonomous;
 
-                
+              
 
             ScoutCounter count = new ScoutCounter();
 
@@ -106,16 +106,16 @@ namespace Scouter.Web.Controllers.api
                         ++count.YellowTotesMovedToStep;
                         break;
                     case RobotEventType.RightContainerFromStep:
-                        ++count.RightContainerFromStep;
+                        count.RightContainerFromStep = true;
                         break;
-                    case RobotEventType.CenterRightContainerFromStep:
-                        ++count.CenterRightContainerFromStep;
+                    case RobotEventType.RightCenterContainerFromStep:
+                        count.RightCenterContainerFromStep = true;
                         break;
-                    case RobotEventType.CenterLeftContainerFromStep:
-                        ++count.CenterLeftContainerFromStep;
+                    case RobotEventType.LeftCenterContainerFromStep:
+                        count.LeftCenterContainerFromStep = true;
                         break;
                     case RobotEventType.LeftContainerFromStep:
-                        ++count.LeftContainerFromStep;
+                        count.LeftContainerFromStep = true;
                         break;
                     case RobotEventType.RightContainerMoved:
                         ++count.RightContainerMoved;
