@@ -144,7 +144,6 @@ namespace Scouter.Data.Configuration
                         Length = rand.Next(120, 240) / 10f,
                         Drivetrain = (DrivetrainType)rand.Next(5),
                         WheelCount = rand.Next(3, 9),
-                        Ball = Convert.ToBoolean(rand.Next(0, 2)),
                         Weight = rand.Next(100, 1200) / 10f
                     };
                     team.Name = team.Number.ToString();
