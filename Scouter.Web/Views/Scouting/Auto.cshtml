@@ -59,7 +59,7 @@
                 self.RightToteMovedClicked = ko.observable(false);
                 self.CenterToteMovedClicked = ko.observable(false);
                 self.LeftToteMovedClicked = ko.observable(false);
-                self.YellowTotesMovedToStepClicked = ko.observable(false);
+
 
                 self.ContainersFromStepClicked = ko.observable(false);
                 self.RightContainerMovedClicked = ko.observable(false);
@@ -76,7 +76,7 @@
             	self.RightToteMovedCount = ko.observable(0);
             	self.CenterToteMovedCount = ko.observable(0);
             	self.LeftToteMovedCount = ko.observable(0);
-            	self.YellowTotesMovedToStepCount = ko.observable(0);
+            	
 
             	self.ContainersFromStepCount = ko.observable(0);
             	self.RightContainerMovedCount = ko.observable(0);
@@ -95,7 +95,7 @@
             	    self.RightToteMovedClicked(false);
             	    self.CenterToteMovedClicked(false);
             	    self.LeftToteMovedClicked(false);
-            	    self.YellowTotesMovedToStepClicked(false);
+            	    
 
             	    self.ContainersFromStepClicked(false);
             	    self.RightContainerMovedClicked(false);
@@ -144,7 +144,7 @@
             		    self.RightToteMovedCount(data.RightToteMoved);
             		    self.CenterToteMovedCount(data.CenterToteMoved);
                         self.LeftToteMovedCount(data.LeftToteMoved);
-            		    self.YellowTotesMovedToStepCount(data.YellowTotesMovedToStep);
+            		   
                         
             		    self.ContainersFromStepCount(data.ContainersFromStep);
             		    self.RightContainerMovedCount(data.RightContainerMoved);
@@ -247,15 +247,7 @@
         <br />
         <br />
     </div>
-   <!-- MOVE TO TELEOP <div onclick="vm.abstractButtonFunction(vm.YellowTotesMovedToStepClicked, vm.YellowTotesMovedToStepCount, robotEventTypes['YellowTotesMovedToStep'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="style: {backgroundColor: YellowTotesMovedToStepClicked() ? clickColor : color}" class="col-xs-2">
-        <br />
-        <br />
-        <span>Yellow Moved to Step</span>
-        <br />
-        <span data-bind="text: YellowTotesMovedToStepCount()"></span>
-        <br />
-        <br />
-    </div> -->
+   
 </div>
 <div class="row" style="color:white">
     Recycling Containers

@@ -261,6 +261,14 @@
 	Notes <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' +model.teamNumber() + ' ('+ model.teamName() + ')'" />
 </div>
 
+self.leftTotesInTheWayClicked = ko.observable(false);
+self.leftContainersInTheWayClicked = ko.observable(false);
+self.blockedAlliesClicked = ko.observable(false);
+self.tippedOverClicked = ko.observable(false);
+self.disabledByJudgesClicked = ko.observable(false);
+self.mechanismBrokenClicked = ko.observable(false);
+self.mechanismJammedClicked = ko.observable(false);
+
 <div class="row panel-collapse collapse in" id="row1">
     <div data-bind="click: leftTotesInTheWay, style: {backgroundColor: disabledClicked() ? clickColor : color}" class="col-xs-2">
         <br />

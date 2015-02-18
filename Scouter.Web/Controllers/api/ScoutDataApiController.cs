@@ -85,10 +85,12 @@ namespace Scouter.Web.Controllers.api
                 AutoAttemptClutter = false,
                 AutoFoul = 0,
 
-                ChutePickUp = 0,
+                RightChutePickUp = 0,
+                LeftChutePickUp = 0,
                 GroundPickUp = 0,
                 DriveOverPlatform = 0,
                 HumanPlayerShoots = 0,
+                HumanPlayerFails = 0,
 
                 OrientContainer = 0,
                 OrientTote = 0,
