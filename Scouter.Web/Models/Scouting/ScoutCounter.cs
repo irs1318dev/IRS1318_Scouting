@@ -14,7 +14,7 @@ namespace Scouter.Web.Models.Scouting
         public int LeftToteMoved { get; set; }
         public int YellowTotesMovedToStep { get; set; }
 
-        public Boolean LeftContainerFromStep { get; set; } //same counter in A and T
+        public Boolean LeftContainerFromStep { get; set; } //SAME counters for A and T
         public Boolean LeftCenterContainerFromStep { get; set; }
         public Boolean RightCenterContainerFromStep { get; set; }
         public Boolean RightContainerFromStep { get; set; }
@@ -35,7 +35,6 @@ namespace Scouter.Web.Models.Scouting
         public int HumanPlayerShoots { get; set; }
         public int HumanPlayerFails { get; set; }
 
-        //assist on step
         public int OrientContainer { get; set; }
         public int OrientTote { get; set; }
         public int ClearContainer { get; set; }
@@ -45,43 +44,8 @@ namespace Scouter.Web.Models.Scouting
         public int LitterPlacedAtHeight { get; set; }
         public int BulldozeLitterToLandfill { get; set; }
 
-        public IObservable<StackData> StacksList {get; set;}
-        public IObservable<int> ContainerPlacedList { get; set; }
-        
+        public int InitialStackHeight { get; set; } 
+        public int TotesAddedToStack { get; set; }
+        public Boolean ContainerAddedToStack { get; set; }        
 	}
-
-    public class StackData
-    {
-        private int StartingHeight;
-        private int NumTotes;
-
-        public StackData(int height, int totes)
-        {
-            this.StartingHeight = height;
-            this.NumTotes = totes;
-        }
-
-        public int getStartingHeight()
-        {
-            return this.StartingHeight;
-        }
-        public int getNumTotes()
-        {
-            return this.NumTotes;
-        }
-
-        public void setHeight(int height)
-        {
-            this.StartingHeight = height;
-        }
-        public void setNumTotes(int totes)
-        {
-            this.NumTotes = totes;
-        }
-        public void set(int height, int totes)
-        {
-            this.StartingHeight = height;
-            this.NumTotes = totes;
-        }
-    }
 }
