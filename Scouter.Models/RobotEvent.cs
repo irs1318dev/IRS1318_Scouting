@@ -29,7 +29,7 @@ namespace Scouter.Models
         AutonomousMoved,
         NoAutonomous,
         AutoResultClutter,
-        AutoFoul,
+        Foul,
 
         RightChutePickUp,
         LeftChutePickUp,
@@ -48,7 +48,6 @@ namespace Scouter.Models
 
         LitterPlacedAtHeight,
         BulldozeLitterToLandfill,
-        TeleopFoul,
 
 
 

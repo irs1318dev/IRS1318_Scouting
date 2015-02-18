@@ -14,15 +14,18 @@ namespace Scouter.Web.Models.Scouting
         public int LeftToteMoved { get; set; }
         public int YellowTotesMovedToStep { get; set; }
 
-        public int ContainersFromStep { get; set; } //same counter in A and T
+        public int RightContainerFromStep { get; set; } //same counter in A and T
+        public int CenterRightContainerFromStep { get; set; }
+        public int CenterLeftContainerFromStep { get; set; }
+        public int LeftContainerFromStep { get; set; }
         public int RightContainerMoved { get; set; }
         public int CenterContainerMoved { get; set; }
         public int LeftContainerMoved { get; set; }
 
         public Boolean AutonomousMoved { get; set; }
         public Boolean NoAutonomous { get; set; }
-        public Boolean AutoAttemptClutter { get; set; }
-        public int AutoFoul { get; set; } // different foul-counters between A and T
+        public Boolean AutoResultClutter { get; set; }
+        public int Foul { get; set; } // different foul-counters between A and T
 
         public int RightChutePickUp { get; set; }
         public int LeftChutePickUp { get; set; }
@@ -44,8 +47,7 @@ namespace Scouter.Web.Models.Scouting
 
         public IObservable<StackData> StacksList {get; set;}
         public IObservable<int> ContainerPlacedList { get; set; }
-        
-       
+
 	}
 
     public class StackData
