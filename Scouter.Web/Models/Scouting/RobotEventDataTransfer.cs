@@ -12,6 +12,5 @@ namespace Scouter.Web.Models.Scouting
 		public int Scouter_Id { get; set; }
 		public RobotMode RobotMode { get; set; }
 		public RobotEventType RobotEventType { get; set; }
-		public bool GoalWasHot { get; set; }
 	}
 }

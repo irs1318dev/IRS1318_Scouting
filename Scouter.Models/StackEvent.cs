@@ -11,9 +11,11 @@ namespace Scouter.Models
         public int Id { get; set; }
         public virtual Team Team { get; set; }
         public virtual FRCMatch Match { get; set; }
+        
         public int StartingHeight { get; set; }
         public int NumTotesAdded { get; set; }
         public bool IsContainerAdded { get; set; }
+
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
     }

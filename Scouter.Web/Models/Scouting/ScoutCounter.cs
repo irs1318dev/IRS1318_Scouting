@@ -14,7 +14,11 @@ namespace Scouter.Web.Models.Scouting
         public int LeftToteMoved { get; set; }
         public int YellowTotesMovedToStep { get; set; }
 
-        public int ContainersFromStep { get; set; } //same counter in A and T
+        public Boolean LeftContainerFromStep { get; set; } //same counter in A and T
+        public Boolean LeftCenterContainerFromStep { get; set; }
+        public Boolean RightCenterContainerFromStep { get; set; }
+        public Boolean RightContainerFromStep { get; set; }
+
         public int RightContainerMoved { get; set; }
         public int CenterContainerMoved { get; set; }
         public int LeftContainerMoved { get; set; }

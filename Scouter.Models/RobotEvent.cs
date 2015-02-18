@@ -18,8 +18,8 @@ namespace Scouter.Models
         YellowTotesMovedToStep,
 
         RightContainerFromStep,
-        CenterRightContainerFromStep,
-        CenterLeftContainerFromStep,
+        RightCenterContainerFromStep,
+        LeftCenterContainerFromStep,
         LeftContainerFromStep,
 
         RightContainerMoved,
@@ -43,9 +43,7 @@ namespace Scouter.Models
         ClearContainer,
         ClearTote,
         ClearLitter,
-       
-        
-
+ 
         LitterPlacedAtHeight,
         BulldozeLitterToLandfill,
         TeleopFoul,

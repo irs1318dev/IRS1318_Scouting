@@ -75,7 +75,11 @@ namespace Scouter.Web.Controllers.api
                 LeftToteMoved = 0,
                 YellowTotesMovedToStep = 0,
 
-                ContainersFromStep = 0,
+                RightContainerFromStep = false,
+                RightCenterContainerFromStep = false,
+                LeftCenterContainerFromStep = false,
+                LeftContainerFromStep = false,
+
                 RightContainerMoved = 0,
                 CenterContainerMoved = 0,
                 LeftContainerMoved = 0,
@@ -209,7 +213,6 @@ namespace Scouter.Web.Controllers.api
 							break;
 					}
 					RobotEvent re = new RobotEvent();
-					re.GoalWasHot = robotEvent.GoalWasHot;
 					re.RobotEventType = robotEvent.RobotEventType;
 					re.RobotMode = robotEvent.RobotMode;
 					re.Match = _unit.FRCMatches.GetById(scoutData.Match_ID);

@@ -64,32 +64,32 @@
             	}
             	self.leftContainersInTheWay = function()
             	{
-            	    self.leftContainersInTheWayClicked(!leftContainersInTheWayClicked());
+            	    self.leftContainersInTheWayClicked(!self.leftContainersInTheWayClicked());
             	    self.setNotes();
             	}
             	self.blockedAllies = function()
             	{
-            	    self.blockedAlliesClicked(!blockedAlliesClicked());
+            	    self.blockedAlliesClicked(!self.blockedAlliesClicked());
             	    self.setNotes();
             	}
             	self.tippedOver = function()
             	{
-            	    self.tippedOverClicked(!tippedOverClicked());
+            	    self.tippedOverClicked(!self.tippedOverClicked());
             	    self.setNotes();
             	}
             	self.disabledByJudges = function()
             	{
-            	    self.disabledByJudgesClicked(!disabledByJudgesClicked());
+            	    self.disabledByJudgesClicked(!self.disabledByJudgesClicked());
             	    self.setNotes();
             	}
             	self.mechanismBroken = function()
             	{
-            	    self.mechanismBrokenClicked(!mechanismBrokenClicked());
+            	    self.mechanismBrokenClicked(!self.mechanismBrokenClicked());
             	    self.setNotes();
             	}
             	self.mechanismJammed = function()
             	{
-            	    self.mechanismJammedClicked(!mechanismJammedClicked());
+            	    self.mechanismJammedClicked(!self.mechanismJammedClicked());
             	    self.setNotes();
             	}
             	
@@ -257,70 +257,78 @@
 	</script>
 }
 
-<div class="row">
-	Notes <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' +model.teamNumber() + ' ('+ model.teamName() + ')'" />
+<div class="row" style="color:white">
+    Notes <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' +model.teamNumber() + ' ('+ model.teamName() + ')'" />
 </div>
 
-self.leftTotesInTheWayClicked = ko.observable(false);
-self.leftContainersInTheWayClicked = ko.observable(false);
-self.blockedAlliesClicked = ko.observable(false);
-self.tippedOverClicked = ko.observable(false);
-self.disabledByJudgesClicked = ko.observable(false);
-self.mechanismBrokenClicked = ko.observable(false);
-self.mechanismJammedClicked = ko.observable(false);
-
 <div class="row panel-collapse collapse in" id="row1">
-    <div data-bind="click: leftTotesInTheWay, style: {backgroundColor: disabledClicked() ? clickColor : color}" class="col-xs-2">
+    <div data-bind="click: leftTotesInTheWay, style: {backgroundColor: leftTotesInTheWayClicked() ? clickColor : colorAlt}" class="col-xs-2"
+         style="border-style:dashed; border-color:white;">
         <br />
         <br />
-        <span>Disabled</span>
+        <span>Left Totes in the Way</span>
         <br />
         <br />
         <br />
     </div>
-	<div data-bind="click: ballStuck, style: {backgroundColor: ballStuckClicked() ? clickColor : colorAlt}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Ball Stuck</span>
-		<br />
-		<br />
-		<br />
-	</div>
-	<div data-bind="click: lowPowerShot, style: {backgroundColor: lowPowerShotClicked() ? clickColor : color}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Low Power Shot</span>
-		<br />
-		<br />
-		<br />
-	</div>
-	<div data-bind="click: reliableShooter, style: {backgroundColor: reliableShooterClicked() ? clickColor : colorAlt}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Reliable Shooter</span>
-		<br />
-		<br />
-		<br />
-	</div>
-	<div data-bind="click: badCollector, style: {backgroundColor: badCollectorClicked() ? clickColor : color}" class="col-xs-2">
-		<br />
-		<br />
-		<span>Bad Collector</span>
-		<br />
-		<br />
-		<br />
-	</div>
-	<div data-bind="style: {backgroundColor: colorAlt}" class="col-xs-2">
-		<br />
-		<br />
-		<br/>
-		<br />
-		<br />
-		<br />
-	</div>
+    <div data-bind="click: leftContainersInTheWay, style: {backgroundColor: leftContainersInTheWayClicked() ? clickColor : colorAlt}" class="col-xs-2"
+         style="border-style:dashed; border-color:white;">
+        <br />
+        <br />
+        <span>Left Containers in the Way</span>
+        <br />
+        <br />
+        <br />
+    </div>
+    <div data-bind="click: blockedAllies, style: {backgroundColor: blockedAlliesClicked() ? clickColor : color}" class="col-xs-2"
+         style="border-style:dashed; border-color:white;">
+        <br />
+        <br />
+        <span>Blocked Allies</span>
+        <br />
+        <br />
+        <br />
+    </div>
+    <div data-bind="click: tippedOver, style: {backgroundColor: tippedOverClicked() ? clickColor : colorAlt}" class="col-xs-2"
+         style="border-style:dashed; border-color:white; margin-left:4px">
+        <br />
+        <br />
+        <span>Tipped Over</span>
+        <br />
+        <br />
+        <br />
+    </div>
+    <div data-bind="click: disabledByJudges, style: {backgroundColor: disabledByJudgesClicked() ? clickColor : colorAlt}" class="col-xs-2"
+         style="border-style:dashed; border-color:white;">
+        <br />
+        <br />
+        <span>Disabled by Judges</span>
+        <br />
+        <br />
+        <br />
+    </div>
+    <div data-bind="click: mechanismBroken, style: {backgroundColor: mechanismBrokenClicked() ? clickColor : color}" class="col-xs-2"
+         style="border-style:dashed; border-color:white; margin-left:4px">
+        <br />
+        <br />
+        <span>Mechanism Broke</span>
+        <br />
+        <br />
+        <br />
+    </div>
+
+    <div data-bind="click: mechanismJammed, style: {backgroundColor: mechanismJammedClicked() ? clickColor : color}" class="col-xs-2"
+         style="border-style:dashed; border-color:white;">
+        <br />
+        <br />
+        <span>Mechanism got Jammed</span>
+        <br />
+        <br />
+        <br />
+    </div>
 </div>
-<div class="row panel-collapse collapse in" id="row2">
-	<span data-bind="text: notes"></span>
+<div class="row panel-collapse collapse in" id="row2" style="color:orange">
+    <span data-bind="text: notes"></span>
 </div>
 <div class="row">
 	<div data-bind="click: nav, style: {backgroundColor: colorAlt}" class="col-xs-2">
