@@ -42,21 +42,21 @@ namespace Scouter.Data.Configuration
         {
             Random rand = new Random();
 
-			context.CurrentScoutData.Add(new CurrentScoutData());
-			context.SaveChanges();
+            context.CurrentScoutData.Add(new CurrentScoutData());
+            context.SaveChanges();
 
             Console.WriteLine("Creating Events");
-			FRCCompetition Auburn = new FRCCompetition()
-			{
-				Name = "PNW FIRST Robotics Auburn Mountainview District Event",
-				Venue = "Auburn Mountain View High School",
-				City = "Auburn",
-				State = "WA",
-				Type = "District",
-				BeginDate = new DateTime(2014, 2, 28, 11, 0, 0),
-				FinishDate = new DateTime(2014, 3, 1, 17, 0, 0)
-			};
-			context.FRCEvents.Add(Auburn);
+            FRCCompetition Auburn = new FRCCompetition()
+            {
+                Name = "PNW FIRST Robotics Auburn Mountainview District Event",
+                Venue = "Auburn Mountain View High School",
+                City = "Auburn",
+                State = "WA",
+                Type = "District",
+                BeginDate = new DateTime(2014, 2, 28, 11, 0, 0),
+                FinishDate = new DateTime(2014, 3, 1, 17, 0, 0)
+            };
+            context.FRCCompetitions.Add(Auburn);
 
             FRCCompetition GlacierPeak = new FRCCompetition();
             GlacierPeak.Name = "PNW FIRST Robotics Glacier Peak District Event";
@@ -66,7 +66,7 @@ namespace Scouter.Data.Configuration
             GlacierPeak.Type = "District";
             GlacierPeak.BeginDate = new DateTime(2014, 3, 6, 8, 0, 0);
             GlacierPeak.FinishDate = new DateTime(2014, 3, 8, 5, 0, 0);
-            context.FRCEvents.Add(GlacierPeak);
+            context.FRCCompetitions.Add(GlacierPeak);
 
             FRCCompetition Portland = new FRCCompetition();
             Portland.Name = "Autodesk PNW FRC Championship";
@@ -76,7 +76,7 @@ namespace Scouter.Data.Configuration
             Portland.Type = "District Championship";
             Portland.BeginDate = new DateTime(2014, 4, 10, 8, 0, 0);
             Portland.FinishDate = new DateTime(2014, 4, 12, 5, 0, 0);
-            context.FRCEvents.Add(Portland);
+            context.FRCCompetitions.Add(Portland);
 
             Console.WriteLine("Saving Events");
             context.SaveChanges();
@@ -93,81 +93,92 @@ namespace Scouter.Data.Configuration
             role = new Role();
             role.RoleName = "Coordinator";
             context.Roles.Add(role);
-			context.SaveChanges();
+            context.SaveChanges();
 
             context.CurrentScoutData.First().Event_ID = 1;
 
+            /////////////Fill lookup table/////////////////////////
+            for (int i = 0; i < (int)RobotEventType.MAX; i++)
+            {
+                context.RobotEventTypeLookups.Add(
+                    new RobotEventTypeLookup()
+                    {
+                        Id = i + 1,
+                        RobotEventTypeName = ((RobotEventType)i).ToString(),
+                        RobotEventTypeValue = i
+                    });
+            }
 
             /////////////SEED MATCHES//////////////////////////////
-			if (SeedMatches)
-			{
-				Console.WriteLine("Creating Teams");
-				List<Team> teams = new List<Team>();
-				for (int i = 0; i < 40; i++)
-				{
-					Team team = new Team()
-					{
-						Number = rand.Next(50 * i, 50 * (i + 1)),
-						Height = rand.Next(120, 600) / 10f,
-						Width = rand.Next(120, 240) / 10f,
-						Length = rand.Next(120, 240) / 10f,
-						Drivetrain = (DrivetrainType)rand.Next(5),
-						WheelCount = rand.Next(3, 9),
-                        Ball = Convert.ToBoolean(rand.Next(0,2)),
-						Weight = rand.Next(100, 1200) / 10f
-					};
+            if (SeedMatches)
+            {
+                Console.WriteLine("Creating Teams");
+                List<Team> teams = new List<Team>();
+                for (int i = 0; i < 40; i++)
+                {
+                    Team team = new Team()
+                    {
+                        Number = rand.Next(50 * i, 50 * (i + 1)),
+                        Height = rand.Next(120, 600) / 10f,
+                        Width = rand.Next(120, 240) / 10f,
+                        Length = rand.Next(120, 240) / 10f,
+                        Drivetrain = (DrivetrainType)rand.Next(5),
+                        WheelCount = rand.Next(3, 9),
+                        Ball = Convert.ToBoolean(rand.Next(0, 2)),
+                        Weight = rand.Next(100, 1200) / 10f
+                    };
                     team.Name = team.Number.ToString();
-					context.Teams.Add(team);
-					teams.Add(team);
-				}
-				Console.WriteLine("Saving Teams");
-				context.SaveChanges();
-				int matches = 86;
-				Console.WriteLine("Creating Matches");
-				for (int i = 0; i < matches; i++)
-				{
-					FRCMatch m = new FRCMatch();
-					m.SequenceNumber = i + 1;
+                    context.Teams.Add(team);
+                    teams.Add(team);
+                }
+                Console.WriteLine("Saving Teams");
+                context.SaveChanges();
+                int matches = 86;
+                Console.WriteLine("Creating Matches");
+                for (int i = 0; i < matches; i++)
+                {
+                    FRCMatch m = new FRCMatch();
+                    m.SequenceNumber = i + 1;
 
-					m.FRCEvent = Auburn;
+                    m.FRCEvent = Auburn;
 
-					context.FRCMatches.Add(m);
-				}
-				Console.WriteLine("Saving Matches");
-				context.SaveChanges();
+                    context.FRCMatches.Add(m);
+                }
+                Console.WriteLine("Saving Matches");
+                context.SaveChanges();
 
-				Console.WriteLine("Creating Alliances and seeding robot events");
-				Console.WriteLine("0%");
-				DateTime startTime = DateTime.Now;
-				int iteration = 0;
-				foreach (FRCMatch m in Auburn.Matches)
-				{
-					Alliance red, blue;
-					GenerateUniqueAlliances(m, teams, rand, context.Alliances, out red, out blue);
+                Console.WriteLine("Creating Alliances and seeding robot events");
+                Console.WriteLine("0%");
+                DateTime startTime = DateTime.Now;
+                int iteration = 0;
+                foreach (FRCMatch m in Auburn.Matches)
+                {
+                    Alliance red, blue;
+                    GenerateUniqueAlliances(m, teams, rand, context.Alliances, out red, out blue);
 
-					GenerateScores(m, blue.Team1, rand, context.RobotEvents);
-					GenerateScores(m, blue.Team2, rand, context.RobotEvents);
-					GenerateScores(m, blue.Team3, rand, context.RobotEvents);
-					GenerateScores(m, red.Team1, rand, context.RobotEvents);
-					GenerateScores(m, red.Team2, rand, context.RobotEvents);
-					GenerateScores(m, red.Team3, rand, context.RobotEvents);
-					context.SaveChanges();
+                    GenerateScores(m, blue.Team1, rand, context.RobotEvents);
+                    GenerateScores(m, blue.Team2, rand, context.RobotEvents);
+                    GenerateScores(m, blue.Team3, rand, context.RobotEvents);
+                    GenerateScores(m, red.Team1, rand, context.RobotEvents);
+                    GenerateScores(m, red.Team2, rand, context.RobotEvents);
+                    GenerateScores(m, red.Team3, rand, context.RobotEvents);
+                    context.SaveChanges();
 
 
-					double percent = ((iteration + 1) / (double)matches) * 100;
-					TimeSpan timeTook = DateTime.Now - startTime;
-					double percentLeft = 100 - percent;
-					double timePerPercent = timeTook.TotalMilliseconds / percent;
-					TimeSpan timeLeft = TimeSpan.FromMilliseconds(timePerPercent * percentLeft);
-					Console.CursorTop -= 1;
-					Console.WriteLine("{0}%  approximately {1} seconds remaining                                             ", Math.Round(percent, 1), Math.Round(timeLeft.TotalSeconds, 1));
-					iteration++;
-				}
-			}
-			else
-			{
-				Console.WriteLine("SeedMatches is false so matches, teams, and events will not be seeded");
-			}
+                    double percent = ((iteration + 1) / (double)matches) * 100;
+                    TimeSpan timeTook = DateTime.Now - startTime;
+                    double percentLeft = 100 - percent;
+                    double timePerPercent = timeTook.TotalMilliseconds / percent;
+                    TimeSpan timeLeft = TimeSpan.FromMilliseconds(timePerPercent * percentLeft);
+                    Console.CursorTop -= 1;
+                    Console.WriteLine("{0}%  approximately {1} seconds remaining                                             ", Math.Round(percent, 1), Math.Round(timeLeft.TotalSeconds, 1));
+                    iteration++;
+                }
+            }
+            else
+            {
+                Console.WriteLine("SeedMatches is false so matches, teams, and events will not be seeded");
+            }
         }
 
         protected void GenerateUniqueAlliances(FRCMatch match, List<Team> teams, Random rand, DbSet<Alliance> alliances, out Alliance red, out Alliance blue)

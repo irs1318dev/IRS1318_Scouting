@@ -8,6 +8,7 @@ namespace Scouter.Data
         private DataContext _context = new DataContext();
 
         private IRepository<FRCCompetition> _frcevents = null;
+        private IRepository<RobotEventTypeLookup> _roboteventtypelookups = null;
         private FRCMatchRepository _frcmatches = null;
         private IRepository<Team> _teams = null;
         private IRepository<Alliance> _alliances = null;
@@ -23,6 +24,16 @@ namespace Scouter.Data
                 if (this._frcevents == null)
                     this._frcevents = new GenericRepository<FRCCompetition>(this._context);
                 return this._frcevents;
+            }
+        }
+
+        public IRepository<RobotEventTypeLookup> RobotEventTypeLookups
+        {
+            get
+            {
+                if (this._roboteventtypelookups == null)
+                    this._roboteventtypelookups = new GenericRepository<RobotEventTypeLookup>(this._context);
+                return this._roboteventtypelookups;
             }
         }
 
