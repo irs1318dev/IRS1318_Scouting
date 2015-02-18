@@ -4427,10 +4427,7 @@ a.list-group-item.active > .badge,
   }
 }
 .flexbox {
-    background: url("/images/irs1318.png") bottom no-repeat #000; 
-    width:1349px;
-    height:827px;
-    position:fixed;
+    background: url("/images/irs1318.png") top no-repeat #000; 
 
 }
 .autoback {
