@@ -63,51 +63,30 @@ namespace Scouter.Web.Controllers.api
                     team = scoutData.Blue3;
                     match = scoutData.Blue3Match;
                     break;
+                default:
+                    throw new ArgumentException("Scout ID must be between 1 and 6");
             }
+
+            if (scoutStatus == ScoutStatus.NoScout)
+                throw new Exception("No scout with ID: " + id);
 
             //TODO: Add queries to get information here
 
-            return new ScoutCounter()
+            ScoutCounter count = new ScoutCounter();
+
+            var query = from e in _unit.RobotEvents.GetAll()
+                        where e.Match.Id == match.Id &&
+                        e.Team.Id == team.Id
+                        select e;
+
+            RobotEvent[] events = query.ToArray();
+
+            foreach(RobotEvent e in events)
             {
-                TotesStacked = 0,
-                RightToteMoved = 0,
-                CenterToteMoved = 0,
-                LeftToteMoved = 0,
-                YellowTotesMovedToStep = 0,
+                
+            }
 
-                ContainersFromStep = 0,
-                RightContainerMoved = 0,
-                CenterContainerMoved = 0,
-                LeftContainerMoved = 0,
-
-                AutonomousMoved = false,
-                NoAutonomous = false,
-                AutoAttemptClutter = false,
-                AutoFoul = 0,
-
-                ChutePickUp = 0,
-                GroundPickUp = 0,
-                DriveOverPlatform = 0,
-                HumanPlayerShoots = 0,
-
-                OrientContainer = 0,
-                OrientTote = 0,
-                ClearContainer = 0,
-                ClearTote = 0,
-                ClearLitter = 0,
-
-                //eek will change
-                //TotesPlacedOnExistingCoopertition = 0,
-                //TotesPlacedOnExistingStack = 0,
-                //ContainerPlacedAtHeight = 0,
-
-                LitterPlacedAtHeight = 0,
-                BulldozeLitterToLandfill = 0,
-                TeleopFoul = 0
-
-
-
-            };
+            return count;
         }
 
         /// <summary>
