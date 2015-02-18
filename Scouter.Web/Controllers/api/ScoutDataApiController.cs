@@ -83,7 +83,7 @@ namespace Scouter.Web.Controllers.api
 
             foreach(RobotEvent e in events)
             {
-                
+
             }
 
             return count;

@@ -30,7 +30,9 @@ namespace Scouter.Data.Configuration
                         return true;
                     case "prestonlaptop":
                         return true;
-					default:
+                    case "tali":
+                        return true;
+                    default:
 						return false;
 				}
 			}

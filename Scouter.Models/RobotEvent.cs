@@ -17,7 +17,11 @@ namespace Scouter.Models
         LeftToteMoved,
         YellowTotesMovedToStep,
 
-        ContainersFromStep,
+        RightContainerFromStep,
+        CenterRightContainerFromStep,
+        CenterLeftContainerFromStep,
+        LeftContainerFromStep,
+
         RightContainerMoved,
         CenterContainerMoved,
         LeftContainerMoved,
@@ -27,10 +31,12 @@ namespace Scouter.Models
         AutoResultClutter,
         AutoFoul,
 
-        ChutePickUp,
+        RightChutePickUp,
+        LeftChutePickUp,
         GroundPickUp,
         DriveOverPlatform,
         HumanPlayerShoots,
+        HumanPlayerFails,
 
         OrientContainer,
         OrientTote,

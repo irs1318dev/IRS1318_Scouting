@@ -24,10 +24,12 @@ namespace Scouter.Web.Models.Scouting
         public Boolean AutoAttemptClutter { get; set; }
         public int AutoFoul { get; set; } // different foul-counters between A and T
 
-        public int ChutePickUp { get; set; }
+        public int RightChutePickUp { get; set; }
+        public int LeftChutePickUp { get; set; }
         public int GroundPickUp { get; set; }
         public int DriveOverPlatform { get; set; }
         public int HumanPlayerShoots { get; set; }
+        public int HumanPlayerFails { get; set; }
 
         //assist on step
         public int OrientContainer { get; set; }
