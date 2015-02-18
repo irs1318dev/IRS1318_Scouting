@@ -53,30 +53,50 @@ namespace Scouter.Data.Configuration
                 City = "Auburn",
                 State = "WA",
                 Type = "District",
-                BeginDate = new DateTime(2014, 2, 28, 11, 0, 0),
-                FinishDate = new DateTime(2014, 3, 1, 17, 0, 0)
+                BeginDate = new DateTime(2015, 2, 27, 11, 0, 0),
+                FinishDate = new DateTime(2015, 2, 28, 17, 0, 0)
             };
             context.FRCCompetitions.Add(Auburn);
 
-            FRCCompetition GlacierPeak = new FRCCompetition();
-            GlacierPeak.Name = "PNW FIRST Robotics Glacier Peak District Event";
-            GlacierPeak.Venue = "Glacier Peak High School";
-            GlacierPeak.City = "Snohomish";
-            GlacierPeak.State = "WA";
-            GlacierPeak.Type = "District";
-            GlacierPeak.BeginDate = new DateTime(2014, 3, 6, 8, 0, 0);
-            GlacierPeak.FinishDate = new DateTime(2014, 3, 8, 5, 0, 0);
-            context.FRCCompetitions.Add(GlacierPeak);
+            FRCCompetition MtVernon = new FRCCompetition();
+            MtVernon.Name = "PNW FIRST Robotics Mt. Vernon District Event";
+            MtVernon.Venue = "Mount Vernon High School";
+            MtVernon.City = "Mount Vernon";
+            MtVernon.State = "WA";
+            MtVernon.Type = "District";
+            MtVernon.BeginDate = new DateTime(2014, 3, 14, 8, 0, 0);
+            MtVernon.FinishDate = new DateTime(2014, 3, 15, 5, 0, 0);
+            context.FRCCompetitions.Add(MtVernon);
 
-            FRCCompetition Portland = new FRCCompetition();
-            Portland.Name = "Autodesk PNW FRC Championship";
-            Portland.Venue = "Memorial Coliseum";
-            Portland.City = "Portland";
-            Portland.State = "OR";
-            Portland.Type = "District Championship";
-            Portland.BeginDate = new DateTime(2014, 4, 10, 8, 0, 0);
-            Portland.FinishDate = new DateTime(2014, 4, 12, 5, 0, 0);
-            context.FRCCompetitions.Add(Portland);
+            FRCCompetition Shorewood = new FRCCompetition();
+            Shorewood.Name = "PNW FIRST Robotics Shorewood District Event";
+            Shorewood.Venue = "Shorewood High School";
+            Shorewood.City = "Shoreline";
+            Shorewood.State = "WA";
+            Shorewood.Type = "District";
+            Shorewood.BeginDate = new DateTime(2014, 3, 21, 8, 0, 0);
+            Shorewood.FinishDate = new DateTime(2014, 3, 22, 5, 0, 0);
+            context.FRCCompetitions.Add(Shorewood);
+
+            FRCCompetition Cheny = new FRCCompetition();
+            Cheny.Name = "Autodesk PNW FRC Championship";
+            Cheny.Venue = "Eastern Washington University";
+            Cheny.City = "Cheney";
+            Cheny.State = "WA";
+            Cheny.Type = "District Championship";
+            Cheny.BeginDate = new DateTime(2014, 4, 1, 8, 0, 0);
+            Cheny.FinishDate = new DateTime(2014, 4, 4, 5, 0, 0);
+            context.FRCCompetitions.Add(Cheny);
+
+            FRCCompetition StLouis = new FRCCompetition();
+            StLouis.Name = "FRC Championship";
+            StLouis.Venue = "Edward Jones Dome";
+            StLouis.City = "St. Louis";
+            StLouis.State = "MO";
+            StLouis.Type = "Championship";
+            StLouis.BeginDate = new DateTime(2014, 4, 22, 8, 0, 0);
+            StLouis.FinishDate = new DateTime(2014, 4, 25, 5, 0, 0);
+            context.FRCCompetitions.Add(StLouis);
 
             Console.WriteLine("Saving Events");
             context.SaveChanges();
@@ -124,7 +144,6 @@ namespace Scouter.Data.Configuration
                         Length = rand.Next(120, 240) / 10f,
                         Drivetrain = (DrivetrainType)rand.Next(5),
                         WheelCount = rand.Next(3, 9),
-                        Ball = Convert.ToBoolean(rand.Next(0, 2)),
                         Weight = rand.Next(100, 1200) / 10f
                     };
                     team.Name = team.Number.ToString();

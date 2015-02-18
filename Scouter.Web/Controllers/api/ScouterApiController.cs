@@ -73,5 +73,116 @@ namespace Scouter.Web.Controllers.api
             };
         }
 
+        /// <summary>
+        /// Saves a stack event to the database
+        /// </summary>
+        /// <param name="stackEvent">the stack event</param>
+        [HttpPost]
+        public HttpResponseMessage SaveStackEvent(StackEventDataTransfer stackEvent)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var scoutData = _unit.CurrentScoutData.GetById(1);
+                    Team team = null;
+                    switch (stackEvent.Scouter_Id)
+                    {
+                        case 1:
+                            team = scoutData.Red1;
+                            break;
+                        case 2:
+                            team = scoutData.Red2;
+                            break;
+                        case 3:
+                            team = scoutData.Red3;
+                            break;
+                        case 4:
+                            team = scoutData.Blue1;
+                            break;
+                        case 5:
+                            team = scoutData.Blue2;
+                            break;
+                        case 6:
+                            team = scoutData.Blue3;
+                            break;
+                    }
+                    StackEvent se = new StackEvent()
+                    {
+                        IsContainerAdded = stackEvent.IsContainerAdded,
+                        NumTotesAdded = stackEvent.NumTotesAdded,
+                        StartingHeight = stackEvent.NumTotesAdded,
+                        Match = _unit.FRCMatches.GetById(scoutData.Match_ID),
+                        Team = team
+                    };
+
+                    this._unit.StackEvents.Add(se);
+                    this._unit.SaveChanges();
+
+                    HttpResponseMessage result = Request.CreateResponse(HttpStatusCode.NoContent);
+
+                    return result;
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
+        /// <summary>
+        /// Deletes the last Stack event from the scouter
+        /// </summary>
+        /// <param name="id">The ID of the scouter</param>
+        [HttpDelete]
+        public HttpResponseMessage Undo(int id)
+        {
+            var scoutData = _unit.CurrentScoutData.GetById(1);
+            int teamId = 0;
+            FRCMatch match = null;
+            switch (id)
+            {
+                case 1:
+                    teamId = scoutData.Red1.Id;
+                    match = scoutData.Red1Match;
+                    break;
+                case 2:
+                    teamId = scoutData.Red2.Id;
+                    match = scoutData.Red2Match;
+                    break;
+                case 3:
+                    teamId = scoutData.Red3.Id;
+                    match = scoutData.Red3Match;
+                    break;
+                case 4:
+                    teamId = scoutData.Blue1.Id;
+                    match = scoutData.Blue1Match;
+                    break;
+                case 5:
+                    teamId = scoutData.Blue2.Id;
+                    match = scoutData.Blue2Match;
+                    break;
+                case 6:
+                    teamId = scoutData.Blue3.Id;
+                    match = scoutData.Blue3Match;
+                    break;
+            }
+            var query = from r in _unit.StackEvents.GetAll()
+                        where r.Team.Id == teamId && r.Match.Id == match.Id
+                        select r;
+
+            if (query.Count() < 1)
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, new Exception("Could not find a stack event from scout " + id + " in match " + match.SequenceNumber));
+
+            var list = query.ToList();
+            _unit.RobotEvents.Delete(list.Last().Id);
+            _unit.SaveChanges();
+            return Request.CreateResponse(HttpStatusCode.NoContent);
+        }
+
     }
 }

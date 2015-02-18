@@ -41,7 +41,6 @@ namespace Scouter.Models
         /// </summary>
         public float Weight { get; set; }
 
-        public Boolean Ball { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
         // has Matches and MatchResults

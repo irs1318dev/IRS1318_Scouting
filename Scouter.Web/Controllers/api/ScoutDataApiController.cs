@@ -248,7 +248,6 @@ namespace Scouter.Web.Controllers.api
         /// Saves a robot event to the database
         /// </summary>
         /// <param name="robotEvent">the robot event</param>
-        /// <returns></returns>
         [HttpPost]
 		public HttpResponseMessage SaveRobotEvent(RobotEventDataTransfer robotEvent)
 		{

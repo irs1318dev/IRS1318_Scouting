@@ -60,7 +60,6 @@ namespace Scouter.Models
         public virtual FRCMatch Match { get; set; }
         public RobotMode RobotMode { get; set; }
         public RobotEventType RobotEventType { get; set; }
-        public bool GoalWasHot { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
     }
