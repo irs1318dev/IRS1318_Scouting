@@ -201,16 +201,23 @@
             	}
             	self.SendButton = function()
             	{
-                    var e = new StackEvent();
-            	    e.scouter_Id = self.model.ScoutID;
-            	    e.startingHeight = self.InitialStackHeightCount;
-            	    e.NumTotesAdded = self.TotesAddedToStackCount;
-            	    e.IsContainerAdded = self.ContainerAddedtoStackCount;
-            	    scouterDataService.saveStack(ko.toJS(e));
+            	    if(self.SendToDBEnabled())
+                    {
+                        var e = new StackEvent();
+            	        e.scouter_Id = self.model.ScoutID;
+            	        e.startingHeight = self.InitialStackHeightCount;
+            	        e.NumTotesAdded = self.TotesAddedToStackCount;
+            	        e.IsContainerAdded = self.ContainerAddedtoStackCount;
+            	        scouterDataService.saveStack(ko.toJS(e));
 
-            	    this.InitialStackHeightCount = 0;
-            	    this.TotesAddedToStackCount = 0;
-            	    this.ContainerAddedtoStackCount = false;
+            	        this.InitialStackHeightCount = 0;
+            	        this.TotesAddedToStackCount = 0;
+            	        this.ContainerAddedtoStackCount = false;
+            	    }
+            	    else
+            	    {
+                        //do nothing
+            	    }
             	}
             	self.UndoStackButton = function()
             	{
@@ -223,7 +230,7 @@
                 }
 
 
-                //NEEDS TO BE FIXED AND ALSO ADDED TO AUTONOMOUS
+                @*//NEEDS TO BE FIXED AND ALSO ADDED TO AUTONOMOUS
             	self.oops = function()
             	{
             		this.clear();
@@ -234,7 +241,7 @@
                 }).fail(function (data)
                 {
                     var what = 3;
-                });
+                });*@
             }
             self.updateCounter = function()
             {
@@ -410,21 +417,21 @@
     Stacks
 </div>
 <div class="row" style="text-align:center">
-    <div onclick="vm.InitialStackHeight" data-bind="style: { backgroundColor: InitialStackHeightClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+    <div onclick="vm.InitialStackHeight()" data-bind="style: { backgroundColor: InitialStackHeightClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Initial Stack Height</span>
         <br />
         <span data-bind="text: InitialStackHeightCount()"></span>
         <br />
     </div>
-    <div onclick="vm.TotesAddedToStack" data-bind="    style: { backgroundColor: TotesAddedToStackClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+    <div onclick="vm.TotesAddedToStack()" data-bind="    style: { backgroundColor: TotesAddedToStackClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span># Totes Added this time</span>
         <br />
         <span data-bind="text: TotesAddedToStackCount()"></span>
         <br />
     </div>
-    <div onclick="vm.ContainerAddedtoStack" data-bind="style: { backgroundColor: ContainerAddedtoStackClicked() ? clickColor : colorAlt }" 
+    <div onclick="vm.ContainerAddedtoStack()" data-bind="style: { backgroundColor: ContainerAddedtoStackClicked() ? clickColor : colorAlt }"
          style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Container Added on Top??</span>
@@ -432,19 +439,19 @@
         <span data-bind="text: (ContainerAddedtoStackCount() ? 'Yes' : 'No')"></span>
         <br />
     </div>
-    <div onclick="vm.SendButton" data-bind="style:{backgroundColor: SendButtonClicked() ? clickColor : colorAlt} ,enable:SendToDBEnabled" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+    <div onclick="vm.SendButton()" data-bind="style:{backgroundColor: SendButtonClicked() ? clickColor : colorAlt} ,enable:SendToDBEnabled" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Send</span>
         <br />
         <br />
     </div>
-    <div onclick="vm.UndoStackButton" data-bind="style: { backgroundColor: UndoStackButtonClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+    <div onclick="vm.UndoStackButton()" data-bind="style: { backgroundColor: UndoStackButtonClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Undo</span>
         <br />
         <br />
     </div>
-</div>
+    </div>
 
 <div class="row" style="color:white">
     Litter and Human Player
@@ -533,7 +540,7 @@
 
 </div>
 
-<div class="row">
+@*<div class="row">
     <div data-bind="click: oops, style: {backgroundColor: oopsClicked() ? clickColor : colorAlt}" class="col-xs-2">
         <br />
         <br />
@@ -542,7 +549,7 @@
         <br />
         <br />
     </div>
-</div>
+</div>*@
 <div class="row">
     <div data-bind="click: nav, style: {backgroundColor: colorAlt}" class="col-xs-2">
         <br />
