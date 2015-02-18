@@ -79,6 +79,7 @@
     <Compile Include="Configuration\MembershipConfiguration.cs" />
     <Compile Include="Configuration\OAuthMembershipConfiguration.cs" />
     <Compile Include="Configuration\RobotEventConfiguration.cs" />
+    <Compile Include="Configuration\RobotEventTypeLookupConfiguration.cs" />
     <Compile Include="Configuration\RoleConfiguration.cs" />
     <Compile Include="Configuration\TeamConfiguration.cs" />
     <Compile Include="Configuration\UserConfiguration.cs" />

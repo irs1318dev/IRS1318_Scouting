@@ -30,6 +30,7 @@ namespace Scouter.Web.Controllers.api
             ScoutStatus scoutStatus = ScoutStatus.NoScout;
             Team team = null;
             FRCMatch match = null;
+            RobotMode robotMode = RobotMode.Teleop;
 
             switch (id)
             {
@@ -63,57 +64,123 @@ namespace Scouter.Web.Controllers.api
                     team = scoutData.Blue3;
                     match = scoutData.Blue3Match;
                     break;
+                default:
+                    throw new ArgumentException("Scout ID must be between 1 and 6");
             }
 
-            //TODO: Add queries to get information here
+            if (scoutStatus == ScoutStatus.NoScout)
+                throw new Exception("No scout with ID: " + id);
 
-            return new ScoutCounter()
+            if(scoutStatus == ScoutStatus.Autonomous)
+                robotMode = RobotMode.Autonomous;
+
+                
+
+            ScoutCounter count = new ScoutCounter();
+
+            var query = from e in _unit.RobotEvents.GetAll()
+                        where e.Match.Id == match.Id &&
+                        e.Team.Id == team.Id &&
+                        e.RobotMode == robotMode
+                        select e;
+
+            RobotEvent[] events = query.ToArray();
+
+            foreach(RobotEvent e in events)
             {
-                TotesStacked = 0,
-                RightToteMoved = 0,
-                CenterToteMoved = 0,
-                LeftToteMoved = 0,
-                YellowTotesMovedToStep = 0,
+                switch (e.RobotEventType)
+                {
+                    case RobotEventType.TotesStacked:
+                        ++count.TotesStacked;
+                        break;
+                    case RobotEventType.RightToteMoved:
+                        ++count.RightToteMoved;
+                        break;
+                    case RobotEventType.CenterToteMoved:
+                        ++count.CenterToteMoved;
+                        break;
+                    case RobotEventType.LeftToteMoved:
+                        ++count.LeftToteMoved;
+                        break;
+                    case RobotEventType.YellowTotesMovedToStep:
+                        ++count.YellowTotesMovedToStep;
+                        break;
+                    case RobotEventType.RightContainerFromStep:
+                        ++count.RightContainerFromStep;
+                        break;
+                    case RobotEventType.CenterRightContainerFromStep:
+                        ++count.CenterRightContainerFromStep;
+                        break;
+                    case RobotEventType.CenterLeftContainerFromStep:
+                        ++count.CenterLeftContainerFromStep;
+                        break;
+                    case RobotEventType.LeftContainerFromStep:
+                        ++count.LeftContainerFromStep;
+                        break;
+                    case RobotEventType.RightContainerMoved:
+                        ++count.RightContainerMoved;
+                        break;
+                    case RobotEventType.CenterContainerMoved:
+                        ++count.CenterContainerMoved;
+                        break;
+                    case RobotEventType.LeftContainerMoved:
+                        ++count.LeftContainerMoved;
+                        break;
+                    case RobotEventType.AutonomousMoved:
+                        count.AutonomousMoved = true;
+                        break;
+                    case RobotEventType.NoAutonomous:
+                        count.NoAutonomous = true;
+                        break;
+                    case RobotEventType.AutoResultClutter:
+                        count.AutoResultClutter = true;
+                        break;
+                    case RobotEventType.Foul:
+                        ++count.Foul;
+                        break;
+                    case RobotEventType.RightChutePickUp:
+                        ++count.RightChutePickUp;
+                        break;
+                    case RobotEventType.LeftChutePickUp:
+                        ++count.LeftChutePickUp;
+                        break;
+                    case RobotEventType.GroundPickUp:
+                        ++count.GroundPickUp;
+                        break;
+                    case RobotEventType.DriveOverPlatform:
+                        ++count.DriveOverPlatform;
+                        break;
+                    case RobotEventType.HumanPlayerShoots:
+                        ++count.HumanPlayerShoots;
+                        break;
+                    case RobotEventType.HumanPlayerFails:
+                        ++count.HumanPlayerFails;
+                        break;
+                    case RobotEventType.OrientContainer:
+                        ++count.OrientContainer;
+                        break;
+                    case RobotEventType.OrientTote:
+                        ++count.OrientTote;
+                        break;
+                    case RobotEventType.ClearContainer:
+                        ++count.ClearContainer;
+                        break;
+                    case RobotEventType.ClearTote:
+                        ++count.ClearTote;
+                        break;
+                    case RobotEventType.ClearLitter:
+                        ++count.ClearLitter;
+                        break;
+                    case RobotEventType.LitterPlacedAtHeight:
+                        ++count.LitterPlacedAtHeight;
+                        break;
+                    case RobotEventType.BulldozeLitterToLandfill:
+                        ++count.BulldozeLitterToLandfill;
+                        break;
+                }
+            }
 
-                RightContainerFromStep = false,
-                RightCenterContainerFromStep = false,
-                LeftCenterContainerFromStep = false,
-                LeftContainerFromStep = false,
-
-                RightContainerMoved = 0,
-                CenterContainerMoved = 0,
-                LeftContainerMoved = 0,
-
-                AutonomousMoved = false,
-                NoAutonomous = false,
-                AutoAttemptClutter = false,
-                AutoFoul = 0,
-
-                RightChutePickUp = 0,
-                LeftChutePickUp = 0,
-                GroundPickUp = 0,
-                DriveOverPlatform = 0,
-                HumanPlayerShoots = 0,
-                HumanPlayerFails = 0,
-
-                OrientContainer = 0,
-                OrientTote = 0,
-                ClearContainer = 0,
-                ClearTote = 0,
-                ClearLitter = 0,
-
-                //eek will change
-                //TotesPlacedOnExistingCoopertition = 0,
-                //TotesPlacedOnExistingStack = 0,
-                //ContainerPlacedAtHeight = 0,
-
-                LitterPlacedAtHeight = 0,
-                BulldozeLitterToLandfill = 0,
-                TeleopFoul = 0
-
-
-
-            };
+            return count;
         }
 
         /// <summary>

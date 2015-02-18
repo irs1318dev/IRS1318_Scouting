@@ -11,8 +11,9 @@ namespace Scouter.Data
 {
     public class DataContext : DbContext
     {
-        public DbSet<FRCCompetition> FRCEvents { get; set; }
+        public DbSet<FRCCompetition> FRCCompetitions { get; set; }
         public DbSet<FRCMatch> FRCMatches { get; set; }
+        public DbSet<RobotEventTypeLookup> RobotEventTypeLookups { get; set; }
         public DbSet<Alliance> Alliances { get; set; }
         public DbSet<Team> Teams { get; set; }
         //public DbSet<zzParticipant> Participants { get; set; }
@@ -44,7 +45,7 @@ namespace Scouter.Data
         {
             // Data
             modelBuilder.Configurations.Add(new FRCEventConfiguration());
-            modelBuilder.Configurations.Add(new FRCMatchConfiguration());
+            modelBuilder.Configurations.Add(new RobotEventTypeLookupConfiguration());
 			modelBuilder.Configurations.Add(new CurrentScouterDataConfiguration());
             modelBuilder.Configurations.Add(new TeamConfiguration());
             modelBuilder.Configurations.Add(new RobotEventConfiguration());

@@ -25,8 +25,8 @@ namespace Scouter.Web.Models.Scouting
 
         public Boolean AutonomousMoved { get; set; }
         public Boolean NoAutonomous { get; set; }
-        public Boolean AutoAttemptClutter { get; set; }
-        public int AutoFoul { get; set; } // different foul-counters between A and T
+        public Boolean AutoResultClutter { get; set; }
+        public int Foul { get; set; } // different foul-counters between A and T
 
         public int RightChutePickUp { get; set; }
         public int LeftChutePickUp { get; set; }
@@ -44,12 +44,10 @@ namespace Scouter.Web.Models.Scouting
 
         public int LitterPlacedAtHeight { get; set; }
         public int BulldozeLitterToLandfill { get; set; }
-        public int TeleopFoul { get; set; }
 
         public IObservable<StackData> StacksList {get; set;}
         public IObservable<int> ContainerPlacedList { get; set; }
         
-       
 	}
 
     public class StackData
