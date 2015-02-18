@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Scouter.Models
 {
-    class StackEvent : IAuditInfo
+    public class StackEvent : IAuditInfo
     {
         public int Id { get; set; }
         public virtual Team Team { get; set; }
