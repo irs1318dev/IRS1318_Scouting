@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace Scouter.Data.Configuration
 {
-    public class FRCEventConfiguration : EntityTypeConfiguration<FRCEvent>
+    public class FRCEventConfiguration : EntityTypeConfiguration<FRCCompetition>
     {
         public FRCEventConfiguration()
         {

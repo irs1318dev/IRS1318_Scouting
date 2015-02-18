@@ -13,6 +13,7 @@ namespace Scouter.ConsoleApp
 			Console.CursorVisible = false;
             Console.WriteLine("Initializing Database...");
             DataContext context = new DataContext();
+            
             context.Database.Initialize(true);
 
             Console.ForegroundColor = ConsoleColor.DarkGreen;

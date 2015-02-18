@@ -9,7 +9,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
-using System.Web.Mvc;
 
 namespace Scouter.Web.Controllers.api
 {
@@ -17,92 +16,168 @@ namespace Scouter.Web.Controllers.api
     {
 		private ApplicationUnit _unit = new ApplicationUnit();
 
-		public ScoutDataTransfer Get()
-		{
-			var data = _unit.CurrentScoutData.GetById(1);
-			return new ScoutDataTransfer()
-			{
-				Blue1 = data.Blue1,
-				Blue1Status = data.Blue1Status,
-				Blue2 = data.Blue2,
-				Blue2Status = data.Blue2Status,
-				Blue3 = data.Blue3,
-				Blue3Status = data.Blue3Status,
-				Red1 = data.Red1,
-				Red1Status = data.Red1Status,
-				Red2 = data.Red2,
-				Red2Status = data.Red2Status,
-				Red3 = data.Red3,
-				Red3Status = data.Red3Status,
-				Blue1Match = new Models.FRCEvent.FRCMatchDataTransfer()
-				{
-					Id = data.Blue1Match.Id,
-					SequenceNumber = data.Blue1Match.SequenceNumber
-				},
-				Blue2Match = new Models.FRCEvent.FRCMatchDataTransfer()
-				{
-					Id = data.Blue2Match.Id,
-					SequenceNumber = data.Blue2Match.SequenceNumber
-				},
-				Blue3Match = new Models.FRCEvent.FRCMatchDataTransfer()
-				{
-					Id = data.Blue3Match.Id,
-					SequenceNumber = data.Blue3Match.SequenceNumber
-				},
-				Red1Match = new Models.FRCEvent.FRCMatchDataTransfer()
-				{
-					Id = data.Red1Match.Id,
-					SequenceNumber = data.Red1Match.SequenceNumber
-				},
-				Red2Match = new Models.FRCEvent.FRCMatchDataTransfer()
-				{
-					Id = data.Red2Match.Id,
-					SequenceNumber = data.Red2Match.SequenceNumber
-				},
-				Red3Match = new Models.FRCEvent.FRCMatchDataTransfer()
-				{
-					Id = data.Red3Match.Id,
-					SequenceNumber = data.Red3Match.SequenceNumber
-				},
-				Match_ID = data.Match_ID,
-				MatchNumber = _unit.FRCMatches.GetById(data.Match_ID).SequenceNumber
-			};
-		}
+        //GetScoutData is in ScouterApiController
 
-		public HttpResponseMessage Put(int id, CurrentScoutData data)
-		{
-			if (!ModelState.IsValid)
-				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+        /// <summary>
+        /// Gets the current event count for the given scouter
+        /// </summary>
+        /// <param name="id">the scouter</param>
+        /// <returns>the count for every event</returns>
+        [HttpGet]
+        public ScoutCounter CurrentEventCount(int id)
+        {
+            var scoutData = _unit.CurrentScoutData.GetById(1);
+            ScoutStatus scoutStatus = ScoutStatus.NoScout;
+            Team team = null;
+            FRCMatch match = null;
 
-			if (id != data.Id)
-				return Request.CreateResponse(HttpStatusCode.BadRequest);
+            switch (id)
+            {
+                case 1:
+                    scoutStatus = scoutData.Red1Status;
+                    team = scoutData.Red1;
+                    match = scoutData.Red1Match;
+                    break;
+                case 2:
+                    scoutStatus = scoutData.Red2Status;
+                    team = scoutData.Red2;
+                    match = scoutData.Red2Match;
+                    break;
+                case 3:
+                    scoutStatus = scoutData.Red3Status;
+                    team = scoutData.Red3;
+                    match = scoutData.Red3Match;
+                    break;
+                case 4:
+                    scoutStatus = scoutData.Blue1Status;
+                    team = scoutData.Blue1;
+                    match = scoutData.Blue1Match;
+                    break;
+                case 5:
+                    scoutStatus = scoutData.Blue2Status;
+                    team = scoutData.Blue2;
+                    match = scoutData.Blue2Match;
+                    break;
+                case 6:
+                    scoutStatus = scoutData.Blue3Status;
+                    team = scoutData.Blue3;
+                    match = scoutData.Blue3Match;
+                    break;
+            }
 
-			FRCEvent existingFRCEvent = this._unit.FRCEvents.GetById(id);
-			_unit.FRCEvents.Detach(existingFRCEvent);
+            //TODO: Add queries to get information here
 
-			// Keep the orginal CreatedOn value
-			data.CreatedOn = existingFRCEvent.CreatedOn;
+            return new ScoutCounter()
+            {
+                TotesStacked = 0,
+                RightToteMoved = 0,
+                CenterToteMoved = 0,
+                LeftToteMoved = 0,
+                YellowTotesMovedToStep = 0,
 
-			this._unit.CurrentScoutData.Add(data);
+                ContainersFromStep = 0,
+                RightContainerMoved = 0,
+                CenterContainerMoved = 0,
+                LeftContainerMoved = 0,
 
-			try
-			{
-				this._unit.SaveChanges();
+                AutonomousMoved = false,
+                NoAutonomous = false,
+                AutoAttemptClutter = false,
+                AutoFoul = 0,
 
-				// Return an explicit value to avoid the fail callback being incorrectly invoked.
-				return Request.CreateResponse(HttpStatusCode.OK, "{success: 'true', verb: 'PUT'}");
-			}
-			catch (DbUpdateConcurrencyException ex)
-			{
-				return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
-			}
-			catch (Exception ex)
-			{
-				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
-			}
-		}
+                ChutePickUp = 0,
+                GroundPickUp = 0,
+                DriveOverPlatform = 0,
+                HumanPlayerShoots = 0,
 
-		public HttpResponseMessage Post(RobotEventDataTransfer robotEvent)
+                OrientContainer = 0,
+                OrientTote = 0,
+                ClearContainer = 0,
+                ClearTote = 0,
+                ClearLitter = 0,
+
+                //eek will change
+                //TotesPlacedOnExistingCoopertition = 0,
+                //TotesPlacedOnExistingStack = 0,
+                //ContainerPlacedAtHeight = 0,
+
+                LitterPlacedAtHeight = 0,
+                BulldozeLitterToLandfill = 0,
+                TeleopFoul = 0
+
+
+
+            };
+        }
+
+        /// <summary>
+        /// Updates the status, match #, and team # of a scouter
+        /// </summary>
+        /// <param name="info">the info of the scouter</param>
+        [HttpPatch]
+        public HttpResponseMessage UpdateScoutData(ScoutUpdateInfo info)
+        {
+            if (info.Scouter > 6 || info.Scouter < 1)
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new IndexOutOfRangeException("scouter must be between 1 and 6"));
+
+            var scoutInfo = _unit.CurrentScoutData.GetById(1);
+            var match = _unit.FRCMatches.GetById(info.Match_Id);
+            if (match == null)
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, new Exception("No match with ID " + info.Match_Id + "was found"));
+
+            switch (info.Scouter)
+            {
+                case 1:
+                    scoutInfo.Red1Match = match;
+                    scoutInfo.Red1Status = info.ScouterStatus;
+                    scoutInfo.Red1 = _unit.Teams.GetById(info.Team_Id);
+                    break;
+                case 2:
+                    scoutInfo.Red2Match = match;
+                    scoutInfo.Red2Status = info.ScouterStatus;
+                    scoutInfo.Red2 = _unit.Teams.GetById(info.Team_Id);
+                    break;
+                case 3:
+                    scoutInfo.Red3Match = match;
+                    scoutInfo.Red3Status = info.ScouterStatus;
+                    scoutInfo.Red3 = _unit.Teams.GetById(info.Team_Id);
+                    break;
+                case 4:
+                    scoutInfo.Blue1Match = match;
+                    scoutInfo.Blue1Status = info.ScouterStatus;
+                    scoutInfo.Blue1 = _unit.Teams.GetById(info.Team_Id);
+                    break;
+                case 5:
+                    scoutInfo.Blue2Match = match;
+                    scoutInfo.Blue2Status = info.ScouterStatus;
+                    scoutInfo.Blue2 = _unit.Teams.GetById(info.Team_Id);
+                    break;
+                case 6:
+                    scoutInfo.Blue3Match = match;
+                    scoutInfo.Blue3Status = info.ScouterStatus;
+                    scoutInfo.Blue3 = _unit.Teams.GetById(info.Team_Id);
+                    break;
+            }
+
+            try
+            {
+                _unit.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.NoContent);
+        }
+
+        /// <summary>
+        /// Saves a robot event to the database
+        /// </summary>
+        /// <param name="robotEvent">the robot event</param>
+        /// <returns></returns>
+        [HttpPost]
+		public HttpResponseMessage SaveRobotEvent(RobotEventDataTransfer robotEvent)
 		{
             try
             {
@@ -157,7 +232,12 @@ namespace Scouter.Web.Controllers.api
             }
 		}
 
-		public HttpResponseMessage Delete(int id)
+        /// <summary>
+        /// Deletes the last Robot event from the scouter
+        /// </summary>
+        /// <param name="id">The ID of the scouter</param>
+        [HttpDelete]
+        public HttpResponseMessage Undo(int id)
 		{
 			var scoutData = _unit.CurrentScoutData.GetById(1);
 			int teamId = 0;

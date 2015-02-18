@@ -152,27 +152,33 @@
 						vm.model.matchNumber(info.MatchNumber)
 
 						vm.model.red1MatchNumber(info.Red1Match.SequenceNumber);
-						vm.model.red1Name(info.Red1.Number);
+						if (info.Red1 != null)
+						    vm.model.red1Name(info.Red1.Number);
 						vm.model.red1Status(vm.getStatus(info.Red1Status));
 
 						vm.model.red2MatchNumber(info.Red2Match.SequenceNumber);
-						vm.model.red2Name(info.Red2.Number);
+                        if(info.Red2 != null)
+						    vm.model.red2Name(info.Red2.Number);
 						vm.model.red2Status(vm.getStatus(info.Red2Status));
 
 						vm.model.red3MatchNumber(info.Red3Match.SequenceNumber);
-						vm.model.red3Name(info.Red3.Number);
+						if (info.Red3 != null)
+						    vm.model.red3Name(info.Red3.Number);
 						vm.model.red3Status(vm.getStatus(info.Red3Status));
 
 						vm.model.blue1MatchNumber(info.Blue1Match.SequenceNumber);
-						vm.model.blue1Name(info.Blue1.Number);
+						if (info.Blue1 != null)
+						    vm.model.blue1Name(info.Blue1.Number);
 						vm.model.blue1Status(vm.getStatus(info.Blue1Status));
 
 						vm.model.blue2MatchNumber(info.Blue2Match.SequenceNumber);
-						vm.model.blue2Name(info.Blue2.Number);
+						if (info.Blue2 != null)
+						    vm.model.blue2Name(info.Blue2.Number);
 						vm.model.blue2Status(vm.getStatus(info.Blue2Status));
 
 						vm.model.blue3MatchNumber(info.Blue3Match.SequenceNumber);
-						vm.model.blue3Name(info.Blue3.Number);
+						if (info.Blue3 != null)
+						    vm.model.blue3Name(info.Blue3.Number);
 						vm.model.blue3Status(vm.getStatus(info.Blue3Status));
 					})
 				}
