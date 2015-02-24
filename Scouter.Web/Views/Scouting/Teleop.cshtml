@@ -173,11 +173,11 @@
                     scouterDataService.save(ko.toJS(e));
                 }
 
-                @*self.InitialStackHeight = function()
+                self.InitialStackHeight = function()
             	{
             	    self.clear();
             	    self.InitialStackHeightClicked(true);
-            	    if(self.InitialStackHeightCount >= 5)
+            	    if(self.InitialStackHeightCount() >= 5)
             	    {
             	        self.InitialStackHeightCount(0);
             	    }
@@ -188,7 +188,7 @@
             	{
             	    self.clear();
             	    self.TotesAddedToStackClicked(true);
-            	    if(self.TotesAddedToStackCount >= 6)
+            	    if(self.TotesAddedToStackCount() >= 6)
             	    {
             	        self.TotesAddedToStackCount(0);
             	    }
@@ -198,13 +198,8 @@
                 self.ContainerAddedtoStack = function()
             	{
             	    self.clear();
-            	    self.InitialStackHeightClicked(true);
-            	    if(self.InitialStackHeightCount >= 5)
-            	    {
-            	        self.InitialStackHeightCount(0);
-            	    }
-                    else
-                        self.InitialStackHeightCount(self.InitialStackHeightCount() + 1);
+            	    self.ContainerAddedtoStackClicked(true);
+            	    self.ContainerAddedtoStackCount(!self.ContainerAddedtoStackCount());
             	}
             	self.SendButton = function()
             	{
@@ -214,12 +209,12 @@
             	        e.scouter_Id = self.model.ScoutID;
             	        e.startingHeight = self.InitialStackHeightCount;
             	        e.NumTotesAdded = self.TotesAddedToStackCount;
-            	        e.IsContainerAdded = self.ContainerAddedtoStackCount;
+            	        e.IsContainerAdded = self.ContainerAddedtoStackCount();
             	        scouterDataService.saveStack(ko.toJS(e));
 
-            	        this.InitialStackHeightCount = 0;
-            	        this.TotesAddedToStackCount = 0;
-            	        this.ContainerAddedtoStackCount = false;
+            	        self.InitialStackHeightCount(0);
+            	        self.TotesAddedToStackCount(0);
+            	        self.ContainerAddedtoStackCount(false);
             	    }
             	    else
             	    {
@@ -228,11 +223,11 @@
             	}
             	self.UndoStackButton = function()
             	{
-            	    ScouterDataService.undoStack(@Model.Scouter_Id);
+            	    scouterDataService.undoStack(@Model.Scouter_Id);
             	}
                 self.SendToDBEnabled = function()
                 {
-                    if(this.TotesAddedToStackCount + this.InitialStackHeightCount <=6)
+                    if(self.TotesAddedToStackCount() + self.InitialStackHeightCount() <= 6)
                         return true;
                     else
                         return false;
@@ -240,7 +235,7 @@
 
 
                 @*//NEEDS TO BE FIXED AND ALSO ADDED TO AUTONOMOUS
-                    /*
+                    
             	self.oops = function()
             	{
             		this.clear();
@@ -422,7 +417,7 @@
     </div>
 </div>
 
-@*<div class="row" style="color:white">
+<div class="row" style="color:white">
     Stacks
 </div>
 <div class="row" style="text-align:center">
@@ -460,7 +455,7 @@
         <br />
         <br />
     </div>
-    </div>*@
+    </div>
 
 <div class="row" style="color:white">
     Litter and Human Player
