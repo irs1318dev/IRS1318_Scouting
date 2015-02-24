@@ -236,7 +236,7 @@
         <br />
 
         <span data-bind="text: CenterToteMovedCount()"></span>
-        <div id="arrow"></div>
+        
         <br />
     </div>
     <div onclick="vm.abstractButtonFunction(vm.LeftToteMovedClicked, vm.LeftToteMovedCount, robotEventTypes['LeftToteMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: LeftToteMovedClicked() ? clickColor : colorAlt}" class="col-xs-2">
@@ -286,7 +286,7 @@
         <span>Center -> Auto Zone</span>
         <br />
         <span data-bind="text: CenterContainerMovedCount()"></span>
-        <div id="arrow"></div>
+        
         <br />
     </div>
     <div onclick="vm.abstractButtonFunction(vm.LeftContainerMovedClicked, vm.LeftContainerMovedCount, robotEventTypes['LeftContainerMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: LeftContainerMovedClicked() ? clickColor : color}" class="col-xs-2">
@@ -345,10 +345,13 @@
         <br />
         <br />
         <span>Teleop</span>
+        
         <br />
         <br />
         <br />
     </div>
+    <div class="col-xs-2"></div>
+    <div id="arrow"></div>
 </div>
 <body>
 

@@ -98,13 +98,25 @@ h5, h6 {
     max-width: 960px;
 }
 #totesImg {
-     background-image: url("tote.png");
+     background-image: url("../Images/tote.png");
+     width:16px;
+     height:16px;
+     display:inline-block;
 }
 #containerImg {
-     background-image: url("container.png");
+     background-image: url("../Images/container.png");
+     width:16px;
+     height:16px;
+     display:inline-block;
 }
 #arrow {
-     background-image: url("arrow.png");
+     background-image: url("../Images/arrow.png");
+   width:75px;
+   height:75px;
+   background-repeat:no-repeat;
+    display:inline-block;
+
+     
 }
 
 #body {
