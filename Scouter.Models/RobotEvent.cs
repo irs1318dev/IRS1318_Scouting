@@ -28,7 +28,7 @@ namespace Scouter.Models
 
         AutonomousMoved,
         NoAutonomous,
-        AutoResultClutter,
+        AutoAttemptClutter,
         Foul,
 
         RightChutePickUp,

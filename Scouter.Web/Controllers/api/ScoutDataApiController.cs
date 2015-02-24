@@ -132,8 +132,8 @@ namespace Scouter.Web.Controllers.api
                     case RobotEventType.NoAutonomous:
                         count.NoAutonomous = true;
                         break;
-                    case RobotEventType.AutoResultClutter:
-                        count.AutoResultClutter = true;
+                    case RobotEventType.AutoAttemptClutter:
+                        count.AutoAttemptClutter = true;
                         break;
                     case RobotEventType.Foul:
                         ++count.Foul;
