@@ -10,40 +10,40 @@
     var vm;
     var robotEventTypes = @Html.Raw(Model.RobotEventTypes);
 
-    $(function ()
-    {
-        var Scout = function()
+        $(function ()
         {
-            this.color = ko.observable(@Model.Color);
-            this.matchID = ko.observable(@Model.Match.Id);
-            this.matchNumber = ko.observable(@Model.Match.SequenceNumber);
-            this.teamID = ko.observable(@Model.Team.Id);
-            this.teamName = ko.observable("@Model.Team.Name");
-            this.teamNumber = ko.observable(@Model.Team.Number);
-            this.scoutID = ko.observable(@Model.Scouter_Id);
-			}
-			var Event = function()
-			{
-				this.id = 0;
-				this.scouter_Id = 0;
-				this.robotMode = 0;
-				this.robotEventType = 0;
-			}
-			var StackEvent = function()
-			{
-			    this.id = 0;
-			    this.scouter_Id = 0;
-			    this.startingHeight = 0;
-			    this.NumTotesAdded = 0;
-			    this.IsContainerAdded = false;
-			}
-			var ScoutInfo = function ()
-			{
-				this.scouter = 0;
-				this.match_Id = 0;
-				this.scouterStatus = 0;
-				this.team_Id = 0;
-			}
+            var Scout = function()
+            {
+                this.color = ko.observable(@Model.Color);
+                this.matchID = ko.observable(@Model.Match.Id);
+                this.matchNumber = ko.observable(@Model.Match.SequenceNumber);
+                this.teamID = ko.observable(@Model.Team.Id);
+                this.teamName = ko.observable("@Model.Team.Name");
+                this.teamNumber = ko.observable(@Model.Team.Number);
+                this.scoutID = ko.observable(@Model.Scouter_Id);
+            }
+            var Event = function()
+            {
+                this.id = 0;
+                this.scouter_Id = 0;
+                this.robotMode = 0;
+                this.robotEventType = 0;
+            }
+            var StackEvent = function()
+            {
+                this.id = 0;
+                this.scouter_Id = 0;
+                this.startingHeight = 0;
+                this.NumTotesAdded = 0;
+                this.IsContainerAdded = false;
+            }
+            var ScoutInfo = function ()
+            {
+                this.scouter = 0;
+                this.match_Id = 0;
+                this.scouterStatus = 0;
+                this.team_Id = 0;
+            }
 
             //
             // CLIENT SIDE VIEWMODEL
@@ -111,123 +111,123 @@
                 self.TotesAddedToStackCount = ko.observable(0);
                 self.ContainerAddedtoStackCount = ko.observable(false);
 
-            	self.clear = function()
-            	{
-            	    //Set all isClickd booleans to false here/////////////////////////////////////////////////////////////////////////////////////////////
-            	    self.RightChutePickUpClicked(false);
-            	    self.LeftChutePickUpClicked(false);
-            	    self.GroundPickUpClicked(false);
-            	    self.DriveOverPlatformClicked(false);
-            	    self.HumanPlayerShootsClicked(false);
-            	    self.HumanPlayerFailsClicked(false);
+                self.clear = function()
+                {
+                    //Set all isClickd booleans to false here/////////////////////////////////////////////////////////////////////////////////////////////
+                    self.RightChutePickUpClicked(false);
+                    self.LeftChutePickUpClicked(false);
+                    self.GroundPickUpClicked(false);
+                    self.DriveOverPlatformClicked(false);
+                    self.HumanPlayerShootsClicked(false);
+                    self.HumanPlayerFailsClicked(false);
 
-            	    self.OrientContainerClicked(false);
-            	    self.OrientToteClicked(false);
-            	    self.ClearContainerClicked(false);
-            	    self.ClearToteClicked(false);
-            	    self.ClearLitterClicked(false);
+                    self.OrientContainerClicked(false);
+                    self.OrientToteClicked(false);
+                    self.ClearContainerClicked(false);
+                    self.ClearToteClicked(false);
+                    self.ClearLitterClicked(false);
 
-            	    self.LitterPlacedAtHeightClicked(false);
-            	    self.BulldozeLitterToLandfillClicked(false);
-            	    self.TeleopFoulClicked(false);
-            	    self.YellowTotesMovedToStepClicked(false);
+                    self.LitterPlacedAtHeightClicked(false);
+                    self.BulldozeLitterToLandfillClicked(false);
+                    self.TeleopFoulClicked(false);
+                    self.YellowTotesMovedToStepClicked(false);
 
-            	    self.LeftContainerFromStepClicked(false);
-            	    self.LeftCenterContainerFromStepClicked(false);
-            	    self.RightCenterContainerFromStepClicked(false);
-            	    self.RightContainerFromStepClicked(false);
+                    self.LeftContainerFromStepClicked(false);
+                    self.LeftCenterContainerFromStepClicked(false);
+                    self.RightCenterContainerFromStepClicked(false);
+                    self.RightContainerFromStepClicked(false);
 
-            	    self.InitialStackHeightClicked(false);
-            	    self.TotesAddedToStackClicked(false);
-            	    self.ContainerAddedtoStackClicked(false);
-            	    self.SendButtonClicked(false);
-            	    self.UndoStackButtonClicked(false);
+                    self.InitialStackHeightClicked(false);
+                    self.TotesAddedToStackClicked(false);
+                    self.ContainerAddedtoStackClicked(false);
+                    self.SendButtonClicked(false);
+                    self.UndoStackButtonClicked(false);
 
-            	}
+                }
 
                 //Add on clicked functions here///////////////////////////////////////////////////////////////////////////////////////////////////////////
-            	self.abstractButtonFunction = function(clicked, count, robotEv) {
-            	    //reset all buttons to original color and then set this button to clicked color
-            	    self.clear();
-            	    clicked(true);
-            	    //add one to the count of clicks
-            	    if (typeof(count()) == typeof(0)) {
-            	        count(count() + 1);
-            	    }
-            	    else if (typeof(count()) == typeof(false)) {
-            	        count(!count());
-            	    }
-            	    else {
-            	        // terrible
-            	    }
-            	    //Create a new robot event and set it's variables
-            	    var e = new Event();
-            	    e.scouter_Id = self.model.ScoutID;
-            	    e.robotMode = 0;
-            	    e.robotEventType = robotEv;
-            	    //Send the robot event to the server
-            	    scouterDataService.save(ko.toJS(e));
-            	}
-
-            	self.InitialStackHeight = function()
-            	{
-            	    self.clear();
-            	    self.InitialStackHeightClicked(true);
-            	    if(self.InitialStackHeightCount >= 5)
-            	    {
-            	        self.InitialStackHeightCount(0);
-            	    }
-            	    else self.InitialStackHeightCount(self.InitialStackHeightCount() + 1);
+                self.abstractButtonFunction = function(clicked, count, robotEv) {
+                    //reset all buttons to original color and then set this button to clicked color
+                    self.clear();
+                    clicked(true);
+                    //add one to the count of clicks
+                    if (typeof(count()) == typeof(0)) {
+                        count(count() + 1);
+                    }
+                    else if (typeof(count()) == typeof(false)) {
+                        count(!count());
+                    }
+                    else {
+                        // terrible
+                    }
+                    //Create a new robot event and set it's variables
+                    var e = new Event();
+                    e.scouter_Id = self.model.ScoutID;
+                    e.robotMode = 0;
+                    e.robotEventType = robotEv;
+                    //Send the robot event to the server
+                    scouterDataService.save(ko.toJS(e));
                 }
-            	self.TotesAddedToStack = function()
-            	{
-            	    self.clear();
-            	    self.TotesAddedToStackClicked(true);
-            	    if(self.TotesAddedToStackCount >= 6)
-            	    {
-            	        self.TotesAddedToStackCount(0);
-            	    }
-            	    else self.TotesAddedToStackCount(self.TotesAddedToStackCount() + 1);
-            	}
-            	self.ContainerAddedtoStackClicked = function()
-            	{
-            	    self.clear();
-            	    self.InitialStackHeightClicked(true);
-            	    if(self.InitialStackHeightCount >= 5)
-            	    {
-            	        self.InitialStackHeightCount(0);
-            	    }
-            	    else self.InitialStackHeightCount(self.InitialStackHeightCount() + 1);
-            	}
-            	self.SendButton = function()
-            	{
-            	    if(self.SendToDBEnabled())
+
+                @*self.InitialStackHeight = function()
+                {
+                    self.clear();
+                    self.InitialStackHeightClicked(true);
+                    if(self.InitialStackHeightCount >= 5)
+                    {
+                        self.InitialStackHeightCount(0);
+                    }
+                    else self.InitialStackHeightCount(self.InitialStackHeightCount() + 1);
+                }
+                self.TotesAddedToStack = function()
+                {
+                    self.clear();
+                    self.TotesAddedToStackClicked(true);
+                    if(self.TotesAddedToStackCount >= 6)
+                    {
+                        self.TotesAddedToStackCount(0);
+                    }
+                    else self.TotesAddedToStackCount(self.TotesAddedToStackCount() + 1);
+                }
+                self.ContainerAddedtoStackClicked = function()
+                {
+                    self.clear();
+                    self.InitialStackHeightClicked(true);
+                    if(self.InitialStackHeightCount >= 5)
+                    {
+                        self.InitialStackHeightCount(0);
+                    }
+                    else self.InitialStackHeightCount(self.InitialStackHeightCount() + 1);
+                }
+                self.SendButton = function()
+                {
+                    if(self.SendToDBEnabled())
                     {
                         var e = new StackEvent();
-            	        e.scouter_Id = self.model.ScoutID;
-            	        e.startingHeight = self.InitialStackHeightCount;
-            	        e.NumTotesAdded = self.TotesAddedToStackCount;
-            	        e.IsContainerAdded = self.ContainerAddedtoStackCount;
-            	        scouterDataService.saveStack(ko.toJS(e));
+                        e.scouter_Id = self.model.ScoutID;
+                        e.startingHeight = self.InitialStackHeightCount;
+                        e.NumTotesAdded = self.TotesAddedToStackCount;
+                        e.IsContainerAdded = self.ContainerAddedtoStackCount;
+                        scouterDataService.saveStack(ko.toJS(e));
 
-            	        this.InitialStackHeightCount = 0;
-            	        this.TotesAddedToStackCount = 0;
-            	        this.ContainerAddedtoStackCount = false;
-            	    }
-            	    else
-            	    {
+                        this.InitialStackHeightCount = 0;
+                        this.TotesAddedToStackCount = 0;
+                        this.ContainerAddedtoStackCount = false;
+                    }
+                    else
+                    {
                         //do nothing
-            	    }
-            	}
-            	self.UndoStackButton = function()
-            	{
-            	    ScouterDataService.undoStack(@Model.Scouter_Id);
-            	}
+                    }
+                }
+                self.UndoStackButton = function()
+                {
+                    ScouterDataService.undoStack(@Model.Scouter_Id);
+                }
                 self.SendToDBEnabled = function()
                 {
                     if(this.TotesAddedToStackCount + this.InitialStackHeightCount <=6) return true;
                     else return false;
-                }
+                }*@
 
 
                 @*//NEEDS TO BE FIXED AND ALSO ADDED TO AUTONOMOUS
@@ -304,11 +304,11 @@
             {
                 self.updateCounter();
             });
-        }
+        })
         vm = new ViewModel(new Scout());
         ko.applyBindings(vm);
-    })
-	</script>
+    
+    </script>
 }
 <div class="row" style="color:white">
 	Teleoperated <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' +model.teamNumber() + ' ('+ model.teamName() + ')'" />
@@ -413,7 +413,7 @@
     </div>
 </div>
 
-<div class="row" style="color:white">
+@*<div class="row" style="color:white">
     Stacks
 </div>
 <div class="row" style="text-align:center">
@@ -451,7 +451,7 @@
         <br />
         <br />
     </div>
-    </div>
+    </div>*@
 
 <div class="row" style="color:white">
     Litter and Human Player
