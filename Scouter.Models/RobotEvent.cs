@@ -17,7 +17,11 @@ namespace Scouter.Models
         LeftToteMoved,
         YellowTotesMovedToStep,
 
-        ContainersFromStep,
+        RightContainerFromStep,
+        RightCenterContainerFromStep,
+        LeftCenterContainerFromStep,
+        LeftContainerFromStep,
+
         RightContainerMoved,
         CenterContainerMoved,
         LeftContainerMoved,
@@ -25,24 +29,23 @@ namespace Scouter.Models
         AutonomousMoved,
         NoAutonomous,
         AutoResultClutter,
-        AutoFoul,
+        Foul,
 
-        ChutePickUp,
+        RightChutePickUp,
+        LeftChutePickUp,
         GroundPickUp,
         DriveOverPlatform,
         HumanPlayerShoots,
+        HumanPlayerFails,
 
         OrientContainer,
         OrientTote,
         ClearContainer,
         ClearTote,
         ClearLitter,
-       
-        
-
+ 
         LitterPlacedAtHeight,
         BulldozeLitterToLandfill,
-        TeleopFoul,
 
 
 
@@ -57,7 +60,6 @@ namespace Scouter.Models
         public virtual FRCMatch Match { get; set; }
         public RobotMode RobotMode { get; set; }
         public RobotEventType RobotEventType { get; set; }
-        public bool GoalWasHot { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
     }

@@ -61,21 +61,17 @@
     <Compile Include="Alliance.cs" />
     <Compile Include="AllianceColor.cs" />
     <Compile Include="CurrentScoutData.cs" />
+    <Compile Include="RobotEventTypeLookup.cs" />
     <Compile Include="ScoutingNotes.cs" />
-    <Compile Include="zzBallEvent.cs" />
-    <Compile Include="zzCycle.cs" />
+    <Compile Include="StackEvent.cs" />
     <Compile Include="FRCEvent.cs" />
     <Compile Include="FRCMatch.cs" />
     <Compile Include="IAuditInfo.cs" />
-    <Compile Include="zzLocation.cs" />
     <Compile Include="Membership\Membership.cs" />
     <Compile Include="Membership\OAuthMembership.cs" />
-    <Compile Include="zzParticipant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Membership\Role.cs" />
     <Compile Include="RobotEvent.cs" />
-    <Compile Include="zzRobotIntel.cs" />
-    <Compile Include="zzSize.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="Membership\User.cs" />
   </ItemGroup>

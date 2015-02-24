@@ -237,6 +237,7 @@
     <Compile Include="Models\Scouting\ScoutCounter.cs" />
     <Compile Include="Models\Scouting\ScoutDataTransfer.cs" />
     <Compile Include="Models\Scouting\ScoutUpdateInfo.cs" />
+    <Compile Include="Models\Scouting\StackEventDataTransfer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ViewHelper.cs" />
     <Compile Include="ViewModels\AlliancesListViewModel.cs" />

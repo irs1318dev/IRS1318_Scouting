@@ -188,7 +188,7 @@ namespace Scouter.Web.Controllers
                             where e.Match.FRCEvent.Id == eventId
                             //&& t.Number == 4911
                             orderby t.Number
-                            select new ScoringList { Team_Number = e.Team.Number, Picture = e.Team.ImageName, Team_Description = e.Team.Description, RobotEventType = e.RobotEventType, GoalWasHot = e.GoalWasHot, RobotMode = e.RobotMode, Match_Seq = e.Match.SequenceNumber };
+                            select new ScoringList { Team_Number = e.Team.Number, Picture = e.Team.ImageName, Team_Description = e.Team.Description, RobotEventType = e.RobotEventType, RobotMode = e.RobotMode, Match_Seq = e.Match.SequenceNumber };
 
             List<TeamScore> tss = BuildTeamScores(eventinfo);
             tss = RankTeamScores(tss);
@@ -219,7 +219,7 @@ namespace Scouter.Web.Controllers
                           join l in tak3 on e.Match.SequenceNumber equals l.SequenceNumber
                           where
                             e.Team.Number == l.TeamNumber
-                        select new ScoringList { Team_Number = e.Team.Number, Picture = e.Team.ImageName, Team_Description = e.Team.Description, RobotEventType = e.RobotEventType, GoalWasHot = e.GoalWasHot, RobotMode = e.RobotMode, Match_Seq = e.Match.SequenceNumber };
+                        select new ScoringList { Team_Number = e.Team.Number, Picture = e.Team.ImageName, Team_Description = e.Team.Description, RobotEventType = e.RobotEventType, RobotMode = e.RobotMode, Match_Seq = e.Match.SequenceNumber };
             eFor3.ToList(); // force execute just in case
 
             return eFor3;
