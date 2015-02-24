@@ -166,7 +166,7 @@
                     }
                     //Create a new robot event and set it's variables
                     var e = new Event();
-                    e.scouter_Id = self.model.ScoutID;
+                    e.scouter_Id = self.model.scoutID;
                     e.robotMode = 0;
                     e.robotEventType = robotEv;
                     //Send the robot event to the server
@@ -211,7 +211,7 @@
             	    if(self.SendToDBEnabled())
                     {
                         var e = new StackEvent();
-            	        e.scouter_Id = self.model.ScoutID;
+            	        e.scouter_Id = self.model.scoutID;
             	        e.startingHeight = self.InitialStackHeightCount;
             	        e.NumTotesAdded = self.TotesAddedToStackCount;
             	        e.IsContainerAdded = self.ContainerAddedtoStackCount;
