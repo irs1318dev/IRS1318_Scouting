@@ -14,7 +14,7 @@ namespace Scouter.Web.Controllers.api
 {
     public class ScoutDataApiController : ApiController
     {
-		private ApplicationUnit _unit = new ApplicationUnit();
+        private ApplicationUnit _unit = new ApplicationUnit();
 
         //GetScoutData is in ScouterApiController
 
@@ -71,39 +71,43 @@ namespace Scouter.Web.Controllers.api
             if (scoutStatus == ScoutStatus.NoScout)
                 throw new Exception("No scout with ID: " + id);
 
-            if(scoutStatus == ScoutStatus.Autonomous)
+            if (scoutStatus == ScoutStatus.Autonomous)
                 robotMode = RobotMode.Autonomous;
 
-              
+
 
             ScoutCounter count = new ScoutCounter();
 
             var query = from e in _unit.RobotEvents.GetAll()
                         where e.Match.Id == match.Id &&
-                        e.Team.Id == team.Id &&
-                        e.RobotMode == robotMode
+                        e.Team.Id == team.Id
                         select e;
 
             RobotEvent[] events = query.ToArray();
 
-            foreach(RobotEvent e in events)
+            foreach (RobotEvent e in events)
             {
                 switch (e.RobotEventType)
                 {
                     case RobotEventType.TotesStacked:
-                        ++count.TotesStacked;
+                        if (e.RobotMode == robotMode)
+                            ++count.TotesStacked;
                         break;
                     case RobotEventType.RightToteMoved:
-                        ++count.RightToteMoved;
+                        if (e.RobotMode == robotMode)
+                            ++count.RightToteMoved;
                         break;
                     case RobotEventType.CenterToteMoved:
-                        ++count.CenterToteMoved;
+                        if (e.RobotMode == robotMode)
+                            ++count.CenterToteMoved;
                         break;
                     case RobotEventType.LeftToteMoved:
-                        ++count.LeftToteMoved;
+                        if (e.RobotMode == robotMode)
+                            ++count.LeftToteMoved;
                         break;
                     case RobotEventType.YellowTotesMovedToStep:
-                        ++count.YellowTotesMovedToStep;
+                        if (e.RobotMode == robotMode)
+                            ++count.YellowTotesMovedToStep;
                         break;
                     case RobotEventType.RightContainerFromStep:
                         count.RightContainerFromStep = true;
@@ -118,64 +122,84 @@ namespace Scouter.Web.Controllers.api
                         count.LeftContainerFromStep = true;
                         break;
                     case RobotEventType.RightContainerMoved:
-                        ++count.RightContainerMoved;
+                        if (e.RobotMode == robotMode)
+                            ++count.RightContainerMoved;
                         break;
                     case RobotEventType.CenterContainerMoved:
-                        ++count.CenterContainerMoved;
+                        if (e.RobotMode == robotMode)
+                            ++count.CenterContainerMoved;
                         break;
                     case RobotEventType.LeftContainerMoved:
-                        ++count.LeftContainerMoved;
+                        if (e.RobotMode == robotMode)
+                            ++count.LeftContainerMoved;
                         break;
                     case RobotEventType.AutonomousMoved:
-                        count.AutonomousMoved = true;
+                        if (e.RobotMode == robotMode)
+                            count.AutonomousMoved = true;
                         break;
                     case RobotEventType.NoAutonomous:
-                        count.NoAutonomous = true;
+                        if (e.RobotMode == robotMode)
+                            count.NoAutonomous = true;
                         break;
                     case RobotEventType.AutoAttemptClutter:
-                        count.AutoAttemptClutter = true;
+                        if (e.RobotMode == robotMode)
+                            count.AutoAttemptClutter = true;
                         break;
                     case RobotEventType.Foul:
-                        ++count.Foul;
+                        if (e.RobotMode == robotMode)
+                            ++count.Foul;
                         break;
                     case RobotEventType.RightChutePickUp:
-                        ++count.RightChutePickUp;
+                        if (e.RobotMode == robotMode)
+                            ++count.RightChutePickUp;
                         break;
                     case RobotEventType.LeftChutePickUp:
-                        ++count.LeftChutePickUp;
+                        if (e.RobotMode == robotMode)
+                            ++count.LeftChutePickUp;
                         break;
                     case RobotEventType.GroundPickUp:
-                        ++count.GroundPickUp;
+                        if (e.RobotMode == robotMode)
+                            ++count.GroundPickUp;
                         break;
                     case RobotEventType.DriveOverPlatform:
-                        ++count.DriveOverPlatform;
+                        if (e.RobotMode == robotMode)
+                            ++count.DriveOverPlatform;
                         break;
                     case RobotEventType.HumanPlayerShoots:
-                        ++count.HumanPlayerShoots;
+                        if (e.RobotMode == robotMode)
+                            ++count.HumanPlayerShoots;
                         break;
                     case RobotEventType.HumanPlayerFails:
-                        ++count.HumanPlayerFails;
+                        if (e.RobotMode == robotMode)
+                            ++count.HumanPlayerFails;
                         break;
                     case RobotEventType.OrientContainer:
-                        ++count.OrientContainer;
+                        if (e.RobotMode == robotMode)
+                            ++count.OrientContainer;
                         break;
                     case RobotEventType.OrientTote:
-                        ++count.OrientTote;
+                        if (e.RobotMode == robotMode)
+                            ++count.OrientTote;
                         break;
                     case RobotEventType.ClearContainer:
-                        ++count.ClearContainer;
+                        if (e.RobotMode == robotMode)
+                            ++count.ClearContainer;
                         break;
                     case RobotEventType.ClearTote:
-                        ++count.ClearTote;
+                        if (e.RobotMode == robotMode)
+                            ++count.ClearTote;
                         break;
                     case RobotEventType.ClearLitter:
-                        ++count.ClearLitter;
+                        if (e.RobotMode == robotMode)
+                            ++count.ClearLitter;
                         break;
                     case RobotEventType.LitterPlacedAtHeight:
-                        ++count.LitterPlacedAtHeight;
+                        if (e.RobotMode == robotMode)
+                            ++count.LitterPlacedAtHeight;
                         break;
                     case RobotEventType.BulldozeLitterToLandfill:
-                        ++count.BulldozeLitterToLandfill;
+                        if (e.RobotMode == robotMode)
+                            ++count.BulldozeLitterToLandfill;
                         break;
                 }
             }
@@ -249,40 +273,40 @@ namespace Scouter.Web.Controllers.api
         /// </summary>
         /// <param name="robotEvent">the robot event</param>
         [HttpPost]
-		public HttpResponseMessage SaveRobotEvent(RobotEventDataTransfer robotEvent)
-		{
+        public HttpResponseMessage SaveRobotEvent(RobotEventDataTransfer robotEvent)
+        {
             try
             {
                 if (ModelState.IsValid)
                 {
-					var scoutData = _unit.CurrentScoutData.GetById(1);
-					Team team = null;
-					switch(robotEvent.Scouter_Id)
-					{
-						case 1:
-							team = scoutData.Red1;
-							break;
-						case 2:
-							team = scoutData.Red2;
-							break;
-						case 3:
-							team = scoutData.Red3;
-							break;
-						case 4:
-							team = scoutData.Blue1;
-							break;
-						case 5:
-							team = scoutData.Blue2;
-							break;
-						case 6:
-							team = scoutData.Blue3;
-							break;
-					}
-					RobotEvent re = new RobotEvent();
-					re.RobotEventType = robotEvent.RobotEventType;
-					re.RobotMode = robotEvent.RobotMode;
-					re.Match = _unit.FRCMatches.GetById(scoutData.Match_ID);
-					re.Team = team;
+                    var scoutData = _unit.CurrentScoutData.GetById(1);
+                    Team team = null;
+                    switch (robotEvent.Scouter_Id)
+                    {
+                        case 1:
+                            team = scoutData.Red1;
+                            break;
+                        case 2:
+                            team = scoutData.Red2;
+                            break;
+                        case 3:
+                            team = scoutData.Red3;
+                            break;
+                        case 4:
+                            team = scoutData.Blue1;
+                            break;
+                        case 5:
+                            team = scoutData.Blue2;
+                            break;
+                        case 6:
+                            team = scoutData.Blue3;
+                            break;
+                    }
+                    RobotEvent re = new RobotEvent();
+                    re.RobotEventType = robotEvent.RobotEventType;
+                    re.RobotMode = robotEvent.RobotMode;
+                    re.Match = _unit.FRCMatches.GetById(scoutData.Match_ID);
+                    re.Team = team;
                     this._unit.RobotEvents.Add(re);
                     this._unit.SaveChanges();
 
@@ -301,7 +325,7 @@ namespace Scouter.Web.Controllers.api
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
-		}
+        }
 
         /// <summary>
         /// Deletes the last Robot event from the scouter
@@ -309,54 +333,54 @@ namespace Scouter.Web.Controllers.api
         /// <param name="id">The ID of the scouter</param>
         [HttpDelete]
         public HttpResponseMessage Undo(int id)
-		{
-			var scoutData = _unit.CurrentScoutData.GetById(1);
-			int teamId = 0;
-			FRCMatch match = null;
-			switch(id)
-			{
-				case 1:
-					teamId = scoutData.Red1.Id;
-					match = scoutData.Red1Match;
-					break;
-				case 2:
-					teamId = scoutData.Red2.Id;
-					match = scoutData.Red2Match;
-					break;
-				case 3:
-					teamId = scoutData.Red3.Id;
-					match = scoutData.Red3Match;
-					break;
-				case 4:
-					teamId = scoutData.Blue1.Id;
-					match = scoutData.Blue1Match;
-					break;
-				case 5:
-					teamId = scoutData.Blue2.Id;
-					match = scoutData.Blue2Match;
-					break;
-				case 6:
-					teamId = scoutData.Blue3.Id;
-					match = scoutData.Blue3Match;
-					break;
-			}
-			var query = from r in _unit.RobotEvents.GetAll()
-							where r.Team.Id == teamId && r.Match.Id == match.Id
-							select r;
+        {
+            var scoutData = _unit.CurrentScoutData.GetById(1);
+            int teamId = 0;
+            FRCMatch match = null;
+            switch (id)
+            {
+                case 1:
+                    teamId = scoutData.Red1.Id;
+                    match = scoutData.Red1Match;
+                    break;
+                case 2:
+                    teamId = scoutData.Red2.Id;
+                    match = scoutData.Red2Match;
+                    break;
+                case 3:
+                    teamId = scoutData.Red3.Id;
+                    match = scoutData.Red3Match;
+                    break;
+                case 4:
+                    teamId = scoutData.Blue1.Id;
+                    match = scoutData.Blue1Match;
+                    break;
+                case 5:
+                    teamId = scoutData.Blue2.Id;
+                    match = scoutData.Blue2Match;
+                    break;
+                case 6:
+                    teamId = scoutData.Blue3.Id;
+                    match = scoutData.Blue3Match;
+                    break;
+            }
+            var query = from r in _unit.RobotEvents.GetAll()
+                        where r.Team.Id == teamId && r.Match.Id == match.Id
+                        select r;
 
-			if (query.Count() < 1)
-				return Request.CreateErrorResponse(HttpStatusCode.NotFound, new Exception("Could not find a robot event from scout " + id + " in match " + match.SequenceNumber));
+            if (query.Count() < 1)
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, new Exception("Could not find a robot event from scout " + id + " in match " + match.SequenceNumber));
 
-			var list = query.ToList();
-			_unit.RobotEvents.Delete(list.Last().Id);
-			_unit.SaveChanges();
-			return Request.CreateResponse(HttpStatusCode.NoContent);
-		}
+            var list = query.ToList();
+            _unit.RobotEvents.Delete(list.Last().Id);
+            _unit.SaveChanges();
+            return Request.CreateResponse(HttpStatusCode.NoContent);
+        }
 
-		protected override void Dispose(bool disposing)
-		{
-			this._unit.Dispose();
-			base.Dispose(disposing);
-		}
-	}
+        protected override void Dispose(bool disposing)
+        {
+            this._unit.Dispose();
+            base.Dispose(disposing);
+        }
+    }
 }
