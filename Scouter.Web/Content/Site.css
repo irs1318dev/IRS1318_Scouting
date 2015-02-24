@@ -97,6 +97,15 @@ h5, h6 {
     margin: 0 auto;
     max-width: 960px;
 }
+#totesImg {
+     background-image: url("tote.png");
+}
+#containerImg {
+     background-image: url("container.png");
+}
+#arrow {
+     background-image: url("arrow.png");
+}
 
 #body {
     background-color: #efeeef;
