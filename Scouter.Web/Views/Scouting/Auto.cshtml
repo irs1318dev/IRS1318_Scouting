@@ -202,7 +202,7 @@
 </div>
 
 <div class="row" style="color:white">
-    Totes
+    Totes <div id="totesImg"></div>
 </div>
 <div class="row">
     <!-- vm is where you should create the buttons for the row. the color should either be color or colorAlt(or any other colors you define)
@@ -234,8 +234,9 @@
         <br />
         <span>Center -> Auto Zone</span>
         <br />
+
         <span data-bind="text: CenterToteMovedCount()"></span>
-        <br />
+        <div id="arrow"></div>
         <br />
     </div>
     <div onclick="vm.abstractButtonFunction(vm.LeftToteMovedClicked, vm.LeftToteMovedCount, robotEventTypes['LeftToteMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: LeftToteMovedClicked() ? clickColor : colorAlt}" class="col-xs-2">
@@ -258,7 +259,7 @@
     </div> -->
 </div>
 <div class="row" style="color:white">
-    Recycling Containers
+    Recycling Containers  <div id="containerImg"></div>
 </div>
 <div class="row">
     <div onclick="vm.abstractButtonFunction(vm.ContainersFromStepClicked, vm.ContainersFromStepCount, robotEventTypes['ContainersFromStep'])" style="border-style: solid; border-width: medium; border-color: white" data-bind=" style: {backgroundColor: ContainersFromStepClicked() ? clickColor : colorAlt}" class="col-xs-2">
@@ -285,7 +286,7 @@
         <span>Center -> Auto Zone</span>
         <br />
         <span data-bind="text: CenterContainerMovedCount()"></span>
-        <br />
+        <div id="arrow"></div>
         <br />
     </div>
     <div onclick="vm.abstractButtonFunction(vm.LeftContainerMovedClicked, vm.LeftContainerMovedCount, robotEventTypes['LeftContainerMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: LeftContainerMovedClicked() ? clickColor : color}" class="col-xs-2">

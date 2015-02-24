@@ -332,9 +332,12 @@
     <None Include="Properties\PublishProfiles\Scouter.pubxml" />
     <None Include="Scripts\lib\jquery-2.1.0.intellisense.js" />
     <None Include="Images\irs1318.png" />
+    <Content Include="Images\arrow.png" />
+    <Content Include="Images\container.png" />
     <Content Include="Images\irs1318auto.png" />
     <Content Include="Images\irs1318teleop.png" />
     <Content Include="Images\scouter.png" />
+    <Content Include="Images\tote.png" />
     <Content Include="Scripts\app\ScouterDataService.js" />
     <Content Include="Scripts\lib\bootstrap.js" />
     <Content Include="Scripts\lib\bootstrap.min.js" />
