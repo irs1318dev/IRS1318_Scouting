@@ -25,7 +25,7 @@ namespace Scouter.Web.Models.Scouting
 
         public Boolean AutonomousMoved { get; set; }
         public Boolean NoAutonomous { get; set; }
-        public Boolean AutoResultClutter { get; set; }
+        public Boolean AutoAttemptClutter { get; set; }
         public int Foul { get; set; } // different foul-counters between A and T
 
         public int RightChutePickUp { get; set; }
