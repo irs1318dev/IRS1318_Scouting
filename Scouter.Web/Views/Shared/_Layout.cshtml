@@ -37,12 +37,12 @@ else
             <body class="container">
                 <header>
                     <div class="row">
-                        <div class="row" onmouseout="mouseLeaveFunction()" onclick="mouseEnterFunction()">
+                        <div class="row"  onclick="mouseEnterFunction()">
                             <div class="col-xs-4">
                                 <img alt="Scouter" title="Scouter" src="/images/scouter-logo.png" />
                             </div>
                             <div id="nav" class="col-xs-2 panel-collapse collapse">
-                                <a href="/home">
+                                <a href="/" class="hideme">
                                     <div class="row" id="home" style="background-color:purple; color:white">
                                         <br />
                                         Home<br />
@@ -83,12 +83,14 @@ else
                 @Scripts.Render("~/bundles/offline")
                 @RenderSection("scripts", required: false)
                 <script>
+                    $(document).ready(function () {
+                        $('#nav').hide();
+                    });
                     function mouseEnterFunction(){ 
-                        $('#home').stop().animate({ fontSize: '24px', width: '100%', height: '100%', opacity: 1 }, 'slow');
+                        
+                        $('#nav').stop().toggle("slow");
                     }
-                   function mouseLeaveFunction(){ 
-                        $('#home').stop().animate({ fontSize: '24px', width: '0%', height: '0%', opacity: 0 }, 'slow'); 
-                    }
+            
                  </script>
             </body>
             </html>

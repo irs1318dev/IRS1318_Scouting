@@ -120,9 +120,9 @@ h5, h6 {
 }
 #home:hover {
      background-color:yellow!important;
-    border-radius: 20px;
+    border-radius: 20px!important;
     text-align:center;
-    font-size: 0px;
+    font-size: 24px;
     font-family:N-Gage;
     -webkit-animation-name: homeanimrev;
   -webkit-animation-duration:1s;
@@ -133,11 +133,11 @@ h5, h6 {
 #home
 {
      background-color:purple!important;
-     width:0px;
-     
-    border-radius: 20px;
+     width:200px;
+     height:100px;   
+    border-radius: 20px!important;
     text-align:center;
-    font-size: 0px;
+    font-size: 24px;
     font-family:N-Gage;
    -webkit-animation-name: homeanim;
   -webkit-animation-duration:1s;
