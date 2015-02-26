@@ -37,7 +37,7 @@ else
             <body class="container">
                 <header>
                     <div class="row">
-                        <div class="row" id="hoverable">
+                        <div class="row" onmouseout="mouseLeaveFunction()" onclick="mouseEnterFunction()">
                             <div class="col-xs-4">
                                 <img alt="Scouter" title="Scouter" src="/images/scouter-logo.png" />
                             </div>
@@ -83,7 +83,12 @@ else
                 @Scripts.Render("~/bundles/offline")
                 @RenderSection("scripts", required: false)
                 <script>
-                    $('#hoverable').hover(function () { $('#home').stop().animate({fontSize:'24px',width: '100%',height: '100%',opacity:1}, 'slow');}, function () {$('#home').stop().animate({fontSize:'24px',width: '0%',height: '0%',opacity:0}, 'slow');});
-                </script>
+                    function mouseEnterFunction(){ 
+                        $('#home').stop().animate({ fontSize: '24px', width: '100%', height: '100%', opacity: 1 }, 'slow');
+                    }
+                   function mouseLeaveFunction(){ 
+                        $('#home').stop().animate({ fontSize: '24px', width: '0%', height: '0%', opacity: 0 }, 'slow'); 
+                    }
+                 </script>
             </body>
             </html>
