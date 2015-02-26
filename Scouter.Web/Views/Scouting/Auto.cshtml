@@ -75,6 +75,8 @@
                 self.AutoAttemptClutterClicked = ko.observable(false); //checkbox
                 self.AutoFoulClicked = ko.observable(false);
 
+                self.oopsClicked = ko.observable(false);
+
                 //Add Count integers here/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             	self.TotesStackedCount = ko.observable(0);
             	self.RightToteMovedCount = ko.observable(0);
@@ -118,6 +120,8 @@
             	    self.NoAutonomousClicked(false); 
             	    self.AutoAttemptClutterClicked(false); 
             	    self.AutoFoulClicked(false);
+
+            	    self.oopsClicked(false);
             	}
 
                 //Add on clicked functions here///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -147,6 +151,16 @@
             	    scouterDataService.save(ko.toJS(e));
             	}
 
+            	self.oops = function()
+            	{
+            	    self.clear();
+            	    self.oopsClicked(true);
+            	    scouterDataService.undo(@Model.Scouter_Id).done(function (data)
+            	    {
+            	        self.updateCounter();
+            	    });
+            	}
+
             	self.updateCounter = function()
             	{
             		scouterDataService.updateCounter(@Model.Scouter_Id).done(function (data)
@@ -170,7 +184,7 @@
             		    self.AutonomousMovedCount(data.AutonomousMoved);
             		    self.NoAutonomousCount(data.NoAutonomous);
             		    self.AutoAttemptClutterCount(data.AutoAttemptClutter);
-            		    self.AutoFoulCount(data.AutoFoul);
+            		    self.AutoFoulCount(data.Foul);
             		})
             	}
 
@@ -270,15 +284,6 @@
     Recycling Containers  <div id="containerImg"></div>
 </div>
 <div class="row">
-    @*<div onclick="vm.abstractButtonFunction(vm.ContainersFromStepClicked, vm.ContainersFromStepCount, robotEventTypes['ContainersFromStep'])" style="border-style: solid; border-width: medium; border-color: white" data-bind=" style: {backgroundColor: ContainersFromStepClicked() ? clickColor : colorAlt}" class="col-xs-2">
-        <br />
-        <br />
-        <span># Taken from Step</span>
-        <br />
-        <span data-bind="text: ContainersFromStepCount()"></span>
-        <br />
-        <br />
-    </div>*@
     <div onclick="vm.abstractButtonFunction(vm.RightContainerMovedClicked, vm.RightContainerMovedCount, robotEventTypes['RightContainerMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: RightContainerMovedClicked() ? clickColor : color}" class="col-xs-2">
         <br />
         <br />
@@ -400,7 +405,14 @@
         <br />
         <br />
     </div>
-    <div class="col-xs-2"></div>
+    <div data-bind="click: oops, style: {backgroundColor: oopsClicked() ? clickColor : color}" class="col-xs-2">
+    <br />
+    <br />
+    <span>Oops</span>
+    <br />
+    <br />
+    <br />
+    </div>
     <div id="arrow"></div>
 </div>
 <body>

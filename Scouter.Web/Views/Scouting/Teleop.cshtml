@@ -83,6 +83,8 @@
                 self.SendButtonClicked = ko.observable(false);
                 self.UndoStackButtonClicked = ko.observable(false);
 
+                self.oopsClicked = ko.observable(false);
+
                 //Add Count integers here/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 self.RightChutePickUpCount = ko.observable(0);
                 self.LeftChutePickUpCount = ko.observable(0);
@@ -142,6 +144,8 @@
                     self.ContainerAddedtoStackClicked(false);
                     self.SendButtonClicked(false);
                     self.UndoStackButtonClicked(false);
+
+                    self.oopsClicked(false);
 
                 }
 
@@ -205,12 +209,16 @@
             	{
             	    if(self.SendToDBEnabled())
                     {
-                        var e = new StackEvent();
+            	        self.clear();
+            	        
+            	        var e = new StackEvent();
             	        e.scouter_Id = self.model.scoutID;
             	        e.startingHeight = self.InitialStackHeightCount;
             	        e.NumTotesAdded = self.TotesAddedToStackCount;
             	        e.IsContainerAdded = self.ContainerAddedtoStackCount();
-            	        scouterDataService.saveStack(ko.toJS(e));
+            	        scouterDataService.saveStack(ko.toJS(e)).done( function(){
+            	            self.SendButtonClicked(true);
+            	        });
 
             	        self.InitialStackHeightCount(0);
             	        self.TotesAddedToStackCount(0);
@@ -223,7 +231,10 @@
             	}
             	self.UndoStackButton = function()
             	{
-            	    scouterDataService.undoStack(@Model.Scouter_Id);
+            	    self.clear();
+            	    scouterDataService.undoStack(@Model.Scouter_Id).done( function(){
+            	        self.UndoStackButtonClicked(true);            	        
+            	    });
             	}
                 self.SendToDBEnabled = function()
                 {
@@ -234,19 +245,16 @@
                 }
 
 
-                @*//NEEDS TO BE FIXED AND ALSO ADDED TO AUTONOMOUS
-                    
-            	self.oops = function()
-            	{
-            		this.clear();
-            		this.oopsClicked(true);
-            		scouterDataService.undo(@Model.Scouter_Id).done(function (data)
+                self.oops = function()
                 {
-                    vm.updateCounter();
-                }).fail(function (data)
-                {
-                    var what = 3;
-                });*@
+                    self.clear();
+                    self.oopsClicked(true);
+                    scouterDataService.undo(@Model.Scouter_Id).done(function (data)
+                    {
+                        self.updateCounter();
+                    });
+                }
+
                 self.updateCounter = function()
                 {
                     scouterDataService.updateCounter(@Model.Scouter_Id).done(function (data)
@@ -443,13 +451,13 @@
         <span data-bind="text: (ContainerAddedtoStackCount() ? 'Yes' : 'No')"></span>
         <br />
     </div>
-    <div onclick="vm.SendButton()" data-bind="style:{backgroundColor: SendButtonClicked() ? clickColor : colorAlt} ,enable:SendToDBEnabled" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+    <div onclick="vm.SendButton()" data-bind="style:{backgroundColor: SendButtonClicked() ? 'green' : colorAlt} ,enable:SendToDBEnabled" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Send</span>
         <br />
         <br />
     </div>
-    <div onclick="vm.UndoStackButton()" data-bind="style: { backgroundColor: UndoStackButtonClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+    <div onclick="vm.UndoStackButton()" data-bind="style: { backgroundColor: UndoStackButtonClicked() ? 'green' : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Undo</span>
         <br />
@@ -544,16 +552,6 @@
 
 </div>
 
-@*<div class="row">
-    <div data-bind="click: oops, style: {backgroundColor: oopsClicked() ? clickColor : colorAlt}" class="col-xs-2">
-        <br />
-        <br />
-        <span>Oops</span>
-        <br />
-        <br />
-        <br />
-    </div>
-</div>*@
 <div class="row">
     <div data-bind="click: nav, style: {backgroundColor: colorAlt}" class="col-xs-2">
         <br />
@@ -562,4 +560,13 @@
         <br />
         <br />
     </div>
+    <div data-bind="click: oops, style: {backgroundColor: oopsClicked() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Oops</span>
+        <br />
+        <br />
+        <br />
+    </div>
+
 </div>
