@@ -20,7 +20,7 @@ else
     else
     {
             <text>
-                <html lang="en">
+            <html lang="en">
             </text>
     }
 }
@@ -37,13 +37,13 @@ else
             <body class="container">
                 <header>
                     <div class="row">
-                        <div class="row">
+                        <div class="row" id="hoverable">
                             <div class="col-xs-4">
-                                <img alt="Scouter" onclick="$(function () { $('#nav').collapse('show'); setTimeout('$(function () { $(\'#nav\').collapse(\'hide\'); })', 1500);})" title="Scouter" src="/images/scouter-logo.png" />
+                                <img alt="Scouter" title="Scouter" src="/images/scouter-logo.png" />
                             </div>
                             <div id="nav" class="col-xs-2 panel-collapse collapse">
-                                <a href="/">
-                                    <div class="row" style="background-color:purple; color:white">
+                                <a href="/home">
+                                    <div class="row" id="home" style="background-color:purple; color:white">
                                         <br />
                                         Home<br />
                                         <br />
@@ -63,11 +63,15 @@ else
                     }
                 </div>
             </div>-->
-                                            </d
+                        </d
+                                    </div>
+                </header>
+                <article>
                     </div>
                 </header>
                 <article>
-                    @RenderBody()
+                            @RenderBody()
+                </article>
                 </article>
                 <footer>
                     <small></small>
@@ -78,5 +82,8 @@ else
                 @Scripts.Render("~/bundles/site")
                 @Scripts.Render("~/bundles/offline")
                 @RenderSection("scripts", required: false)
+                <script>
+                    $('#hoverable').hover(function () { $('#home').stop().animate({fontSize:'24px',width: '100%',height: '100%',opacity:1}, 'slow');}, function () {$('#home').stop().animate({fontSize:'24px',width: '0%',height: '0%',opacity:0}, 'slow');});
+                </script>
             </body>
             </html>

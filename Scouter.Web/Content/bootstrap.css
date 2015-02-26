@@ -2015,7 +2015,7 @@ select[multiple].input-lg {
 }
 @-webkit-keyframes btnanimrev {
     from {
-        background-color: rgba(247, 254,46, 0.75);
+        background-color: rgba(247, 254,46, 1);
     }
     to {
         background-color: rgba(209,36,159,0.0);
@@ -2023,7 +2023,7 @@ select[multiple].input-lg {
 }
 @-webkit-keyframes btnanim {
     from {background-color: rgba(209,36,159,0.0); }
-    to {background-color: rgba(247, 254,46, 0.75); }
+    to {background-color: rgba(247, 254,46, 1); }
 }
 .btn-big:hover,
 .btn-big:focus {
@@ -2371,12 +2371,8 @@ input[type="button"].btn-block {
 .fade.in {
   opacity: 1;
 }
-.collapse {
-  display: none;
-}
-.collapse.in {
-  display: block;
-}
+
+
 .collapsing {
   position: relative;
   height: 0;
