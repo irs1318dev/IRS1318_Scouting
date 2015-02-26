@@ -118,7 +118,50 @@ h5, h6 {
 
      
 }
+#home:hover {
+     background-color:yellow!important;
+    border-radius: 20px!important;
+    text-align:center;
+    font-size: 24px;
+    font-family:N-Gage;
+    -webkit-animation-name: homeanimrev;
+  -webkit-animation-duration:1s;
+  -webkit-animation-iteration-count:1;
+  -webkit-animation-play-state:running;
+ 
+}
+#home
+{
+     background-color:purple!important;
+     width:200px;
+     height:100px;   
+    border-radius: 20px!important;
+    text-align:center;
+    font-size: 24px;
+    font-family:N-Gage;
+   -webkit-animation-name: homeanim;
+  -webkit-animation-duration:1s;
+  -webkit-animation-iteration-count:1;
+  -webkit-animation-play-state:running;
+}
+@-webkit-keyframes homeanimrev {
+    from {
+        background-color:purple;
+    }
+    to {
+        background-color: yellow;
+    }
+}
+@-webkit-keyframes homeanim {
+    from {
+        background-color: yellow; 
 
+    }
+    to {
+        background-color: purple; 
+
+    }
+}
 #body {
     background-color: #efeeef;
     clear: both;
