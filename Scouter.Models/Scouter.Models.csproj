@@ -64,7 +64,7 @@
     <Compile Include="RobotEventTypeLookup.cs" />
     <Compile Include="ScoutingNotes.cs" />
     <Compile Include="StackEvent.cs" />
-    <Compile Include="FRCEvent.cs" />
+    <Compile Include="FRCCompetition.cs" />
     <Compile Include="FRCMatch.cs" />
     <Compile Include="IAuditInfo.cs" />
     <Compile Include="Membership\Membership.cs" />
