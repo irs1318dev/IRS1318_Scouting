@@ -228,11 +228,12 @@
     </script>
 }
 <div class="row" style="color:white">
-    <span style="color:red">Autonomous</span> <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' + model.teamNumber() + ' ('+ model.teamName() + ')'" />
+    <span style="color:red; background-color:rgba(0, 0, 0, 0.8)">Autonomous</span>
+    <span style="font-size:16px; background-color:rgba(0, 0, 0, 0.8)" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' + model.teamNumber() + ' ('+ model.teamName() + ')'" />
 </div>
 
-<div class="row" style="color:white">
-    Totes <div id="totesImg"></div>
+<div class="row">
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Totes <div id="totesImg"></div></span>
 </div>
 <div class="row">
     <!-- vm is where you should create the buttons for the row. the color should either be color or colorAlt(or any other colors you define)
@@ -280,8 +281,8 @@
     </div>
 
 </div>
-<div class="row" style="color:white">
-    Recycling Containers  <div id="containerImg"></div>
+<div class="row">
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Recycling Containers  <div id="containerImg"></div></span>
 </div>
 <div class="row">
     <div onclick="vm.abstractButtonFunction(vm.RightContainerMovedClicked, vm.RightContainerMovedCount, robotEventTypes['RightContainerMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: RightContainerMovedClicked() ? clickColor : color}" class="col-xs-2">
@@ -313,8 +314,8 @@
     </div>
 </div>
 
-<div class="row" style="color:white">
-    Containers Taken From Step
+<div class="row">
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Containers Taken From Step</span>
 </div>
 <div class="row" style="text-align:center">
     <div onclick="vm.abstractButtonFunction(vm.LeftContainerFromStepClicked, vm.LeftContainerFromStepCount, robotEventTypes['LeftContainerFromStep'])" data-bind="style: { backgroundColor: LeftContainerFromStepClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
@@ -350,8 +351,8 @@
         <br />
     </div>
 </div>
-<div class="row" style="color:white">
-    At end of Autonomous...
+<div class="row">
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">At end of Autonomous...</span>
 </div>
 <div class="row">
     <div onclick="vm.abstractButtonFunction(vm.AutonomousMovedClicked, vm.AutonomousMovedCount, robotEventTypes['AutonomousMoved'])" style="border-style: solid; border-width: medium; border-color: white" 

@@ -1,14 +1,14 @@
 ﻿@model Scouter.Web.ViewModels.ScoutViewModel
 
 @{
-	ViewBag.Title = "Teleop Scouter";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Teleop Scouter";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section scripts{
-	<script>
-    var vm;
-    var robotEventTypes = @Html.Raw(Model.RobotEventTypes);
+    <script>
+        var vm;
+        var robotEventTypes = @Html.Raw(Model.RobotEventTypes);
 
         $(function ()
         {
@@ -178,64 +178,64 @@
                 }
 
                 self.InitialStackHeight = function()
-            	{
-            	    self.clear();
-            	    self.InitialStackHeightClicked(true);
-            	    if(self.InitialStackHeightCount() >= 5)
-            	    {
-            	        self.InitialStackHeightCount(0);
-            	    }
+                {
+                    self.clear();
+                    self.InitialStackHeightClicked(true);
+                    if(self.InitialStackHeightCount() >= 5)
+                    {
+                        self.InitialStackHeightCount(0);
+                    }
                     else
                         self.InitialStackHeightCount(self.InitialStackHeightCount() + 1);
                 }
-            	self.TotesAddedToStack = function()
-            	{
-            	    self.clear();
-            	    self.TotesAddedToStackClicked(true);
-            	    if(self.TotesAddedToStackCount() >= 6)
-            	    {
-            	        self.TotesAddedToStackCount(0);
-            	    }
+                self.TotesAddedToStack = function()
+                {
+                    self.clear();
+                    self.TotesAddedToStackClicked(true);
+                    if(self.TotesAddedToStackCount() >= 6)
+                    {
+                        self.TotesAddedToStackCount(0);
+                    }
                     else
                         self.TotesAddedToStackCount(self.TotesAddedToStackCount() + 1);
-            	}
+                }
                 self.ContainerAddedtoStack = function()
-            	{
-            	    self.clear();
-            	    self.ContainerAddedtoStackClicked(true);
-            	    self.ContainerAddedtoStackCount(!self.ContainerAddedtoStackCount());
-            	}
-            	self.SendButton = function()
-            	{
-            	    if(self.SendToDBEnabled())
+                {
+                    self.clear();
+                    self.ContainerAddedtoStackClicked(true);
+                    self.ContainerAddedtoStackCount(!self.ContainerAddedtoStackCount());
+                }
+                self.SendButton = function()
+                {
+                    if(self.SendToDBEnabled())
                     {
-            	        self.clear();
-            	        
-            	        var e = new StackEvent();
-            	        e.scouter_Id = self.model.scoutID;
-            	        e.startingHeight = self.InitialStackHeightCount;
-            	        e.NumTotesAdded = self.TotesAddedToStackCount;
-            	        e.IsContainerAdded = self.ContainerAddedtoStackCount();
-            	        scouterDataService.saveStack(ko.toJS(e)).done( function(){
-            	            self.SendButtonClicked(true);
-            	        });
+                        self.clear();
 
-            	        self.InitialStackHeightCount(0);
-            	        self.TotesAddedToStackCount(0);
-            	        self.ContainerAddedtoStackCount(false);
-            	    }
-            	    else
-            	    {
+                        var e = new StackEvent();
+                        e.scouter_Id = self.model.scoutID;
+                        e.startingHeight = self.InitialStackHeightCount;
+                        e.NumTotesAdded = self.TotesAddedToStackCount;
+                        e.IsContainerAdded = self.ContainerAddedtoStackCount();
+                        scouterDataService.saveStack(ko.toJS(e)).done( function(){
+                            self.SendButtonClicked(true);
+                        });
+
+                        self.InitialStackHeightCount(0);
+                        self.TotesAddedToStackCount(0);
+                        self.ContainerAddedtoStackCount(false);
+                    }
+                    else
+                    {
                         //do nothing
-            	    }
-            	}
-            	self.UndoStackButton = function()
-            	{
-            	    self.clear();
-            	    scouterDataService.undoStack(@Model.Scouter_Id).done( function(){
-            	        self.UndoStackButtonClicked(true);            	        
-            	    });
-            	}
+                    }
+                }
+                self.UndoStackButton = function()
+                {
+                    self.clear();
+                    scouterDataService.undoStack(@Model.Scouter_Id).done( function(){
+                        self.UndoStackButtonClicked(true);
+                    });
+                }
                 self.SendToDBEnabled = function()
                 {
                     if(self.TotesAddedToStackCount() + self.InitialStackHeightCount() <= 6)
@@ -320,14 +320,14 @@
             vm = new ViewModel(new Scout());
             ko.applyBindings(vm);
         })
-	</script>
+    </script>
 }
 <div class="row" style="color:white">
-	Teleoperated <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' +model.teamNumber() + ' ('+ model.teamName() + ')'" />
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Teleoperated <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' +model.teamNumber() + ' ('+ model.teamName() + ')'" /></span>
 </div>
 
-<div class="row" style="color:white">
-    Containers Taken From Step
+<div class="row">
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Containers Taken From Step</span>
 </div>
 
 <div class="row" style="text-align:center">
@@ -365,12 +365,12 @@
     </div>
 </div>
 
-<div class="row" style="color:white">
-    Totes and Field
+<div class="row">
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Totes and Field</span>
 </div>
 
 <div class="row" style="text-align:center">
-    <div onclick="vm.abstractButtonFunction(vm.LeftChutePickUpClicked, vm.LeftChutePickUpCount, robotEventTypes['LeftChutePickUp'])" 
+    <div onclick="vm.abstractButtonFunction(vm.LeftChutePickUpClicked, vm.LeftChutePickUpCount, robotEventTypes['LeftChutePickUp'])"
          data-bind="style: { backgroundColor: LeftChutePickUpClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-1">
         <br />
         <span>Left Chute PickUp </span>
@@ -385,7 +385,7 @@
         <span data-bind="text: RightChutePickUpCount()"></span>
         <br />
     </div>
-    <div onclick="vm.abstractButtonFunction(vm.GroundPickUpClicked, vm.GroundPickUpCount, robotEventTypes['GroundPickUp'])" 
+    <div onclick="vm.abstractButtonFunction(vm.GroundPickUpClicked, vm.GroundPickUpCount, robotEventTypes['GroundPickUp'])"
          data-bind="    style: {backgroundColor: GroundPickUpClicked() ? clickColor : color}" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-1">
         <br />
         <span>Ground PickUp</span>
@@ -394,8 +394,8 @@
         <br />
         <br />
     </div>
-    <div onclick="vm.abstractButtonFunction(vm.YellowTotesMovedToStepClicked, vm.YellowTotesMovedToStepCount, robotEventTypes['YellowTotesMovedToStep'])" 
-         style="margin-left:4px; border-style: solid; border-width: medium; border-color: white" 
+    <div onclick="vm.abstractButtonFunction(vm.YellowTotesMovedToStepClicked, vm.YellowTotesMovedToStepCount, robotEventTypes['YellowTotesMovedToStep'])"
+         style="margin-left:4px; border-style: solid; border-width: medium; border-color: white"
          data-bind="style: {backgroundColor: YellowTotesMovedToStepClicked() ? clickColor : colorAlt}" class="col-xs-2">
         <br />
         <span>Num Yellow Totes -> Step</span>
@@ -404,7 +404,7 @@
         <br />
         <br />
     </div>
-    <div onclick="vm.abstractButtonFunction(vm.DriveOverPlatformClicked, vm.DriveOverPlatformCount, robotEventTypes['DriveOverPlatform'])" 
+    <div onclick="vm.abstractButtonFunction(vm.DriveOverPlatformClicked, vm.DriveOverPlatformCount, robotEventTypes['DriveOverPlatform'])"
          data-bind="    style: {backgroundColor: DriveOverPlatformClicked() ? clickColor : colorAlt}" style="margin-left:4px; border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Drove over White Platform</span>
@@ -426,7 +426,7 @@
 </div>
 
 <div class="row" style="color:white">
-    Stacks
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Stacks</span>
 </div>
 <div class="row" style="text-align:center">
     <div onclick="vm.InitialStackHeight()" data-bind="style: { backgroundColor: InitialStackHeightClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
@@ -463,15 +463,15 @@
         <br />
         <br />
     </div>
-    </div>
+</div>
 
 <div class="row" style="color:white">
-    Litter and Human Player
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Litter and Human Player</span>
 </div>
 
 <div class="row" style="text-align:center">
     <div onclick="vm.abstractButtonFunction(vm.LitterPlacedAtHeightClicked, vm.LitterPlacedAtHeightCount, robotEventTypes['LitterPlacedAtHeight'])"
-            data-bind="style: { backgroundColor: LitterPlacedAtHeightClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+         data-bind="style: { backgroundColor: LitterPlacedAtHeightClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Litter -> Stacked Container</span>
         <br />
@@ -487,7 +487,7 @@
         <br />
     </div>
     <div onclick="vm.abstractButtonFunction(vm.HumanPlayerShootsClicked, vm.HumanPlayerShootsCount, robotEventTypes['HumanPlayerShoots'])"
-            data-bind="style: {backgroundColor: HumanPlayerShootsClicked() ? clickColor : color}" style="border-style: solid; border-width: medium; border-color: white; margin-left:4px" class="col-xs-2">
+         data-bind="style: {backgroundColor: HumanPlayerShootsClicked() ? clickColor : color}" style="border-style: solid; border-width: medium; border-color: white; margin-left:4px" class="col-xs-2">
         <br />
         <span>Human throws to Opponent!!</span>
         <br />
@@ -496,7 +496,7 @@
         <br />
     </div>
     <div onclick="vm.abstractButtonFunction(vm.HumanPlayerFailsClicked, vm.HumanPlayerFailsCount, robotEventTypes['HumanPlayerFails'])"
-            data-bind="style: {backgroundColor: HumanPlayerFailsClicked() ? clickColor : color}" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+         data-bind="style: {backgroundColor: HumanPlayerFailsClicked() ? clickColor : color}" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Human failed throw</span>
         <br />
@@ -507,7 +507,7 @@
 </div>
 <div>
     <div class="row" style="color:white">
-        Assists
+        <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Assists</span>
     </div>
 
     <div class="row" style="text-align:center">
