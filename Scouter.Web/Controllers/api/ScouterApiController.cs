@@ -76,7 +76,7 @@ namespace Scouter.Web.Controllers.api
         /// <summary>
         /// Saves a stack event to the database
         /// </summary>
-        /// <param name="stackEvent">the stack event</param>
+        /// <param name="stackEvent">the stack event to add to the data base</param>
         [HttpPost]
         public HttpResponseMessage SaveStackEvent(StackEventDataTransfer stackEvent)
         {
@@ -139,7 +139,7 @@ namespace Scouter.Web.Controllers.api
         /// </summary>
         /// <param name="id">The ID of the scouter</param>
         [HttpDelete]
-        public HttpResponseMessage Undo(int id)
+        public HttpResponseMessage UndoStack(int id)
         {
             var scoutData = _unit.CurrentScoutData.GetById(1);
             int teamId = 0;

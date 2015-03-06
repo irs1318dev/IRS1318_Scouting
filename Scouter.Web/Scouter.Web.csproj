@@ -208,6 +208,7 @@
     <Compile Include="Controllers\api\AllicancesApiController.cs" />
     <Compile Include="Controllers\api\FRCEventsApiController.cs" />
     <Compile Include="Controllers\api\FRCMatchApiController.cs" />
+    <Compile Include="Controllers\api\HumanEventsApiController.cs" />
     <Compile Include="Controllers\api\NotesApiController.cs" />
     <Compile Include="Controllers\api\RobotEventsApiController.cs" />
     <Compile Include="Controllers\api\ScoutDataApiController.cs" />
@@ -230,6 +231,7 @@
     <Compile Include="Models\FRCEvent\FRCEventDataTransfer.cs" />
     <Compile Include="Models\FRCEvent\FRCMatchDataTransfer.cs" />
     <Compile Include="Models\FRCMatch\FRCMatchDataTransfer.cs" />
+    <Compile Include="Models\Scouting\HumanEventDataTransfer.cs" />
     <Compile Include="Models\Scouting\MatchInfoDataTransfer.cs" />
     <Compile Include="Models\Scouting\NotesDataTransfer.cs" />
     <Compile Include="Models\Reports\ReportingModel.cs" />
@@ -437,6 +439,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Reports\TeamRankings.cshtml" />
     <Content Include="Views\Scouting\Notes.cshtml" />
+    <Content Include="Views\Scouting\Human.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

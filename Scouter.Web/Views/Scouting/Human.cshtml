@@ -1,0 +1,340 @@
+﻿@model Scouter.Web.ViewModels.ScoutViewModel
+
+@{
+    ViewBag.Title = "Human Player Scouter";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script>
+        var vm;
+        var humanEventTypes = @Html.Raw(Model.HumanEventTypes);
+
+        $(function ()
+        {
+            var Scout = function()
+            {
+                this.color = ko.observable(@Model.Color);
+                this.matchID = ko.observable(@Model.Match.Id);
+                this.matchNumber = ko.observable(@Model.Match.SequenceNumber);
+                this.teamID = ko.observable(@Model.Team.Id);
+                this.teamName = ko.observable("@Model.Team.Name");
+                this.teamNumber = ko.observable(@Model.Team.Number);
+                this.scoutID = ko.observable(@Model.Scouter_Id);
+            }
+
+            var Event = function ()
+            {
+                this.id = 0;
+                this.scouter_Id = 0;
+                this.humanEventType = 0;
+                this.team_Number = 0;
+            }
+
+            var ScoutInfo = function()
+            {
+                this.scouter = 0;
+                this.match_Id = 0;
+                this.scouterStatus = 0;
+                this.team_Id = 0;
+            }
+
+            var ScoutNotes = function()
+            {
+                this.Notes = notes.value;
+                this.Team_Id = vm.model.teamID;
+                this.Match_Id = vm.model.matchID;
+                this.Mode = 1;
+            }
+            //
+            // CLIENT SIDE VIEWMODEL
+            //
+            var ViewModel = function (scout)
+            {
+                var self = this;
+                self.model = scout;
+
+                //Add isClicked Booleans here/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                self.throwToOwnLandfillPressed1 = ko.observable(false);
+                self.throwPastOpponentLandfillPressed1 = ko.observable(false);
+                self.failurePressed1 = ko.observable(false);
+                self.throwToOwnLandfillPressed2 = ko.observable(false);
+                self.throwPastOpponentLandfillPressed2 = ko.observable(false);
+                self.failurePressed2 = ko.observable(false);
+                self.throwToOwnLandfillPressed3 = ko.observable(false);
+                self.throwPastOpponentLandfillPressed3 = ko.observable(false);
+                self.failurePressed3 = ko.observable(false);
+
+                self.oopsClicked = ko.observable(false);
+
+                //Add Count integers here/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                self.throwToOwnLandfillCount1 = ko.observable(0);
+                self.throwPastOpponentLandfillCount1 = ko.observable(0);
+                self.failureCount1 = ko.observable(0);
+                self.throwToOwnLandfillCount2 = ko.observable(0);
+                self.throwPastOpponentLandfillCount2 = ko.observable(0);
+                self.failureCount2 = ko.observable(0);
+                self.throwToOwnLandfillCount3 = ko.observable(0);
+                self.throwPastOpponentLandfillCount3 = ko.observable(0);
+                self.failureCount3 = ko.observable(0);
+
+                self.clear = function()
+                {
+                    //Set all isClickd booleans to false here/////////////////////////////////////////////////////////////////////////////////////////////
+                    self.throwToOwnLandfillPressed1(false);
+                    self.throwPastOpponentLandfillPressed1(false);
+                    self.failurePressed1(false);
+                    self.throwToOwnLandfillPressed2(false);
+                    self.throwPastOpponentLandfillPressed2(false);
+                    self.failurePressed2(false);
+                    self.throwToOwnLandfillPressed3(false);
+                    self.throwPastOpponentLandfillPressed3(false);
+                    self.failurePressed3(false);
+
+                    self.oopsClicked(false);
+                }
+
+                //Add on clicked functions here///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                self.abstractButtonFunction = function(clicked, count, humanEv, team)
+                {
+                    //reset all buttons to original color and then set self button to clicked color
+                    self.clear();
+
+                    clicked(true);
+                    //add one to the count of clicks
+
+                    if (typeof(count()) == typeof(0)) {
+                        count(count() + 1);
+                    }
+                    else if (typeof(count()) == typeof(false)) {
+                        count(!count());
+                    }
+                    else {
+                        // terrible
+                    }
+                    //Create a new robot event and set it's variables
+                    var e = new Event();
+                    e.scouter_Id = self.model.scoutID;
+                    e.humanEventType = humanEv;
+                    e.team_Number = team;
+                    //Send the robot event to the server
+                    scouterDataService.saveHuman(ko.toJS(e));
+                }
+
+                self.oops = function()
+                {
+                    self.clear();
+                    self.oopsClicked(true);
+                    scouterDataService.undoHuman(@Model.Scouter_Id).done(function (data)
+                    {
+                        self.updateCounter();
+                    });
+                }
+
+                self.updateCounter = function()
+                {
+                    scouterDataService.updateCounter(@Model.Scouter_Id).done(function (data)
+                    {
+                        //set your counts to the server counts////////////////////////////////////////////////////////////////////////////////////////////
+                        self.throwToOwnLandfillCount1(data.TotesStacked);
+                    })
+                }
+
+                self.nav = function ()
+                {
+                    document.location = '/Scouting/Teleop/@Model.Scouter_Id';
+                }
+
+                //set the colors for the buttons
+                if (self.model.scoutID() < 2)//red scout
+                {
+                    self.color = 'red';
+                    self.clickColor = 'pink';
+                    self.colorAlt = '#FF4444';
+                }
+                else//blue scouts
+                {
+                    self.color = 'deepskyblue';
+                    self.clickColor = 'lightblue';
+                    self.colorAlt = 'skyblue';
+                }
+
+                //tell the server that you are in autonomous
+                var d = new ScoutInfo();
+                d.scouter = self.model.scoutID;
+                d.scouterStatus = 1;
+                d.match_Id = self.model.matchID;
+                d.team_Id = self.model.teamID;
+
+                scouterDataService.updateScoutData(ko.toJS(d)).done(function (data)
+                {
+                    self.updateCounter();
+                });
+
+            }
+
+            //create the viewmodel and apply bindings
+            vm = new ViewModel(new Scout());
+            ko.applyBindings(vm);
+        })
+    </script>
+}
+<div class="row" style="color:white">
+    <span style="color:red; background-color:rgba(0, 0, 0, 0.8)">Human Player</span>
+    <span style="font-size:16px; background-color:rgba(0, 0, 0, 0.8)" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' + model.teamNumber() + ' ('+ model.teamName() + ')'" />
+</div>
+
+<div class="row" id="row1l">
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Team 1<div id="totesImg"></div></span>
+</div>
+<div class="row" id="row1c">
+    <!-- vm is where you should create the buttons for the row. the color should either be color or colorAlt(or any other colors you define)
+         the class that I was using for the "small" buttons was col-xs-2 and col-xs-4 for the longer ones. One limitation of Bootstraps
+         tables is that the rows can have a max of 12 columns -->
+    <!-- data-bind="click: <your onClickeFunction>, style: {backgroundColor: <your isClickedBoolean>() ? clickColor : [color | colorAlt]} class="col-xs-2"-->
+    <div onclick="vm.abstractButtonFunction(vm.throwToOwnLandfillPressed1, vm.throwToOwnLandfillCount1, humanEventTypes['ThrowToOwnLandfill'], 1)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: throwToOwnLandfillPressed1() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>Throw To Own Landfill</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: throwToOwnLandfillCount1()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.throwPastOpponentLandfillPressed1, vm.throwPastOpponentLandfillCount1, humanEventTypes['ThrowPastOpponentLandfill'], 1)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: throwPastOpponentLandfillPressed1() ? clickColor : colorAlt}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>Throw past opponent landfill</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: throwPastOpponentLandfillCount1()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.failurePressed1, vm.failureCount1, humanEventTypes['Failure'], 1)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: failurePressed1() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>Failure</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: failureCount1()"></span>
+        <br />
+        <br />
+    </div>
+</div>
+<div class="row" id="row2l">
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Team 2<div id="totesImg"></div></span>
+</div>
+<div class="row" id="row2c">
+    <!-- vm is where you should create the buttons for the row. the color should either be color or colorAlt(or any other colors you define)
+         the class that I was using for the "small" buttons was col-xs-2 and col-xs-4 for the longer ones. One limitation of Bootstraps
+         tables is that the rows can have a max of 12 columns -->
+    <!-- data-bind="click: <your onClickeFunction>, style: {backgroundColor: <your isClickedBoolean>() ? clickColor : [color | colorAlt]} class="col-xs-2"-->
+    <div onclick="vm.abstractButtonFunction(vm.throwToOwnLandfillPressed2, vm.throwToOwnLandfillCount2, humanEventTypes['ThrowToOwnLandfill'], 2)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: throwToOwnLandfillPressed2() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>Throw To Own Landfill</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: throwToOwnLandfillCount2()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.throwPastOpponentLandfillPressed2, vm.throwPastOpponentLandfillCount2, humanEventTypes['ThrowPastOpponentLandfill'], 2)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: throwPastOpponentLandfillPressed2() ? clickColor : colorAlt}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>Throw past opponent landfill</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: throwPastOpponentLandfillCount2()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.failurePressed2, vm.failureCount2, humanEventTypes['Failure'], 2)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: failurePressed2() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>Failure</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: failureCount2()"></span>
+        <br />
+        <br />
+    </div>
+</div>
+<div class="row" id="row3l">
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Team 3<div id="totesImg"></div></span>
+</div>
+<div class="row" id="row3c">
+    <!-- vm is where you should create the buttons for the row. the color should either be color or colorAlt(or any other colors you define)
+         the class that I was using for the "small" buttons was col-xs-2 and col-xs-4 for the longer ones. One limitation of Bootstraps
+         tables is that the rows can have a max of 12 columns -->
+    <!-- data-bind="click: <your onClickeFunction>, style: {backgroundColor: <your isClickedBoolean>() ? clickColor : [color | colorAlt]} class="col-xs-2"-->
+    <div onclick="vm.abstractButtonFunction(vm.throwToOwnLandfillPressed3, vm.throwToOwnLandfillCount3, humanEventTypes['ThrowToOwnLandfill'], 3)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: throwToOwnLandfillPressed3() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>Throw To Own Landfill</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: throwToOwnLandfillCount3()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.throwPastOpponentLandfillPressed3, vm.throwPastOpponentLandfillCount3, humanEventTypes['ThrowPastOpponentLandfill'], 3)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: throwPastOpponentLandfillPressed3() ? clickColor : colorAlt}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>Throw past opponent landfill</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: throwPastOpponentLandfillCount3()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.failurePressed3, vm.failureCount3, humanEventTypes['Failure'], 3)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: failurePressed3() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>Failure</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: failureCount3()"></span>
+        <br />
+        <br />
+    </div>
+</div>
+<div class="row">
+    <div data-bind="click: nav, style: {backgroundColor: color}" class="col-xs-2">
+        <br />
+        <br />
+        <span>MatchEnd</span>
+        <br />
+        <br />
+        <br />
+    </div>
+    <div data-bind="click: oops, style: {backgroundColor: oopsClicked() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Oops</span>
+        <br />
+        <br />
+        <br />
+    </div>
+    <div id="arrow"></div>
+</div>

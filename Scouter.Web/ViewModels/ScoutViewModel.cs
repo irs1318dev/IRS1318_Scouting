@@ -28,5 +28,19 @@ namespace Scouter.Web.ViewModels
                 return serializer.Serialize(types).Replace("&quot;", "\"");
             }
         }
+
+        public string HumanEventTypes
+        {
+            get
+            {
+                Dictionary<string, int> types = new Dictionary<string, int>();
+                foreach (var type in Enum.GetNames(typeof(HumanEventType)))
+                {
+                    types.Add(type, (int)Enum.Parse(typeof(HumanEventType), type));
+                }
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                return serializer.Serialize(types).Replace("&quot;", "\"");
+            }
+        }
     }
 }

@@ -15,6 +15,13 @@ namespace Scouter.Web.Controllers.api
     public class ScoutDataApiController : ApiController
     {
         private ApplicationUnit _unit = new ApplicationUnit();
+        RobotEventType[] booleans = { RobotEventType.LeftContainerFromStep,
+                                      RobotEventType.LeftCenterContainerFromStep,
+                                      RobotEventType.RightCenterContainerFromStep,
+                                      RobotEventType.RightContainerFromStep,
+                                      RobotEventType.AutonomousMoved,
+                                      RobotEventType.NoAutonomous,
+                                      RobotEventType.AutoAttemptClutter};
 
         //GetScoutData is in ScouterApiController
 
@@ -268,6 +275,28 @@ namespace Scouter.Web.Controllers.api
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
+        private bool RemoveExistingEvent(int teamId, int matchId, RobotEventType type)
+        {
+            var q = from r in _unit.RobotEvents.GetAll()
+                    where r.Team.Id == teamId &&
+                          r.Match.Id == matchId &&
+                          r.RobotEventType == type
+                    select r;
+
+            if (q.Count() > 0)
+            {
+                var list = q.ToList();
+                while (list.Count > 0 )
+                {
+                    _unit.RobotEvents.Delete(list[0].Id);
+                    list.RemoveAt(0);
+                }
+                _unit.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// Saves a robot event to the database
         /// </summary>
@@ -281,6 +310,7 @@ namespace Scouter.Web.Controllers.api
                 {
                     var scoutData = _unit.CurrentScoutData.GetById(1);
                     Team team = null;
+                    var match = _unit.FRCMatches.GetById(scoutData.Match_ID);
                     switch (robotEvent.Scouter_Id)
                     {
                         case 1:
@@ -302,10 +332,21 @@ namespace Scouter.Web.Controllers.api
                             team = scoutData.Blue3;
                             break;
                     }
+
+                    foreach(RobotEventType type in booleans)
+                    {
+                        if(robotEvent.RobotEventType == type)
+                        {
+                            if (RemoveExistingEvent(team.Id, match.Id, type))
+                                return Request.CreateResponse(HttpStatusCode.NoContent);
+                            break;
+                        }
+                    }
+
                     RobotEvent re = new RobotEvent();
                     re.RobotEventType = robotEvent.RobotEventType;
                     re.RobotMode = robotEvent.RobotMode;
-                    re.Match = _unit.FRCMatches.GetById(scoutData.Match_ID);
+                    re.Match = match;
                     re.Team = team;
                     this._unit.RobotEvents.Add(re);
                     this._unit.SaveChanges();

@@ -46,6 +46,24 @@ var scouterDataService = (function ()
                 ds.logError("save", errdata);
             });
     	},
+    	saveHuman: function (data)
+    	{
+
+    	    var
+                type = httpVerbs.POST,
+                url = '/api/HumanEventsApi';
+
+    	    return $.ajax(
+            {
+                type: type,
+                url: url,
+                data: data,
+                dataType: 'json'
+            }).fail(function (errdata)
+            {
+                ds.logError("save", errdata);
+            });
+    	},
     	saveStack: function (data) {
 
     	    var
@@ -140,6 +158,17 @@ var scouterDataService = (function ()
 				    ds.logError("undo", errdata);
 				});
     	},
+    	undoHuman: function (num)
+    	{
+    	    return $.ajax(
+				{
+				    type: httpVerbs.DEL,
+				    url: '/api/HumanEventsApi/' + num
+				}).fail(function (errdata)
+				{
+				    ds.logError("undo", errdata);
+				});
+    	},
     	undoStack: function (num) {
     	    return $.ajax(
 				{
@@ -162,11 +191,12 @@ var scouterDataService = (function ()
     	}
     };
 
-	_.bindAll(ds, 'save', 'saveStack', 'getScoutData', 'updateScoutData', 'getMatchData', 'setMatch', 'addNotes', 'undo', 'undoStack' , 'updateCounter');
+	_.bindAll(ds, 'save', 'saveHuman', 'saveStack', 'getScoutData', 'updateScoutData', 'getMatchData', 'setMatch', 'addNotes', 'undo', 'undo', 'undoStack', 'updateCounter');
 
 	return {
         logError: ds.logError,
         save: ds.save,
+        saveHuman: ds.saveHuman,
         saveStack: ds.saveStack,
 		getScoutData: ds.getScoutData,
 		updateScoutData: ds.updateScoutData,
@@ -174,6 +204,7 @@ var scouterDataService = (function ()
 		setMatch: ds.setMatch,
 		addNotes: ds.addNotes,
 		undo: ds.undo,
+        undoHuman: ds.undoHuman,
         undoStack: ds.undoStack,
 		updateCounter: ds.updateCounter
 	}
