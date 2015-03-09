@@ -9,6 +9,7 @@ namespace Scouter.Data
 
         private IRepository<FRCCompetition> _frcevents = null;
         private IRepository<RobotEventTypeLookup> _roboteventtypelookups = null;
+        private IRepository<HumanEventTypeLookup> _humaneventtypelookups = null;
         private FRCMatchRepository _frcmatches = null;
         private IRepository<Team> _teams = null;
         private IRepository<StackEvent> _stackevents = null;
@@ -56,6 +57,16 @@ namespace Scouter.Data
                 if (this._roboteventtypelookups == null)
                     this._roboteventtypelookups = new GenericRepository<RobotEventTypeLookup>(this._context);
                 return this._roboteventtypelookups;
+            }
+        }
+
+        public IRepository<HumanEventTypeLookup> HumanEventTypeLookups
+        {
+            get
+            {
+                if (this._humaneventtypelookups == null)
+                    this._humaneventtypelookups = new GenericRepository<HumanEventTypeLookup>(this._context);
+                return this._humaneventtypelookups;
             }
         }
 

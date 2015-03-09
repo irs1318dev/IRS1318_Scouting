@@ -14,6 +14,7 @@ namespace Scouter.Data
         public DbSet<FRCCompetition> FRCCompetitions { get; set; }
         public DbSet<FRCMatch> FRCMatches { get; set; }
         public DbSet<RobotEventTypeLookup> RobotEventTypeLookups { get; set; }
+        public DbSet<HumanEventTypeLookup> HumanEventTypeLookups { get; set; }
         public DbSet<Alliance> Alliances { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<RobotEvent> RobotEvents { get; set; }

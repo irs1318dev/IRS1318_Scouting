@@ -34,27 +34,41 @@
             {
                 var self = this;
 
+                self.errorMessage = ko.observable("Waiting for next Match... If you believe that you should have advance, notify the lead scout that you are infact ready to advance. Then wait for further instructions.");
+
                 //Add isClicked Booleans here/////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 self.throwToOwnLandfillPressed1 = ko.observable(false);
+                self.throwToOpponentLandfillPressed1 = ko.observable(false);
                 self.throwPastOpponentLandfillPressed1 = ko.observable(false);
                 self.failurePressed1 = ko.observable(false);
+
                 self.throwToOwnLandfillPressed2 = ko.observable(false);
+                self.throwToOpponentLandfillPressed2 = ko.observable(false);
                 self.throwPastOpponentLandfillPressed2 = ko.observable(false);
                 self.failurePressed2 = ko.observable(false);
+
                 self.throwToOwnLandfillPressed3 = ko.observable(false);
+                self.throwToOpponentLandfillPressed3 = ko.observable(false);
                 self.throwPastOpponentLandfillPressed3 = ko.observable(false);
                 self.failurePressed3 = ko.observable(false);
 
                 self.oopsClicked = ko.observable(false);
 
+                self.showWait = ko.observable(false);
+
                 //Add Count integers here/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 self.throwToOwnLandfillCount1 = ko.observable(0);
+                self.throwToOpponentLandfillCount1 = ko.observable(0);
                 self.throwPastOpponentLandfillCount1 = ko.observable(0);
                 self.failureCount1 = ko.observable(0);
+
                 self.throwToOwnLandfillCount2 = ko.observable(0);
+                self.throwToOpponentLandfillCount2 = ko.observable(0);
                 self.throwPastOpponentLandfillCount2 = ko.observable(0);
                 self.failureCount2 = ko.observable(0);
+
                 self.throwToOwnLandfillCount3 = ko.observable(0);
+                self.throwToOpponentLandfillCount3 = ko.observable(0);
                 self.throwPastOpponentLandfillCount3 = ko.observable(0);
                 self.failureCount3 = ko.observable(0);
 
@@ -62,14 +76,19 @@
                 {
                     //Set all isClickd booleans to false here/////////////////////////////////////////////////////////////////////////////////////////////
                     self.throwToOwnLandfillPressed1(false);
+                    self.throwToOpponentLandfillPressed1(false);
                     self.throwPastOpponentLandfillPressed1(false);
                     self.failurePressed1(false);
+
                     self.throwToOwnLandfillPressed2(false);
                     self.throwPastOpponentLandfillPressed2(false);
                     self.failurePressed2(false);
+                    self.throwToOpponentLandfillPressed2(false);
+
                     self.throwToOwnLandfillPressed3(false);
                     self.throwPastOpponentLandfillPressed3(false);
                     self.failurePressed3(false);
+                    self.throwToOpponentLandfillPressed3(false);
 
                     self.oopsClicked(false);
                 }
@@ -126,12 +145,141 @@
                         self.failureCount1(data.Failure1);
                         self.failureCount2(data.Failure2);
                         self.failureCount3(data.Failure3);
+
+                        self.throwToOpponentLandfillCount1(data.ThrowToOpponentLandfill1);
+                        self.throwToOpponentLandfillCount2(data.ThrowToOpponentLandfill2);
+                        self.throwToOpponentLandfillCount3(data.ThrowToOpponentLandfill3);
                     })
                 }
 
                 self.nav = function ()
                 {
-                    document.location = '/Scouting/Teleop/@Model.Scouter_Id';
+                    var v = scouterDataService.getScoutData().done(function (data)
+                    {
+                        if (data.Match_ID == @Model.Match.Id)
+                        {
+
+                            var d = new ScoutInfo();
+                            d.scouter = @Model.Scouter_Id;
+                            d.scouterStatus = 4;
+                            d.match_Id = @Model.Match.Id;
+                            
+                            $('#row1l').collapse('hide');
+                            $('#row2l').collapse('hide');
+                            $('#row3l').collapse('hide');
+                            $('#row1c').collapse('hide');
+                            $('#row2c').collapse('hide');
+                            $('#row3c').collapse('hide');
+                            $('#row4').collapse('hide');
+                            $('#row1l').fadeOut();
+                            $('#row2l').fadeOut();
+                            $('#row3l').fadeOut();
+                            $('#row1c').fadeOut();
+                            $('#row2c').fadeOut();
+                            $('#row3c').fadeOut();
+                            $('#row4').fadeOut();
+
+                            self.showWait(true);
+                            setTimeout(self.navigation, 1000);
+                        }
+                        else
+                        {
+                            document.location = '/scouting/Auto/@Model.Scouter_Id';
+                        }
+                    }).fail(function (error)
+                    {
+                        $('#row1l').collapse('hide');
+                        $('#row2l').collapse('hide');
+                        $('#row3l').collapse('hide');
+                        $('#row1c').collapse('hide');
+                        $('#row2c').collapse('hide');
+                        $('#row3c').collapse('hide');
+                        $('#row4').collapse('hide');
+                        $('#row1l').fadeOut();
+                        $('#row2l').fadeOut();
+                        $('#row3l').fadeOut();
+                        $('#row1c').fadeOut();
+                        $('#row2c').fadeOut();
+                        $('#row3c').fadeOut();
+                        $('#row4').fadeOut();
+
+						
+                        if (error.statusText)
+                        {
+                            self.errorMessage(error.statusText);
+                        }
+
+                        if (error.responseText)
+                        {
+                            var
+								msg = JSON.parse(error.responseText),
+								keys = _.keys(msg),
+								txt = '';
+
+                            _.each(keys, function (key)
+                            {
+                                txt += msg[key] + ' ';
+                            });
+                            self.errorMessage(txt);
+                        }
+
+                        self.errorMessage("Oops. something happened.\n" + self.errorMessage());
+
+                        setTimeout(self.navigation, 5000);
+                    })
+                }
+
+                self.navigation = function ()
+                {
+                    var v = scouterDataService.getScoutData().done(function (data)
+                    {
+                        if (data.Match_ID != @Model.Match.Id)
+                        {
+                            document.location = '/scouting/Human/@Model.Scouter_Id';
+                        }
+
+                        setTimeout(self.navigation, 1000);
+                    }).fail(function (error)
+                    {
+                        $('#row1l').collapse('hide');
+                        $('#row2l').collapse('hide');
+                        $('#row3l').collapse('hide');
+                        $('#row1c').collapse('hide');
+                        $('#row2c').collapse('hide');
+                        $('#row3c').collapse('hide');
+                        $('#row4').collapse('hide');
+                        $('#row1l').fadeOut();
+                        $('#row2l').fadeOut();
+                        $('#row3l').fadeOut();
+                        $('#row1c').fadeOut();
+                        $('#row2c').fadeOut();
+                        $('#row3c').fadeOut();
+                        $('#row4').fadeOut();
+
+
+                        if (error.statusText)
+                        {
+                            self.errorMessage(error.statusText);
+                        }
+
+                        if (error.responseText)
+                        {
+                            var
+								msg = JSON.parse(error.responseText),
+								keys = _.keys(msg),
+								txt = '';
+
+                            _.each(keys, function (key)
+                            {
+                                txt += msg[key] + ' ';
+                            });
+                            self.errorMessage(txt);
+                        }
+
+                        self.errorMessage("Oops. something happened.\n" + self.errorMessage());
+
+                        setTimeout(self.navigation, 5000);
+                    })
                 }
 
                 //set the colors for the buttons
@@ -174,10 +322,22 @@
         <br />
         <br />
         <!--  Labels! -->
-        <span>Throw To Own Landfill</span>
+        <span>To Own Landfill</span>
         <br />
         <!--  data-bind="text: <Your countvariable>()" -->
         <span data-bind="text: throwToOwnLandfillCount1()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.throwToOpponentLandfillPressed1, vm.throwToOpponentLandfillCount1, humanEventTypes['ThrowToOpponentLandfill'], 1)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: throwToOpponentLandfillPressed1() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>To Opponent Landfill</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: throwToOpponentLandfillCount1()"></span>
         <br />
         <br />
     </div>
@@ -206,7 +366,7 @@
         <br />
     </div>
 </div>
-<div class="row" id="row1l">
+<div class="row" id="row2l">
     <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Team: @Model.Team2.Number (@Model.Team2.Name)</span>
 </div>
 <div class="row" id="row2c">
@@ -219,10 +379,22 @@
         <br />
         <br />
         <!--  Labels! -->
-        <span>Throw To Own Landfill</span>
+        <span>To Own Landfill</span>
         <br />
         <!--  data-bind="text: <Your countvariable>()" -->
         <span data-bind="text: throwToOwnLandfillCount2()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.throwToOpponentLandfillPressed2, vm.throwToOpponentLandfillCount2, humanEventTypes['ThrowToOpponentLandfill'], 2)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: throwToOpponentLandfillPressed2() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>To Opponent Landfill</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: throwToOpponentLandfillCount2()"></span>
         <br />
         <br />
     </div>
@@ -251,7 +423,7 @@
         <br />
     </div>
 </div>
-<div class="row" id="row1l">
+<div class="row" id="row3l">
     <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Team: @Model.Team3.Number (@Model.Team3.Name)</span>
 </div>
 <div class="row" id="row3c">
@@ -264,10 +436,22 @@
         <br />
         <br />
         <!--  Labels! -->
-        <span>Throw To Own Landfill</span>
+        <span>To Own Landfill</span>
         <br />
         <!--  data-bind="text: <Your countvariable>()" -->
         <span data-bind="text: throwToOwnLandfillCount3()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.throwToOpponentLandfillPressed3, vm.throwToOpponentLandfillCount3, humanEventTypes['ThrowToOpponentLandfill'], 3)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: throwToOpponentLandfillPressed3() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>To Opponent Landfill</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: throwToOpponentLandfillCount3()"></span>
         <br />
         <br />
     </div>
@@ -296,15 +480,7 @@
         <br />
     </div>
 </div>
-<div class="row">
-    <div data-bind="click: nav, style: {backgroundColor: color}" class="col-xs-2">
-        <br />
-        <br />
-        <span>MatchEnd</span>
-        <br />
-        <br />
-        <br />
-    </div>
+<div class="row" id="row4">
     <div data-bind="click: oops, style: {backgroundColor: oopsClicked() ? clickColor : color}" class="col-xs-2">
         <br />
         <br />
@@ -313,5 +489,20 @@
         <br />
         <br />
     </div>
-    <div id="arrow"></div>
+</div>
+<div class="row">
+    <div data-bind="click: nav, style: {backgroundColor: colorAlt}" class="col-xs-2">
+        <br />
+        <br />
+        <span>Next Match</span>
+        <br />
+        <br />
+        <br />
+    </div>
+    <div id="error" data-bind="visible: showWait(), style: {backgroundColor: color}" class="col-xs-10">
+        <br />
+        <span data-bind="text:errorMessage()"></span>
+        <br />
+        <br />
+    </div>
 </div>

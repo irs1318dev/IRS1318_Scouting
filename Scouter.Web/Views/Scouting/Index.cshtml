@@ -25,6 +25,10 @@
             	{
             		document.location = '/Scouting/Auto/3';
             	}
+            	this.redh = function ()
+            	{
+            	    document.location = '/Scouting/Human/1';
+            	}
             	this.blue1 = function ()
             	{
             		document.location = '/Scouting/Auto/4';
@@ -36,6 +40,10 @@
             	this.blue3 = function ()
             	{
             		document.location = '/Scouting/Auto/6';
+            	}
+            	this.blueh = function ()
+            	{
+            	    document.location = '/Scouting/Human/2';
             	}
             	this.manager = function()
             	{
@@ -60,6 +68,9 @@
     <div class="btn-group">
         <button data-bind="click: red3" type="button" class="btn btn-danger">Red 3</button>
     </div>
+    <div class="btn-group">
+        <button data-bind="click: redh" type="button" class="btn btn-danger">Human</button>
+    </div>
 </div>
 
 <div class="btn-group btn-group-justified">
@@ -71,6 +82,9 @@
     </div>
     <div class="btn-group">
         <button data-bind="click: blue3" type="button" class="btn btn-primary cmd">Blue 3</button>
+    </div>
+    <div class="btn-group">
+        <button data-bind="click: blueh" type="button" class="btn btn-primary cmd">Human</button>
     </div>
 </div>
 <div class="btn-group btn-group-justified">
