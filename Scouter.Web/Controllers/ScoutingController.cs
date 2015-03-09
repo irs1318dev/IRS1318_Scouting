@@ -143,9 +143,9 @@ namespace Scouter.Web.Controllers
                     break;
                 case 2://red2
                     vm.Color = (int)AllianceColor.Blue;
-                    vm.Team1 = vm.Match.RedAlliance.Team1;
-                    vm.Team2 = vm.Match.RedAlliance.Team2;
-                    vm.Team3 = vm.Match.RedAlliance.Team3;
+                    vm.Team1 = vm.Match.BlueAlliance.Team1;
+                    vm.Team2 = vm.Match.BlueAlliance.Team2;
+                    vm.Team3 = vm.Match.BlueAlliance.Team3;
                     break;
             }
             return View("Human", vm);//HERE

@@ -62,6 +62,7 @@
     <Compile Include="AllianceColor.cs" />
     <Compile Include="CurrentScoutData.cs" />
     <Compile Include="HumanEvent.cs" />
+    <Compile Include="HumanEventTypeLookup.cs" />
     <Compile Include="RobotEventTypeLookup.cs" />
     <Compile Include="ScoutingNotes.cs" />
     <Compile Include="StackEvent.cs" />

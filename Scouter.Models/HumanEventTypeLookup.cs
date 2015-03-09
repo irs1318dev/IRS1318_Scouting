@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Scouter.Models
 {
-    public class RobotEventTypeLookup
+    public class HumanEventTypeLookup
     {
         public int Id { get; set; }
         public int RobotEventTypeValue { get; set; }

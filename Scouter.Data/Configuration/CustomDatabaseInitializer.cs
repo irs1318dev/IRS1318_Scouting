@@ -117,7 +117,7 @@ namespace Scouter.Data.Configuration
 
             context.CurrentScoutData.First().Event_ID = 1;
 
-            /////////////Fill lookup table/////////////////////////
+            /////////////Fill lookup tables////////////////////////
             for (int i = 0; i < (int)RobotEventType.MAX; i++)
             {
                 context.RobotEventTypeLookups.Add(
@@ -125,6 +125,16 @@ namespace Scouter.Data.Configuration
                     {
                         Id = i + 1,
                         RobotEventTypeName = ((RobotEventType)i).ToString(),
+                        RobotEventTypeValue = i
+                    });
+            }
+            for (int i = 0; i < (int)HumanEventType.MAX; i++)
+            {
+                context.HumanEventTypeLookups.Add(
+                    new HumanEventTypeLookup()
+                    {
+                        Id = i + 1,
+                        RobotEventTypeName = ((HumanEventType)i).ToString(),
                         RobotEventTypeValue = i
                     });
             }
