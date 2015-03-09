@@ -207,7 +207,7 @@
             	    self.clear();
             	    self.ContainerAddedtoStackClicked(true);
             	    self.ContainerAddedtoStackCount(!self.ContainerAddedtoStackCount());
-                }
+            	}
                 self.LitterAddedtoStack = function()
                 {
                     self.clear();
@@ -335,11 +335,11 @@
 	</script>
 }
 <div class="row" style="color:white">
-	Teleoperated <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' +model.teamNumber() + ' ('+ model.teamName() + ')'" />
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Teleoperated <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' +model.teamNumber() + ' ('+ model.teamName() + ')'" /></span>
 </div>
 
-<div class="row" style="color:white">
-    Containers Taken From Step
+<div class="row">
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Containers Taken From Step</span>
 </div>
 
 <div class="row" style="text-align:center">
@@ -377,8 +377,8 @@
     </div>
 </div>
 
-<div class="row" style="color:white">
-    Totes and Field
+<div class="row">
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Totes and Field</span>
 </div>
 
 <div class="row" style="text-align:center">
@@ -436,7 +436,7 @@
 </div>
 
 <div class="row" style="color:white">
-    Stacks
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Stacks</span>
 </div>
 <div class="row" style="text-align:center">
     <div onclick="vm.InitialStackHeight()" data-bind="style: { backgroundColor: InitialStackHeightClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
@@ -497,43 +497,43 @@
         <span data-bind="text: YellowTotesMovedToStepCount()"></span>
         <br />
     </div>
-    <div onclick="vm.abstractButtonFunction(vm.OrientContainerClicked, vm.OrientContainerCount, robotEventTypes['OrientContainer'])" data-bind="style: { backgroundColor: OrientContainerClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <div onclick="vm.abstractButtonFunction(vm.OrientContainerClicked, vm.OrientContainerCount, robotEventTypes['OrientContainer'])" data-bind="style: { backgroundColor: OrientContainerClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
             <br />
             <span>Orient Container</span>
             <br />
             <span data-bind="text: OrientContainerCount()"></span>
             <br />
-    </div>
-    <div onclick="vm.abstractButtonFunction(vm.OrientToteClicked, vm.OrientToteCount, robotEventTypes['OrientTote'])" data-bind="style: { backgroundColor: OrientToteClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
-        <span>Orient Tote </span>
-        <br />
-        <br />
-        <span data-bind="text: OrientToteCount()"></span>
-        <br />
-    </div>
-    <div onclick="vm.abstractButtonFunction(vm.ClearContainerClicked, vm.ClearContainerCount, robotEventTypes['ClearContainer'])" data-bind="    style: { backgroundColor: ClearContainerClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
-        <span>Clear away Container</span>
-        <br />
-        <span data-bind="text: ClearContainerCount()"></span>
-        <br />
-    </div>
-    <div onclick="vm.abstractButtonFunction(vm.ClearToteClicked, vm.ClearToteCount, robotEventTypes['ClearTote'])" data-bind="    style: { backgroundColor: ClearToteClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
-        <span>Clear away Tote</span>
-        <br />
-        <span data-bind="text: ClearToteCount()"></span>
-        <br />
-    </div>
-    <div onclick="vm.abstractButtonFunction(vm.ClearLitterClicked, vm.ClearLitterCount, robotEventTypes['ClearLitter'])" data-bind="style: { backgroundColor: ClearLitterClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
-        <span>Clear away litter</span>
-        <br />
-        <br />
-        <span data-bind="text: ClearLitterCount()"></span>
-        <br />
-    </div>
+        </div>
+        <div onclick="vm.abstractButtonFunction(vm.OrientToteClicked, vm.OrientToteCount, robotEventTypes['OrientTote'])" data-bind="style: { backgroundColor: OrientToteClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+            <br />
+            <span>Orient Tote </span>
+            <br />
+            <br />
+            <span data-bind="text: OrientToteCount()"></span>
+            <br />
+        </div>
+        <div onclick="vm.abstractButtonFunction(vm.ClearContainerClicked, vm.ClearContainerCount, robotEventTypes['ClearContainer'])" data-bind="    style: { backgroundColor: ClearContainerClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+            <br />
+            <span>Clear away Container</span>
+            <br />
+            <span data-bind="text: ClearContainerCount()"></span>
+            <br />
+        </div>
+        <div onclick="vm.abstractButtonFunction(vm.ClearToteClicked, vm.ClearToteCount, robotEventTypes['ClearTote'])" data-bind="    style: { backgroundColor: ClearToteClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+            <br />
+            <span>Clear away Tote</span>
+            <br />
+            <span data-bind="text: ClearToteCount()"></span>
+            <br />
+        </div>
+        <div onclick="vm.abstractButtonFunction(vm.ClearLitterClicked, vm.ClearLitterCount, robotEventTypes['ClearLitter'])" data-bind="style: { backgroundColor: ClearLitterClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+            <br />
+            <span>Clear away litter</span>
+            <br />
+            <br />
+            <span data-bind="text: ClearLitterCount()"></span>
+            <br />
+        </div>
 </div>
 
 <div class="row">

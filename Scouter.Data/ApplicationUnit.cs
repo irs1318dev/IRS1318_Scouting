@@ -14,6 +14,7 @@ namespace Scouter.Data
         private IRepository<StackEvent> _stackevents = null;
         private IRepository<Alliance> _alliances = null;
         private IRepository<RobotEvent> _robotevents = null;
+        private IRepository<HumanEvent> _humanevents = null;
         private IRepository<User> _user = null;
 		private IRepository<CurrentScoutData> _currentscoutdata = null;
 		private IRepository<ScoutingNotes> _scoutingnotes = null;
@@ -25,6 +26,16 @@ namespace Scouter.Data
                 if (this._stackevents == null)
                     this._stackevents = new GenericRepository<StackEvent>(this._context);
                 return this._stackevents;
+            }
+        }
+
+        public IRepository<HumanEvent> HumanEvents
+        {
+            get
+            {
+                if (this._humanevents == null)
+                    this._humanevents = new GenericRepository<HumanEvent>(this._context);
+                return this._humanevents;
             }
         }
 

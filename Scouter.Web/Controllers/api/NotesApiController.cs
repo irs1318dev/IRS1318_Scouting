@@ -24,7 +24,7 @@ namespace Scouter.Web.Controllers.api
 			_unit.Notes.Update(notes);
 			_unit.SaveChanges();
 
-			return Request.CreateResponse(System.Net.HttpStatusCode.Accepted);
+			return Request.CreateResponse(System.Net.HttpStatusCode.NoContent);
 		}
 
 		public HttpResponseMessage Post(NotesDataTransfer data)
@@ -47,7 +47,7 @@ namespace Scouter.Web.Controllers.api
 
 			_unit.Notes.Add(notes);
 			_unit.SaveChanges();
-			return Request.CreateResponse(System.Net.HttpStatusCode.Accepted);
+			return Request.CreateResponse(System.Net.HttpStatusCode.NoContent);
 		}
 	}
 }

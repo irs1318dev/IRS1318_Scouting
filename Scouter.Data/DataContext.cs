@@ -16,9 +16,9 @@ namespace Scouter.Data
         public DbSet<RobotEventTypeLookup> RobotEventTypeLookups { get; set; }
         public DbSet<Alliance> Alliances { get; set; }
         public DbSet<Team> Teams { get; set; }
-        //public DbSet<zzParticipant> Participants { get; set; }
         public DbSet<RobotEvent> RobotEvents { get; set; }
         public DbSet<StackEvent> StackEvents { get; set; }
+        public DbSet<HumanEvent> HumanEvents { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
 		public DbSet<CurrentScoutData> CurrentScoutData { get; set; }

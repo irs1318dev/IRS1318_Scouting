@@ -61,10 +61,11 @@
     <Compile Include="Alliance.cs" />
     <Compile Include="AllianceColor.cs" />
     <Compile Include="CurrentScoutData.cs" />
+    <Compile Include="HumanEvent.cs" />
     <Compile Include="RobotEventTypeLookup.cs" />
     <Compile Include="ScoutingNotes.cs" />
     <Compile Include="StackEvent.cs" />
-    <Compile Include="FRCEvent.cs" />
+    <Compile Include="FRCCompetition.cs" />
     <Compile Include="FRCMatch.cs" />
     <Compile Include="IAuditInfo.cs" />
     <Compile Include="Membership\Membership.cs" />

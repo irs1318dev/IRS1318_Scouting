@@ -11,7 +11,7 @@
 
 		$(function ()
 		{
-			var Scout = function()
+            var Scout = function ()
 			{
 				this.color = ko.observable(@Model.Color);
 				this.matchID = ko.observable(@Model.Match.Id);
@@ -74,17 +74,17 @@
             	    self.leftTotesInTheWayClicked(!self.leftTotesInTheWayClicked());
             		self.setNotes();
             	}
-            	self.leftContainersInTheWay = function()
+                self.leftContainersInTheWay = function ()
             	{
             	    self.leftContainersInTheWayClicked(!self.leftContainersInTheWayClicked());
             	    self.setNotes();
             	}
-            	self.blockedAllies = function()
+                self.blockedAllies = function ()
             	{
             	    self.blockedAlliesClicked(!self.blockedAlliesClicked());
             	    self.setNotes();
             	}
-            	self.tippedOver = function()
+                self.tippedOver = function ()
             	{
             	    self.tippedOverClicked(!self.tippedOverClicked());
             	    self.setNotes();
@@ -94,19 +94,19 @@
             	    self.disabledByRefsClicked(!self.disabledByRefsClicked());
             	    self.setNotes();
             	}
-            	self.mechanismBroken = function()
+                self.mechanismBroken = function ()
             	{
             	    self.mechanismBrokenClicked(!self.mechanismBrokenClicked());
             	    self.setNotes();
             	}
-            	self.mechanismJammed = function()
+                self.mechanismJammed = function ()
             	{
             	    self.mechanismJammedClicked(!self.mechanismJammedClicked());
             	    self.setNotes();
             	}
             	
 
-            	self.setNotes = function()
+                self.setNotes = function ()
             	{
             		self.notes("");
 					if (self.leftTotesInTheWayClicked())
@@ -144,7 +144,11 @@
 
             				$('#row1').collapse('hide');
             				$('#row2').collapse('hide');
-            				scouterDataService.updateScoutData(ko.toJS(d)).fail(function(error)
+                            $('#row3').collapse('hide');
+                            $('#row1').fadeOut();
+                            $('#row2').fadeOut();
+                            $('#row3').fadeOut();
+                            scouterDataService.updateScoutData(ko.toJS(d)).fail(function (error)
 							{
 								if (error.statusText)
 								{
@@ -178,6 +182,10 @@
             		{
             			$('#row1').collapse('hide');
             			$('#row2').collapse('hide');
+                        $('#row3').collapse('hide');
+                        $('#row1').fadeOut();
+                        $('#row2').fadeOut();
+                        $('#row3').fadeOut();
 
 						
             			if (error.statusText)
@@ -205,7 +213,7 @@
             		})
             	}
 
-            	self.navigation = function()
+                self.navigation = function ()
             	{
             		var v = scouterDataService.getScoutData().done(function (data)
             		{
@@ -219,6 +227,10 @@
             		{
             			$('#row1').collapse('hide');
             			$('#row2').collapse('hide');
+                        $('#row3').collapse('hide');
+                        $('#row1').fadeOut();
+                        $('#row2').fadeOut();
+                        $('#row3').fadeOut();
 
 
             			if (error.statusText)
@@ -285,14 +297,14 @@
         <br />
         <br />
     </div>
-    <div data-bind="click: leftContainersInTheWay, style: {backgroundColor: leftContainersInTheWayClicked() ? clickColor : colorAlt}" class="col-xs-2"
+    <div data-bind="click: leftContainersInTheWay, style: {backgroundColor: leftContainersInTheWayClicked() ? clickColor : color}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
         <br />
         <span>Left Containers in the Way</span>
         <br />
         <br />
     </div>
-    <div data-bind="click: blockedAllies, style: {backgroundColor: blockedAlliesClicked() ? clickColor : color}" class="col-xs-2"
+    <div data-bind="click: blockedAllies, style: {backgroundColor: blockedAlliesClicked() ? clickColor : colorAlt}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
         <br />
         <br />
@@ -300,12 +312,14 @@
         <br />
         <br />
         <br />
+        <br />
     </div>
-    <div data-bind="click: tippedOver, style: {backgroundColor: tippedOverClicked() ? clickColor : colorAlt}" class="col-xs-2"
-         style="border-style:dashed; border-color:white; margin-left:4px">
+    <div data-bind="click: tippedOver, style: {backgroundColor: tippedOverClicked() ? clickColor : color}" class="col-xs-2"
+         style="border-style:dashed; border-color:white;">
         <br />
         <br />
         <span>Tipped Over</span>
+        <br />
         <br />
         <br />
         <br />
@@ -337,8 +351,10 @@
         <br />
         <br />
     </div>
+</div>
+<div class="row panel-collapse collapse in" id="row2">
     <div data-bind="click: mechanismBroken, style: {backgroundColor: mechanismBrokenClicked() ? clickColor : color}" class="col-xs-2"
-         style="border-style:dashed; border-color:white; margin-left:4px">
+         style="border-style:dashed; border-color:white;">
         <br />
         <br />
         <span>Mechanism Broke</span>
@@ -356,8 +372,8 @@
         <br />
     </div>
 </div>
-<div class="row panel-collapse collapse in" id="row2" style="color:orange">
-    <span data-bind="text: notes"></span>
+<div class="row panel-collapse collapse in" id="row3" style="color:orange; background-color:rgba(0, 0, 0, 0.8)">
+    <span data-bind ="text: notes"></span>
 </div>
 <div class="row">
 	<div data-bind="click: nav, style: {backgroundColor: colorAlt}" class="col-xs-2">
@@ -369,7 +385,6 @@
 		<br />
 	</div>
 	<div id="error" data-bind="visible: showWait(), style: {backgroundColor: color}" class="col-xs-10">
-		<br />
 		<br />
 		<span data-bind="text:errorMessage()"></span>
 		<br />
