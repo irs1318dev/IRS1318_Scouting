@@ -49,14 +49,26 @@
             	self.leftContainersInTheWayClicked = ko.observable(false);
             	self.blockedAlliesClicked = ko.observable(false);
             	self.tippedOverClicked = ko.observable(false);
-            	self.disabledByJudgesClicked = ko.observable(false);
+            	self.stoppedMovingClicked = ko.observable(false);
+                self.disabledByRefsClicked = ko.observable(false);
             	self.mechanismBrokenClicked = ko.observable(false);
             	self.mechanismJammedClicked = ko.observable(false);
+            	self.mechanismIneffectiveClicked = ko.observable(false);
 
             	self.showWait = ko.observable(false);
 
             	self.notes = ko.observable("");
 
+            	self.stoppedMoving = function()
+            	{
+            	    self.self.stoppedMovingClicked(!self.stoppedMovingClicked());
+            	    self.setNotes();
+            	}
+            	self.mechanismIneffective = function()
+            	{
+            	    self.mechanismIneffectiveClicked(!self.mechanismIneffectiveClicked());
+            	    self.setNotes();
+            	}
             	self.leftTotesInTheWay = function ()
             	{
             	    self.leftTotesInTheWayClicked(!self.leftTotesInTheWayClicked());
@@ -77,9 +89,9 @@
             	    self.tippedOverClicked(!self.tippedOverClicked());
             	    self.setNotes();
             	}
-            	self.disabledByJudges = function()
+            	self.disabledByRefs = function()
             	{
-            	    self.disabledByJudgesClicked(!self.disabledByJudgesClicked());
+            	    self.disabledByRefsClicked(!self.disabledByRefsClicked());
             	    self.setNotes();
             	}
             	self.mechanismBroken = function()
@@ -105,12 +117,16 @@
 					    self.notes(self.notes() + "Robot blocked other ally robots. ");
 					if (self.tippedOverClicked())
 					    self.notes(self.notes() + "Robot fell over during the match. ");
-					if (self.disabledByJudgesClicked())
-					    self.notes(self.notes() + "Robot was disabled by the judges. ");
+					if (self.stoppedMovingClicked())
+                        self.notes(self.notes() + "Stopped moving / siezed to participate.")
+					if (self.disabledByRefsClicked())
+					    self.notes(self.notes() + "Robot was disabled by the Refs. ");
 					if (self.mechanismBrokenClicked())
 					    self.notes(self.notes() + "A mechanism broke. ");
 					if (self.mechanismJammedClicked())
 					    self.notes(self.notes() + "A mechanism got jammed. ");
+					if(self.mechanismIneffectiveClicked())
+                        self.notes(self.notes() + "Ineffective mechanism.")
 				}
 
                 self.nav = function ()
@@ -265,18 +281,14 @@
     <div data-bind="click: leftTotesInTheWay, style: {backgroundColor: leftTotesInTheWayClicked() ? clickColor : colorAlt}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
         <br />
-        <br />
         <span>Left Totes in the Way</span>
-        <br />
         <br />
         <br />
     </div>
     <div data-bind="click: leftContainersInTheWay, style: {backgroundColor: leftContainersInTheWayClicked() ? clickColor : colorAlt}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
         <br />
-        <br />
         <span>Left Containers in the Way</span>
-        <br />
         <br />
         <br />
     </div>
@@ -298,11 +310,29 @@
         <br />
         <br />
     </div>
-    <div data-bind="click: disabledByJudges, style: {backgroundColor: disabledByJudgesClicked() ? clickColor : colorAlt}" class="col-xs-2"
+    <div data-bind="click: stoppedMoving, style: {backgroundColor: stoppedMovingClicked() ? clickColor : colorAlt}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
         <br />
         <br />
-        <span>Disabled by Judges</span>
+        <span>Stopped Moving</span>
+        <br />
+        <br />
+        <br />
+    </div>
+    <div data-bind="click: disabledByRefs, style: {backgroundColor: disabledByRefsClicked() ? clickColor : colorAlt}" class="col-xs-2"
+         style="border-style:dashed; border-color:white;">
+        <br />
+        <br />
+        <span>Disabled by Refs</span>
+        <br />
+        <br />
+        <br />
+    </div>
+    <div data-bind="click: mechanismIneffective, style: {backgroundColor: mechanismIneffectiveClicked() ? clickColor : color}" class="col-xs-2"
+         style="border-style:dashed; border-color:white; margin-left:4px">
+        <br />
+        <br />
+        <span>Mechanism Ineffective</span>
         <br />
         <br />
         <br />
@@ -316,12 +346,11 @@
         <br />
         <br />
     </div>
-
     <div data-bind="click: mechanismJammed, style: {backgroundColor: mechanismJammedClicked() ? clickColor : color}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
         <br />
         <br />
-        <span>Mechanism got Jammed</span>
+        <span>Mechanism Jammed</span>
         <br />
         <br />
         <br />
