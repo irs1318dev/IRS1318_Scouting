@@ -79,9 +79,9 @@
 
                 //Add Count integers here/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             	self.TotesStackedCount = ko.observable(0);
-            	self.RightToteMovedCount = ko.observable(0);
-            	self.CenterToteMovedCount = ko.observable(0);
-            	self.LeftToteMovedCount = ko.observable(0);
+            	self.RightToteMovedCount = ko.observable(false);
+            	self.CenterToteMovedCount = ko.observable(false);
+            	self.LeftToteMovedCount = ko.observable(false);
             	self.YellowTotesMovedToStepCount = ko.observable(0);
 
             	self.LeftContainerFromStepCount = ko.observable(false);
@@ -89,9 +89,9 @@
             	self.RightCenterContainerFromStepCount = ko.observable(false);
             	self.RightContainerFromStepCount = ko.observable(false);
 
-            	self.RightContainerMovedCount = ko.observable(0);
-            	self.CenterContainerMovedCount = ko.observable(0);
-            	self.LeftContainerMovedCount = ko.observable(0);
+            	self.RightContainerMovedCount = ko.observable(false);
+            	self.CenterContainerMovedCount = ko.observable(false);
+            	self.LeftContainerMovedCount = ko.observable(false);
 
             	self.AutonomousMovedCount = ko.observable(false); 
             	self.NoAutonomousCount = ko.observable(false); 
@@ -256,7 +256,7 @@
         <br />
         <span>Right -> Auto Zone</span>
         <br />
-        <span data-bind="text: RightToteMovedCount()"></span>
+        <span data-bind="text: RightToteMovedCount() ? 'TAKEN' : 'NO'"></span>
         <br />
         <br />
     </div>
@@ -266,7 +266,7 @@
         <span>Center -> Auto Zone</span>
         <br />
 
-        <span data-bind="text: CenterToteMovedCount()"></span>
+        <span data-bind="text: CenterToteMovedCount() ? 'TAKEN' : 'NO'"></span>
         
         <br />
     </div>
@@ -275,7 +275,7 @@
         <br />
         <span>Left -> Auto Zone</span>
         <br />
-        <span data-bind="text: LeftToteMovedCount()"></span>
+        <span data-bind="text: LeftToteMovedCount() ? 'TAKEN' : 'NO'"></span>
         <br />
         <br />
     </div>
@@ -290,7 +290,7 @@
         <br />
         <span>Right -> Auto Zone</span>
         <br />
-        <span data-bind="text: RightContainerMovedCount()"></span>
+        <span data-bind="text: RightContainerMovedCount() ? 'TAKEN' : 'NO'"></span>
         <br />
         <br />
     </div>
@@ -299,7 +299,7 @@
         <br />
         <span>Center -> Auto Zone</span>
         <br />
-        <span data-bind="text: CenterContainerMovedCount()"></span>
+        <span data-bind="text: CenterContainerMovedCount() ? 'TAKEN' : 'NO'"></span>
         
         <br />
     </div>
@@ -308,7 +308,7 @@
         <br />
         <span>Left -> Auto Zone</span>
         <br />
-        <span data-bind="text: LeftContainerMovedCount()"></span>
+        <span data-bind="text: LeftContainerMovedCount() ? 'TAKEN' : 'NO'"></span>
         <br />
         <br />
     </div>

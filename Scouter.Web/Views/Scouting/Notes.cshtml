@@ -6,35 +6,35 @@
 }
 
 @section scripts{
-    <script>
+	<script>
         var vm;
 
-        $(function ()
-        {
+		$(function ()
+		{
             var Scout = function ()
-            {
-                this.color = ko.observable(@Model.Color);
-                this.matchID = ko.observable(@Model.Match.Id);
-                this.matchNumber = ko.observable(@Model.Match.SequenceNumber);
-                this.teamID = ko.observable(@Model.Team.Id);
-                this.teamName = ko.observable("@Model.Team.Name");
-                this.teamNumber = ko.observable(@Model.Team.Number);
-                this.scoutID = ko.observable(@Model.Scouter_Id);
-            }
-            var ScoutInfo = function ()
-            {
-                this.scouter = 0;
-                this.match_Id = 0;
-                this.scouterStatus = 0;
-                this.team_Id = 0;
-            }
-            var ScoutNotes = function ()
-            {
-                this.Notes = vm.notes();
-                this.Team_Id = vm.model.teamID;
-                this.Match_Id = vm.model.matchID;
-                this.Mode = 0;
-            }
+			{
+				this.color = ko.observable(@Model.Color);
+				this.matchID = ko.observable(@Model.Match.Id);
+				this.matchNumber = ko.observable(@Model.Match.SequenceNumber);
+				this.teamID = ko.observable(@Model.Team.Id);
+				this.teamName = ko.observable("@Model.Team.Name");
+				this.teamNumber = ko.observable(@Model.Team.Number);
+				this.scoutID = ko.observable(@Model.Scouter_Id);
+			}
+			var ScoutInfo = function ()
+			{
+				this.scouter = 0;
+				this.match_Id = 0;
+				this.scouterStatus = 0;
+				this.team_Id = 0;
+			}
+			var ScoutNotes = function ()
+			{
+				this.Notes = vm.notes();
+				this.Team_Id = vm.model.teamID;
+				this.Match_Id = vm.model.matchID;
+				this.Mode = 0;
+			}
 
             //
             // CLIENT SIDE VIEWMODEL
@@ -43,230 +43,246 @@
             {
                 var self = this;
                 self.model = scout;
-                self.errorMessage = ko.observable("Waiting for next Match... If you believe that you should have advance, notify the lead scout that you are infact ready to advance. Then wait for further instructions.");
+            	self.errorMessage = ko.observable("Waiting for next Match... If you believe that you should have advance, notify the lead scout that you are infact ready to advance. Then wait for further instructions.");
 
-                self.leftTotesInTheWayClicked = ko.observable(false);
-                self.leftContainersInTheWayClicked = ko.observable(false);
-                self.blockedAlliesClicked = ko.observable(false);
-                self.tippedOverClicked = ko.observable(false);
-                self.disabledByJudgesClicked = ko.observable(false);
-                self.mechanismBrokenClicked = ko.observable(false);
-                self.mechanismJammedClicked = ko.observable(false);
+            	self.leftTotesInTheWayClicked = ko.observable(false);
+            	self.leftContainersInTheWayClicked = ko.observable(false);
+            	self.blockedAlliesClicked = ko.observable(false);
+            	self.tippedOverClicked = ko.observable(false);
+            	self.stoppedMovingClicked = ko.observable(false);
+                self.disabledByRefsClicked = ko.observable(false);
+            	self.mechanismBrokenClicked = ko.observable(false);
+            	self.mechanismJammedClicked = ko.observable(false);
+            	self.mechanismIneffectiveClicked = ko.observable(false);
 
-                self.showWait = ko.observable(false);
+            	self.showWait = ko.observable(false);
 
-                self.notes = ko.observable("");
+            	self.notes = ko.observable("");
 
-                self.leftTotesInTheWay = function ()
-                {
-                    self.leftTotesInTheWayClicked(!self.leftTotesInTheWayClicked());
-                    self.setNotes();
-                }
+            	self.stoppedMoving = function()
+            	{
+            	    self.self.stoppedMovingClicked(!self.stoppedMovingClicked());
+            	    self.setNotes();
+            	}
+            	self.mechanismIneffective = function()
+            	{
+            	    self.mechanismIneffectiveClicked(!self.mechanismIneffectiveClicked());
+            	    self.setNotes();
+            	}
+            	self.leftTotesInTheWay = function ()
+            	{
+            	    self.leftTotesInTheWayClicked(!self.leftTotesInTheWayClicked());
+            		self.setNotes();
+            	}
                 self.leftContainersInTheWay = function ()
-                {
-                    self.leftContainersInTheWayClicked(!self.leftContainersInTheWayClicked());
-                    self.setNotes();
-                }
+            	{
+            	    self.leftContainersInTheWayClicked(!self.leftContainersInTheWayClicked());
+            	    self.setNotes();
+            	}
                 self.blockedAllies = function ()
-                {
-                    self.blockedAlliesClicked(!self.blockedAlliesClicked());
-                    self.setNotes();
-                }
+            	{
+            	    self.blockedAlliesClicked(!self.blockedAlliesClicked());
+            	    self.setNotes();
+            	}
                 self.tippedOver = function ()
-                {
-                    self.tippedOverClicked(!self.tippedOverClicked());
-                    self.setNotes();
-                }
-                self.disabledByJudges = function ()
-                {
-                    self.disabledByJudgesClicked(!self.disabledByJudgesClicked());
-                    self.setNotes();
-                }
+            	{
+            	    self.tippedOverClicked(!self.tippedOverClicked());
+            	    self.setNotes();
+            	}
+            	self.disabledByRefs = function()
+            	{
+            	    self.disabledByRefsClicked(!self.disabledByRefsClicked());
+            	    self.setNotes();
+            	}
                 self.mechanismBroken = function ()
-                {
-                    self.mechanismBrokenClicked(!self.mechanismBrokenClicked());
-                    self.setNotes();
-                }
+            	{
+            	    self.mechanismBrokenClicked(!self.mechanismBrokenClicked());
+            	    self.setNotes();
+            	}
                 self.mechanismJammed = function ()
-                {
-                    self.mechanismJammedClicked(!self.mechanismJammedClicked());
-                    self.setNotes();
-                }
-
+            	{
+            	    self.mechanismJammedClicked(!self.mechanismJammedClicked());
+            	    self.setNotes();
+            	}
+            	
 
                 self.setNotes = function ()
-                {
-                    self.notes("");
-                    if (self.leftTotesInTheWayClicked())
-                        self.notes(self.notes() + "Robot left totes in the way. ");
-                    if (self.leftContainersInTheWayClicked())
-                        self.notes(self.notes() + "Robot left containers in the way. ");
-                    if (self.blockedAlliesClicked())
-                        self.notes(self.notes() + "Robot blocked other ally robots. ");
-                    if (self.tippedOverClicked())
-                        self.notes(self.notes() + "Robot fell over during the match. ");
-                    if (self.disabledByJudgesClicked())
-                        self.notes(self.notes() + "Robot was disabled by the judges. ");
-                    if (self.mechanismBrokenClicked())
-                        self.notes(self.notes() + "A mechanism broke. ");
-                    if (self.mechanismJammedClicked())
-                        self.notes(self.notes() + "A mechanism got jammed. ");
-                }
+            	{
+            		self.notes("");
+					if (self.leftTotesInTheWayClicked())
+            			self.notes(self.notes() + "Robot left totes in the way. ");
+					if (self.leftContainersInTheWayClicked())
+					    self.notes(self.notes() + "Robot left containers in the way. ");
+					if (self.blockedAlliesClicked())
+					    self.notes(self.notes() + "Robot blocked other ally robots. ");
+					if (self.tippedOverClicked())
+					    self.notes(self.notes() + "Robot fell over during the match. ");
+					if (self.stoppedMovingClicked())
+                        self.notes(self.notes() + "Stopped moving / siezed to participate.")
+					if (self.disabledByRefsClicked())
+					    self.notes(self.notes() + "Robot was disabled by the Refs. ");
+					if (self.mechanismBrokenClicked())
+					    self.notes(self.notes() + "A mechanism broke. ");
+					if (self.mechanismJammedClicked())
+					    self.notes(self.notes() + "A mechanism got jammed. ");
+					if(self.mechanismIneffectiveClicked())
+                        self.notes(self.notes() + "Ineffective mechanism.")
+				}
 
                 self.nav = function ()
-                {
-                    var v = scouterDataService.getScoutData().done(function (data)
-                    {
-                        scouterDataService.addNotes(new ScoutNotes());
-                        if (data.Match_ID == self.model.matchID())
-                        {
+            	{
+            		var v = scouterDataService.getScoutData().done(function (data)
+            		{
+            			scouterDataService.addNotes(new ScoutNotes());
+            			if (data.Match_ID == self.model.matchID())
+            			{
 
-                            var d = new ScoutInfo();
-                            d.scouter = self.model.scoutID;
-                            d.scouterStatus = 4;
-                            d.match_Id = self.model.matchID;
+            				var d = new ScoutInfo();
+            				d.scouter = self.model.scoutID;
+            				d.scouterStatus = 4;
+            				d.match_Id = self.model.matchID;
 
-                            $('#row1').collapse('hide');
-                            $('#row2').collapse('hide');
+            				$('#row1').collapse('hide');
+            				$('#row2').collapse('hide');
                             $('#row3').collapse('hide');
                             $('#row1').fadeOut();
                             $('#row2').fadeOut();
                             $('#row3').fadeOut();
                             scouterDataService.updateScoutData(ko.toJS(d)).fail(function (error)
-                            {
-                                if (error.statusText)
-                                {
-                                    self.errorMessage(error.statusText);
-                                }
+							{
+								if (error.statusText)
+								{
+									self.errorMessage(error.statusText);
+								}
 
-                                if (error.responseText)
-                                {
-                                    var
+								if (error.responseText)
+								{
+									var
 										msg = JSON.parse(error.responseText),
 										keys = _.keys(msg),
 										txt = '';
 
-                                    _.each(keys, function (key)
-                                    {
-                                        txt += msg[key] + ' ';
-                                    });
-                                    self.errorMessage(txt);
-                                }
+									_.each(keys, function (key)
+									{
+										txt += msg[key] + ' ';
+									});
+									self.errorMessage(txt);
+								}
 
-                                self.errorMessage("Oops. something happened. Still waiting for a match, but the Scout Admin doesn't know.\n" + self.errorMessage());
-                            });
-                            self.showWait(true);
-                            setTimeout(self.navigation, 1000);
-                        }
-                        else
-                        {
-                            document.location = '/scouting/Auto/@Model.Scouter_Id';
-                        }
-                    }).fail(function (error)
-                    {
-                        $('#row1').collapse('hide');
-                        $('#row2').collapse('hide');
+								self.errorMessage("Oops. something happened. Still waiting for a match, but the Scout Admin doesn't know.\n" + self.errorMessage());
+							});
+            				self.showWait(true);
+            				setTimeout(self.navigation, 1000);
+            			}
+            			else
+            			{
+            				document.location = '/scouting/Auto/@Model.Scouter_Id';
+            			}
+            		}).fail(function (error)
+            		{
+            			$('#row1').collapse('hide');
+            			$('#row2').collapse('hide');
                         $('#row3').collapse('hide');
                         $('#row1').fadeOut();
                         $('#row2').fadeOut();
                         $('#row3').fadeOut();
 
+						
+            			if (error.statusText)
+            			{
+            				self.errorMessage(error.statusText);
+            			}
 
-                        if (error.statusText)
-                        {
-                            self.errorMessage(error.statusText);
-                        }
-
-                        if (error.responseText)
-                        {
-                            var
+            			if (error.responseText)
+            			{
+            				var
 								msg = JSON.parse(error.responseText),
 								keys = _.keys(msg),
 								txt = '';
 
-                            _.each(keys, function (key)
-                            {
-                                txt += msg[key] + ' ';
-                            });
-                            self.errorMessage(txt);
-                        }
+            				_.each(keys, function (key)
+            				{
+            					txt += msg[key] + ' ';
+            				});
+            				self.errorMessage(txt);
+            			}
 
-                        self.errorMessage("Oops. something happened.\n" + self.errorMessage());
+            			self.errorMessage("Oops. something happened.\n" + self.errorMessage());
 
-                        setTimeout(self.navigation, 5000);
-                    })
-                }
+            			setTimeout(self.navigation, 5000);
+            		})
+            	}
 
                 self.navigation = function ()
-                {
-                    var v = scouterDataService.getScoutData().done(function (data)
-                    {
-                        if (data.Match_ID != self.model.matchID())
-                        {
-                            document.location = '/scouting/Auto/@Model.Scouter_Id';
-                        }
+            	{
+            		var v = scouterDataService.getScoutData().done(function (data)
+            		{
+            			if (data.Match_ID != self.model.matchID())
+            			{
+            				document.location = '/scouting/Auto/@Model.Scouter_Id';
+            			}
 
-                        setTimeout(self.navigation, 1000);
-                    }).fail(function (error)
-                    {
-                        $('#row1').collapse('hide');
-                        $('#row2').collapse('hide');
+            			setTimeout(self.navigation, 1000);
+            		}).fail(function (error)
+            		{
+            			$('#row1').collapse('hide');
+            			$('#row2').collapse('hide');
                         $('#row3').collapse('hide');
                         $('#row1').fadeOut();
                         $('#row2').fadeOut();
                         $('#row3').fadeOut();
 
 
-                        if (error.statusText)
-                        {
-                            self.errorMessage(error.statusText);
-                        }
+            			if (error.statusText)
+            			{
+            				self.errorMessage(error.statusText);
+            			}
 
-                        if (error.responseText)
-                        {
-                            var
+            			if (error.responseText)
+            			{
+            				var
 								msg = JSON.parse(error.responseText),
 								keys = _.keys(msg),
 								txt = '';
 
-                            _.each(keys, function (key)
-                            {
-                                txt += msg[key] + ' ';
-                            });
-                            self.errorMessage(txt);
-                        }
+            				_.each(keys, function (key)
+            				{
+            					txt += msg[key] + ' ';
+            				});
+            				self.errorMessage(txt);
+            			}
 
-                        self.errorMessage("Oops. something happened.\n" + self.errorMessage());
+            			self.errorMessage("Oops. something happened.\n" + self.errorMessage());
 
-                        setTimeout(self.navigation, 5000);
-                    })
-                }
+            			setTimeout(self.navigation, 5000);
+            		})
+            	}
 
-                if (self.model.scoutID() < 4)
-                {
-                    self.color = 'red';
-                    self.clickColor = 'lightpink';
-                    self.colorAlt = '#FF4444';
-                }
-                else
-                {
-                    self.color = 'deepskyblue';
-                    self.clickColor = 'lightcyan';
-                    self.colorAlt = 'skyblue';
-                }
+            	if (self.model.scoutID() < 4)
+            	{
+            		self.color = 'red';
+            		self.clickColor = 'lightpink';
+            		self.colorAlt = '#FF4444';
+            	}
+            	else
+            	{
+            		self.color = 'deepskyblue';
+            		self.clickColor = 'lightcyan';
+            		self.colorAlt = 'skyblue';
+            	}
 
-                var d = new ScoutInfo();
-                d.scouter = self.model.scoutID;
-                d.scouterStatus = 3;
-                d.match_Id = self.model.matchID;
-                d.team_Id = self.model.teamID;
+            	var d = new ScoutInfo();
+            	d.scouter = self.model.scoutID;
+            	d.scouterStatus = 3;
+            	d.match_Id = self.model.matchID;
+            	d.team_Id = self.model.teamID;
 
-                scouterDataService.updateScoutData(ko.toJS(d));
+				scouterDataService.updateScoutData(ko.toJS(d));
             }
             vm = new ViewModel(new Scout());
             ko.applyBindings(vm);
         })
-    </script>
+	</script>
 }
 
 <div class="row" style="color:white">
@@ -277,15 +293,12 @@
     <div data-bind="click: leftTotesInTheWay, style: {backgroundColor: leftTotesInTheWayClicked() ? clickColor : colorAlt}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
         <br />
-        <br />
         <span>Left Totes in the Way</span>
-        <br />
         <br />
         <br />
     </div>
     <div data-bind="click: leftContainersInTheWay, style: {backgroundColor: leftContainersInTheWayClicked() ? clickColor : color}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
-        <br />
         <br />
         <span>Left Containers in the Way</span>
         <br />
@@ -311,11 +324,29 @@
         <br />
         <br />
     </div>
-    <div data-bind="click: disabledByJudges, style: {backgroundColor: disabledByJudgesClicked() ? clickColor : colorAlt}" class="col-xs-2"
+    <div data-bind="click: stoppedMoving, style: {backgroundColor: stoppedMovingClicked() ? clickColor : colorAlt}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
         <br />
         <br />
-        <span>Disabled by Judges</span>
+        <span>Stopped Moving</span>
+        <br />
+        <br />
+        <br />
+    </div>
+    <div data-bind="click: disabledByRefs, style: {backgroundColor: disabledByRefsClicked() ? clickColor : colorAlt}" class="col-xs-2"
+         style="border-style:dashed; border-color:white;">
+        <br />
+        <br />
+        <span>Disabled by Refs</span>
+        <br />
+        <br />
+        <br />
+    </div>
+    <div data-bind="click: mechanismIneffective, style: {backgroundColor: mechanismIneffectiveClicked() ? clickColor : color}" class="col-xs-2"
+         style="border-style:dashed; border-color:white; margin-left:4px">
+        <br />
+        <br />
+        <span>Mechanism Ineffective</span>
         <br />
         <br />
         <br />
@@ -331,12 +362,12 @@
         <br />
         <br />
     </div>
-
-    <div data-bind="click: mechanismJammed, style: {backgroundColor: mechanismJammedClicked() ? clickColor : colorAlt}" class="col-xs-2"
+    <div data-bind="click: mechanismJammed, style: {backgroundColor: mechanismJammedClicked() ? clickColor : color}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
         <br />
         <br />
-        <span>Mechanism got Jammed</span>
+        <span>Mechanism Jammed</span>
+        <br />
         <br />
         <br />
     </div>
@@ -345,18 +376,18 @@
     <span data-bind ="text: notes"></span>
 </div>
 <div class="row">
-    <div data-bind="click: nav, style: {backgroundColor: colorAlt}" class="col-xs-2">
-        <br />
-        <br />
-        <span>Next Match</span>
-        <br />
-        <br />
-        <br />
-    </div>
-    <div id="error" data-bind="visible: showWait(), style: {backgroundColor: color}" class="col-xs-10">
-        <br />
-        <span data-bind="text:errorMessage()"></span>
-        <br />
-        <br />
-    </div>
+	<div data-bind="click: nav, style: {backgroundColor: colorAlt}" class="col-xs-2">
+		<br />
+		<br />
+		<span>Next Match</span>
+		<br />
+		<br />
+		<br />
+	</div>
+	<div id="error" data-bind="visible: showWait(), style: {backgroundColor: color}" class="col-xs-10">
+		<br />
+		<span data-bind="text:errorMessage()"></span>
+		<br />
+		<br />
+	</div>
 </div>
