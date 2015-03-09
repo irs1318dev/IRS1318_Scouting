@@ -13,5 +13,6 @@ namespace Scouter.Web.Models.Scouting
         public int StartingHeight { get; set; }
         public int NumTotesAdded { get; set; }
         public bool IsContainerAdded { get; set; }
+        public bool IsLitterAdded { get; set; }
     }
 }

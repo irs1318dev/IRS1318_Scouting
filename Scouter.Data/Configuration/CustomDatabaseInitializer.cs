@@ -27,7 +27,7 @@ namespace Scouter.Data.Configuration
 					case "a4970693":
 						return true;
 					case "irs001-pc":
-                        return true;
+                        return false;
                     case "prestonlaptop":
                         return true;
                     case "tali":

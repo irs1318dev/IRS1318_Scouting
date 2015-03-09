@@ -225,7 +225,7 @@
             	        e.startingHeight = self.InitialStackHeightCount;
             	        e.NumTotesAdded = self.TotesAddedToStackCount;
             	        e.IsContainerAdded = self.ContainerAddedtoStackCount();
-            	        e.IsLitterAdded = self.LitterAddedtoStackCount(); // CHANGE DATABASE
+            	        e.IsLitterAdded = self.LitterAddedtoStackCount();
             	        scouterDataService.saveStack(ko.toJS(e)).done( function(){
             	            self.SendButtonClicked(true);
             	        });
@@ -303,6 +303,7 @@
                 self.nav = function()
                 {
                     document.location = '/scouting/Notes/@Model.Scouter_Id';
+                    //ask the checkbox if it's checked -> send event
                 }
 
                 if (self.model.scoutID() < 4)
@@ -340,6 +341,23 @@
 
 <div class="row">
     <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Containers Taken From Step</span>
+</div>
+
+<div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+        Coopertition Tote (stacked from bottom up)
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li role="presentation">
+            <label class="btn btn-primary active">
+                <input type="checkbox" id="BottomCoopToteCheckbox" autocomplete="off"> 1
+            </label>
+        </li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" onclick="vm.abstractButtonFunction(vm.YellowTotesMovedToStepClicked, vm.YellowTotesMovedToStepCount, robotEventTypes['YellowTotesMovedToStep'])">2</a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" onclick="vm.abstractButtonFunction(vm.YellowTotesMovedToStepClicked, vm.YellowTotesMovedToStepCount, robotEventTypes['YellowTotesMovedToStep'])">3</a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" onclick="vm.abstractButtonFunction(vm.YellowTotesMovedToStepClicked, vm.YellowTotesMovedToStepCount, robotEventTypes['YellowTotesMovedToStep'])">4</a></li>
+    </ul>
 </div>
 
 <div class="row" style="text-align:center">
