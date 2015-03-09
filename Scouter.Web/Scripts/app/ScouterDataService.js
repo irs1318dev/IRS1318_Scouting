@@ -188,10 +188,21 @@ var scouterDataService = (function ()
 				{
 				    ds.logError("updateCounter", errdata);
 				});
+    	},
+    	updateHumanCounter: function (num)
+    	{
+    	    return $.ajax(
+				{
+				    type: httpVerbs.GET,
+				    url: '/api/HumanEventsApi/' + num
+				}).fail(function (errdata)
+				{
+				    ds.logError("updateHumanCounter", errdata);
+				});
     	}
     };
 
-	_.bindAll(ds, 'save', 'saveHuman', 'saveStack', 'getScoutData', 'updateScoutData', 'getMatchData', 'setMatch', 'addNotes', 'undo', 'undo', 'undoStack', 'updateCounter');
+	_.bindAll(ds, 'save', 'saveHuman', 'saveStack', 'getScoutData', 'updateScoutData', 'getMatchData', 'setMatch', 'addNotes', 'undo', 'undo', 'undoStack', 'updateCounter', 'updateHumanCounter');
 
 	return {
         logError: ds.logError,
@@ -206,6 +217,7 @@ var scouterDataService = (function ()
 		undo: ds.undo,
         undoHuman: ds.undoHuman,
         undoStack: ds.undoStack,
-		updateCounter: ds.updateCounter
+        updateCounter: ds.updateCounter,
+	    updateHumanCounter: ds.updateHumanCounter
 	}
 })();

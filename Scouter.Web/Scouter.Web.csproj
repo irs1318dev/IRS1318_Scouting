@@ -232,6 +232,7 @@
     <Compile Include="Models\FRCEvent\FRCMatchDataTransfer.cs" />
     <Compile Include="Models\FRCMatch\FRCMatchDataTransfer.cs" />
     <Compile Include="Models\Scouting\HumanEventDataTransfer.cs" />
+    <Compile Include="Models\Scouting\HumanScoutCounter.cs" />
     <Compile Include="Models\Scouting\MatchInfoDataTransfer.cs" />
     <Compile Include="Models\Scouting\NotesDataTransfer.cs" />
     <Compile Include="Models\Reports\ReportingModel.cs" />
@@ -248,6 +249,7 @@
     <Compile Include="ViewModels\FRCEventViewViewModel.cs" />
     <Compile Include="ViewModels\FRCMatchesListViewModel.cs" />
     <Compile Include="ViewModels\FRCMatchViewModel.cs" />
+    <Compile Include="ViewModels\HumanScouterViewModel.cs" />
     <Compile Include="ViewModels\ManifestViewModel.cs" />
     <Compile Include="ViewModels\ScouterAdminViewModel.cs" />
     <Compile Include="ViewModels\ScouterIndexViewModel.cs" />
@@ -443,10 +445,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\NotesApi\" />
-    <Folder Include="Views\ScoutCountApi\" />
-    <Folder Include="Views\ScouterApi\" />
-    <Folder Include="Views\ScoutManagerApi\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

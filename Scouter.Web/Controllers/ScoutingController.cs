@@ -129,7 +129,7 @@ namespace Scouter.Web.Controllers
 
         public ActionResult Human(int id)
         {
-            ScoutViewModel vm = new ScoutViewModel();
+            HumanScouterViewModel vm = new HumanScouterViewModel();
             var mid = _unit.CurrentScoutData.GetById(1).Match_ID;
             vm.Match = _unit.FRCMatches.GetById(mid);
             vm.Scouter_Id = id;
@@ -137,27 +137,15 @@ namespace Scouter.Web.Controllers
             {
                 case 1://red1
                     vm.Color = (int)AllianceColor.Red;
-                    vm.Team = vm.Match.RedAlliance.Team1;
+                    vm.Team1 = vm.Match.RedAlliance.Team1;
+                    vm.Team2 = vm.Match.RedAlliance.Team2;
+                    vm.Team3 = vm.Match.RedAlliance.Team3;
                     break;
                 case 2://red2
-                    vm.Color = (int)AllianceColor.Red;
-                    vm.Team = vm.Match.RedAlliance.Team2;
-                    break;
-                case 3://red3
-                    vm.Color = (int)AllianceColor.Red;
-                    vm.Team = vm.Match.RedAlliance.Team3;
-                    break;
-                case 4://blue1
                     vm.Color = (int)AllianceColor.Blue;
-                    vm.Team = vm.Match.BlueAlliance.Team1;
-                    break;
-                case 5://blue2
-                    vm.Color = (int)AllianceColor.Blue;
-                    vm.Team = vm.Match.BlueAlliance.Team2;
-                    break;
-                case 6://blue3
-                    vm.Color = (int)AllianceColor.Blue;
-                    vm.Team = vm.Match.BlueAlliance.Team3;
+                    vm.Team1 = vm.Match.RedAlliance.Team1;
+                    vm.Team2 = vm.Match.RedAlliance.Team2;
+                    vm.Team3 = vm.Match.RedAlliance.Team3;
                     break;
             }
             return View("Human", vm);//HERE

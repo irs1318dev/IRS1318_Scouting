@@ -17,18 +17,82 @@ namespace Scouter.Web.Controllers
     {
         private ApplicationUnit _unit = new ApplicationUnit();
 
-        public IEnumerable<HumanEvent> Get()
+        [HttpGet]
+        public HumanScoutCounter GetHumanEventCount(int id)
         {
-            return _unit.HumanEvents.GetAll();
-        }
+            var scoutData = _unit.CurrentScoutData.GetById(1);
+            Team team1 = null;
+            Team team2 = null;
+            Team team3 = null;
+            FRCMatch match = _unit.FRCMatches.GetById(scoutData.Match_ID);
 
-        public HumanEvent Get(int id)
-        {
-            HumanEvent HumanEvent = _unit.HumanEvents.GetById(id);
-            if (HumanEvent == null)
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+            switch (id)
+            {
+                case 1:
+                    team1 = match.RedAlliance.Team1;
+                    team2 = match.RedAlliance.Team2;
+                    team3 = match.RedAlliance.Team3;
+                    break;
+                case 2:
+                    team1 = match.BlueAlliance.Team1;
+                    team2 = match.BlueAlliance.Team2;
+                    team3 = match.BlueAlliance.Team3;
+                    break;
+                default:
+                    throw new ArgumentException("Scout ID must be either 1 or 2");
+            }
 
-            return HumanEvent;
+
+
+            HumanScoutCounter count = new HumanScoutCounter();
+
+            var query = from e in _unit.HumanEvents.GetAll()
+                        where e.Match.Id == match.Id &&
+                        (e.Team.Id == team1.Id || e.Team.Id == team2.Id || e.Team.Id == team3.Id)
+                        select e;
+
+            HumanEvent[] events = query.ToArray();
+
+            foreach (HumanEvent e in events)
+            {
+                switch (e.HumanEventType)
+                {
+                    case HumanEventType.ThrowToOwnLandfill:
+                        if (e.Team.Id == team1.Id)
+                            ++count.ThrowToOwnLandfill1;
+                        else if (e.Team.Id == team2.Id)
+                            ++count.ThrowToOwnLandfill2;
+                        else if (e.Team.Id == team3.Id)
+                            ++count.ThrowToOwnLandfill3;
+                        break;
+                    case HumanEventType.ThrowToOpponentLandfill:
+                        if (e.Team.Id == team1.Id)
+                            ++count.ThrowToOpponentLandfill1;
+                        else if (e.Team.Id == team2.Id)
+                            ++count.ThrowToOpponentLandfill2;
+                        else if (e.Team.Id == team3.Id)
+                            ++count.ThrowToOpponentLandfill3;
+                        break;
+                    case HumanEventType.ThrowPastOpponentLandfill:
+                        if (e.Team.Id == team1.Id)
+                            ++count.ThrowPastOpponentLandfill1;
+                        else if (e.Team.Id == team2.Id)
+                            ++count.ThrowPastOpponentLandfill2;
+                        else if (e.Team.Id == team3.Id)
+                            ++count.ThrowPastOpponentLandfill3;
+                        break;
+                    case HumanEventType.Failure:
+                        if (e.Team.Id == team1.Id)
+                            ++count.Failure1;
+                        else if (e.Team.Id == team2.Id)
+                            ++count.Failure2;
+                        else if (e.Team.Id == team3.Id)
+                            ++count.Failure3;
+                        break;
+                }
+            }
+
+            return count;
         }
 
         public HttpResponseMessage Put(int id, HumanEvent HumanEvent)

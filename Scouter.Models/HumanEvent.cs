@@ -6,6 +6,7 @@ namespace Scouter.Models
     public enum HumanEventType
     {
         ThrowToOwnLandfill,
+        ThrowToOpponentLandfill,
         ThrowPastOpponentLandfill,
         Failure,//awwwww
 

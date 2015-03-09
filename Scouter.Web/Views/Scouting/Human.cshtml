@@ -1,4 +1,4 @@
-﻿@model Scouter.Web.ViewModels.ScoutViewModel
+﻿@model Scouter.Web.ViewModels.HumanScouterViewModel
 
 @{
     ViewBag.Title = "Human Player Scouter";
@@ -12,21 +12,10 @@
 
         $(function ()
         {
-            var Scout = function()
-            {
-                this.color = ko.observable(@Model.Color);
-                this.matchID = ko.observable(@Model.Match.Id);
-                this.matchNumber = ko.observable(@Model.Match.SequenceNumber);
-                this.teamID = ko.observable(@Model.Team.Id);
-                this.teamName = ko.observable("@Model.Team.Name");
-                this.teamNumber = ko.observable(@Model.Team.Number);
-                this.scoutID = ko.observable(@Model.Scouter_Id);
-            }
-
             var Event = function ()
             {
                 this.id = 0;
-                this.scouter_Id = 0;
+                this.scouter_Id = @Model.Scouter_Id;
                 this.humanEventType = 0;
                 this.team_Number = 0;
             }
@@ -38,21 +27,12 @@
                 this.scouterStatus = 0;
                 this.team_Id = 0;
             }
-
-            var ScoutNotes = function()
-            {
-                this.Notes = notes.value;
-                this.Team_Id = vm.model.teamID;
-                this.Match_Id = vm.model.matchID;
-                this.Mode = 1;
-            }
             //
             // CLIENT SIDE VIEWMODEL
             //
-            var ViewModel = function (scout)
+            var ViewModel = function ()
             {
                 var self = this;
-                self.model = scout;
 
                 //Add isClicked Booleans here/////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 self.throwToOwnLandfillPressed1 = ko.observable(false);
@@ -114,7 +94,6 @@
                     }
                     //Create a new robot event and set it's variables
                     var e = new Event();
-                    e.scouter_Id = self.model.scoutID;
                     e.humanEventType = humanEv;
                     e.team_Number = team;
                     //Send the robot event to the server
@@ -133,10 +112,20 @@
 
                 self.updateCounter = function()
                 {
-                    scouterDataService.updateCounter(@Model.Scouter_Id).done(function (data)
+                    scouterDataService.updateHumanCounter(@Model.Scouter_Id).done(function (data)
                     {
                         //set your counts to the server counts////////////////////////////////////////////////////////////////////////////////////////////
-                        self.throwToOwnLandfillCount1(data.TotesStacked);
+                        self.throwToOwnLandfillCount1(data.ThrowToOwnLandfill1);
+                        self.throwToOwnLandfillCount2(data.ThrowToOwnLandfill2);
+                        self.throwToOwnLandfillCount3(data.ThrowToOwnLandfill3);
+
+                        self.throwPastOpponentLandfillCount1(data.ThrowPastOpponentLandfill1);
+                        self.throwPastOpponentLandfillCount2(data.ThrowPastOpponentLandfill2);
+                        self.throwPastOpponentLandfillCount3(data.ThrowPastOpponentLandfill3);
+
+                        self.failureCount1(data.Failure1);
+                        self.failureCount2(data.Failure2);
+                        self.failureCount3(data.Failure3);
                     })
                 }
 
@@ -146,7 +135,7 @@
                 }
 
                 //set the colors for the buttons
-                if (self.model.scoutID() < 2)//red scout
+                if (@Model.Scouter_Id < 2)//red scout
                 {
                     self.color = 'red';
                     self.clickColor = 'pink';
@@ -158,34 +147,22 @@
                     self.clickColor = 'lightblue';
                     self.colorAlt = 'skyblue';
                 }
-
-                //tell the server that you are in autonomous
-                var d = new ScoutInfo();
-                d.scouter = self.model.scoutID;
-                d.scouterStatus = 1;
-                d.match_Id = self.model.matchID;
-                d.team_Id = self.model.teamID;
-
-                scouterDataService.updateScoutData(ko.toJS(d)).done(function (data)
-                {
-                    self.updateCounter();
-                });
-
+                self.updateCounter();
             }
 
             //create the viewmodel and apply bindings
-            vm = new ViewModel(new Scout());
+            vm = new ViewModel();
             ko.applyBindings(vm);
         })
     </script>
 }
 <div class="row" style="color:white">
     <span style="color:red; background-color:rgba(0, 0, 0, 0.8)">Human Player</span>
-    <span style="font-size:16px; background-color:rgba(0, 0, 0, 0.8)" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' + model.teamNumber() + ' ('+ model.teamName() + ')'" />
+    <span style="font-size:16px; background-color:rgba(0, 0, 0, 0.8)" data-bind="text: ' Match: ' + @Model.Match.SequenceNumber" />
 </div>
 
 <div class="row" id="row1l">
-    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Team 1<div id="totesImg"></div></span>
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Team: @Model.Team1.Number (@Model.Team1.Name)</span>
 </div>
 <div class="row" id="row1c">
     <!-- vm is where you should create the buttons for the row. the color should either be color or colorAlt(or any other colors you define)
@@ -229,8 +206,8 @@
         <br />
     </div>
 </div>
-<div class="row" id="row2l">
-    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Team 2<div id="totesImg"></div></span>
+<div class="row" id="row1l">
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Team: @Model.Team2.Number (@Model.Team2.Name)</span>
 </div>
 <div class="row" id="row2c">
     <!-- vm is where you should create the buttons for the row. the color should either be color or colorAlt(or any other colors you define)
@@ -274,8 +251,8 @@
         <br />
     </div>
 </div>
-<div class="row" id="row3l">
-    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Team 3<div id="totesImg"></div></span>
+<div class="row" id="row1l">
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Team: @Model.Team3.Number (@Model.Team3.Name)</span>
 </div>
 <div class="row" id="row3c">
     <!-- vm is where you should create the buttons for the row. the color should either be color or colorAlt(or any other colors you define)
