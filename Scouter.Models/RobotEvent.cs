@@ -38,7 +38,7 @@ namespace Scouter.Models
         RightChutePickUp,
         LeftChutePickUp,
         GroundPickUp,
-        DriveOverPlatform,
+        //DriveOverPlatform,
 
         OrientContainer,
         OrientTote,

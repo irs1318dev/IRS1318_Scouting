@@ -111,7 +111,7 @@ namespace Scouter.Web.Controllers.api
                     {
                         IsContainerAdded = stackEvent.IsContainerAdded,
                         NumTotesAdded = stackEvent.NumTotesAdded,
-                        StartingHeight = stackEvent.NumTotesAdded,
+                        StartingHeight = stackEvent.StartingHeight,
                         Match = _unit.FRCMatches.GetById(scoutData.Match_ID),
                         Team = team
                     };
@@ -179,7 +179,7 @@ namespace Scouter.Web.Controllers.api
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, new Exception("Could not find a stack event from scout " + id + " in match " + match.SequenceNumber));
 
             var list = query.ToList();
-            _unit.RobotEvents.Delete(list.Last().Id);
+            _unit.StackEvents.Delete(list.Last().Id);
             _unit.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }

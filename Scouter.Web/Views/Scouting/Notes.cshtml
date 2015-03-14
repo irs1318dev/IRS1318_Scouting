@@ -43,7 +43,7 @@
             {
                 var self = this;
                 self.model = scout;
-            	self.errorMessage = ko.observable("Waiting for next Match... If you believe that you should have advance, notify the lead scout that you are infact ready to advance. Then wait for further instructions.");
+            	self.errorMessage = ko.observable("Waiting for next Match... If you believe that you should have advance, notify the lead scout that you are in fact ready to advance. Then wait for further instructions.");
 
             	self.leftTotesInTheWayClicked = ko.observable(false);
             	self.leftContainersInTheWayClicked = ko.observable(false);
@@ -61,7 +61,7 @@
 
             	self.stoppedMoving = function()
             	{
-            	    self.self.stoppedMovingClicked(!self.stoppedMovingClicked());
+            	    self.stoppedMovingClicked(!self.stoppedMovingClicked());
             	    self.setNotes();
             	}
             	self.mechanismIneffective = function()
@@ -289,11 +289,12 @@
     Notes <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' +model.teamNumber() + ' ('+ model.teamName() + ')'" />
 </div>
 
-<div class="row panel-collapse collapse in" id="row1">
+<div class="row panel-collapse collapse in" id="row1" style="text-align:center">
     <div data-bind="click: leftTotesInTheWay, style: {backgroundColor: leftTotesInTheWayClicked() ? clickColor : colorAlt}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
         <br />
         <span>Left Totes in the Way</span>
+        <br />
         <br />
         <br />
     </div>
@@ -307,9 +308,7 @@
     <div data-bind="click: blockedAllies, style: {backgroundColor: blockedAlliesClicked() ? clickColor : colorAlt}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
         <br />
-        <br />
         <span>Blocked Allies</span>
-        <br />
         <br />
         <br />
         <br />
@@ -322,11 +321,9 @@
         <br />
         <br />
         <br />
-        <br />
     </div>
     <div data-bind="click: stoppedMoving, style: {backgroundColor: stoppedMovingClicked() ? clickColor : colorAlt}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
-        <br />
         <br />
         <span>Stopped Moving</span>
         <br />

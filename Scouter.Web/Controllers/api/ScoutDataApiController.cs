@@ -15,21 +15,26 @@ namespace Scouter.Web.Controllers.api
     public class ScoutDataApiController : ApiController
     {
         private ApplicationUnit _unit = new ApplicationUnit();
-        RobotEventType[] booleans = { RobotEventType.LeftContainerFromStep,
-                                      RobotEventType.LeftCenterContainerFromStep,
-                                      RobotEventType.RightCenterContainerFromStep,
-                                      RobotEventType.RightContainerFromStep,
-                                      RobotEventType.AutonomousMoved,
-                                      RobotEventType.NoAutonomous,
-                                      RobotEventType.AutoAttemptClutter,
+        RobotEventType[] booleans = { RobotEventType.TotesStacked,
                                       RobotEventType.RightToteMoved,
                                       RobotEventType.CenterToteMoved,
                                       RobotEventType.LeftToteMoved,
                                       RobotEventType.RightContainerMoved,
                                       RobotEventType.CenterContainerMoved,
                                       RobotEventType.LeftContainerMoved,
+                                      RobotEventType.LeftContainerFromStep,
+                                      RobotEventType.LeftCenterContainerFromStep,
+                                      RobotEventType.RightCenterContainerFromStep,
+                                      RobotEventType.RightContainerFromStep,
+                                      RobotEventType.AutonomousMoved,
+                                      RobotEventType.NoAutonomous,
+                                      RobotEventType.AutoAttemptClutter,
+                                      RobotEventType.CoopertitionToteFour,
+                                      RobotEventType.CoopertitionToteThree,
+                                      RobotEventType.CoopertitionToteTwo,
+                                      RobotEventType.CoopertitionToteOne,
                                       };
-
+        
         //GetScoutData is in ScouterApiController
 
         /// <summary>
@@ -103,10 +108,11 @@ namespace Scouter.Web.Controllers.api
             {
                 switch (e.RobotEventType)
                 {
-                    case RobotEventType.TotesStacked:
+                    case RobotEventType.TotesStacked: //change to BOOLEAN
                         if (e.RobotMode == robotMode)
-                            ++count.TotesStacked;
+                            count.TotesStacked = true;
                         break;
+                    //THINGS MOVED TO AUTO ZONE
                     case RobotEventType.RightToteMoved:
                         if (e.RobotMode == robotMode)
                             count.RightToteMoved = true;
@@ -119,6 +125,51 @@ namespace Scouter.Web.Controllers.api
                         if (e.RobotMode == robotMode)
                             count.LeftToteMoved = true;
                         break;
+                    case RobotEventType.RightContainerMoved:
+                        if (e.RobotMode == robotMode)
+                            count.RightContainerMoved = true;
+                        break;
+                    case RobotEventType.CenterContainerMoved:
+                        if (e.RobotMode == robotMode)
+                            count.CenterContainerMoved = true;
+                        break;
+                    case RobotEventType.LeftContainerMoved:
+                        if (e.RobotMode == robotMode)
+                            count.LeftContainerMoved = true;
+                        break;
+                    
+                    // CONTAINERS TAKEN FROM STEP
+                    case RobotEventType.RightContainerFromStep:
+                        count.RightContainerFromStep = true;
+                        break;
+                    case RobotEventType.RightCenterContainerFromStep:
+                        count.RightCenterContainerFromStep = true;
+                        break;
+                    case RobotEventType.LeftCenterContainerFromStep:
+                        count.LeftCenterContainerFromStep = true;
+                        break;
+                    case RobotEventType.LeftContainerFromStep:
+                        count.LeftContainerFromStep = true;
+                        break;
+
+                    //AUTONOMOUS EVENTS
+                    case RobotEventType.AutonomousMoved:
+                        if (e.RobotMode == robotMode)
+                            count.AutonomousMoved = true;
+                        break;
+                    case RobotEventType.NoAutonomous:
+                        if (e.RobotMode == robotMode)
+                            count.NoAutonomous = true;
+                        break;
+                    case RobotEventType.AutoAttemptClutter:
+                        if (e.RobotMode == robotMode)
+                            count.AutoAttemptClutter = true;
+                        break;
+                    case RobotEventType.Foul:
+                        if (e.RobotMode == robotMode)
+                            ++count.Foul;
+                        break;
+
                     //CHANGES IF 4 COOP Evnts
                     case RobotEventType.CoopertitionToteOne:
                         if (e.RobotMode == robotMode)
@@ -136,47 +187,7 @@ namespace Scouter.Web.Controllers.api
                         if (e.RobotMode == robotMode)
                             count.CoopertitionToteFour = true;
                         break;
-                    
-                    case RobotEventType.RightContainerFromStep:
-                        count.RightContainerFromStep = true;
-                        break;
-                    case RobotEventType.RightCenterContainerFromStep:
-                        count.RightCenterContainerFromStep = true;
-                        break;
-                    case RobotEventType.LeftCenterContainerFromStep:
-                        count.LeftCenterContainerFromStep = true;
-                        break;
-                    case RobotEventType.LeftContainerFromStep:
-                        count.LeftContainerFromStep = true;
-                        break;
-                    case RobotEventType.RightContainerMoved:
-                        if (e.RobotMode == robotMode)
-                            count.RightContainerMoved = true;
-                        break;
-                    case RobotEventType.CenterContainerMoved:
-                        if (e.RobotMode == robotMode)
-                            count.CenterContainerMoved = true;
-                        break;
-                    case RobotEventType.LeftContainerMoved:
-                        if (e.RobotMode == robotMode)
-                            count.LeftContainerMoved = true;
-                        break;
-                    case RobotEventType.AutonomousMoved:
-                        if (e.RobotMode == robotMode)
-                            count.AutonomousMoved = true;
-                        break;
-                    case RobotEventType.NoAutonomous:
-                        if (e.RobotMode == robotMode)
-                            count.NoAutonomous = true;
-                        break;
-                    case RobotEventType.AutoAttemptClutter:
-                        if (e.RobotMode == robotMode)
-                            count.AutoAttemptClutter = true;
-                        break;
-                    case RobotEventType.Foul:
-                        if (e.RobotMode == robotMode)
-                            ++count.Foul;
-                        break;
+
                     case RobotEventType.RightChutePickUp:
                         if (e.RobotMode == robotMode)
                             ++count.RightChutePickUp;
@@ -189,10 +200,12 @@ namespace Scouter.Web.Controllers.api
                         if (e.RobotMode == robotMode)
                             ++count.GroundPickUp;
                         break;
-                    case RobotEventType.DriveOverPlatform:
+                    case RobotEventType.BulldozeLitterToLandfill:
                         if (e.RobotMode == robotMode)
-                            ++count.DriveOverPlatform;
+                            ++count.BulldozeLitterToLandfill;
                         break;
+
+                    //ASSISTS
                     case RobotEventType.OrientContainer:
                         if (e.RobotMode == robotMode)
                             ++count.OrientContainer;
@@ -213,10 +226,11 @@ namespace Scouter.Web.Controllers.api
                         if (e.RobotMode == robotMode)
                             ++count.ClearLitter;
                         break;
-                    case RobotEventType.BulldozeLitterToLandfill:
-                        if (e.RobotMode == robotMode)
-                            ++count.BulldozeLitterToLandfill;
-                        break;
+
+                    //case RobotEventType.DriveOverPlatform:
+                    //    if (e.RobotMode == robotMode)
+                    //        ++count.DriveOverPlatform;
+                    //    break;
                 }
             }
 
@@ -342,6 +356,8 @@ namespace Scouter.Web.Controllers.api
                             break;
                     }
 
+                    //check to see if event is boolean
+                    //if yes, then try to remove it - if success, return; else create it
                     foreach(RobotEventType type in booleans)
                     {
                         if(robotEvent.RobotEventType == type)

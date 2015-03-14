@@ -8,7 +8,7 @@ namespace Scouter.Web.Models.Scouting
 	//include ...Count in name... nvm
     public class ScoutCounter
 	{
-        public int TotesStacked { get; set; }
+        public Boolean TotesStacked { get; set; }
         public Boolean RightToteMoved { get; set; }
         public Boolean CenterToteMoved { get; set; }
         public Boolean LeftToteMoved { get; set; }
@@ -37,7 +37,7 @@ namespace Scouter.Web.Models.Scouting
         public int RightChutePickUp { get; set; }
         public int LeftChutePickUp { get; set; }
         public int GroundPickUp { get; set; }
-        public int DriveOverPlatform { get; set; }
+        //public int DriveOverPlatform { get; set; }
 
         public int OrientContainer { get; set; }
         public int OrientTote { get; set; }

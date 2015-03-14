@@ -58,7 +58,7 @@
                 self.RightChutePickUpClicked = ko.observable(false);
                 self.LeftChutePickUpClicked = ko.observable(false);
                 self.GroundPickUpClicked = ko.observable(false);
-                self.DriveOverPlatformClicked = ko.observable(false);
+                //self.DriveOverPlatformClicked = ko.observable(false);
 
                 self.OrientContainerClicked = ko.observable(false);
                 self.OrientToteClicked = ko.observable(false);
@@ -68,7 +68,6 @@
 
                 self.BulldozeLitterToLandfillClicked = ko.observable(false);
                 self.TeleopFoulClicked = ko.observable(false);
-                //              self.YellowTotesMovedToStepClicked = ko.observable(false);
 
                 self.LeftContainerFromStepClicked = ko.observable(false);
                 self.LeftCenterContainerFromStepClicked = ko.observable(false);
@@ -77,8 +76,8 @@
 
                 self.InitialStackHeightClicked = ko.observable(false);
                 self.TotesAddedToStackClicked = ko.observable(false);
-                self.ContainerAddedtoStackClicked = ko.observable(false);
-                self.LitterAddedtoStackClicked = ko.observable(false);
+                self.ContainerAddedToStackClicked = ko.observable(false);
+                self.LitterAddedToStackClicked = ko.observable(false);
                 self.SendButtonClicked = ko.observable(false);
                 self.UndoStackButtonClicked = ko.observable(false);
 
@@ -92,7 +91,6 @@
                 self.RightChutePickUpCount = ko.observable(0);
                 self.LeftChutePickUpCount = ko.observable(0);
                 self.GroundPickUpCount = ko.observable(0);
-                self.DriveOverPlatformCount = ko.observable(0);
 
                 self.OrientContainerCount = ko.observable(0);
                 self.OrientToteCount = ko.observable(0);
@@ -102,7 +100,6 @@
 
                 self.BulldozeLitterToLandfillCount = ko.observable(0);
                 self.TeleopFoulCount = ko.observable(0);
-                //                self.YellowTotesMovedToStepCount = ko.observable(0);
 
                 self.LeftContainerFromStepCount = ko.observable(false);
                 self.LeftCenterContainerFromStepCount = ko.observable(false);
@@ -111,8 +108,8 @@
 
                 self.InitialStackHeightCount = ko.observable(0);
                 self.TotesAddedToStackCount = ko.observable(0);
-                self.ContainerAddedtoStackCount = ko.observable(false);
-                self.LitterAddedtoStackCount = ko.observable(false);
+                self.ContainerAddedToStackCount = ko.observable(false);
+                self.LitterAddedToStackCount = ko.observable(false);
 
                 self.clear = function()
                 {
@@ -120,7 +117,6 @@
                     self.RightChutePickUpClicked(false);
                     self.LeftChutePickUpClicked(false);
                     self.GroundPickUpClicked(false);
-                    self.DriveOverPlatformClicked(false);
 
                     self.OrientContainerClicked(false);
                     self.OrientToteClicked(false);
@@ -130,7 +126,6 @@
 
                     self.BulldozeLitterToLandfillClicked(false);
                     self.TeleopFoulClicked(false);
-                    //                   self.YellowTotesMovedToStepClicked(false);
 
                     self.LeftContainerFromStepClicked(false);
                     self.LeftCenterContainerFromStepClicked(false);
@@ -139,8 +134,8 @@
 
                     self.InitialStackHeightClicked(false);
                     self.TotesAddedToStackClicked(false);
-                    self.ContainerAddedtoStackClicked(false);
-                    self.LitterAddedtoStackClicked(false);
+                    self.ContainerAddedToStackClicked(false);
+                    self.LitterAddedToStackClicked(false);
                     self.SendButtonClicked(false);
                     self.UndoStackButtonClicked(false);
 
@@ -192,20 +187,26 @@
                     {
                         self.TotesAddedToStackCount(0);
                     }
-                    else
+                    else{
                         self.TotesAddedToStackCount(self.TotesAddedToStackCount() + 1);
+                        
+                    }
                 }
-                self.ContainerAddedtoStack = function()
+                self.ContainerAddedToStack = function()
                 {
                     self.clear();
-                    self.ContainerAddedtoStackClicked(true);
-                    self.ContainerAddedtoStackCount(!self.ContainerAddedtoStackCount());
+                    self.ContainerAddedToStackClicked(true);
+                    self.ContainerAddedToStackCount(!self.ContainerAddedToStackCount());
                 }
-                self.LitterAddedtoStack = function()
+                self.LitterAddedToStack = function()
                 {
-                    self.clear();
-                    self.LitterAddedtoStackClicked(true);
-                    self.LitterAddedtoStackCount(!self.LitterAddedtoStackCount());
+                    if(self.ContainerAddedToStackCount()==true)
+                    {
+                        self.clear();
+                        self.LitterAddedToStackClicked(true);
+                        self.LitterAddedToStackCount(!self.LitterAddedToStackCount());
+                    }
+                    else {/*do nothing*/}                    
                 }
                 self.SendButton = function()
                 {
@@ -215,45 +216,45 @@
             	        
                         var e = new StackEvent();
                         e.scouter_Id = self.model.scoutID;
-                        e.startingHeight = self.InitialStackHeightCount;
-                        e.NumTotesAdded = self.TotesAddedToStackCount;
-                        e.IsContainerAdded = self.ContainerAddedtoStackCount();
-                        e.IsLitterAdded = self.LitterAddedtoStackCount();
+                        e.startingHeight = self.InitialStackHeightCount();
+                        e.NumTotesAdded = self.TotesAddedToStackCount();
+                        e.IsContainerAdded = self.ContainerAddedToStackCount();
+                        e.IsLitterAdded = self.LitterAddedToStackCount();
                         scouterDataService.saveStack(ko.toJS(e)).done( function(){
                             self.SendButtonClicked(true);
                         });
 
                         self.InitialStackHeightCount(0);
                         self.TotesAddedToStackCount(0);
-                        self.ContainerAddedtoStackCount(false);
-                        self.LitterAddedtoStackCount(false);
+                        self.ContainerAddedToStackCount(false);
+                        self.LitterAddedToStackCount(false);
                     }
-                    else {/*do nothing*/}                    }
-                    self.UndoStackButton = function()
+                    else {/*do nothing*/}                    
+                }
+                self.UndoStackButton = function()
+                {
+                    self.clear();
+                    scouterDataService.undoStack(@Model.Scouter_Id).done( function(){
+                        self.UndoStackButtonClicked(true);            	        
+                    });
+                }
+                self.SendToDBEnabled = function()
+                {
+                    if(self.TotesAddedToStackCount() + self.InitialStackHeightCount() <= 6)
+                        return true;
+                    else
+                        return false;
+                }
+                    
+                self.oops = function()
+                {
+                    self.clear();
+                    self.oopsClicked(true);
+                    scouterDataService.undo(@Model.Scouter_Id).done(function (data)
                     {
-                        self.clear();
-                        scouterDataService.undoStack(@Model.Scouter_Id).done( function(){
-                            self.UndoStackButtonClicked(true);            	        
-                        });
-                    }
-                    self.SendToDBEnabled = function()
-                    {
-                        if(self.TotesAddedToStackCount() + self.InitialStackHeightCount() <= 6)
-                            return true;
-                        else
-                            return false;
-                    }
-
-
-                    self.oops = function()
-                    {
-                        self.clear();
-                        self.oopsClicked(true);
-                        scouterDataService.undo(@Model.Scouter_Id).done(function (data)
-                        {
-                            self.updateCounter();
-                        });
-                    }
+                        self.updateCounter();
+                    });
+                }
 
                     self.updateCounter = function()
                     {
@@ -262,8 +263,7 @@
                             self.RightChutePickUpCount(data.RightChutePickUp);
                             self.LeftChutePickUpCount(data.LeftChutePickUp);
                             self.GroundPickUpCount(data.GroundPickUp);
-                            self.DriveOverPlatformCount(data.DriveOverPlatform);
-
+                            
                             self.OrientContainerCount(data.OrientContainer);
                             self.OrientToteCount(data.OrientTote);
                             self.ClearContainerCount(data.ClearContainer);
@@ -272,17 +272,16 @@
 
                             self.BulldozeLitterToLandfillCount(data.BulldozeLitterToLandfill);
                             self.TeleopFoulCount(data.Foul);
-                            //self.YellowTotesMovedToStepCount(data.YellowTotesMovedToStep);
-
+                            
                             self.LeftContainerFromStepCount(data.LeftContainerFromStep);
                             self.LeftCenterContainerFromStepCount(data.LeftCenterContainerFromStep);
                             self.RightCenterContainerFromStepCount(data.RightCenterContainerFromStep);
                             self.RightContainerFromStepCount(data.RightContainerFromStep);
 
-                            self.InitialStackHeightCount(data.InitialStackHeight);
-                            self.TotesAddedToStackCount(data.TotesAddedToStack);
-                            self.ContainerAddedtoStackCount(data.ContainerAddedtoStack);
-                            self.LitterAddedtoStackCount(data.LitterAddedtoStack);
+                            //self.InitialStackHeightCount(data.InitialStackHeight);
+                            //self.TotesAddedToStackCount(data.TotesAddedToStack);
+                            //self.ContainerAddedToStackCount(data.ContainerAddedToStack);
+                            //self.LitterAddedToStackCount(data.LitterAddedToStack);
 
                         })
                     }
@@ -358,45 +357,161 @@
         })
 	</script>
 }
+
 <div class="row" style="color:white">
     <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Teleoperated <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' +model.teamNumber() + ' ('+ model.teamName() + ')'" /></span>
 </div>
+<div class="row" style="color:white">
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Stacks Made</span>
+</div>
+<div class="row" style="text-align:center">
+    <div onclick="vm.InitialStackHeight()" data-bind="style: { backgroundColor: InitialStackHeightClicked() ? clickColor : 'darkorange' }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <span>Initial Stack Height</span>
+        <br />
+        <span data-bind="text: InitialStackHeightCount"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.TotesAddedToStack()" data-bind="    style: { backgroundColor: TotesAddedToStackClicked() ? clickColor : 'darkorange' }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <span># Totes Added this Time</span>
+        <br />
+        <span data-bind="text: TotesAddedToStackCount"></span>
+        <br />
+    </div>
+    <div onclick="vm.ContainerAddedToStack()" data-bind="style: { backgroundColor: ContainerAddedToStackClicked() ? clickColor : 'darkorange' }"
+         style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <span>Is Container placed on Top?</span>
+        <br />
+        <span data-bind="text: (ContainerAddedToStackCount() ? 'Yes' : 'No')"></span>
+        <br />
+    </div>
+    <div onclick="vm.LitterAddedToStack()" data-bind="style: {backgroundColor: ContainerAddedToStackCount() ? (LitterAddedToStackClicked() ? clickColor : 'darkorange') : 'lemonchiffon' }"
+         style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <span>Is Litter in Container?</span>
+        <br />
+        <span data-bind="text: (LitterAddedToStackCount() ? 'Yes' : 'No')"></span>
+        <br />
+    </div>
+    <div onclick="vm.SendButton()" data-bind="style:{backgroundColor: SendToDBEnabled() ? (SendButtonClicked() ? 'green' : 'darkorange') : 'lemonchiffon' }"
+         style="padding-left:1px; border-style: solid; border-width: medium; border-color: white" class="col-xs-1">
+        <br />
+        <span>Send</span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.UndoStackButton()" data-bind="style: { backgroundColor: UndoStackButtonClicked() ? 'green' : 'darkorange' }"
+         style="padding-left:1px; border-style: solid; border-width: medium; border-color: white" class="col-xs-1">
+        <br />
+        <span>Undo</span>
+        <br />
+        <br />
+    </div>
+</div>
 
-<div class="dropdown">
-    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-        Coopertition Tote (stacked from bottom up)
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-        <li role="presentation">
-            <a>
-                <input type="checkbox" id="CheckboxCoopertitionToteOne" autocomplete="off" > 1
-            </a>
-        </li>
-        <li role="presentation">
-            <a>
-                <input type="checkbox" id="CheckboxCoopertitionToteTwo" autocomplete="off"> 2
-            </a>
-        </li>
-        <li role="presentation">
-            <a>
-                <input type="checkbox" id="CheckboxCoopertitionToteThree" autocomplete="off"> 3
-            </a>
-        </li>
-        <li role="presentation">
-            <a>
-                <input type="checkbox" id="CheckboxCoopertitionToteFour" autocomplete="off"> 4
-            </a>
-        </li>
-    </ul>
+<div class="row">
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Totes and Field</span>
+</div>
+
+<div class="row" style="text-align:center">
+    <div onclick="vm.abstractButtonFunction(vm.LeftChutePickUpClicked, vm.LeftChutePickUpCount, robotEventTypes['LeftChutePickUp'])" 
+         data-bind="style: { backgroundColor: LeftChutePickUpClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <span>Left Chute PickUp </span>
+        <br />
+        <span data-bind="text: LeftChutePickUpCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.RightChutePickUpClicked, vm.RightChutePickUpCount, robotEventTypes['RightChutePickUp'])" data-bind="    style: { backgroundColor: RightChutePickUpClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <span>Right Chute PickUp </span>
+        <br />
+        <span data-bind="text: RightChutePickUpCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.GroundPickUpClicked, vm.GroundPickUpCount, robotEventTypes['GroundPickUp'])" 
+         data-bind="    style: {backgroundColor: GroundPickUpClicked() ? clickColor : color}" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <span>Ground PickUp</span>
+        <br />
+        <span data-bind="text: GroundPickUpCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.BulldozeLitterToLandfillClicked, vm.BulldozeLitterToLandfillCount, robotEventTypes['BulldozeLitterToLandfill'])" 
+         data-bind="style: { backgroundColor: BulldozeLitterToLandfillClicked() ? clickColor : colorAlt }" 
+         style="margin-left:3px; border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+        <br />
+        <span>Litter Moved to Landfill</span>
+        <br />
+        <span data-bind="text: BulldozeLitterToLandfillCount()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.TeleopFoulClicked, vm.TeleopFoulCount, robotEventTypes['Foul'])"
+         data-bind="style: { backgroundColor: TeleopFoulClicked() ? clickColor : color }" style="margin-left:3px; border-style: solid; border-width: medium; border-color: green" class="col-xs-2">
+        <br />
+        <span>Teleop FOULS</span>
+        <br />
+        <br />
+        <span data-bind="text: TeleopFoulCount()"></span>
+        <br />
+    </div>
+</div>
+
+<div class="row" style="color:white">
+    Assists
+</div>
+
+<div class="row" style="text-align:center">
+        <div onclick="vm.abstractButtonFunction(vm.OrientContainerClicked, vm.OrientContainerCount, robotEventTypes['OrientContainer'])" data-bind="style: { backgroundColor: OrientContainerClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+            <br />
+            <span>Orient Container</span>
+            <br />
+            <span data-bind="text: OrientContainerCount()"></span>
+            <br />
+        </div>
+        <div onclick="vm.abstractButtonFunction(vm.OrientToteClicked, vm.OrientToteCount, robotEventTypes['OrientTote'])" data-bind="style: { backgroundColor: OrientToteClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+            <br />
+            <span>Orient Tote </span>
+            <br />
+            <br />
+            <span data-bind="text: OrientToteCount()"></span>
+            <br />
+        </div>
+        <div onclick="vm.abstractButtonFunction(vm.ClearContainerClicked, vm.ClearContainerCount, robotEventTypes['ClearContainer'])" data-bind="    style: { backgroundColor: ClearContainerClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+            <br />
+            <span>Clear away Container</span>
+            <br />
+            <span data-bind="text: ClearContainerCount()"></span>
+            <br />
+        </div>
+        <div onclick="vm.abstractButtonFunction(vm.ClearToteClicked, vm.ClearToteCount, robotEventTypes['ClearTote'])" data-bind="    style: { backgroundColor: ClearToteClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+            <br />
+            <span>Clear away Tote</span>
+            <br />
+            <span data-bind="text: ClearToteCount()"></span>
+            <br />
+        </div>
+        <div onclick="vm.abstractButtonFunction(vm.ClearLitterClicked, vm.ClearLitterCount, robotEventTypes['ClearLitter'])" data-bind="style: { backgroundColor: ClearLitterClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+            <br />
+            <span>Clear away litter</span>
+            <br />
+            <span data-bind="text: ClearLitterCount()"></span>
+        </div>
 </div>
 
 <div class="row">
     <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Containers Taken From Step</span>
 </div>
 <div class="row" style="text-align:center">
-    <div onclick="vm.abstractButtonFunction(vm.LeftContainerFromStepClicked, vm.LeftContainerFromStepCount, robotEventTypes['LeftContainerFromStep'])" 
-         data-bind="style: { backgroundColor: LeftContainerFromStepClicked() ? clickColor : color }" 
+    <div onclick="vm.abstractButtonFunction(vm.LeftContainerFromStepClicked, vm.LeftContainerFromStepCount, robotEventTypes['LeftContainerFromStep'])"
+         data-bind="style: { backgroundColor: LeftContainerFromStepClicked() ? clickColor : color }"
          style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Left</span>
@@ -432,175 +547,51 @@
 </div>
 
 <div class="row">
-    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Totes and Field</span>
+    <span style="color:black; background-color:rgba(0, 0, 0, 0.8)">Moving on</span>
 </div>
-
-<div class="row" style="text-align:center">
-    <div onclick="vm.abstractButtonFunction(vm.LeftChutePickUpClicked, vm.LeftChutePickUpCount, robotEventTypes['LeftChutePickUp'])" 
-         data-bind="style: { backgroundColor: LeftChutePickUpClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
-        <span>Left Chute PickUp </span>
-        <br />
-        <span data-bind="text: LeftChutePickUpCount()"></span>
-        <br />
-    </div>
-    <div onclick="vm.abstractButtonFunction(vm.RightChutePickUpClicked, vm.RightChutePickUpCount, robotEventTypes['RightChutePickUp'])" data-bind="    style: { backgroundColor: RightChutePickUpClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
-        <span>Right Chute PickUp </span>
-        <br />
-        <span data-bind="text: RightChutePickUpCount()"></span>
-        <br />
-    </div>
-    <div onclick="vm.abstractButtonFunction(vm.GroundPickUpClicked, vm.GroundPickUpCount, robotEventTypes['GroundPickUp'])" 
-         data-bind="    style: {backgroundColor: GroundPickUpClicked() ? clickColor : color}" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
-        <span>Ground PickUp</span>
-        <br />
-        <span data-bind="text: GroundPickUpCount()"></span>
-        <br />
-        <br />
-    </div>
-    <div onclick="vm.abstractButtonFunction(vm.BulldozeLitterToLandfillClicked, vm.BulldozeLitterToLandfillCount, robotEventTypes['BulldozeLitterToLandfill'])" data-bind="style: { backgroundColor: BulldozeLitterToLandfillClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
-        <span>Litter Moved to Landfill</span>
-        <br />
-        <span data-bind="text: BulldozeLitterToLandfillCount()"></span>
-        <br />
-        <br />
-    </div>
-    @*<div onclick="vm.abstractButtonFunction(vm.DriveOverPlatformClicked, vm.DriveOverPlatformCount, robotEventTypes['DriveOverPlatform'])" 
-         data-bind="    style: {backgroundColor: DriveOverPlatformClicked() ? clickColor : colorAlt}" style="margin-left:4px; border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
-        <span>Drove over White Platform</span>
-        <br />
-        <span data-bind="text: DriveOverPlatformCount()"></span>
-        <br />
-        <br />
-    </div>*@
-    <div onclick="vm.abstractButtonFunction(vm.TeleopFoulClicked, vm.TeleopFoulCount, robotEventTypes['Foul'])"
-         data-bind="style: { backgroundColor: TeleopFoulClicked() ? clickColor : color }" style="margin-left:3px; border-style: solid; border-width: medium; border-color: green" class="col-xs-2">
-        <br />
-        <span>Teleop FOULS</span>
-        <br />
-        <br />
-        <span data-bind="text: TeleopFoulCount()"></span>
-        <br />
-        <br />
-    </div>
+<div class="dropdown">
+    <button data-toggle="dropdown" class="btn dropdown-toggle" id="dropdownMenu1" aria-expanded="true">
+        Coopertition Totes Added <br /> (stacked from bottom up)
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li role="presentation">
+            <a>
+                <input type="checkbox" id="CheckboxCoopertitionToteOne" autocomplete="off"> 1
+            </a>
+        </li>
+        <li role="presentation">
+            <a>
+                <input type="checkbox" id="CheckboxCoopertitionToteTwo" autocomplete="off"> 2
+            </a>
+        </li>
+        <li role="presentation">
+            <a>
+                <input type="checkbox" id="CheckboxCoopertitionToteThree" autocomplete="off"> 3
+            </a>
+        </li>
+        <li role="presentation">
+            <a>
+                <input type="checkbox" id="CheckboxCoopertitionToteFour" autocomplete="off"> 4
+            </a>
+        </li>
+    </ul>
 </div>
-
-@*<div class="row" style="color:white">
-    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Stacks</span>
-</div>
-<div class="row" style="text-align:center">
-    <div onclick="vm.InitialStackHeight()" data-bind="style: { backgroundColor: InitialStackHeightClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
-        <span>Initial Stack Height</span>
-        <br />
-        <span data-bind="text: InitialStackHeightCount()"></span>
-        <br />
-    </div>
-    <div onclick="vm.TotesAddedToStack()" data-bind="    style: { backgroundColor: TotesAddedToStackClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
-        <span># Totes Added this time</span>
-        <br />
-        <span data-bind="text: TotesAddedToStackCount()"></span>
-        <br />
-    </div>
-    <div onclick="vm.ContainerAddedtoStack()" data-bind="style: { backgroundColor: ContainerAddedtoStackClicked() ? clickColor : colorAlt }"
-         style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
-        <span>Container Added on Top??</span>
-        <br />
-        <span data-bind="text: (ContainerAddedtoStackCount() ? 'Yes' : 'No')"></span>
-        <br />
-    </div>
-    <div onclick="vm.LitterAddedtoStack()" data-bind="style: { backgroundColor: LitterAddedtoStackClicked() ? clickColor : colorAlt }"
-         style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
-        <span>Litter Added on Top??</span>
-        <br />
-        <span data-bind="text: (LitterAddedtoStackCount() ? 'Yes' : 'No')"></span>
-        <br />
-    </div>
-    <div onclick="vm.SendButton()" data-bind="style:{backgroundColor: SendButtonClicked() ? 'green' : colorAlt} ,enable:SendToDBEnabled" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
-        <span>Send</span>
-        <br />
-        <br />
-    </div>
-    <div onclick="vm.UndoStackButton()" data-bind="style: { backgroundColor: UndoStackButtonClicked() ? 'green' : colorAlt }" 
-         style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-        <br />
-        <span>Undo</span>
-        <br />
-        <br />
-    </div>
-</div>*@
-
-<div class="row" style="color:white">
-    Assists
-</div>
-
-<div class="row" style="text-align:center">
-    <div onclick="vm.abstractButtonFunction(vm.YellowTotesMovedToStepClicked, vm.YellowTotesMovedToStepCount, robotEventTypes['YellowTotesMovedToStep'])"
-         style="margin-left:4px; border-style: solid; border-width: medium; border-color: white"
-         data-bind="style: {backgroundColor: YellowTotesMovedToStepClicked() ? clickColor : colorAlt}" class="col-xs-2">
-        <br />
-        <span>Moved Yellow Tote -> Coopertition</span>
-        <br />
-        <span data-bind="text: YellowTotesMovedToStepCount()"></span>
-        <br />
-    </div>
-        <div onclick="vm.abstractButtonFunction(vm.OrientContainerClicked, vm.OrientContainerCount, robotEventTypes['OrientContainer'])" data-bind="style: { backgroundColor: OrientContainerClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-            <br />
-            <span>Orient Container</span>
-            <br />
-            <span data-bind="text: OrientContainerCount()"></span>
-            <br />
-        </div>
-        <div onclick="vm.abstractButtonFunction(vm.OrientToteClicked, vm.OrientToteCount, robotEventTypes['OrientTote'])" data-bind="style: { backgroundColor: OrientToteClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-            <br />
-            <span>Orient Tote </span>
-            <br />
-            <br />
-            <span data-bind="text: OrientToteCount()"></span>
-            <br />
-        </div>
-        <div onclick="vm.abstractButtonFunction(vm.ClearContainerClicked, vm.ClearContainerCount, robotEventTypes['ClearContainer'])" data-bind="    style: { backgroundColor: ClearContainerClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-            <br />
-            <span>Clear away Container</span>
-            <br />
-            <span data-bind="text: ClearContainerCount()"></span>
-            <br />
-        </div>
-        <div onclick="vm.abstractButtonFunction(vm.ClearToteClicked, vm.ClearToteCount, robotEventTypes['ClearTote'])" data-bind="    style: { backgroundColor: ClearToteClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-            <br />
-            <span>Clear away Tote</span>
-            <br />
-            <span data-bind="text: ClearToteCount()"></span>
-            <br />
-        </div>
-        <div onclick="vm.abstractButtonFunction(vm.ClearLitterClicked, vm.ClearLitterCount, robotEventTypes['ClearLitter'])" data-bind="style: { backgroundColor: ClearLitterClicked() ? clickColor : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
-            <br />
-            <span>Clear away litter</span>
-            <br />
-            <br />
-            <span data-bind="text: ClearLitterCount()"></span>
-            <br />
-        </div>
+<div class="row">
+    <span style="color:black; background-color:rgba(0, 0, 0, 0.8)">Moving on</span>
 </div>
 
 <div class="row">
-    <div data-bind="click: nav, style: {backgroundColor: colorAlt}" class="col-xs-2">
+    <div data-bind="click: nav, style: {backgroundColor: colorAlt}" class="col-xs-2"
+         style="border-style: solid; border-width: medium; border-color: purple">
         <br />
         <span>Notes</span>
         <br />
         <br />
         <br />
     </div>
-    <div data-bind="click: oops, style: {backgroundColor: oopsClicked() ? clickColor : color}" class="col-xs-2">
-        <br />
+    <div data-bind="click: oops, style: {backgroundColor: oopsClicked() ? clickColor : color}" class="col-xs-2"
+         style="border-style: solid; border-width: medium; border-color: yellow">
         <br />
         <span>Oops</span>
         <br />

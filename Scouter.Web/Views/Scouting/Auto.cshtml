@@ -59,7 +59,7 @@
                 self.RightToteMovedClicked = ko.observable(false);
                 self.CenterToteMovedClicked = ko.observable(false);
                 self.LeftToteMovedClicked = ko.observable(false);
-                self.YellowTotesMovedToStepClicked = ko.observable(false);
+                //self.YellowTotesMovedToStepClicked = ko.observable(false);
 
                 self.LeftContainerFromStepClicked = ko.observable(false);
                 self.LeftCenterContainerFromStepClicked = ko.observable(false);
@@ -70,19 +70,19 @@
                 self.CenterContainerMovedClicked = ko.observable(false);
                 self.LeftContainerMovedClicked = ko.observable(false);
                 
-                self.AutonomousMovedClicked = ko.observable(false); //checkbox
-                self.NoAutonomousClicked = ko.observable(false); //checkbox
-                self.AutoAttemptClutterClicked = ko.observable(false); //checkbox
+                self.AutonomousMovedClicked = ko.observable(false); 
+                self.NoAutonomousClicked = ko.observable(false);
+                self.AutoAttemptClutterClicked = ko.observable(false); 
                 self.AutoFoulClicked = ko.observable(false);
 
                 self.oopsClicked = ko.observable(false);
 
                 //Add Count integers here/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            	self.TotesStackedCount = ko.observable(0);
+            	self.TotesStackedCount = ko.observable(false);
             	self.RightToteMovedCount = ko.observable(false);
             	self.CenterToteMovedCount = ko.observable(false);
             	self.LeftToteMovedCount = ko.observable(false);
-            	self.YellowTotesMovedToStepCount = ko.observable(0);
+            	//self.YellowTotesMovedToStepCount = ko.observable(0);
 
             	self.LeftContainerFromStepCount = ko.observable(false);
             	self.LeftCenterContainerFromStepCount = ko.observable(false);
@@ -105,7 +105,6 @@
             	    self.RightToteMovedClicked(false);
             	    self.CenterToteMovedClicked(false);
             	    self.LeftToteMovedClicked(false);
-            	    self.YellowTotesMovedToStepClicked(false);
 
             	    self.LeftContainerFromStepClicked(false);
             	    self.LeftCenterContainerFromStepClicked(false);
@@ -150,7 +149,36 @@
             	    //Send the robot event to the server
             	    scouterDataService.save(ko.toJS(e));
             	}
+                /*
+            	self.AutonomousMoved = function()
+            	{
+            	    //send own event
+            	    self.abstractButtonFunction(self.AutonomousMovedClicked, self.AutonomousMovedCount, robotEventTypes['AutonomousMoved']);
 
+            	    //unclick NoAutonomous
+            	    if(self.AutonomousCount()) {self.NoAutonomous(false);}
+            	}
+            	self.AutoAttempClutter = function()
+            	{
+            	    //send own event
+            	    self.abstractButtonFunction(self.AutoAttempClutterClicked, self.AutoAttempClutterCount, robotEventTypes['AutoAttempClutter']);
+
+            	    //unclick NoAutonomous
+            	    if(self.AutoAttempClutterCount()) {self.NoAutonomous(false);}
+            	}
+            	self.NoAutonomous = function(goAhead)
+            	{
+                    if(goAhead)
+                    {
+                        self.NoAutonomousCount(false); //will switch to true
+                    }
+                    else
+                    {
+                        self.NoAutonomousCount(true);
+                    }
+           	        self.abstractButtonFunction(self.NoAutonomousClicked, self.NoAutonomousCount, robotEventTypes['NoAutonomous']);
+            	}
+                */
             	self.oops = function()
             	{
             	    self.clear();
@@ -170,7 +198,6 @@
             		    self.RightToteMovedCount(data.RightToteMoved);
             		    self.CenterToteMovedCount(data.CenterToteMoved);
                         self.LeftToteMovedCount(data.LeftToteMoved);
-            		    self.YellowTotesMovedToStepCount(data.YellowTotesMovedToStep);
                         
             		    self.LeftContainerFromStepCount(data.LeftContainerFromStep);
             		    self.LeftCenterContainerFromStepCount(data.LeftCenterContainerFromStep);
@@ -190,7 +217,7 @@
 
             	self.nav = function ()
             	{
-            		document.location = '/Scouting/Teleop/@Model.Scouter_Id';
+            	    document.location = '/Scouting/Teleop/@Model.Scouter_Id';
             	}
 
                 //set the colors for the buttons
@@ -233,28 +260,18 @@
 </div>
 
 <div class="row">
-    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Totes <div id="totesImg"></div></span>
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Totes Moved -> Auto Zone <div id="totesImg"></div></span>
 </div>
-<div class="row">
+<div class="row" style="text-align:center">
     <!-- vm is where you should create the buttons for the row. the color should either be color or colorAlt(or any other colors you define)
          the class that I was using for the "small" buttons was col-xs-2 and col-xs-4 for the longer ones. One limitation of Bootstraps
          tables is that the rows can have a max of 12 columns -->
     <!-- data-bind="click: <your onClickeFunction>, style: {backgroundColor: <your isClickedBoolean>() ? clickColor : [color | colorAlt]} class="col-xs-2"-->
-    <div onclick="vm.abstractButtonFunction(vm.TotesStackedClicked, vm.TotesStackedCount, robotEventTypes['TotesStacked'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="style: {backgroundColor: TotesStackedClicked() ? clickColor : color}" class="col-xs-2">
+    <div onclick="vm.abstractButtonFunction(vm.RightToteMovedClicked, vm.RightToteMovedCount, robotEventTypes['RightToteMoved'])"
+         style="border-style: solid; border-width: medium; border-color: white"
+         data-bind="style: {backgroundColor: RightToteMovedClicked() ? clickColor : color}" class="col-xs-2">
         <br />
-        <br />
-        <!--  Labels! -->
-        <span># Stacked by this robot</span>
-        <br />
-        <!--  data-bind="text: <Your countvariable>()" -->
-        <span data-bind="text: TotesStackedCount()"></span>
-        <br />
-        <br />
-    </div>
-    <div onclick="vm.abstractButtonFunction(vm.RightToteMovedClicked, vm.RightToteMovedCount, robotEventTypes['RightToteMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="style: {backgroundColor: RightToteMovedClicked() ? clickColor : colorAlt}" class="col-xs-2">
-        <br />
-        <br />
-        <span>Right -> Auto Zone</span>
+        <span>Right</span>
         <br />
         <span data-bind="text: RightToteMovedCount() ? 'TAKEN' : 'NO'"></span>
         <br />
@@ -262,54 +279,64 @@
     </div>
     <div onclick="vm.abstractButtonFunction(vm.CenterToteMovedClicked, vm.CenterToteMovedCount, robotEventTypes['CenterToteMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: CenterToteMovedClicked() ? clickColor : color}" class="col-xs-2">
         <br />
+        <span>Center</span>
         <br />
-        <span>Center -> Auto Zone</span>
-        <br />
-
         <span data-bind="text: CenterToteMovedCount() ? 'TAKEN' : 'NO'"></span>
-        
+        <br />
         <br />
     </div>
-    <div onclick="vm.abstractButtonFunction(vm.LeftToteMovedClicked, vm.LeftToteMovedCount, robotEventTypes['LeftToteMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: LeftToteMovedClicked() ? clickColor : colorAlt}" class="col-xs-2">
+    <div onclick="vm.abstractButtonFunction(vm.LeftToteMovedClicked, vm.LeftToteMovedCount, robotEventTypes['LeftToteMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: LeftToteMovedClicked() ? clickColor : color}" class="col-xs-2">
         <br />
-        <br />
-        <span>Left -> Auto Zone</span>
+        <span>Left</span>
         <br />
         <span data-bind="text: LeftToteMovedCount() ? 'TAKEN' : 'NO'"></span>
         <br />
         <br />
     </div>
-
+    <div onclick="vm.abstractButtonFunction(vm.TotesStackedClicked, vm.TotesStackedCount, robotEventTypes['TotesStacked'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="style: {backgroundColor: TotesStackedClicked() ? clickColor : colorAlt}" class="col-xs-2">
+        <!--  Labels! -->
+        <span>Made Tote Set ?</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: TotesStackedCount() ? 'Yes, all 3' : 'No'"></span>
+        <br />
+    </div>
 </div>
 <div class="row">
-    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Recycling Containers  <div id="containerImg"></div></span>
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Recycling Containers moved -> Auto Zone <div id="containerImg"></div></span>
 </div>
-<div class="row">
+<div class="row" style="text-align:center">
     <div onclick="vm.abstractButtonFunction(vm.RightContainerMovedClicked, vm.RightContainerMovedCount, robotEventTypes['RightContainerMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: RightContainerMovedClicked() ? clickColor : color}" class="col-xs-2">
         <br />
-        <br />
-        <span>Right -> Auto Zone</span>
+        <span>Right</span>
         <br />
         <span data-bind="text: RightContainerMovedCount() ? 'TAKEN' : 'NO'"></span>
         <br />
         <br />
     </div>
-    <div onclick="vm.abstractButtonFunction(vm.CenterContainerMovedClicked, vm.CenterContainerMovedCount, robotEventTypes['CenterContainerMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: CenterContainerMovedClicked() ? clickColor : colorAlt}" class="col-xs-2">
+    <div onclick="vm.abstractButtonFunction(vm.CenterContainerMovedClicked, vm.CenterContainerMovedCount, robotEventTypes['CenterContainerMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: CenterContainerMovedClicked() ? clickColor : color}" class="col-xs-2">
         <br />
-        <br />
-        <span>Center -> Auto Zone</span>
+        <span>Center</span>
         <br />
         <span data-bind="text: CenterContainerMovedCount() ? 'TAKEN' : 'NO'"></span>
-        
+        <br />
         <br />
     </div>
     <div onclick="vm.abstractButtonFunction(vm.LeftContainerMovedClicked, vm.LeftContainerMovedCount, robotEventTypes['LeftContainerMoved'])" style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: LeftContainerMovedClicked() ? clickColor : color}" class="col-xs-2">
         <br />
-        <br />
-        <span>Left -> Auto Zone</span>
+        <span>Left</span>
         <br />
         <span data-bind="text: LeftContainerMovedCount() ? 'TAKEN' : 'NO'"></span>
         <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.AutoFoulClicked, vm.AutoFoulCount, robotEventTypes['Foul'])"
+         style="border-style: solid; border-width: medium; border-color: green"
+         data-bind="style: {backgroundColor: AutoFoulClicked() ? clickColor : colorAlt}" class="col-xs-2">
+        <br />
+        <span>Autonomous Fouls</span>
+        <br />
+        <span data-bind="text: AutoFoulCount()"></span>
         <br />
     </div>
 </div>
@@ -356,8 +383,7 @@
 </div>
 <div class="row">
     <div onclick="vm.abstractButtonFunction(vm.AutonomousMovedClicked, vm.AutonomousMovedCount, robotEventTypes['AutonomousMoved'])" style="border-style: solid; border-width: medium; border-color: white" 
-         data-bind="style: {backgroundColor: AutonomousMovedClicked() ? clickColor : color}" class="col-xs-2">
-        <br />
+         data-bind="style: {backgroundColor: AutonomousMovedClicked() ? clickColor : colorAlt}" class="col-xs-2">
         <br />
         <span>Robot finished in Auto Zone</span>
         <br />
@@ -365,19 +391,8 @@
         <br />
         <br />
     </div>
-    <div onclick="vm.abstractButtonFunction(vm.NoAutonomousClicked, vm.NoAutonomousCount, robotEventTypes['NoAutonomous'])" style="border-style: solid; border-width: medium; border-color: white" 
-         data-bind="style: {backgroundColor: NoAutonomousClicked() ? clickColor : colorAlt}" class="col-xs-2">
-        <br />
-        <br />
-        <span>Does nothing in Autonomous</span>
-        <br />
-        <span data-bind="text: (NoAutonomousCount() ? 'Yes' : 'No')"></span>
-        <br />
-        <br />
-    </div>
     <div onclick="vm.abstractButtonFunction(vm.AutoAttemptClutterClicked, vm.AutoAttemptClutterCount, robotEventTypes['AutoAttemptClutter'])" style="border-style: solid; border-width: medium; border-color: white" 
-         data-bind="style: {backgroundColor: AutoAttemptClutterClicked() ? clickColor : color}" class="col-xs-2">
-        <br />
+         data-bind="style: {backgroundColor: AutoAttemptClutterClicked() ? clickColor : colorAlt}" class="col-xs-2">
         <br />
         <span>Cluttered the Field</span>
         <br />
@@ -385,36 +400,71 @@
         <br />
         <br />
     </div>
-    <div onclick="vm.abstractButtonFunction(vm.AutoFoulClicked, vm.AutoFoulCount, robotEventTypes['Foul'])" style="border-style: solid; border-width: medium; border-color: white" 
-         data-bind="style: {backgroundColor: AutoFoulClicked() ? clickColor : colorAlt}" class="col-xs-2">
+    <div onclick="vm.abstractButtonFunction(vm.NoAutonomousClicked, vm.NoAutonomousCount, robotEventTypes['NoAutonomous'])" style="border-style: solid; border-width: medium; border-color: white"
+         data-bind="style: {backgroundColor: NoAutonomousClicked() ? clickColor : colorAlt}" class="col-xs-2">
         <br />
+        <span>No Autonomous Program</span>
         <br />
-        <span>Autonomous Fouls</span>
-        <br />
-        <span data-bind="text: AutoFoulCount()"></span>
+        <span data-bind="text: (NoAutonomousCount() ? 'Yes' : 'No')"></span>
         <br />
         <br />
     </div>
 </div>
+@*<div class="row">
+        <span style="color:black; background-color:rgba(0, 0, 0, 0.8)">Moving on</span>
+    </div>
+    <div class="dropdown">
+        <button data-toggle="dropdown" class="btn dropdown-toggle" id="dropdownMenu1" aria-expanded="true">
+            MANDATORY Results of Autonomous
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation">
+                <a>
+                    <input type="checkbox" id="AutonomousMoved" autocomplete="off"
+                           onclick="vm.abstractButtonFunction(vm.AutonomousMovedClicked, vm.AutonomousMovedCount, robotEventTypes['AutonomousMoved'])">
+                    Robot moved into Auto Zone
+                </a>
+            </li>
+            <li role="presentation">
+                <a>
+                    <input type="checkbox" id="AutoAttemptClutter" autocomplete="off"
+                           onclick="vm.abstractButtonFunction(vm.AutoAttemptClutterClicked, vm.AutoAttemptClutterCount, robotEventTypes['AutoAttemptClutter'])">
+                    Excessively cluttered the field
+                </a>
+            </li>
+            <li role="presentation">
+                <a>
+                    <input type="checkbox" id="NoAutonomous" autocomplete="off"
+                           onclick="vm.abstractButtonFunction(vm.NoAutonomousClicked, vm.NoAutonomousCount, robotEventTypes['NoAutonomous'])">
+                    No Autonomous Program
+                </a>
+                @*data-bind="disabled:AutonomousMoved.selected
+            </li>
+        </ul>*@
 <div class="row">
-    <div data-bind="click: nav, style: {backgroundColor: color}" class="col-xs-2">
+    <span style="color:black; background-color:rgba(0, 0, 0, 0.8)">Moving on</span>
+</div>
+<div class="row">
+    <div data-bind="click: nav, style: {backgroundColor: color}" class="col-xs-2"
+         style="border-style: solid; border-width: medium; border-color: purple">
         <br />
         <br />
         <span>Teleop</span>
-        
         <br />
         <br />
         <br />
     </div>
-    <div data-bind="click: oops, style: {backgroundColor: oopsClicked() ? clickColor : color}" class="col-xs-2">
-    <br />
-    <br />
-    <span>Oops</span>
-    <br />
-    <br />
-    <br />
+    <div data-bind="click: oops, style: {backgroundColor: oopsClicked() ? clickColor : colorAlt}" class="col-xs-2"
+         style="border-style: solid; border-width: medium; border-color: yellow">
+        <br />
+        <br />
+        <span>Oops</span>
+        <br />
+        <br />
+        <br />
     </div>
-    <div id="arrow"></div>
+    @*<div id="arrow"></div>*@
 </div>
 <body>
 
