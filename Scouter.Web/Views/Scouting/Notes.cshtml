@@ -118,9 +118,9 @@
 					if (self.tippedOverClicked())
 					    self.notes(self.notes() + "Robot fell over during the match. ");
 					if (self.stoppedMovingClicked())
-                        self.notes(self.notes() + "Stopped moving / siezed to participate.")
+                        self.notes(self.notes() + "Stopped moving.")
 					if (self.disabledByRefsClicked())
-					    self.notes(self.notes() + "Robot was disabled by the Refs. ");
+					    self.notes(self.notes() + "Robot was disabled by the Refs. "); //delete unless figure out disparity
 					if (self.mechanismBrokenClicked())
 					    self.notes(self.notes() + "A mechanism broke. ");
 					if (self.mechanismJammedClicked())
@@ -333,7 +333,7 @@
         <br />
         <br />
     </div>
-    <div data-bind="click: disabledByRefs, style: {backgroundColor: disabledByRefsClicked() ? clickColor : colorAlt}" class="col-xs-2"
+    @*<div data-bind="click: disabledByRefs, style: {backgroundColor: disabledByRefsClicked() ? clickColor : colorAlt}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
         <br />
         <br />
@@ -350,7 +350,7 @@
         <br />
         <br />
         <br />
-    </div>
+    </div>*@
 </div>
 <div class="row panel-collapse collapse in" id="row2">
     <div data-bind="click: mechanismBroken, style: {backgroundColor: mechanismBrokenClicked() ? clickColor : color}" class="col-xs-2"

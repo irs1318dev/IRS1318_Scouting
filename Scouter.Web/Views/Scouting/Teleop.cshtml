@@ -36,6 +36,7 @@
                 this.startingHeight = 0;
                 this.NumTotesAdded = 0;
                 this.IsContainerAdded = false;
+                this.IsLitterAdded = false;
             }
             var ScoutInfo = function ()
             {
@@ -58,8 +59,6 @@
                 self.LeftChutePickUpClicked = ko.observable(false);
                 self.GroundPickUpClicked = ko.observable(false);
                 self.DriveOverPlatformClicked = ko.observable(false);
-                //self.HumanPlayerShootsClicked = ko.observable(false);
-                //self.HumanPlayerFailsClicked = ko.observable(false);
 
                 self.OrientContainerClicked = ko.observable(false);
                 self.OrientToteClicked = ko.observable(false);
@@ -67,10 +66,9 @@
                 self.ClearToteClicked = ko.observable(false);
                 self.ClearLitterClicked = ko.observable(false);
 
-                //self.LitterPlacedAtHeightClicked = ko.observable(false);
                 self.BulldozeLitterToLandfillClicked = ko.observable(false);
                 self.TeleopFoulClicked = ko.observable(false);
-                self.YellowTotesMovedToStepClicked = ko.observable(false);
+                //              self.YellowTotesMovedToStepClicked = ko.observable(false);
 
                 self.LeftContainerFromStepClicked = ko.observable(false);
                 self.LeftCenterContainerFromStepClicked = ko.observable(false);
@@ -86,13 +84,15 @@
 
                 self.oopsClicked = ko.observable(false);
 
+                self.color = ko.observable('green');
+                self.clickColor = ko.observable('yellow');
+                self.colorAlt = ko.observable('blue');
+
                 //Add Count integers here/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 self.RightChutePickUpCount = ko.observable(0);
                 self.LeftChutePickUpCount = ko.observable(0);
                 self.GroundPickUpCount = ko.observable(0);
                 self.DriveOverPlatformCount = ko.observable(0);
-                //self.HumanPlayerShootsCount = ko.observable(0);
-                //self.HumanPlayerFailsCount = ko.observable(0);
 
                 self.OrientContainerCount = ko.observable(0);
                 self.OrientToteCount = ko.observable(0);
@@ -100,10 +100,9 @@
                 self.ClearToteCount = ko.observable(0);
                 self.ClearLitterCount = ko.observable(0);
 
-               // self.LitterPlacedAtHeightCount = ko.observable(0);
                 self.BulldozeLitterToLandfillCount = ko.observable(0);
                 self.TeleopFoulCount = ko.observable(0);
-                self.YellowTotesMovedToStepCount = ko.observable(0);
+                //                self.YellowTotesMovedToStepCount = ko.observable(0);
 
                 self.LeftContainerFromStepCount = ko.observable(false);
                 self.LeftCenterContainerFromStepCount = ko.observable(false);
@@ -122,8 +121,6 @@
                     self.LeftChutePickUpClicked(false);
                     self.GroundPickUpClicked(false);
                     self.DriveOverPlatformClicked(false);
-                    //self.HumanPlayerShootsClicked(false);
-                    //self.HumanPlayerFailsClicked(false);
 
                     self.OrientContainerClicked(false);
                     self.OrientToteClicked(false);
@@ -131,10 +128,9 @@
                     self.ClearToteClicked(false);
                     self.ClearLitterClicked(false);
 
-                   // self.LitterPlacedAtHeightClicked(false);
                     self.BulldozeLitterToLandfillClicked(false);
                     self.TeleopFoulClicked(false);
-                    self.YellowTotesMovedToStepClicked(false);
+                    //                   self.YellowTotesMovedToStepClicked(false);
 
                     self.LeftContainerFromStepClicked(false);
                     self.LeftCenterContainerFromStepClicked(false);
@@ -167,10 +163,7 @@
                     {
                         count(!count());
                     }
-                    else
-                    {
-                        // terrible
-                    }
+                    else {/* terrible*/}
                     //Create a new robot event and set it's variables
                     var e = new Event();
                     e.scouter_Id = self.model.scoutID;
@@ -181,154 +174,184 @@
                 }
 
                 self.InitialStackHeight = function()
-            	{
-            	    self.clear();
-            	    self.InitialStackHeightClicked(true);
-            	    if(self.InitialStackHeightCount() >= 5)
-            	    {
-            	        self.InitialStackHeightCount(0);
-            	    }
+                {
+                    self.clear();
+                    self.InitialStackHeightClicked(true);
+                    if(self.InitialStackHeightCount() >= 5)
+                    {
+                        self.InitialStackHeightCount(0);
+                    }
                     else
                         self.InitialStackHeightCount(self.InitialStackHeightCount() + 1);
                 }
-            	self.TotesAddedToStack = function()
-            	{
-            	    self.clear();
-            	    self.TotesAddedToStackClicked(true);
-            	    if(self.TotesAddedToStackCount() >= 6)
-            	    {
-            	        self.TotesAddedToStackCount(0);
-            	    }
+                self.TotesAddedToStack = function()
+                {
+                    self.clear();
+                    self.TotesAddedToStackClicked(true);
+                    if(self.TotesAddedToStackCount() >= 6)
+                    {
+                        self.TotesAddedToStackCount(0);
+                    }
                     else
                         self.TotesAddedToStackCount(self.TotesAddedToStackCount() + 1);
-            	}
+                }
                 self.ContainerAddedtoStack = function()
-            	{
-            	    self.clear();
-            	    self.ContainerAddedtoStackClicked(true);
-            	    self.ContainerAddedtoStackCount(!self.ContainerAddedtoStackCount());
-            	}
+                {
+                    self.clear();
+                    self.ContainerAddedtoStackClicked(true);
+                    self.ContainerAddedtoStackCount(!self.ContainerAddedtoStackCount());
+                }
                 self.LitterAddedtoStack = function()
                 {
                     self.clear();
                     self.LitterAddedtoStackClicked(true);
                     self.LitterAddedtoStackCount(!self.LitterAddedtoStackCount());
                 }
-            	self.SendButton = function()
-            	{
-            	    if(self.SendToDBEnabled())
+                self.SendButton = function()
+                {
+                    if(self.SendToDBEnabled())
                     {
-            	        self.clear();
+                        self.clear();
             	        
-            	        var e = new StackEvent();
-            	        e.scouter_Id = self.model.scoutID;
-            	        e.startingHeight = self.InitialStackHeightCount;
-            	        e.NumTotesAdded = self.TotesAddedToStackCount;
-            	        e.IsContainerAdded = self.ContainerAddedtoStackCount();
-            	        e.IsLitterAdded = self.LitterAddedtoStackCount();
-            	        scouterDataService.saveStack(ko.toJS(e)).done( function(){
-            	            self.SendButtonClicked(true);
-            	        });
+                        var e = new StackEvent();
+                        e.scouter_Id = self.model.scoutID;
+                        e.startingHeight = self.InitialStackHeightCount;
+                        e.NumTotesAdded = self.TotesAddedToStackCount;
+                        e.IsContainerAdded = self.ContainerAddedtoStackCount();
+                        e.IsLitterAdded = self.LitterAddedtoStackCount();
+                        scouterDataService.saveStack(ko.toJS(e)).done( function(){
+                            self.SendButtonClicked(true);
+                        });
 
-            	        self.InitialStackHeightCount(0);
-            	        self.TotesAddedToStackCount(0);
-            	        self.ContainerAddedtoStackCount(false);
-            	        self.LitterAddedtoStackCount(false);
-            	    }
-            	    else
-            	    {
-                        //do nothing
-            	    }
-            	}
-            	self.UndoStackButton = function()
-            	{
-            	    self.clear();
-            	    scouterDataService.undoStack(@Model.Scouter_Id).done( function(){
-            	        self.UndoStackButtonClicked(true);            	        
-            	    });
-            	}
-                self.SendToDBEnabled = function()
-                {
-                    if(self.TotesAddedToStackCount() + self.InitialStackHeightCount() <= 6)
-                        return true;
+                        self.InitialStackHeightCount(0);
+                        self.TotesAddedToStackCount(0);
+                        self.ContainerAddedtoStackCount(false);
+                        self.LitterAddedtoStackCount(false);
+                    }
+                    else {/*do nothing*/}                    }
+                    self.UndoStackButton = function()
+                    {
+                        self.clear();
+                        scouterDataService.undoStack(@Model.Scouter_Id).done( function(){
+                            self.UndoStackButtonClicked(true);            	        
+                        });
+                    }
+                    self.SendToDBEnabled = function()
+                    {
+                        if(self.TotesAddedToStackCount() + self.InitialStackHeightCount() <= 6)
+                            return true;
+                        else
+                            return false;
+                    }
+
+
+                    self.oops = function()
+                    {
+                        self.clear();
+                        self.oopsClicked(true);
+                        scouterDataService.undo(@Model.Scouter_Id).done(function (data)
+                        {
+                            self.updateCounter();
+                        });
+                    }
+
+                    self.updateCounter = function()
+                    {
+                        scouterDataService.updateCounter(@Model.Scouter_Id).done(function (data)
+                        {
+                            self.RightChutePickUpCount(data.RightChutePickUp);
+                            self.LeftChutePickUpCount(data.LeftChutePickUp);
+                            self.GroundPickUpCount(data.GroundPickUp);
+                            self.DriveOverPlatformCount(data.DriveOverPlatform);
+
+                            self.OrientContainerCount(data.OrientContainer);
+                            self.OrientToteCount(data.OrientTote);
+                            self.ClearContainerCount(data.ClearContainer);
+                            self.ClearToteCount(data.ClearTote);
+                            self.ClearLitterCount(data.ClearLitter);
+
+                            self.BulldozeLitterToLandfillCount(data.BulldozeLitterToLandfill);
+                            self.TeleopFoulCount(data.Foul);
+                            //self.YellowTotesMovedToStepCount(data.YellowTotesMovedToStep);
+
+                            self.LeftContainerFromStepCount(data.LeftContainerFromStep);
+                            self.LeftCenterContainerFromStepCount(data.LeftCenterContainerFromStep);
+                            self.RightCenterContainerFromStepCount(data.RightCenterContainerFromStep);
+                            self.RightContainerFromStepCount(data.RightContainerFromStep);
+
+                            self.InitialStackHeightCount(data.InitialStackHeight);
+                            self.TotesAddedToStackCount(data.TotesAddedToStack);
+                            self.ContainerAddedtoStackCount(data.ContainerAddedtoStack);
+                            self.LitterAddedtoStackCount(data.LitterAddedtoStack);
+
+                        })
+                    }
+                    self.nav = function()
+                    {
+                        document.location = '/scouting/Notes/@Model.Scouter_Id';
+
+                        var x = document.getElementById("CheckboxCoopertitionToteOne");
+                        if(x.checked == true)
+                        {
+                            var e = new Event();
+                            e.scouter_Id = self.model.scoutID;
+                            e.robotMode = 0;
+                            e.robotEventType = robotEventTypes['CoopertitionToteOne'];
+                            scouterDataService.save(ko.toJS(e));
+                        }
+                        x = document.getElementById("CheckboxCoopertitionToteTwo");
+                        if(x.checked == true)
+                        {
+                            var e = new Event();
+                            e.scouter_Id = self.model.scoutID;
+                            e.robotMode = 0;
+                            e.robotEventType = robotEventTypes['CoopertitionToteTwo'];
+                            scouterDataService.save(ko.toJS(e));
+                        }
+                        x = document.getElementById("CheckboxCoopertitionToteThree");
+                        if(x.checked == true)
+                        {
+                            var e = new Event();
+                            e.scouter_Id = self.model.scoutID;
+                            e.robotMode = 0;
+                            e.robotEventType = robotEventTypes['CoopertitionToteThree'];
+                            scouterDataService.save(ko.toJS(e));
+                        }
+                        x = document.getElementById("CheckboxCoopertitionToteFour");
+                        if(x.checked == true)
+                        {
+                            var e = new Event();
+                            e.scouter_Id = self.model.scoutID;
+                            e.robotMode = 0;
+                            e.robotEventType = robotEventTypes['CoopertitionToteFour'];
+                            scouterDataService.save(ko.toJS(e));
+                        }
+                    }
+                    
+                    if (self.model.scoutID() < 4)
+                    {
+                        self.color('red');
+                        self.clickColor('pink');
+                        self.colorAlt('#FF4444');
+                    }
                     else
-                        return false;
-                }
+                    {
+                        self.color('deepskyblue');
+                        self.clickColor('lightcyan');
+                        self.colorAlt('skyblue');
+                    }
 
+                    var d = new ScoutInfo();
+                    d.scouter = self.model.scoutID;
+                    d.scouterStatus = 2;
+                    d.match_Id = self.model.matchID;
+                    d.team_Id = self.model.teamID;
 
-                self.oops = function()
-                {
-                    self.clear();
-                    self.oopsClicked(true);
-                    scouterDataService.undo(@Model.Scouter_Id).done(function (data)
+                    scouterDataService.updateScoutData(ko.toJS(d)).done(function(data)
                     {
                         self.updateCounter();
                     });
-                }
-
-                self.updateCounter = function()
-                {
-                    scouterDataService.updateCounter(@Model.Scouter_Id).done(function (data)
-                    {
-                        self.RightChutePickUpCount(data.RightChutePickUp);
-                        self.LeftChutePickUpCount(data.LeftChutePickUp);
-                        self.GroundPickUpCount(data.GroundPickUp);
-                        self.DriveOverPlatformCount(data.DriveOverPlatform);
-                        //self.HumanPlayerShootsCount(data.HumanPlayerShoots);
-                        //self.HumanPlayerFailsCount(data.HumanPlayerFails);
-
-                        self.OrientContainerCount(data.OrientContainer);
-                        self.OrientToteCount(data.OrientTote);
-                        self.ClearContainerCount(data.ClearContainer);
-                        self.ClearToteCount(data.ClearTote);
-                        self.ClearLitterCount(data.ClearLitter);
-
-                        //self.LitterPlacedAtHeightCount(data.LitterPlacedAtHeight);
-                        self.BulldozeLitterToLandfillCount(data.BulldozeLitterToLandfill);
-                        self.TeleopFoulCount(data.Foul);
-                        self.YellowTotesMovedToStepCount(data.YellowTotesMovedToStep);
-
-                        self.LeftContainerFromStepCount(data.LeftContainerFromStep);
-                        self.LeftCenterContainerFromStepCount(data.LeftCenterContainerFromStep);
-                        self.RightCenterContainerFromStepCount(data.RightCenterContainerFromStep);
-                        self.RightContainerFromStepCount(data.RightContainerFromStep);
-
-                        self.InitialStackHeightCount(data.InitialStackHeight);
-                        self.TotesAddedToStackCount(data.TotesAddedToStack);
-                        self.ContainerAddedtoStackCount(data.ContainerAddedtoStack);
-                        self.LitterAddedtoStackCount(data.LitterAddedtoStack);
-
-                    })
-                }
-                self.nav = function()
-                {
-                    document.location = '/scouting/Notes/@Model.Scouter_Id';
-                    //ask the checkbox if it's checked -> send event
-                }
-
-                if (self.model.scoutID() < 4)
-                {
-                    self.color = 'red';
-                    self.clickColor = 'pink';
-                    self.colorAlt = '#FF4444';
-                }
-                else
-                {
-                    self.color = 'deepskyblue';
-                    self.clickColor = 'lightcyan';
-                    self.colorAlt = 'skyblue';
-                }
-
-                var d = new ScoutInfo();
-                d.scouter = self.model.scoutID;
-                d.scouterStatus = 2;
-                d.match_Id = self.model.matchID;
-                d.team_Id = self.model.teamID;
-
-                scouterDataService.updateScoutData(ko.toJS(d)).done(function(data)
-                {
-                    self.updateCounter();
-                });
+                
             }
             vm = new ViewModel(new Scout());
             ko.applyBindings(vm);
@@ -339,10 +362,6 @@
     <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Teleoperated <span style="font-size:16px" data-bind="text: ' Match: ' + model.matchNumber() + ' Team: ' +model.teamNumber() + ' ('+ model.teamName() + ')'" /></span>
 </div>
 
-<div class="row">
-    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Containers Taken From Step</span>
-</div>
-
 <div class="dropdown">
     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
         Coopertition Tote (stacked from bottom up)
@@ -350,18 +369,35 @@
     </button>
     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
         <li role="presentation">
-            <label class="btn btn-primary active">
-                <input type="checkbox" id="BottomCoopToteCheckbox" autocomplete="off"> 1
-            </label>
+            <a>
+                <input type="checkbox" id="CheckboxCoopertitionToteOne" autocomplete="off" > 1
+            </a>
         </li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" onclick="vm.abstractButtonFunction(vm.YellowTotesMovedToStepClicked, vm.YellowTotesMovedToStepCount, robotEventTypes['YellowTotesMovedToStep'])">2</a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" onclick="vm.abstractButtonFunction(vm.YellowTotesMovedToStepClicked, vm.YellowTotesMovedToStepCount, robotEventTypes['YellowTotesMovedToStep'])">3</a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" onclick="vm.abstractButtonFunction(vm.YellowTotesMovedToStepClicked, vm.YellowTotesMovedToStepCount, robotEventTypes['YellowTotesMovedToStep'])">4</a></li>
+        <li role="presentation">
+            <a>
+                <input type="checkbox" id="CheckboxCoopertitionToteTwo" autocomplete="off"> 2
+            </a>
+        </li>
+        <li role="presentation">
+            <a>
+                <input type="checkbox" id="CheckboxCoopertitionToteThree" autocomplete="off"> 3
+            </a>
+        </li>
+        <li role="presentation">
+            <a>
+                <input type="checkbox" id="CheckboxCoopertitionToteFour" autocomplete="off"> 4
+            </a>
+        </li>
     </ul>
 </div>
 
+<div class="row">
+    <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Containers Taken From Step</span>
+</div>
 <div class="row" style="text-align:center">
-    <div onclick="vm.abstractButtonFunction(vm.LeftContainerFromStepClicked, vm.LeftContainerFromStepCount, robotEventTypes['LeftContainerFromStep'])" data-bind="style: { backgroundColor: LeftContainerFromStepClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+    <div onclick="vm.abstractButtonFunction(vm.LeftContainerFromStepClicked, vm.LeftContainerFromStepCount, robotEventTypes['LeftContainerFromStep'])" 
+         data-bind="style: { backgroundColor: LeftContainerFromStepClicked() ? clickColor : color }" 
+         style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Left</span>
         <br />
@@ -401,14 +437,14 @@
 
 <div class="row" style="text-align:center">
     <div onclick="vm.abstractButtonFunction(vm.LeftChutePickUpClicked, vm.LeftChutePickUpCount, robotEventTypes['LeftChutePickUp'])" 
-         data-bind="style: { backgroundColor: LeftChutePickUpClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-1">
+         data-bind="style: { backgroundColor: LeftChutePickUpClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Left Chute PickUp </span>
         <br />
         <span data-bind="text: LeftChutePickUpCount()"></span>
         <br />
     </div>
-    <div onclick="vm.abstractButtonFunction(vm.RightChutePickUpClicked, vm.RightChutePickUpCount, robotEventTypes['RightChutePickUp'])" data-bind="    style: { backgroundColor: RightChutePickUpClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-1">
+    <div onclick="vm.abstractButtonFunction(vm.RightChutePickUpClicked, vm.RightChutePickUpCount, robotEventTypes['RightChutePickUp'])" data-bind="    style: { backgroundColor: RightChutePickUpClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Right Chute PickUp </span>
         <br />
@@ -416,7 +452,7 @@
         <br />
     </div>
     <div onclick="vm.abstractButtonFunction(vm.GroundPickUpClicked, vm.GroundPickUpCount, robotEventTypes['GroundPickUp'])" 
-         data-bind="    style: {backgroundColor: GroundPickUpClicked() ? clickColor : color}" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-1">
+         data-bind="    style: {backgroundColor: GroundPickUpClicked() ? clickColor : color}" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Ground PickUp</span>
         <br />
@@ -432,7 +468,7 @@
         <br />
         <br />
     </div>
-    <div onclick="vm.abstractButtonFunction(vm.DriveOverPlatformClicked, vm.DriveOverPlatformCount, robotEventTypes['DriveOverPlatform'])" 
+    @*<div onclick="vm.abstractButtonFunction(vm.DriveOverPlatformClicked, vm.DriveOverPlatformCount, robotEventTypes['DriveOverPlatform'])" 
          data-bind="    style: {backgroundColor: DriveOverPlatformClicked() ? clickColor : colorAlt}" style="margin-left:4px; border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Drove over White Platform</span>
@@ -440,7 +476,7 @@
         <span data-bind="text: DriveOverPlatformCount()"></span>
         <br />
         <br />
-    </div>
+    </div>*@
     <div onclick="vm.abstractButtonFunction(vm.TeleopFoulClicked, vm.TeleopFoulCount, robotEventTypes['Foul'])"
          data-bind="style: { backgroundColor: TeleopFoulClicked() ? clickColor : color }" style="margin-left:3px; border-style: solid; border-width: medium; border-color: green" class="col-xs-2">
         <br />
@@ -453,7 +489,7 @@
     </div>
 </div>
 
-<div class="row" style="color:white">
+@*<div class="row" style="color:white">
     <span style="color:white; background-color:rgba(0, 0, 0, 0.8)">Stacks</span>
 </div>
 <div class="row" style="text-align:center">
@@ -493,13 +529,14 @@
         <br />
         <br />
     </div>
-    <div onclick="vm.UndoStackButton()" data-bind="style: { backgroundColor: UndoStackButtonClicked() ? 'green' : colorAlt }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+    <div onclick="vm.UndoStackButton()" data-bind="style: { backgroundColor: UndoStackButtonClicked() ? 'green' : colorAlt }" 
+         style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Undo</span>
         <br />
         <br />
     </div>
-    </div>
+</div>*@
 
 <div class="row" style="color:white">
     Assists

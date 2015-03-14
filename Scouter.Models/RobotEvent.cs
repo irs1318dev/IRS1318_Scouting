@@ -15,7 +15,11 @@ namespace Scouter.Models
         RightToteMoved,
         CenterToteMoved,
         LeftToteMoved,
-        YellowTotesMovedToStep,
+       
+        CoopertitionToteOne,
+        CoopertitionToteTwo,
+        CoopertitionToteThree,
+        CoopertitionToteFour,
 
         RightContainerFromStep,
         RightCenterContainerFromStep,
@@ -35,8 +39,6 @@ namespace Scouter.Models
         LeftChutePickUp,
         GroundPickUp,
         DriveOverPlatform,
-        HumanPlayerShoots,
-        HumanPlayerFails,
 
         OrientContainer,
         OrientTote,
@@ -44,9 +46,7 @@ namespace Scouter.Models
         ClearTote,
         ClearLitter,
  
-        LitterPlacedAtHeight,
         BulldozeLitterToLandfill,
-
 
 
         //Used for seeding, must be last

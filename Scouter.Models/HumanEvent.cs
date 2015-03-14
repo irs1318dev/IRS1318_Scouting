@@ -5,10 +5,10 @@ namespace Scouter.Models
 {
     public enum HumanEventType
     {
-        ThrowToOwnLandfill,
-        ThrowToOpponentLandfill,
-        ThrowPastOpponentLandfill,
-        Failure,//awwwww
+        ThrowToOwnLandfill, //+1 points
+        ThrowToOpponentLandfill, //-1 points
+        ThrowPastOpponentLandfill, //+4 points
+        Failure,//out of field, not fully contained anywhere, fully before our own landfill
 
 
         //Used for seeding, must be last
