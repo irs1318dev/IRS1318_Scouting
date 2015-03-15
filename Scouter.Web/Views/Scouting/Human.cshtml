@@ -222,7 +222,7 @@
 
                         self.errorMessage("Oops. something happened.\n" + self.errorMessage());
 
-                        
+
                         var d = new ScoutInfo();
                         d.scouter = @Model.Scouter_Id;
                         d.scouterStatus = 3;
@@ -242,6 +242,36 @@
                         {
                             document.location = '/scouting/Human/@Model.Scouter_Id';
                         }
+
+                        var d = new ScoutInfo();
+                        d.scouter = @Model.Scouter_Id + 0;
+                        d.scouterStatus = 4;
+                        d.match_Id = @Model.Match.Id;
+                        d.team_Id = 0;
+
+                        scouterDataService.updateScoutData(ko.toJS(d)).fail(function (error)
+                        {
+                            if (error.statusText)
+                            {
+                                self.errorMessage(error.statusText);
+                            }
+
+                            if (error.responseText)
+                            {
+                                var
+                                    msg = JSON.parse(error.responseText),
+                                    keys = _.keys(msg),
+                                    txt = '';
+
+                                _.each(keys, function (key)
+                                {
+                                    txt += msg[key] + ' ';
+                                });
+                                self.errorMessage(txt);
+                            }
+
+                            self.errorMessage("Oops. something happened. Still waiting for a match, but the Scout Admin doesn't know.\n" + self.errorMessage());
+                        });
 
                         setTimeout(self.navigation, 1000);
                     }).fail(function (error)
@@ -300,6 +330,15 @@
                     self.clickColor = 'lightblue';
                     self.colorAlt = 'skyblue';
                 }
+
+                var d = new ScoutInfo();
+                d.scouter = @Model.Scouter_Id + 0;
+                d.scouterStatus = 2;
+                d.match_Id = @Model.Match.Id;
+                d.team_Id = 0;
+
+                scouterDataService.updateScoutData(ko.toJS(d));
+
                 self.updateCounter();
             }
 

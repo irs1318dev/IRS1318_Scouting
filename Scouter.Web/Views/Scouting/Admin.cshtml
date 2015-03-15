@@ -187,11 +187,11 @@
 						    vm.model.blue3Name(info.Blue3.Number);
 						vm.model.blue3Status(vm.getStatus(info.Blue3Status));
 
-						vm.model.human1MatchNumber(info.human1Match.SequenceNumber);
-						vm.model.human1Status(vm.getStatus(info.human1Status));
+						vm.model.human1MatchNumber(info.Human1Match.SequenceNumber);
+						vm.model.human1Status(vm.getStatus(info.Human1ScoutStatus));
 
-						vm.model.human2MatchNumber(info.human2Match.SequenceNumber);
-						vm.model.human2Status(vm.getStatus(info.human2Status));
+						vm.model.human2MatchNumber(info.Human2Match.SequenceNumber);
+						vm.model.human2Status(vm.getStatus(info.Human2ScoutStatus));
 					})
 				}
 
@@ -320,8 +320,9 @@
 	</div>
     <div class="col-xs-3" style="background-color:#ff2525">
         <p>Human R</p>
-        <p>Status: <span data-bind="text: model.human2Status()" /></p>
-        <p>Match: <span data-bind="text: model.human2MatchNumber()" /></p>
+        <p>Status: <span data-bind="text: model.human1Status()" /></p>
+        <p>Match: <span data-bind="text: model.human1MatchNumber()" /></p>
+        <p><br /></p>
     </div>
 </div>
 <div class="row">
@@ -345,7 +346,8 @@
 	</div>
     <div class="col-xs-3" style="background-color:lightblue">
         <p>Human B</p>
-        <p>Status: <span data-bind="text: model.human1Status()" /></p>
-        <p>Match: <span data-bind="text: model.human1MatchNumber()" /></p>
+        <p>Status: <span data-bind="text: model.human2Status()" /></p>
+        <p>Match: <span data-bind="text: model.human2MatchNumber()" /></p>
+        <p><br /></p>
     </div>
 </div>

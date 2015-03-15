@@ -28,18 +28,18 @@ namespace Scouter.Web.Controllers
 
             switch (id)
             {
-                case 1:
+                case 7:
                     team1 = match.RedAlliance.Team1;
                     team2 = match.RedAlliance.Team2;
                     team3 = match.RedAlliance.Team3;
                     break;
-                case 2:
+                case 8:
                     team1 = match.BlueAlliance.Team1;
                     team2 = match.BlueAlliance.Team2;
                     team3 = match.BlueAlliance.Team3;
                     break;
                 default:
-                    throw new ArgumentException("Scout ID must be either 1 or 2");
+                    throw new ArgumentException("Scout ID must be either 7 or 8");
             }
 
 
