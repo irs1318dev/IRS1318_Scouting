@@ -24,11 +24,11 @@ namespace Scouter.Web.Models.Scouting
         public Boolean LeftCenterContainerFromStep { get; set; }
         public Boolean RightCenterContainerFromStep { get; set; }
         public Boolean RightContainerFromStep { get; set; }
-
-        public Boolean RightContainerMoved { get; set; }
         public Boolean CenterContainerMoved { get; set; }
         public Boolean LeftContainerMoved { get; set; }
 
+
+        public Boolean RightContainerMoved { get; set; }
         public Boolean AutonomousMoved { get; set; }
         public Boolean NoAutonomous { get; set; }
         public Boolean AutoAttemptClutter { get; set; }
