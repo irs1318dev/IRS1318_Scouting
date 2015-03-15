@@ -269,27 +269,41 @@ namespace Scouter.Web.Controllers
 
                 if (e.RobotMode == RobotMode.Autonomous)
                 {
-                    if (n == pa.AutonomousMoved.Name)
+                    if (n == pa.AutoAttemptClutter.Name)
+                        pa.AutoAttemptClutter.Count++;
+                    else if (n == pa.AutonomousMoved.Name)
                         pa.AutonomousMoved.Count++;
-                    else if (n == pa.ScoredHigh.Name)
-                        pa.AutoScoredHigh.Count++;
-                    else if (n == pa.ScoredLow.Name)
-                        pa.AutoScoredLow.Count++;
-                    else if (n == pa.MissedHigh.Name)
-                        pa.AutoMissedHigh.Count++;
-                    else if (n == pa.MissedLow.Name)
-                        pa.AutoMissedLow.Count++;
-                    else if (n == pa.BlockedShot.Name)
-                        pa.AutoBlockedShot.Count++;
-                    else if (n == pa.StartedInGoalBox.Name)
-                        pa.AutoStartedInGoalBox.Count++;
-                    else if (n == pa.BlockedRobot.Name)
-                        pa.AutoBlockedRobot.Count++;
+                    else if (n == pa.RightToteMoved.Name)
+                        pa.RightToteMoved.Count++;
+                    else if (n == pa.CenterToteMoved.Name)
+                        pa.CenterToteMoved.Count++;
+                    else if (n == pa.LeftToteMoved.Name)
+                        pa.LeftToteMoved.Count++;
+                    else if (n == pa.RightContainerMoved.Name)
+                        pa.RightContainerMoved.Count++;
+                    else if (n == pa.CenterContainerMoved.Name)
+                        pa.CenterContainerMoved.Count++;
+                    else if (n == pa.LeftContainerMoved.Name)
+                        pa.LeftContainerMoved.Count++;
+                    else if (n == pa.TotesStacked.Name)
+                        pa.TotesStacked.Count++;
+                    else if (n == pa.Foul.Name)
+                        pa.Foul.Count++;
+                    else if (n == pa.LeftContainerFromStep.Name)
+                        pa.LeftContainerFromStep.Count++;
+                    else if (n == pa.LeftCenterContainerFromStep.Name)
+                        pa.LeftCenterContainerFromStep.Count++;
+                    else if (n == pa.RightCenterContainerFromStep.Name)
+                        pa.RightCenterContainerFromStep.Count++;
+                    else if (n == pa.RightContainerFromStep.Name)
+                        pa.RightContainerFromStep.Count++;
+                    else if (n == pa.NoAutonomous.Name)
+                        pa.NoAutonomous.Count++;
                 }
                 else
                 {
-                    if (n == pa.ScoredHigh.Name)
-                        pa.ScoredHigh.Count++;
+                    if (n == pa.TotesStacked.Name)
+                        pa.TotesStacked.Count++;
                     else if (n == pa.ScoredLow.Name)
                         pa.ScoredLow.Count++;
                     else if (n == pa.MissedHigh.Name)
