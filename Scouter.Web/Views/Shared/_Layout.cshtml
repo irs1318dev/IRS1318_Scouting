@@ -1,57 +1,59 @@
 ﻿<!DOCTYPE html>
 @if (ViewBag.IncludeManifest != null)
-{ 
-<text><html lang="en" manifest="/teams/manifest"></text>
+{
+    <text>
+<html lang="en" manifest="/teams/manifest">
+    </text>
 }
 else
 {
     if (ViewBag.Title == "Autonomous Scouter")
     {
         <text>
-            <html lang="en" class="autoback flexbox">
+<html lang="en" class="autoback flexbox">
         </text>
     }
     else if (ViewBag.Title == "Teleop Scouter")
     {
         <text>
-            <html lang="en" class="flexbox teleopback">
-            </text>
+<html lang="en" class="flexbox teleopback">
+        </text>
     }
     else
     {
-            <text>
-            <html lang="en">
-            </text>
+        <text>
+<html lang="en">
+        </text>
     }
 }
-            <head>
-                <meta charset="utf-8" />
-                <title>@ViewBag.Title - Scouter</title>
-                <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-                <meta name="viewport" content="width=device-width" />
-                <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1" />
-                @Styles.Render("~/Content/css")
-                @Scripts.Render("~/bundles/modernizr")
-                @RenderSection("styles", required: false)
-            </head>
-            <body class="container">
-                <header>
-                    <div class="row">
-                        <div class="row"  onclick="mouseEnterFunction()">
-                            <div class="col-xs-4">
-                                <img alt="Scouter" title="Scouter" src="/images/scouter-logo.png" />
-                            </div>
-                            <div id="nav" class="col-xs-2 panel-collapse collapse">
-                                <a href="/" class="hideme">
-                                    <div class="row" id="home" style="background-color:purple; color:white">
-                                        <br />
-                                        Home<br />
-                                        <br />
-                                    </div>
-                                </a>
-                            </div>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Scouter</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
+</head>
+<body class="container">
+    <header>
+        <div class="row">
+            <div class="row" onclick="mouseEnterFunction()">
+                <div class="col-xs-4">
+                    <img alt="Scouter" title="Scouter" src="/images/scouter-logo.png" />
+                </div>
+                <div id="nav" class="col-xs-2 panel-collapse collapse">
+                    <a href="/" class="hideme">
+                        <div class="row" id="home" style="background-color:purple; color:white">
+                            <br />
+                            Home<br />
+                            <br />
                         </div>
-                        <!--<div class="col-md-6">
+                    </a>
+                </div>
+            </div>
+            <!--<div class="col-md-6">
                 <div class="pull-right online standout">
                     @if (ViewBag.IncludeManifest != null)
                     {
@@ -63,34 +65,29 @@ else
                     }
                 </div>
             </div>-->
-                        </d
-                                    </div>
-                </header>
-                <article>
-                    </div>
-                </header>
-                <article>
-                            @RenderBody()
-                </article>
-                </article>
-                <footer>
-                    <small></small>
-                </footer>
+        </div>
+    </header>
+    @RenderBody()
+    <footer>
+        <small></small>
+    </footer>
 
-                @RenderSection("breakout", required: false)
-                @Scripts.Render("~/bundles/jquery")
-                @Scripts.Render("~/bundles/site")
-                @Scripts.Render("~/bundles/offline")
-                @RenderSection("scripts", required: false)
-                <script>
-                    $(document).ready(function () {
-                        $('#nav').hide();
-                    });
-                    function mouseEnterFunction(){ 
-                        
-                        $('#nav').stop().toggle("slow");
-                    }
-            
-                 </script>
-            </body>
-            </html>
+    @RenderSection("breakout", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/site")
+    @Scripts.Render("~/bundles/offline")
+    @RenderSection("scripts", required: false)
+    <script>
+        $(document).ready(function ()
+        {
+            $('#nav').hide();
+        });
+        function mouseEnterFunction()
+        {
+
+            $('#nav').stop().toggle("slow");
+        }
+
+    </script>
+</body>
+</html>
