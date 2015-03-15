@@ -135,18 +135,20 @@ namespace Scouter.Web.Controllers
             vm.Scouter_Id = id;
             switch (id)
             {
-                case 1://red1
+                case 7://red1
                     vm.Color = (int)AllianceColor.Red;
                     vm.Team1 = vm.Match.RedAlliance.Team1;
                     vm.Team2 = vm.Match.RedAlliance.Team2;
                     vm.Team3 = vm.Match.RedAlliance.Team3;
                     break;
-                case 2://red2
+                case 8://red2
                     vm.Color = (int)AllianceColor.Blue;
                     vm.Team1 = vm.Match.BlueAlliance.Team1;
                     vm.Team2 = vm.Match.BlueAlliance.Team2;
                     vm.Team3 = vm.Match.BlueAlliance.Team3;
                     break;
+                default:
+                    return new HttpNotFoundResult();
             }
             return View("Human", vm);//HERE
         }

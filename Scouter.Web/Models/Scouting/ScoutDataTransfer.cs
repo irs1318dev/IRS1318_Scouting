@@ -35,5 +35,11 @@ namespace Scouter.Web.Models.Scouting
 		public virtual Team Blue3 { get; set; }
 		public ScoutStatus Blue3Status { get; set; }
 		public virtual FRCMatchDataTransfer Blue3Match { get; set; }
+
+        public ScoutStatus Human1ScoutStatus { get; set; }
+        public ScoutStatus Human2ScoutStatus { get; set; }
+
+        public virtual FRCMatchDataTransfer Human1Match { get; set; }
+        public virtual FRCMatchDataTransfer Human2Match { get; set; }
 	}
 }

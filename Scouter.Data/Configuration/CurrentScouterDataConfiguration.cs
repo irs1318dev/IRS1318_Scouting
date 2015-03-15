@@ -12,8 +12,6 @@ namespace Scouter.Data.Configuration
 	{
 		public CurrentScouterDataConfiguration()
 		{
-			this.Property(p=>p.CreatedOn).HasColumnType("datetime");
-			this.Property(p=>p.ModifiedOn).HasColumnType("datetime");
 		}
 	}
 }

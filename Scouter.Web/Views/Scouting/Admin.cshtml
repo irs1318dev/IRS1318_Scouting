@@ -47,6 +47,12 @@
 				this.blue3Name = ko.observable("NoInfo");
 				this.blue3Status = ko.observable("NoInfo");
 				this.blue3MatchNumber = ko.observable(0);
+
+				this.human1Status = ko.observable("NoInfo");
+				this.human1MatchNumber = ko.observable(0);
+
+				this.human2Status = ko.observable("NoInfo");
+				this.human2MatchNumber = ko.observable(0);
 			}
 			var ViewModel = function(data)
 			{
@@ -180,6 +186,12 @@
 						if (info.Blue3 != null)
 						    vm.model.blue3Name(info.Blue3.Number);
 						vm.model.blue3Status(vm.getStatus(info.Blue3Status));
+
+						vm.model.human1MatchNumber(info.human1Match.SequenceNumber);
+						vm.model.human1Status(vm.getStatus(info.human1Status));
+
+						vm.model.human2MatchNumber(info.human2Match.SequenceNumber);
+						vm.model.human2Status(vm.getStatus(info.human2Status));
 					})
 				}
 
@@ -288,42 +300,52 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-xs-4" style="background-color:red">
+	<div class="col-xs-3" style="background-color:red">
 		<p>Red1</p>
 		<p>Status: <span data-bind="text: model.red1Status()"/></p>
 		<p>Match: <span data-bind="text: model.red1MatchNumber()"/></p>
 		<p>Team: <span data-bind="text: model.red1Name()"/></p>
 	</div>
-	<div class="col-xs-4" style="background-color:#ff2525">
+	<div class="col-xs-3" style="background-color:#ff2525">
 		<p>Red2</p>
 		<p>Status: <span data-bind="text: model.red2Status()" /></p>
 		<p>Match: <span data-bind="text: model.red2MatchNumber()" /></p>
 		<p>Team: <span data-bind="text: model.red2Name()" /></p>
 	</div>
-	<div class="col-xs-4" style="background-color:red">
+	<div class="col-xs-3" style="background-color:red">
 		<p>Red3</p>
 		<p>Status: <span data-bind="text: model.red3Status()" /></p>
 		<p>Match: <span data-bind="text: model.red3MatchNumber()" /></p>
 		<p>Team: <span data-bind="text: model.red3Name()" /></p>
 	</div>
+    <div class="col-xs-3" style="background-color:#ff2525">
+        <p>Human R</p>
+        <p>Status: <span data-bind="text: model.human2Status()" /></p>
+        <p>Match: <span data-bind="text: model.human2MatchNumber()" /></p>
+    </div>
 </div>
 <div class="row">
-	<div class="col-xs-4" style="background-color:deepskyblue">
+	<div class="col-xs-3" style="background-color:deepskyblue">
 		<p>Blue1</p>
 		<p>Status: <span data-bind="text: model.blue1Status()" /></p>
 		<p>Match: <span data-bind="text: model.blue1MatchNumber()" /></p>
 		<p>Team: <span data-bind="text: model.blue1Name()" /></p>
 	</div>
-	<div class="col-xs-4" style="background-color:lightblue">
+	<div class="col-xs-3" style="background-color:lightblue">
 		<p>Blue2</p>
 		<p>Status: <span data-bind="text: model.blue2Status()" /></p>
 		<p>Match: <span data-bind="text: model.blue2MatchNumber()" /></p>
 		<p>Team: <span data-bind="text: model.blue2Name()" /></p>
 	</div>
-	<div class="col-xs-4" style="background-color:deepskyblue">
+	<div class="col-xs-3" style="background-color:deepskyblue">
 		<p>Blue3</p>
 		<p>Status: <span data-bind="text: model.blue3Status()" /></p>
 		<p>Match: <span data-bind="text: model.blue3MatchNumber()" /></p>
 		<p>Team: <span data-bind="text: model.blue3Name()" /></p>
 	</div>
+    <div class="col-xs-3" style="background-color:lightblue">
+        <p>Human B</p>
+        <p>Status: <span data-bind="text: model.human1Status()" /></p>
+        <p>Match: <span data-bind="text: model.human1MatchNumber()" /></p>
+    </div>
 </div>

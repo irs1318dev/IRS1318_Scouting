@@ -69,8 +69,8 @@ namespace Scouter.Data
             foreach(var entry in this.ChangeTracker.Entries()
                 .Where(
                        e => e.Entity is IAuditInfo &&
-                       (e.State == EntityState.Added) ||
-                       (e.State == EntityState.Modified)))
+                       ((e.State == EntityState.Added) ||
+                       (e.State == EntityState.Modified))))
             {
                 IAuditInfo e = (IAuditInfo)entry.Entity;
                 if (entry.State == EntityState.Added)

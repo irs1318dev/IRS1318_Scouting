@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Scouter.Models
 {
-	public class CurrentScoutData : IAuditInfo
+	public class CurrentScoutData
 	{
 		public int Id { get; set; }
 		public int Event_ID { get; set; }
@@ -36,8 +36,17 @@ namespace Scouter.Models
 		public ScoutStatus Blue3Status { get; set; }
 		public virtual FRCMatch Blue3Match { get; set; }
 
-		public DateTime CreatedOn { get; set; }
-		public DateTime ModifiedOn { get; set; }
+        /// <summary>
+        /// The blue human
+        /// </summary>
+        public ScoutStatus Human1Status { get; set; }
+        public virtual FRCMatch Human1Match { get; set; }
+
+        /// <summary>
+        /// the red human
+        /// </summary>
+        public ScoutStatus Human2Status { get; set; }
+        public virtual FRCMatch Human2Match { get; set; }
 	}
 	public enum ScoutStatus
 	{

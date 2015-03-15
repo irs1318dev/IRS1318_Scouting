@@ -69,7 +69,19 @@ namespace Scouter.Web.Controllers.api
                     SequenceNumber = (data.Red3Match != null) ? data.Red3Match.SequenceNumber : 0
                 },
                 Match_ID = data.Match_ID,
-                MatchNumber = _unit.FRCMatches.GetById(data.Match_ID).SequenceNumber
+                MatchNumber = _unit.FRCMatches.GetById(data.Match_ID).SequenceNumber,
+                Human1Match = new Models.FRCEvent.FRCMatchDataTransfer()
+                {
+                    Id = (data.Human1Match != null) ? data.Human1Match.Id : 0,
+                    SequenceNumber = (data.Human1Match != null) ? data.Human1Match.SequenceNumber : 0
+                },
+                Human2Match = new Models.FRCEvent.FRCMatchDataTransfer()
+                {
+                    Id = (data.Human2Match != null) ? data.Human2Match.Id : 0,
+                    SequenceNumber = (data.Human2Match != null) ? data.Human2Match.SequenceNumber : 0
+                },
+                Human1ScoutStatus = data.Human1Status,
+                Human2ScoutStatus = data.Human2Status
             };
         }
 

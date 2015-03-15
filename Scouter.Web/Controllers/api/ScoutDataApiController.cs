@@ -244,8 +244,8 @@ namespace Scouter.Web.Controllers.api
         [HttpPatch]
         public HttpResponseMessage UpdateScoutData(ScoutUpdateInfo info)
         {
-            if (info.Scouter > 6 || info.Scouter < 1)
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new IndexOutOfRangeException("scouter must be between 1 and 6"));
+            if (info.Scouter > 8 || info.Scouter < 1)
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, new IndexOutOfRangeException("scouter must be between 1 and 8"));
 
             var scoutInfo = _unit.CurrentScoutData.GetById(1);
             var match = _unit.FRCMatches.GetById(info.Match_Id);
@@ -283,6 +283,14 @@ namespace Scouter.Web.Controllers.api
                     scoutInfo.Blue3Match = match;
                     scoutInfo.Blue3Status = info.ScouterStatus;
                     scoutInfo.Blue3 = _unit.Teams.GetById(info.Team_Id);
+                    break;
+                case 7:
+                    scoutInfo.Human1Match = match;
+                    scoutInfo.Human1Status = info.ScouterStatus;
+                    break;
+                case 8:
+                    scoutInfo.Human2Match = match;
+                    scoutInfo.Human2Status = info.ScouterStatus;
                     break;
             }
 

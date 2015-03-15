@@ -102,13 +102,16 @@
                     clicked(true);
                     //add one to the count of clicks
 
-                    if (typeof(count()) == typeof(0)) {
+                    if (typeof(count()) == typeof(0))
+                    {
                         count(count() + 1);
                     }
-                    else if (typeof(count()) == typeof(false)) {
+                    else if (typeof(count()) == typeof(false))
+                    {
                         count(!count());
                     }
-                    else {
+                    else
+                    {
                         // terrible
                     }
                     //Create a new robot event and set it's variables
@@ -156,14 +159,8 @@
                 {
                     var v = scouterDataService.getScoutData().done(function (data)
                     {
-                        if (data.Match_ID == @Model.Match.Id)
+                        if (data.Match_ID == @Model.Match.Id + 0)
                         {
-
-                            var d = new ScoutInfo();
-                            d.scouter = @Model.Scouter_Id;
-                            d.scouterStatus = 4;
-                            d.match_Id = @Model.Match.Id;
-                            
                             $('#row1l').collapse('hide');
                             $('#row2l').collapse('hide');
                             $('#row3l').collapse('hide');
@@ -203,7 +200,7 @@
                         $('#row3c').fadeOut();
                         $('#row4').fadeOut();
 
-						
+
                         if (error.statusText)
                         {
                             self.errorMessage(error.statusText);
@@ -212,9 +209,9 @@
                         if (error.responseText)
                         {
                             var
-								msg = JSON.parse(error.responseText),
-								keys = _.keys(msg),
-								txt = '';
+                                msg = JSON.parse(error.responseText),
+                                keys = _.keys(msg),
+                                txt = '';
 
                             _.each(keys, function (key)
                             {
@@ -225,6 +222,14 @@
 
                         self.errorMessage("Oops. something happened.\n" + self.errorMessage());
 
+                        
+                        var d = new ScoutInfo();
+                        d.scouter = @Model.Scouter_Id;
+                        d.scouterStatus = 3;
+                        d.match_Id = @Model.Match.Id;
+
+                        scouter
+
                         setTimeout(self.navigation, 5000);
                     })
                 }
@@ -233,7 +238,7 @@
                 {
                     var v = scouterDataService.getScoutData().done(function (data)
                     {
-                        if (data.Match_ID != @Model.Match.Id)
+                        if (data.Match_ID != @Model.Match.Id + 0)
                         {
                             document.location = '/scouting/Human/@Model.Scouter_Id';
                         }
@@ -265,9 +270,9 @@
                         if (error.responseText)
                         {
                             var
-								msg = JSON.parse(error.responseText),
-								keys = _.keys(msg),
-								txt = '';
+                                msg = JSON.parse(error.responseText),
+                                keys = _.keys(msg),
+                                txt = '';
 
                             _.each(keys, function (key)
                             {
@@ -283,7 +288,7 @@
                 }
 
                 //set the colors for the buttons
-                if (@Model.Scouter_Id < 2)//red scout
+                if (@Model.Scouter_Id < 8)//red scout
                 {
                     self.color = 'red';
                     self.clickColor = 'pink';
@@ -301,7 +306,7 @@
             //create the viewmodel and apply bindings
             vm = new ViewModel();
             ko.applyBindings(vm);
-        })
+        });
     </script>
 }
 <div class="row" style="color:white">

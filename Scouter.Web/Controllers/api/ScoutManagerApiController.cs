@@ -213,9 +213,7 @@ namespace Scouter.Web.Controllers.api
             FRCCompetition existingFRCEvent = this._unit.FRCCompetitions.GetById(id);
             _unit.FRCCompetitions.Detach(existingFRCEvent);
 
-            // Keep the orginal CreatedOn value
-            data.CreatedOn = existingFRCEvent.CreatedOn;
-
+            
             this._unit.CurrentScoutData.Add(data);
 
             try
