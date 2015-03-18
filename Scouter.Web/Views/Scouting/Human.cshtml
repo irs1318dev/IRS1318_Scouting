@@ -40,16 +40,22 @@
                 self.throwToOwnLandfillPressed1 = ko.observable(false);
                 self.throwToOpponentLandfillPressed1 = ko.observable(false);
                 self.throwPastOpponentLandfillPressed1 = ko.observable(false);
+                self.throwShortOfOwnLandfillPressed1 = ko.observable(false);
+                self.throwToStepPressed1 = ko.observable(false);
                 self.failurePressed1 = ko.observable(false);
 
                 self.throwToOwnLandfillPressed2 = ko.observable(false);
                 self.throwToOpponentLandfillPressed2 = ko.observable(false);
                 self.throwPastOpponentLandfillPressed2 = ko.observable(false);
+                self.throwShortOfOwnLandfillPressed2 = ko.observable(false);
+                self.throwToStepPressed2 = ko.observable(false);
                 self.failurePressed2 = ko.observable(false);
 
                 self.throwToOwnLandfillPressed3 = ko.observable(false);
                 self.throwToOpponentLandfillPressed3 = ko.observable(false);
                 self.throwPastOpponentLandfillPressed3 = ko.observable(false);
+                self.throwShortOfOwnLandfillPressed3 = ko.observable(false);
+                self.throwToStepPressed3 = ko.observable(false);
                 self.failurePressed3 = ko.observable(false);
 
                 self.oopsClicked = ko.observable(false);
@@ -60,16 +66,22 @@
                 self.throwToOwnLandfillCount1 = ko.observable(0);
                 self.throwToOpponentLandfillCount1 = ko.observable(0);
                 self.throwPastOpponentLandfillCount1 = ko.observable(0);
+                self.throwShortOfOwnLandfillCount1 = ko.observable(0);
+                self.throwToStepCount1 = ko.observable(0);
                 self.failureCount1 = ko.observable(0);
 
                 self.throwToOwnLandfillCount2 = ko.observable(0);
                 self.throwToOpponentLandfillCount2 = ko.observable(0);
                 self.throwPastOpponentLandfillCount2 = ko.observable(0);
+                self.throwShortOfOwnLandfillCount2 = ko.observable(0);
+                self.throwToStepCount2 = ko.observable(0);
                 self.failureCount2 = ko.observable(0);
 
                 self.throwToOwnLandfillCount3 = ko.observable(0);
                 self.throwToOpponentLandfillCount3 = ko.observable(0);
                 self.throwPastOpponentLandfillCount3 = ko.observable(0);
+                self.throwShortOfOwnLandfillCount3 = ko.observable(0);
+                self.throwToStepCount3 = ko.observable(0);
                 self.failureCount3 = ko.observable(0);
 
                 self.clear = function()
@@ -78,15 +90,21 @@
                     self.throwToOwnLandfillPressed1(false);
                     self.throwToOpponentLandfillPressed1(false);
                     self.throwPastOpponentLandfillPressed1(false);
+                    self.throwShortOfOwnLandfillPressed1(false);
+                    self.throwToStepPressed1(false);
                     self.failurePressed1(false);
 
                     self.throwToOwnLandfillPressed2(false);
                     self.throwPastOpponentLandfillPressed2(false);
                     self.failurePressed2(false);
+                    self.throwShortOfOwnLandfillPressed2(false);
+                    self.throwToStepPressed2(false);
                     self.throwToOpponentLandfillPressed2(false);
 
                     self.throwToOwnLandfillPressed3(false);
                     self.throwPastOpponentLandfillPressed3(false);
+                    self.throwShortOfOwnLandfillPressed3(false);
+                    self.throwToStepPressed3(false);
                     self.failurePressed3(false);
                     self.throwToOpponentLandfillPressed3(false);
 
@@ -145,13 +163,21 @@
                         self.throwPastOpponentLandfillCount2(data.ThrowPastOpponentLandfill2);
                         self.throwPastOpponentLandfillCount3(data.ThrowPastOpponentLandfill3);
 
-                        self.failureCount1(data.Failure1);
-                        self.failureCount2(data.Failure2);
-                        self.failureCount3(data.Failure3);
-
                         self.throwToOpponentLandfillCount1(data.ThrowToOpponentLandfill1);
                         self.throwToOpponentLandfillCount2(data.ThrowToOpponentLandfill2);
                         self.throwToOpponentLandfillCount3(data.ThrowToOpponentLandfill3);
+
+                        self.throwShortOfOwnLandfillCount1(data.ThrowShortOfOwnLandfill1);
+                        self.throwShortOfOwnLandfillCount2(data.ThrowShortOfOwnLandfill2);
+                        self.throwShortOfOwnLandfillCount3(data.ThrowShortOfOwnLandfill3);
+
+                        self.throwToStepCount1(data.ThrowToStep1);
+                        self.throwToStepCount2(data.ThrowToStep2);
+                        self.throwToStepCount3(data.ThrowToStep3);
+                        
+                        self.failureCount1(data.Failure1);
+                        self.failureCount2(data.Failure2);
+                        self.failureCount3(data.Failure3);
                     })
                 }
 
@@ -397,6 +423,30 @@
         <br />
         <br />
     </div>
+    <div onclick="vm.abstractButtonFunction(vm.throwShortOfOwnLandfillPressed1, vm.throwShortOfOwnLandfillCount1, humanEventTypes['ThrowShortOfOwnLandfill'], 1)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: throwShortOfOwnLandfillPressed1() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>Throw short of own landfill</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: throwShortOfOwnLandfillCount1()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.throwToStepPressed1, vm.throwToStepCount1, humanEventTypes['ThrowToStep'], 1)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: throwToStepPressed1() ? clickColor : colorAlt}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>Throw to step</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: throwToStepCount1()"></span>
+        <br />
+        <br />
+    </div>
     <div onclick="vm.abstractButtonFunction(vm.failurePressed1, vm.failureCount1, humanEventTypes['Failure'], 1)"
          style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: failurePressed1() ? clickColor : color}" class="col-xs-2">
         <br />
@@ -454,6 +504,30 @@
         <br />
         <br />
     </div>
+    <div onclick="vm.abstractButtonFunction(vm.throwShortOfOwnLandfillPressed2, vm.throwShortOfOwnLandfillCount2, humanEventTypes['ThrowShortOfOwnLandfill'], 2)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: throwShortOfOwnLandfillPressed2() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>Throw short of own landfill</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: throwShortOfOwnLandfillCount2()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.throwToStepPressed2, vm.throwToStepCount2, humanEventTypes['ThrowToStep'], 2)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: throwToStepPressed2() ? clickColor : colorAlt}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>Throw to step</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: throwToStepCount2()"></span>
+        <br />
+        <br />
+    </div>
     <div onclick="vm.abstractButtonFunction(vm.failurePressed2, vm.failureCount2, humanEventTypes['Failure'], 2)"
          style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: failurePressed2() ? clickColor : color}" class="col-xs-2">
         <br />
@@ -508,6 +582,30 @@
         <br />
         <!--  data-bind="text: <Your countvariable>()" -->
         <span data-bind="text: throwPastOpponentLandfillCount3()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.throwShortOfOwnLandfillPressed3, vm.throwShortOfOwnLandfillCount3, humanEventTypes['ThrowShortOfOwnLandfill'], 3)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: throwShortOfOwnLandfillPressed3() ? clickColor : color}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>Throw short of own landfill</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: throwShortOfOwnLandfillCount3()"></span>
+        <br />
+        <br />
+    </div>
+    <div onclick="vm.abstractButtonFunction(vm.throwToStepPressed3, vm.throwToStepCount3, humanEventTypes['ThrowToStep'], 3)"
+         style="border-style: solid; border-width: medium; border-color: white" data-bind="    style: {backgroundColor: throwToStepPressed3() ? clickColor : colorAlt}" class="col-xs-2">
+        <br />
+        <br />
+        <!--  Labels! -->
+        <span>Throw to step</span>
+        <br />
+        <!--  data-bind="text: <Your countvariable>()" -->
+        <span data-bind="text: throwToStepCount3()"></span>
         <br />
         <br />
     </div>

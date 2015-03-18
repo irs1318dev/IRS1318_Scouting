@@ -81,6 +81,22 @@ namespace Scouter.Web.Controllers
                         else if (e.Team.Id == team3.Id)
                             ++count.ThrowPastOpponentLandfill3;
                         break;
+                    case HumanEventType.ThrowShortOfOwnLandfill:
+                        if (e.Team.Id == team1.Id)
+                            ++count.ThrowShortOfOwnLandfill1;
+                        else if (e.Team.Id == team2.Id)
+                            ++count.ThrowShortOfOwnLandfill2;
+                        else if (e.Team.Id == team3.Id)
+                            ++count.ThrowShortOfOwnLandfill3;
+                        break;
+                    case HumanEventType.ThrowToStep:
+                        if (e.Team.Id == team1.Id)
+                            ++count.ThrowToStep1;
+                        else if (e.Team.Id == team2.Id)
+                            ++count.ThrowToStep2;
+                        else if (e.Team.Id == team3.Id)
+                            ++count.ThrowToStep3;
+                        break;
                     case HumanEventType.Failure:
                         if (e.Team.Id == team1.Id)
                             ++count.Failure1;
@@ -139,7 +155,7 @@ namespace Scouter.Web.Controllers
                     Team team = null;
                     switch (humanEvent.Scouter_Id)
                     {
-                        case 1:
+                        case 7:
                             if (humanEvent.Team_Number == 1)
                                 team = match.RedAlliance.Team1;
                             else if (humanEvent.Team_Number == 2)
@@ -147,7 +163,7 @@ namespace Scouter.Web.Controllers
                             else if (humanEvent.Team_Number == 3)
                                 team = match.RedAlliance.Team3;
                             break;
-                        case 2:
+                        case 8:
                             if (humanEvent.Team_Number == 1)
                                 team = match.BlueAlliance.Team1;
                             else if (humanEvent.Team_Number == 2)
@@ -190,12 +206,12 @@ namespace Scouter.Web.Controllers
             FRCMatch match = _unit.FRCMatches.GetById(scoutData.Match_ID);
             switch (id)
             {
-                case 1:
+                case 7:
                     team1Id = match.RedAlliance.Team1.Id;
                     team2Id = match.RedAlliance.Team2.Id;
                     team3Id = match.RedAlliance.Team3.Id;
                     break;
-                case 2:
+                case 8:
                     team1Id = match.BlueAlliance.Team1.Id;
                     team2Id = match.BlueAlliance.Team2.Id;
                     team3Id = match.BlueAlliance.Team3.Id;

@@ -23,7 +23,7 @@ namespace Scouter.Data.Configuration
 				switch(Environment.MachineName.ToLower())
 				{
 					case "nephele":
-						return true;
+						return false;
 					case "a4970693":
 						return true;
 					case "irs001-pc":
