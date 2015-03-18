@@ -8,7 +8,9 @@ namespace Scouter.Models
         ThrowToOwnLandfill, //+1 points
         ThrowToOpponentLandfill, //-1 points
         ThrowPastOpponentLandfill, //+4 points
-        Failure,//out of field, not fully contained anywhere, fully before our own landfill
+        ThrowShortOfOwnLandfill,//fully before our own landfill
+        ThrowToStep,
+        Failure,//out of field, not fully contained anywhere
 
 
         //Used for seeding, must be last
