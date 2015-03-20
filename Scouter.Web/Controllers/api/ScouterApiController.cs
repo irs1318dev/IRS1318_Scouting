@@ -122,6 +122,7 @@ namespace Scouter.Web.Controllers.api
                     StackEvent se = new StackEvent()
                     {
                         IsContainerAdded = stackEvent.IsContainerAdded,
+                        IsLitterAdded = stackEvent.IsLitterAdded,
                         NumTotesAdded = stackEvent.NumTotesAdded,
                         StartingHeight = stackEvent.StartingHeight,
                         Match = _unit.FRCMatches.GetById(scoutData.Match_ID),
