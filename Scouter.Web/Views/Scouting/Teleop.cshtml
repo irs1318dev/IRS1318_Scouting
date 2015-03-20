@@ -247,7 +247,8 @@
                 }
                 self.SendToDBEnabled = function()
                 {
-                    if(self.TotesAddedToStackCount() + self.InitialStackHeightCount() <= 6)
+                    if(self.TotesAddedToStackCount() + self.InitialStackHeightCount() <= 6 && 
+                      (self.TotesAddedToStackCount() + (self.ContainerAddedToStackCount() ? 1:0) > 0))
                         return true;
                     else
                         return false;
@@ -377,7 +378,7 @@
 <div class="row" style="text-align:center">
     <div onclick="vm.InitialStackHeight()" data-bind="style: { backgroundColor: InitialStackHeightClicked() ? clickColor : 'darkorange' }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
-        <span>Initial Stack Height</span>
+        <span>Starting Height</span>
         <br />
         <span data-bind="text: InitialStackHeightCount"></span>
         <br />
