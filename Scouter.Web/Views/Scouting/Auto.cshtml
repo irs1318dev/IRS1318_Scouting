@@ -182,6 +182,7 @@
             	{
             	    self.clear();
             	    self.oopsClicked(true);
+                    //can be associated with only current RobotMode???
             	    scouterDataService.undo(@Model.Scouter_Id).done(function (data)
             	    {
             	        self.updateCounter();
