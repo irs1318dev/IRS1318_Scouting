@@ -183,6 +183,9 @@ namespace Scouter.Web.Controllers.api
             scoutdata.Red1Status = ScoutStatus.NoScout;
             scoutdata.Red2Status = ScoutStatus.NoScout;
             scoutdata.Red3Status = ScoutStatus.NoScout;
+            scoutdata.Human1Status = ScoutStatus.NoScout;
+            scoutdata.Human2Status = ScoutStatus.NoScout;
+
             //update the match ID
             scoutdata.Match_ID = match.Id;
 

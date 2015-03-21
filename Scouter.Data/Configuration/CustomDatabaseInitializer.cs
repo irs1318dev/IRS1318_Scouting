@@ -31,7 +31,7 @@ namespace Scouter.Data.Configuration
                     case "prestonlaptop":
                         return true;
                     case "tali":
-                        return true;
+                        return false;
                     default:
 						return false;
 				}

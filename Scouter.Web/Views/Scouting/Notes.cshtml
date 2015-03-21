@@ -50,23 +50,24 @@
             	self.blockedAlliesClicked = ko.observable(false);
             	self.tippedOverClicked = ko.observable(false);
             	self.stoppedMovingClicked = ko.observable(false);
-                self.disabledByRefsClicked = ko.observable(false);
+                //self.disabledByRefsClicked = ko.observable(false);
             	self.mechanismBrokenClicked = ko.observable(false);
             	self.mechanismJammedClicked = ko.observable(false);
-            	self.mechanismIneffectiveClicked = ko.observable(false);
+            	//self.mechanismIneffectiveClicked = ko.observable(false);
+            	self.knockedOverStackClicked = ko.observable(false);
 
             	self.showWait = ko.observable(false);
 
             	self.notes = ko.observable("");
 
-            	self.stoppedMoving = function()
+            	self.knockedOverStack = function()
             	{
-            	    self.stoppedMovingClicked(!self.stoppedMovingClicked());
+            	    self.knockedOverStackClicked(!self.knockedOverStackClicked());
             	    self.setNotes();
             	}
-            	self.mechanismIneffective = function()
+            	self.stoppedMoving = function ()
             	{
-            	    self.mechanismIneffectiveClicked(!self.mechanismIneffectiveClicked());
+            	    self.stoppedMovingClicked(!self.stoppedMovingClicked());
             	    self.setNotes();
             	}
             	self.leftTotesInTheWay = function ()
@@ -89,11 +90,6 @@
             	    self.tippedOverClicked(!self.tippedOverClicked());
             	    self.setNotes();
             	}
-            	self.disabledByRefs = function()
-            	{
-            	    self.disabledByRefsClicked(!self.disabledByRefsClicked());
-            	    self.setNotes();
-            	}
                 self.mechanismBroken = function ()
             	{
             	    self.mechanismBrokenClicked(!self.mechanismBrokenClicked());
@@ -108,7 +104,9 @@
 
                 self.setNotes = function ()
             	{
-            		self.notes("");
+                    self.notes("");
+                    if (self.knockedOverStackClicked())
+                        self.notes(self.notes() + "Knocked over stack! ");
 					if (self.leftTotesInTheWayClicked())
             			self.notes(self.notes() + "Robot left totes in the way. ");
 					if (self.leftContainersInTheWayClicked())
@@ -119,14 +117,10 @@
 					    self.notes(self.notes() + "Robot fell over during the match. ");
 					if (self.stoppedMovingClicked())
                         self.notes(self.notes() + "Stopped moving.")
-					if (self.disabledByRefsClicked())
-					    self.notes(self.notes() + "Robot was disabled by the Refs. "); //delete unless figure out disparity
 					if (self.mechanismBrokenClicked())
 					    self.notes(self.notes() + "A mechanism broke. ");
 					if (self.mechanismJammedClicked())
 					    self.notes(self.notes() + "A mechanism got jammed. ");
-					if(self.mechanismIneffectiveClicked())
-                        self.notes(self.notes() + "Ineffective mechanism.")
 				}
 
                 self.nav = function ()
@@ -290,7 +284,15 @@
 </div>
 
 <div class="row panel-collapse collapse in" id="row1" style="text-align:center">
-    <div data-bind="click: leftTotesInTheWay, style: {backgroundColor: leftTotesInTheWayClicked() ? clickColor : colorAlt}" class="col-xs-2"
+    <div data-bind="click: knockedOverStack, style: {backgroundColor: knockedOverStackClicked() ? clickColor : color}" class="col-xs-2"
+         style="border-style:dashed; border-color:white;">
+        <br />
+        <span>Knocked over stack(s)</span>
+        <br />
+        <br />
+        <br />
+    </div>
+    <div data-bind="click: leftTotesInTheWay, style: {backgroundColor: leftTotesInTheWayClicked() ? clickColor : color}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
         <br />
         <span>Left Totes in the Way</span>
@@ -305,14 +307,17 @@
         <br />
         <br />
     </div>
-    <div data-bind="click: blockedAllies, style: {backgroundColor: blockedAlliesClicked() ? clickColor : colorAlt}" class="col-xs-2"
+    <div data-bind="click: blockedAllies, style: {backgroundColor: blockedAlliesClicked() ? clickColor : color}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
+        <br />
         <br />
         <span>Blocked Allies</span>
         <br />
         <br />
         <br />
     </div>
+</div>
+<div class="row panel-collapse collapse in" id="row2" style="text-align:center">
     <div data-bind="click: tippedOver, style: {backgroundColor: tippedOverClicked() ? clickColor : color}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
         <br />
@@ -322,7 +327,7 @@
         <br />
         <br />
     </div>
-    <div data-bind="click: stoppedMoving, style: {backgroundColor: stoppedMovingClicked() ? clickColor : colorAlt}" class="col-xs-2"
+    <div data-bind="click: stoppedMoving, style: {backgroundColor: stoppedMovingClicked() ? clickColor : color}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
         <br />
         <span>Stopped Moving</span>
@@ -330,29 +335,8 @@
         <br />
         <br />
     </div>
-    @*<div data-bind="click: disabledByRefs, style: {backgroundColor: disabledByRefsClicked() ? clickColor : colorAlt}" class="col-xs-2"
-         style="border-style:dashed; border-color:white;">
-        <br />
-        <br />
-        <span>Disabled by Refs</span>
-        <br />
-        <br />
-        <br />
-    </div>
-    <div data-bind="click: mechanismIneffective, style: {backgroundColor: mechanismIneffectiveClicked() ? clickColor : color}" class="col-xs-2"
-         style="border-style:dashed; border-color:white; margin-left:4px">
-        <br />
-        <br />
-        <span>Mechanism Ineffective</span>
-        <br />
-        <br />
-        <br />
-    </div>*@
-</div>
-<div class="row panel-collapse collapse in" id="row2">
     <div data-bind="click: mechanismBroken, style: {backgroundColor: mechanismBrokenClicked() ? clickColor : color}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
-        <br />
         <br />
         <span>Mechanism Broke</span>
         <br />
@@ -361,7 +345,6 @@
     </div>
     <div data-bind="click: mechanismJammed, style: {backgroundColor: mechanismJammedClicked() ? clickColor : color}" class="col-xs-2"
          style="border-style:dashed; border-color:white;">
-        <br />
         <br />
         <span>Mechanism Jammed</span>
         <br />

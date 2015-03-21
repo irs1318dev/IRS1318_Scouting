@@ -5,7 +5,6 @@ using System.Web;
 
 namespace Scouter.Web.Models.Scouting
 {
-	//include ...Count in name... nvm
     public class ScoutCounter
 	{
         public Boolean TotesStacked { get; set; }
@@ -13,8 +12,6 @@ namespace Scouter.Web.Models.Scouting
         public Boolean CenterToteMoved { get; set; }
         public Boolean LeftToteMoved { get; set; }
 
-        //should change into four events
-        //public int YellowTotesMovedToStep { get; set; }
         public Boolean CoopertitionToteOne { get; set; }
         public Boolean CoopertitionToteTwo { get; set; }
         public Boolean CoopertitionToteThree { get; set; }
@@ -37,7 +34,6 @@ namespace Scouter.Web.Models.Scouting
         public int RightChutePickUp { get; set; }
         public int LeftChutePickUp { get; set; }
         public int GroundPickUp { get; set; }
-        //public int DriveOverPlatform { get; set; }
 
         public int OrientContainer { get; set; }
         public int OrientTote { get; set; }

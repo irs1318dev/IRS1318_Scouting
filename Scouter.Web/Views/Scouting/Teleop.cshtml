@@ -82,6 +82,7 @@
                 self.UndoStackButtonClicked = ko.observable(false);
 
                 self.oopsClicked = ko.observable(false);
+                self.unusedClicked = ko.observable(false);
 
                 self.color = ko.observable('green');
                 self.clickColor = ko.observable('yellow');
@@ -110,6 +111,11 @@
                 self.TotesAddedToStackCount = ko.observable(0);
                 self.ContainerAddedToStackCount = ko.observable(false);
                 self.LitterAddedToStackCount = ko.observable(false);
+
+                self.CoopertitionToteOneCount = ko.observable(false);
+                self.CoopertitionToteTwoCount = ko.observable(false);
+                self.CoopertitionToteThreeCount = ko.observable(false);
+                self.CoopertitionToteFourCount = ko.observable(false);
 
                 self.clear = function()
                 {
@@ -140,6 +146,7 @@
                     self.UndoStackButtonClicked(false);
 
                     self.oopsClicked(false);
+                    self.unusedClicked(false);
 
                 }
 
@@ -240,7 +247,8 @@
                 }
                 self.SendToDBEnabled = function()
                 {
-                    if(self.TotesAddedToStackCount() + self.InitialStackHeightCount() <= 6)
+                    if(self.TotesAddedToStackCount() + self.InitialStackHeightCount() <= 8 && 
+                      (self.TotesAddedToStackCount() + (self.ContainerAddedToStackCount() ? 1:0) > 0))
                         return true;
                     else
                         return false;
@@ -278,17 +286,18 @@
                             self.RightCenterContainerFromStepCount(data.RightCenterContainerFromStep);
                             self.RightContainerFromStepCount(data.RightContainerFromStep);
 
-                            //self.InitialStackHeightCount(data.InitialStackHeight);
-                            //self.TotesAddedToStackCount(data.TotesAddedToStack);
-                            //self.ContainerAddedToStackCount(data.ContainerAddedToStack);
-                            //self.LitterAddedToStackCount(data.LitterAddedToStack);
-
+                            self.CoopertitionToteOneCount(data.CoopertitionToteOne);
+                            self.CoopertitionToteTwoCount(data.CoopertitionToteTwo);
+                            self.CoopertitionToteThreeCount(data.CoopertitionToteThree);
+                            self.CoopertitionToteFourCount(data.CoopertitionToteFour);
+                            
                         })
                     }
                     self.nav = function()
                     {
                         document.location = '/scouting/Notes/@Model.Scouter_Id';
 
+                        /*
                         var x = document.getElementById("CheckboxCoopertitionToteOne");
                         if(x.checked == true)
                         {
@@ -298,6 +307,7 @@
                             e.robotEventType = robotEventTypes['CoopertitionToteOne'];
                             scouterDataService.save(ko.toJS(e));
                         }
+                        
                         x = document.getElementById("CheckboxCoopertitionToteTwo");
                         if(x.checked == true)
                         {
@@ -325,6 +335,7 @@
                             e.robotEventType = robotEventTypes['CoopertitionToteFour'];
                             scouterDataService.save(ko.toJS(e));
                         }
+                        */
                     }
                     
                     if (self.model.scoutID() < 4)
@@ -367,7 +378,7 @@
 <div class="row" style="text-align:center">
     <div onclick="vm.InitialStackHeight()" data-bind="style: { backgroundColor: InitialStackHeightClicked() ? clickColor : 'darkorange' }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
-        <span>Initial Stack Height</span>
+        <span>Starting Height</span>
         <br />
         <span data-bind="text: InitialStackHeightCount"></span>
         <br />
@@ -443,7 +454,7 @@
         <br />
         <br />
     </div>
-    <div onclick="vm.abstractButtonFunction(vm.BulldozeLitterToLandfillClicked, vm.BulldozeLitterToLandfillCount, robotEventTypes['BulldozeLitterToLandfill'])" 
+    @*<div onclick="vm.abstractButtonFunction(vm.BulldozeLitterToLandfillClicked, vm.BulldozeLitterToLandfillCount, robotEventTypes['BulldozeLitterToLandfill'])" 
          data-bind="style: { backgroundColor: BulldozeLitterToLandfillClicked() ? clickColor : colorAlt }" 
          style="margin-left:3px; border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
@@ -452,7 +463,7 @@
         <span data-bind="text: BulldozeLitterToLandfillCount()"></span>
         <br />
         <br />
-    </div>
+    </div>*@
     <div onclick="vm.abstractButtonFunction(vm.TeleopFoulClicked, vm.TeleopFoulCount, robotEventTypes['Foul'])"
          data-bind="style: { backgroundColor: TeleopFoulClicked() ? clickColor : color }" style="margin-left:3px; border-style: solid; border-width: medium; border-color: green" class="col-xs-2">
         <br />
@@ -511,7 +522,7 @@
 </div>
 <div class="row" style="text-align:center">
     <div onclick="vm.abstractButtonFunction(vm.LeftContainerFromStepClicked, vm.LeftContainerFromStepCount, robotEventTypes['LeftContainerFromStep'])"
-         data-bind="style: { backgroundColor: LeftContainerFromStepClicked() ? clickColor : color }"
+         data-bind="style: { backgroundColor: LeftContainerFromStepClicked() ? clickColor : (LeftContainerFromStepCount() ? 'palegreen' : color) }"
          style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Left</span>
@@ -520,7 +531,8 @@
         <br />
         <br />
     </div>
-    <div onclick="vm.abstractButtonFunction(vm.LeftCenterContainerFromStepClicked, vm.LeftCenterContainerFromStepCount, robotEventTypes['LeftCenterContainerFromStep'])" data-bind="style: { backgroundColor: LeftCenterContainerFromStepClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+    <div onclick="vm.abstractButtonFunction(vm.LeftCenterContainerFromStepClicked, vm.LeftCenterContainerFromStepCount, robotEventTypes['LeftCenterContainerFromStep'])"
+         data-bind="style: { backgroundColor: LeftCenterContainerFromStepClicked() ? clickColor : (LeftCenterContainerFromStepCount() ? 'palegreen' : color) }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Center Left</span>
         <br />
@@ -528,7 +540,8 @@
         <br />
         <br />
     </div>
-    <div onclick="vm.abstractButtonFunction(vm.RightCenterContainerFromStepClicked, vm.RightCenterContainerFromStepCount, robotEventTypes['RightCenterContainerFromStep'])" data-bind="style: { backgroundColor: RightCenterContainerFromStepClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+    <div onclick="vm.abstractButtonFunction(vm.RightCenterContainerFromStepClicked, vm.RightCenterContainerFromStepCount, robotEventTypes['RightCenterContainerFromStep'])"
+         data-bind="style: { backgroundColor: RightCenterContainerFromStepClicked() ? clickColor : (RightCenterContainerFromStepCount() ? 'palegreen' : color) }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Center Right</span>
         <br />
@@ -536,7 +549,8 @@
         <br />
         <br />
     </div>
-    <div onclick="vm.abstractButtonFunction(vm.RightContainerFromStepClicked, vm.RightContainerFromStepCount, robotEventTypes['RightContainerFromStep'])" data-bind="style: { backgroundColor: RightContainerFromStepClicked() ? clickColor : color }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
+    <div onclick="vm.abstractButtonFunction(vm.RightContainerFromStepClicked, vm.RightContainerFromStepCount, robotEventTypes['RightContainerFromStep'])"
+         data-bind="style: { backgroundColor: RightContainerFromStepClicked() ? clickColor : (RightContainerFromStepCount() ? 'palegreen' : color) }" style="border-style: solid; border-width: medium; border-color: white" class="col-xs-2">
         <br />
         <span>Right</span>
         <br />
@@ -551,32 +565,37 @@
 </div>
 <div class="dropdown">
     <button data-toggle="dropdown" class="btn dropdown-toggle" id="dropdownMenu1" aria-expanded="true">
-        Coopertition Totes Added <br /> (stacked from bottom up)
+        Coopertition Totes Added <br/> (stacked from bottom up)
         <span class="caret"></span>
     </button>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" style="text-align:center">
         <li role="presentation">
-            <a>
-                <input type="checkbox" id="CheckboxCoopertitionToteOne" autocomplete="off"> 1
+            <a data-bind="style: {backgroundColor: CoopertitionToteOneCount() ? 'palegreen' : 'white' }"
+               onclick="vm.abstractButtonFunction(vm.unusedClicked, vm.CoopertitionToteOneCount, robotEventTypes['CoopertitionToteOne'])">
+                1
             </a>
         </li>
         <li role="presentation">
-            <a>
-                <input type="checkbox" id="CheckboxCoopertitionToteTwo" autocomplete="off"> 2
+            <a data-bind="style: {backgroundColor: CoopertitionToteTwoCount() ? 'palegreen' : 'white' }"
+               onclick="vm.abstractButtonFunction(vm.unusedClicked, vm.CoopertitionToteTwoCount, robotEventTypes['CoopertitionToteTwo'])">
+                2
             </a>
         </li>
         <li role="presentation">
-            <a>
-                <input type="checkbox" id="CheckboxCoopertitionToteThree" autocomplete="off"> 3
+            <a data-bind="style: {backgroundColor: CoopertitionToteThreeCount() ? 'palegreen' : 'white' }"
+               onclick="vm.abstractButtonFunction(vm.unusedClicked, vm.CoopertitionToteThreeCount, robotEventTypes['CoopertitionToteThree'])">
+                3
             </a>
         </li>
         <li role="presentation">
-            <a>
-                <input type="checkbox" id="CheckboxCoopertitionToteFour" autocomplete="off"> 4
+            <a data-bind="style: {backgroundColor: CoopertitionToteFourCount() ? 'palegreen' : 'white' }"
+               onclick="vm.abstractButtonFunction(vm.unusedClicked, vm.CoopertitionToteFourCount, robotEventTypes['CoopertitionToteFour'])">
+                4
             </a>
         </li>
     </ul>
 </div>
+
 <div class="row">
     <span style="color:black; background-color:rgba(0, 0, 0, 0.8)">Moving on</span>
 </div>
