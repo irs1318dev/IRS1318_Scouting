@@ -25,54 +25,85 @@
                         koTeam.team = ko.observable(jsoTeam.team);
                         koTeam.description = ko.observable(jsoTeam.description);
                         koTeam.picture = ko.observable(jsoTeam.picture === null ? '/images/teams/no-image-large.png' : '/images/teams/' + jsoTeam.picture);
-                        koTeam.autonomousOffensiveCountRatio = ko.observable(jsoTeam.autonomousOffensiveCountRatio);
-                        koTeam.autonomousOffensiveHiLoRatio = ko.observable(jsoTeam.autonomousOffensiveHiLoRatio);
-                        koTeam.autonomousDriveForward = ko.observable(jsoTeam.autonomousDriveForward);
-                        koTeam.autonomousStartedInGoalbox = ko.observable(jsoTeam.autonomousStartedInGoalbox);
-                        koTeam.autonomousStartedInGoalBoxCount = ko.observable(jsoTeam.autonomousStartedInGoalBoxCount);
-                        koTeam.autonomousBlockedRobotCount = ko.observable(jsoTeam.autonomousBlockedRobotCount);
-                        koTeam.autonomousBlockedShotCount = ko.observable(jsoTeam.autonomousBlockedShotCount);
-                        koTeam.autonomousOffensiveScore = ko.observable(jsoTeam.autonomousOffensiveScore);
-                        koTeam.autonomousDefensiveScore = ko.observable(jsoTeam.autonomousDefensiveScore);
-                        koTeam.teleopOffensiveCountRatio = ko.observable(jsoTeam.teleopOffensiveCountRatio);
-                        koTeam.teleopOffensiveHiLoRatio = ko.observable(jsoTeam.teleopOffensiveHiLoRatio);
-                        koTeam.teleopTrussCount = ko.observable(jsoTeam.teleopTrussCount);
-                        koTeam.teleopTrussCatchCount = ko.observable(jsoTeam.teleopTrussCatchCount);
-                        koTeam.teleopPassesCount = ko.observable(jsoTeam.teleopPassesCount);
-                        koTeam.teleopStartedInGoalBoxCount = ko.observable(jsoTeam.teleopStartedInGoalBoxCount);
-                        koTeam.teleopBlockedRobotCount = ko.observable(jsoTeam.teleopBlockedRobotCount);
-                        koTeam.teleopBlockedShotCount = ko.observable(jsoTeam.teleopBlockedShotCount);
-                        koTeam.helperRank = ko.observable(jsoTeam.helperRank);
-                        koTeam.offense1Rank = ko.observable(jsoTeam.offense1Rank);
-                        koTeam.offense2Rank = ko.observable(jsoTeam.offense2Rank);
-                        koTeam.score = ko.observable(jsoTeam.score);
+
+                        // Total
+                        //   Auto + Teleop: Auto
+
+                        // Autonomous
+                        //   Tote Set? TotesStacked
+                        koTeam.TotesStacked = ko.observable(jsoTeam.totesStacked);
+
+                        //   Totes Moved [Left : Center : Right]
+                        koTeam.TotesMoved = ko.observable(jsoTeam.totesMoved);
+
+                        //   Robot Moved to Auto?
+                        koTeam.AutonomousMoved = ko.observable(jsoTeam.autonomousMoved);
+
+                        //   Cluttered Field?
+                        koTeam.AutoAttemptClutter = ko.observable(jsoTeam.autoAttemptClutter);
+
+                        // Teleop
+                        //   Robot
+                        //     Tote Pickup: [Right Chute : Left Chute : Ground]
+                        koTeam.TotesPickup = ko.observable(jsoTeam.totesPickup);
+                        koTeam.ContainersPickup = ko.observable(jsoTeam.containersPickup);
+
+                        //     Count of Litter Moved to Lanfill [ClearLitter]
+                        koTeam.ClearLitter = ko.observable(jsoTeam.clearLitter);
+
+                        //   Human
+                        //     Conflict: [ThrowShortOfOwnLandfill + ThrowToOwnLandfill + ThrowToStep : All six Throw events]
+                        koTeam.HumanPlayerConflict = ko.observable(jsoTeam.humanPlayerConflict);
+
+                        //   Stack
+                        koTeam.StackEfficiancy = ko.observable(jsoTeam.stackEfficiancy);
+
+                        //     List of all stack events over last 4 matches [StartingHeight, NumTotesAdded, IsContainer, IsLitter]
+                        koTeam.StartingHeight = ko.observable(jsoTeam.startingHeight);
+                        koTeam.NumTotesAdded = ko.observable(jsoTeam.numTotesAdded);
+                        koTeam.IsContainerAdded = ko.observable(jsoTeam.isContainerAdded);
+                        koTeam.IsLitterAdded = ko.observable(jsoTeam.isLitterAdded);
                     }
                     else {
                         koTeam = ko.observable();
                         koTeam.team = ko.observable();
                         koTeam.picture = ko.observable();
                         koTeam.description = ko.observable();
-                        koTeam.autonomousOffensiveCountRatio = ko.observable();
-                        koTeam.autonomousOffensiveHiLoRatio = ko.observable();
-                        koTeam.autonomousDriveForward = ko.observable();
-                        koTeam.autonomousStartedInGoalbox = ko.observable();
-                        koTeam.autonomousStartedInGoalBoxCount = ko.observable();
-                        koTeam.autonomousBlockedRobotCount = ko.observable();
-                        koTeam.autonomousBlockedShotCount = ko.observable();
-                        koTeam.autonomousOffensiveScore = ko.observable();
-                        koTeam.autonomousDefensiveScore = ko.observable();
-                        koTeam.teleopOffensiveCountRatio = ko.observable();
-                        koTeam.teleopOffensiveHiLoRatio = ko.observable();
-                        koTeam.teleopTrussCount = ko.observable();
-                        koTeam.teleopTrussCatchCount = ko.observable();
-                        koTeam.teleopPassesCount = ko.observable();
-                        koTeam.teleopStartedInGoalBoxCount = ko.observable();
-                        koTeam.teleopBlockedRobotCount = ko.observable();
-                        koTeam.teleopBlockedShotCount = ko.observable();
-                        koTeam.helperRank = ko.observable();
-                        koTeam.offense1Rank = ko.observable();
-                        koTeam.offense2Rank = ko.observable();
-                        koTeam.score = ko.observable();
+
+                        // Autonomous
+                        //   Tote Set? TotesStacked
+                        koTeam.TotesStacked = ko.observable();
+
+                        //   Totes Moved [Left : Center : Right]
+                        koTeam.TotesMoved = ko.observable();
+
+                        //   Robot Moved to Auto?
+                        koTeam.AutonomousMoved = ko.observable();
+
+                        //   Cluttered Field?
+                        koTeam.AutoAttemptClutter = ko.observable();
+
+                        // Teleop
+                        //   Robot
+                        //     Tote Pickup: [Right Chute : Left Chute : Ground]
+                        koTeam.TotesPickup = ko.observable();
+                        koTeam.ContainersPickup = ko.observable();
+
+                        //     Count of Litter Moved to Lanfill [ClearLitter]
+                        koTeam.ClearLitter = ko.observable();
+
+                        //   Human
+                        //     Conflict: [ThrowShortOfOwnLandfill + ThrowToOwnLandfill + ThrowToStep : All six Throw events]
+                        koTeam.HumanPlayerConflict = ko.observable();
+
+                        //   Stack
+                        koTeam.StackEfficiancy = ko.observable();
+
+                        //     List of all stack events over last 4 matches [StartingHeight, NumTotesAdded, IsContainer, IsLitter]
+                        koTeam.StartingHeight = ko.observable();
+                        koTeam.NumTotesAdded = ko.observable();
+                        koTeam.IsContainerAdded = ko.observable();
+                        koTeam.IsLitterAdded = ko.observable();
                     }
 
                     return koTeam;
@@ -201,10 +232,10 @@
             <label data-bind="text: model.blue1.team"></label>
         </div>
         <div class="col-xs-1">
-            <label data-bind="text: model.blue1.autonomousDriveForward"></label>
+            <label data-bind="text: model.blue1.AutonomousMoved"></label>
         </div>
         <div class="col-xs-1 endcap">
-            <label data-bind="text: model.blue1.autonomousStartedInGoalbox"></label>
+            <label data-bind="text: model.blue1.StackEfficiancy"></label>
         </div>
 
         <!-- TEAM 2 -->
@@ -212,10 +243,10 @@
             <label data-bind="text: model.blue2.team"></label>
         </div>
         <div class="col-xs-1">
-            <label data-bind="text: model.blue2.autonomousDriveForward"></label>
+            <label data-bind="text: model.blue2.AutonomousMoved"></label>
         </div>
         <div class="col-xs-1 endcap">
-            <label data-bind="text: model.blue2.autonomousStartedInGoalbox"></label>
+            <label data-bind="text: model.blue2.StackEfficiancy"></label>
         </div>
        
         <!-- TEAM 3 -->
@@ -223,10 +254,10 @@
             <label data-bind="text: model.blue3.team"></label>
         </div>
         <div class="col-xs-1">
-            <label data-bind="text: model.blue3.autonomousDriveForward"></label>
+            <label data-bind="text: model.blue3.AutonomousMoved"></label>
         </div>
         <div class="col-xs-1 endcap">
-            <label data-bind="text: model.blue3.autonomousStartedInGoalbox"></label>
+            <label data-bind="text: model.blue3.StackEfficiancy"></label>
         </div>
     </div>
 
@@ -234,35 +265,27 @@
     <div class="row blue">
         <!-- TEAM 1 -->
         <div class="col-xs-2">
-            <label class="bluesm">Rank:</label>
-            <label class="bluesm" data-bind="text: 'H-' + model.blue1.helperRank()"></label>
-            <label class="bluesm" data-bind="text: 'O1-' + model.blue1.offense1Rank()"></label>
-            <label class="bluesm" data-bind="text: 'O2-' + model.blue1.offense2Rank()"></label>
+            <label class="bluesm">Totes Stacked:</label>
+            <label class="bluesm" data-bind="text: model.blue1.TotesStacked"></label>
         </div>
         <div class="col-xs-2 endcap">
-            Offense
         </div>
 
         <!-- TEAM 2 -->
         <div class="col-xs-2">
-            <label class="bluesm">Rank:</label>
-            <label class="bluesm" data-bind="text: 'H-' + model.blue2.helperRank()"></label>
-            <label class="bluesm" data-bind="text: 'O1-' + model.blue2.offense1Rank()"></label>
-            <label class="bluesm" data-bind="text: 'O2-' + model.blue2.offense2Rank()"></label>
+            <label class="bluesm">Totes Stacked:</label>
+            <label class="bluesm" data-bind="text: model.blue2.TotesStacked"></label>
         </div>
         <div class="col-xs-2 endcap">
-            Offense
         </div>
 
         <!-- TEAM 3 -->
         <div class="col-xs-2">
-            <label class="bluesm">Rank:</label>
-            <label class="bluesm" data-bind="text: 'H-' + model.blue3.helperRank()"></label>
-            <label class="bluesm" data-bind="text: 'O1-' + model.blue3.offense1Rank()"></label>
-            <label class="bluesm" data-bind="text: 'O2-' + model.blue3.offense2Rank()"></label>
+            <label class="bluesm">Totes Stacked:</label>
+            <label class="bluesm" data-bind="text: model.blue3.TotesStacked"></label>
         </div>
         <div class="col-xs-2 endcap">
-            Offense
+            
         </div>
     </div>
 
@@ -270,35 +293,35 @@
     <div class="row blue">
         <!-- TEAM 1 -->
         <div class="col-xs-2">
-            <label class="bluesm">goal/miss</label>
+            <label class="bluesm">Totes/Containers Moved</label>
         </div>
         <div class="col-xs-1 bluesm">
-            <label data-bind="text: model.blue1.autonomousOffensiveCountRatio"></label>
+            <label data-bind="text: model.blue1.TotesMoved"></label>
         </div>
         <div class="col-xs-1 bluesm endcap">
-            <label data-bind="text: model.blue1.teleopOffensiveCountRatio"></label>
+            <label data-bind="text: model.blue1.ContainersMoved"></label>
         </div>
 
         <!-- TEAM 2 -->
         <div class="col-xs-2">
-            <label class="bluesm">goal/miss</label>
+            <label class="bluesm">Totes/Containers Moved</label>
         </div>
         <div class="col-xs-1 bluesm">
-            <label data-bind="text: model.blue2.autonomousOffensiveCountRatio"></label>
+            <label data-bind="text: model.blue2.TotesMoved"></label>
         </div>
         <div class="col-xs-1 bluesm endcap">
-            <label data-bind="text: model.blue2.teleopOffensiveCountRatio"></label>
+            <label data-bind="text: model.blue2.ContainersMoved"></label>
         </div>
 
         <!-- TEAM 3 -->
         <div class="col-xs-2">
-            <label class="bluesm">goal/miss</label>
+            <label class="bluesm">Totes/Containers Moved</label>
         </div>
         <div class="col-xs-1 bluesm">
-            <label data-bind="text: model.blue3.autonomousOffensiveCountRatio"></label>
+            <label data-bind="text: model.blue3.TotesMoved"></label>
         </div>
         <div class="col-xs-1 bluesm endcap">
-            <label data-bind="text: model.blue3.teleopOffensiveCountRatio"></label>
+            <label data-bind="text: model.blue3.ContainersMoved"></label>
         </div>
     </div>
 
@@ -306,35 +329,35 @@
     <div class="row blue">
         <!-- TEAM 1 -->
         <div class="col-xs-2">
-            <label class="bluesm">attempts hi/lo</label>
+            <label class="bluesm">Cluttered Field?</label>
         </div>
         <div class="col-xs-1 bluesm">
-            <label data-bind="text: model.blue1.autonomousOffensiveHiLoRatio"></label>
+            <label data-bind="text: model.blue1.AutoAttemptClutter"></label>
         </div>
         <div class="col-xs-1 bluesm endcap">
-            <label data-bind="text: model.blue1.teleopOffensiveHiLoRatio"></label>
+            <label data-bind=""></label>
         </div>
 
         <!-- TEAM 2 -->
         <div class="col-xs-2">
-            <label class="bluesm">attempts hi/lo</label>
+            <label class="bluesm">Cluttered Field?</label>
         </div>
         <div class="col-xs-1 bluesm">
-            <label data-bind="text: model.blue2.autonomousOffensiveHiLoRatio"></label>
+            <label data-bind="text: model.blue2.AutoAttemptClutter"></label>
         </div>
         <div class="col-xs-1 bluesm endcap">
-            <label data-bind="text: model.blue2.teleopOffensiveHiLoRatio"></label>
+            <label data-bind=""></label>
         </div>
 
         <!-- TEAM 3 -->
         <div class="col-xs-2">
-            <label class="bluesm">attempts hi/lo</label>
+            <label class="bluesm">Cluttered Field?</label>
         </div>
         <div class="col-xs-1 bluesm">
-            <label data-bind="text: model.blue3.autonomousOffensiveHiLoRatio"></label>
+            <label data-bind="text: model.blue3.AutoAttemptClutter"></label>
         </div>
         <div class="col-xs-1 bluesm endcap">
-            <label data-bind="text: model.blue3.teleopOffensiveHiLoRatio"></label>
+            <label data-bind=""></label>
         </div>
     </div>
 
@@ -661,10 +684,10 @@
             <label data-bind="text: model.red1.team"></label>
         </div>
         <div class="col-xs-1">
-            <label data-bind="text: model.red1.autonomousDriveForward"></label>
+            <label data-bind="text: model.red1.AutonomousMoved"></label>
         </div>
         <div class="col-xs-1 endcap">
-            <label data-bind="text: model.red1.autonomousStartedInGoalbox"></label>
+            <label data-bind="text: model.red1.StackEfficiancy"></label>
         </div>
 
         <!-- TEAM 2 -->
@@ -672,10 +695,10 @@
             <label data-bind="text: model.red2.team"></label>
         </div>
         <div class="col-xs-1">
-            <label data-bind="text: model.red2.autonomousDriveForward"></label>
+            <label data-bind="text: model.red2.AutonomousMoved"></label>
         </div>
         <div class="col-xs-1 endcap">
-            <label data-bind="text: model.red2.autonomousStartedInGoalbox"></label>
+            <label data-bind="text: model.red2.StackEfficiancy"></label>
         </div>
 
         <!-- TEAM 3 -->
@@ -683,10 +706,10 @@
             <label data-bind="text: model.red3.team"></label>
         </div>
         <div class="col-xs-1">
-            <label data-bind="text: model.red3.autonomousDriveForward"></label>
+            <label data-bind="text: model.red3.AutonomousMoved"></label>
         </div>
         <div class="col-xs-1 endcap">
-            <label data-bind="text: model.red3.autonomousStartedInGoalbox"></label>
+            <label data-bind="text: model.red3.StackEfficiancy"></label>
         </div>
     </div>
 
@@ -694,10 +717,8 @@
     <div class="row red">
         <!-- TEAM 1 -->
         <div class="col-xs-2">
-            <label class="redsm">Rank:</label>
-            <label class="redsm" data-bind="text: 'H-' + model.red1.helperRank()"></label>
-            <label class="redsm" data-bind="text: 'O1-' + model.red1.offense1Rank()"></label>
-            <label class="redsm" data-bind="text: 'O2-' + model.red1.offense2Rank()"></label>
+            <label class="bluesm">Totes Stacked:</label>
+            <label class="bluesm" data-bind="text: model.red1.TotesStacked"></label>
         </div>
         <div class="col-xs-2 endcap">
             Offense
@@ -705,10 +726,8 @@
 
         <!-- TEAM 2 -->
         <div class="col-xs-2">
-            <label class="redsm">Rank:</label>
-            <label class="redsm" data-bind="text: 'H-' + model.red2.helperRank()"></label>
-            <label class="redsm" data-bind="text: 'O1-' + model.red2.offense1Rank()"></label>
-            <label class="redsm" data-bind="text: 'O2-' + model.red2.offense2Rank()"></label>
+            <label class="bluesm">Totes Stacked:</label>
+            <label class="bluesm" data-bind="text: model.red2.TotesStacked"></label>
         </div>
         <div class="col-xs-2 endcap">
             Offense
@@ -716,10 +735,8 @@
 
         <!-- TEAM 3 -->
         <div class="col-xs-2">
-            <label class="redsm">Rank:</label>
-            <label class="redsm" data-bind="text: 'H-' + model.red3.helperRank()"></label>
-            <label class="redsm" data-bind="text: 'O1-' + model.red3.offense1Rank()"></label>
-            <label class="redsm" data-bind="text: 'O2-' + model.red3.offense2Rank()"></label>
+            <label class="bluesm">Totes Stacked:</label>
+            <label class="bluesm" data-bind="text: model.red3.TotesStacked"></label>
         </div>
         <div class="col-xs-2 endcap">
             Offense
@@ -730,35 +747,35 @@
     <div class="row red">
         <!-- TEAM 1 -->
         <div class="col-xs-2">
-            <label class="redsm">goal/miss</label>
+            <label class="redsm">Totes/Containers Moved</label>
         </div>
         <div class="col-xs-1 redsm">
-            <label data-bind="text: model.red1.autonomousOffensiveCountRatio"></label>
+            <label data-bind="text: model.red1.TotesMoved"></label>
         </div>
         <div class="col-xs-1 redsm endcap">
-            <label data-bind="text: model.red1.teleopOffensiveCountRatio"></label>
+            <label data-bind="text: model.red1.ContainersMoved"></label>
         </div>
 
         <!-- TEAM 2 -->
         <div class="col-xs-2">
-            <label class="redsm">goal/miss</label>
+            <label class="redsm">Totes/Containers Moved</label>
         </div>
         <div class="col-xs-1 redsm">
-            <label data-bind="text: model.red2.autonomousOffensiveCountRatio"></label>
+            <label data-bind="text: model.red2.TotesMoved"></label>
         </div>
         <div class="col-xs-1 redsm endcap">
-            <label data-bind="text: model.red2.teleopOffensiveCountRatio"></label>
+            <label data-bind="text: model.red2.ContainersMoved"></label>
         </div>
 
         <!-- TEAM 3 -->
         <div class="col-xs-2">
-            <label class="redsm">goal/miss</label>
+            <label class="redsm">Totes/Containers Moved</label>
         </div>
         <div class="col-xs-1 redsm">
-            <label data-bind="text: model.red3.autonomousOffensiveCountRatio"></label>
+            <label data-bind="text: model.red3.TotesMoved"></label>
         </div>
         <div class="col-xs-1 redsm endcap">
-            <label data-bind="text: model.red3.teleopOffensiveCountRatio"></label>
+            <label data-bind="text: model.red3.ContainersMoved"></label>
         </div>
     </div>
 
@@ -766,35 +783,35 @@
     <div class="row red">
         <!-- TEAM 1 -->
         <div class="col-xs-2">
-            <label class="redsm">attempts hi/lo</label>
+            <label class="bluesm">Cluttered Field?</label>
         </div>
         <div class="col-xs-1 redsm">
-            <label data-bind="text: model.red1.autonomousOffensiveHiLoRatio"></label>
+            <label data-bind="text: model.red1.AutoAttemptClutter"></label>
         </div>
         <div class="col-xs-1 redsm endcap">
-            <label data-bind="text: model.red1.teleopOffensiveHiLoRatio"></label>
+            <label data-bind=""></label>
         </div>
 
         <!-- TEAM 2 -->
         <div class="col-xs-2">
-            <label class="redsm">attempts hi/lo</label>
+            <label class="bluesm">Cluttered Field?</label>
         </div>
         <div class="col-xs-1 redsm">
-            <label data-bind="text: model.red2.autonomousOffensiveHiLoRatio"></label>
+            <label data-bind="text: model.red2.AutoAttemptClutter"></label>
         </div>
         <div class="col-xs-1 redsm endcap">
-            <label data-bind="text: model.red2.teleopOffensiveHiLoRatio"></label>
+            <label data-bind=""></label>
         </div>
 
         <!-- TEAM 3 -->
         <div class="col-xs-2">
-            <label class="redsm">attempts hi/lo</label>
+            <label class="bluesm">Cluttered Field?</label>
         </div>
         <div class="col-xs-1 redsm">
-            <label data-bind="text: model.red3.autonomousOffensiveHiLoRatio"></label>
+            <label data-bind="text: model.red3.AutoAttemptClutter"></label>
         </div>
         <div class="col-xs-1 redsm endcap">
-            <label data-bind="text: model.red3.teleopOffensiveHiLoRatio"></label>
+            <label data-bind=""></label>
         </div>
     </div>
 

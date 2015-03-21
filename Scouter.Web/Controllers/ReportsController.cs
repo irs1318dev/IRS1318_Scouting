@@ -103,18 +103,22 @@ namespace Scouter.Web.Controllers
                                     red2 = m.RedAlliance.Team2.Number,
                                     red3 = m.RedAlliance.Team3.Number
                                 };
-
+             
             // prime the data classes that we depend on
-            var robotevents = _unit.RobotEvents.GetAll().Where(e => e.Match.FRCEvent.Id == eventId).ToList();
+            var robotevents = _unit.RobotEvents.GetAll().Where(e => e.Match.FRCEvent.Id == eventId).Select(e => new EventContainer { EventIs = "Robot", EventType = e.RobotEventType.ToString(), Mode = e.RobotMode, NumTotesAdded = 0, IsContainerAdded = false, IsLitterAdded = false, StartingHeight = 0, Team = e.Team, Match = e.Match, CreatedOn = e.CreatedOn, Id = e.Id });
+            var humanevents = _unit.HumanEvents.GetAll().Where(e => e.Match.FRCEvent.Id == eventId).Select(e => new EventContainer { EventIs = "Human", EventType = e.HumanEventType.ToString(), Mode = RobotMode.Teleop, NumTotesAdded = 0, IsContainerAdded = false, IsLitterAdded = false, StartingHeight = 0, Team = e.Team, Match = e.Match, CreatedOn = e.CreatedOn, Id = e.Id });
+            var stackevents = _unit.StackEvents.GetAll().Where(e => e.Match.FRCEvent.Id == eventId).Select(e => new EventContainer { EventIs = "Stack", EventType = "", Mode = RobotMode.Teleop, NumTotesAdded = e.NumTotesAdded, IsContainerAdded = e.IsContainerAdded, IsLitterAdded = e.IsLitterAdded, StartingHeight = e.StartingHeight, Team = e.Team, Match = e.Match, CreatedOn = e.CreatedOn, Id = e.Id });
             var upcomingMatch = upMatch.ToList();
 
+            var combinedevents = robotevents.Union(humanevents.Union(stackevents)).OrderBy(r => r.CreatedOn).ToList();
+            
             // get the top three events list for each team from matches the precede the input match sequence number
-            var b1 = BuildScorableList(upcomingMatch[0].blue1, upcomingMatch[0].seq, robotevents);
-            var b2 = BuildScorableList(upcomingMatch[0].blue2, upcomingMatch[0].seq, robotevents);
-            var b3 = BuildScorableList(upcomingMatch[0].blue3, upcomingMatch[0].seq, robotevents);
-            var r1 = BuildScorableList(upcomingMatch[0].red1, upcomingMatch[0].seq, robotevents);
-            var r2 = BuildScorableList(upcomingMatch[0].red2, upcomingMatch[0].seq, robotevents);
-            var r3 = BuildScorableList(upcomingMatch[0].red3, upcomingMatch[0].seq, robotevents);
+            var b1 = BuildScorableList(upcomingMatch[0].blue1, upcomingMatch[0].seq, combinedevents);
+            var b2 = BuildScorableList(upcomingMatch[0].blue2, upcomingMatch[0].seq, combinedevents);
+            var b3 = BuildScorableList(upcomingMatch[0].blue3, upcomingMatch[0].seq, combinedevents);
+            var r1 = BuildScorableList(upcomingMatch[0].red1, upcomingMatch[0].seq, combinedevents);
+            var r2 = BuildScorableList(upcomingMatch[0].red2, upcomingMatch[0].seq, combinedevents);
+            var r3 = BuildScorableList(upcomingMatch[0].red3, upcomingMatch[0].seq, combinedevents);
 
             // join the teams from each alliance into one list
             var eventinfo = b1.Union(b2.Union(b3.Union(r1.Union(r2.Union(r3)))));
@@ -123,21 +127,21 @@ namespace Scouter.Web.Controllers
             List<TeamScore> sixteams = BuildTeamScores(eventinfo);
             List<TeamScore> allTeams = AllTeamRanker(eventId);
 
-            var q = from t in sixteams
-                    join a in allTeams on t.Team equals a.Team
-                    select new { team = t, HelperRank = a.HelperRank, Offense1Rank = a.Offense1Rank, Offense2Rank = a.Offense2Rank };
+            //var q = from t in sixteams
+            //        join a in allTeams on t.Team equals a.Team
+            //        select new { team = t, HelperRank = a.HelperRank, Offense1Rank = a.Offense1Rank, Offense2Rank = a.Offense2Rank };
 
-            var ql = q.ToList();
+            //var ql = q.ToList();
 
-            List<TeamScore> tss = new List<TeamScore>();
+            //List<TeamScore> tss = new List<TeamScore>();
 
-            foreach (var o in ql)
-            {
-                o.team.HelperRank = o.HelperRank;
-                o.team.Offense1Rank = o.Offense1Rank;
-                o.team.Offense2Rank = o.Offense2Rank;
-                tss.Add(o.team);
-            }
+            //foreach (var o in ql)
+            //{
+            //    o.team.HelperRank = o.HelperRank;
+            //    o.team.Offense1Rank = o.Offense1Rank;
+            //    o.team.Offense2Rank = o.Offense2Rank;
+            //    tss.Add(o.team);
+            //}
 
 
             // create the object required by the viewmodel
@@ -188,17 +192,17 @@ namespace Scouter.Web.Controllers
                             where e.Match.FRCEvent.Id == eventId
                             //&& t.Number == 4911
                             orderby t.Number
-                            select new ScoringList { Team_Number = e.Team.Number, Picture = e.Team.ImageName, Team_Description = e.Team.Description, RobotEventType = e.RobotEventType, RobotMode = e.RobotMode, Match_Seq = e.Match.SequenceNumber };
+                            select new ScoringList { Team_Number = e.Team.Number, Picture = e.Team.ImageName, Team_Description = e.Team.Description, EventType = e.RobotEventType.ToString(), RobotMode = e.RobotMode, Match_Seq = e.Match.SequenceNumber };
 
             List<TeamScore> tss = BuildTeamScores(eventinfo);
-            tss = RankTeamScores(tss);
+            //tss = RankTeamScores(tss);
             return tss;
         }
 
-        private IEnumerable<ScoringList> BuildScorableList(int teamNumber, int matchSeq, List<RobotEvent> robotevents)
+        private IEnumerable<ScoringList> BuildScorableList(int teamNumber, int matchSeq, List<EventContainer> events)
         {
             // filter the events to one that apply to the team and matches that have smaller sequence to the given match sequence id
-            var eFor = from r in robotevents
+            var eFor = from r in events
                          where
                              r.Team.Number == teamNumber &&
                              r.Match.SequenceNumber < matchSeq
@@ -211,18 +215,18 @@ namespace Scouter.Web.Controllers
                              group r by new { r.SequenceNumber, r.TeamNumber } into g
                              orderby g.Key.SequenceNumber descending
                              select g.Key;
-            var tak3 = eForDist.Take(3);
-            tak3.ToList(); // force execute just in case
+            var tak4 = eForDist.Take(4);
+            tak4.ToList(); // force execute just in case
 
             // using the three found above return all the events
-            var eFor3 = from e in robotevents
-                          join l in tak3 on e.Match.SequenceNumber equals l.SequenceNumber
+            var eFor4 = from e in events
+                          join l in tak4 on e.Match.SequenceNumber equals l.SequenceNumber
                           where
                             e.Team.Number == l.TeamNumber
-                        select new ScoringList { Team_Number = e.Team.Number, Picture = e.Team.ImageName, Team_Description = e.Team.Description, RobotEventType = e.RobotEventType, RobotMode = e.RobotMode, Match_Seq = e.Match.SequenceNumber };
-            eFor3.ToList(); // force execute just in case
+                        select new ScoringList { Team_Number = e.Team.Number, Picture = e.Team.ImageName, Team_Description = e.Team.Description, EventType = e.EventType.ToString(), RobotMode = e.Mode, Match_Seq = e.Match.SequenceNumber, IsContainerAdded = e.IsContainerAdded, IsLitterAdded = e.IsLitterAdded, NumTotesAdded = e.NumTotesAdded, StartingHeight = e.StartingHeight };
+            eFor4.ToList(); // force execute just in case
 
-            return eFor3;
+            return eFor4;
         }
 
         private List<TeamScore> BuildTeamScores(IEnumerable<ScoringList> eventinfo)
@@ -265,7 +269,7 @@ namespace Scouter.Web.Controllers
                     loopTeamId = tempTeamId;
                 }
 
-                string n = e.RobotEventType.ToString();
+                string n = e.EventType;
 
                 if (e.RobotMode == RobotMode.Autonomous)
                 {
@@ -299,77 +303,87 @@ namespace Scouter.Web.Controllers
                         pa.RightContainerFromStep.Count++;
                     else if (n == pa.NoAutonomous.Name)
                         pa.NoAutonomous.Count++;
+                    else 
+                    {
+                        var r = n;
+                    }
                 }
                 else
                 {
-                    if (n == pa.TotesStacked.Name)
+                    if (n == pa.BulldozeLitterToLandfill.Name)
+                        pa.BulldozeLitterToLandfill.Count++;
+                    else if (n == pa.ClearLitter.Name)
+                        pa.ClearLitter.Count++;
+                    else if (n == pa.ClearTote.Name)
+                        pa.ClearTote.Count++;
+                    else if (n == pa.ClearContainer.Name)
+                        pa.ClearContainer.Count++;
+                    else if (n == pa.CoopertitionToteOne.Name)
+                        pa.CoopertitionToteOne.Count++;
+                    else if (n == pa.CoopertitionToteTwo.Name)
+                        pa.CoopertitionToteTwo.Count++;
+                    else if (n == pa.CoopertitionToteThree.Name)
+                        pa.CoopertitionToteThree.Count++;
+                    else if (n == pa.Foul.Name)
+                        pa.Foul.Count++;
+                    else if (n == pa.GroundPickUp.Name)
+                        pa.GroundPickUp.Count++;
+                    else if (n == pa.LeftCenterContainerFromStep.Name)
+                        pa.LeftCenterContainerFromStep.Count++;
+                    else if (n == pa.LeftChutePickUp.Name)
+                        pa.LeftChutePickUp.Count++;
+                    else if (n == pa.LeftContainerFromStep.Name)
+                        pa.LeftContainerFromStep.Count++;
+                    else if (n == pa.LeftContainerMoved.Name)
+                        pa.LeftContainerMoved.Count++;
+                    else if (n == pa.NumTotesAdded.Name)
+                        pa.NumTotesAdded.Count++;
+                    else if (n == pa.OrientContainer.Name)
+                        pa.OrientContainer.Count++;
+                    else if (n == pa.OrientTote.Name)
+                        pa.OrientTote.Count++;
+                    else if (n == pa.RightCenterContainerFromStep.Name)
+                        pa.RightCenterContainerFromStep.Count++;
+                    else if (n == pa.RightChutePickUp.Name)
+                        pa.RightChutePickUp.Count++;
+                    else if (n == pa.RightContainerFromStep.Name)
+                        pa.RightContainerFromStep.Count++;
+                    else if (n == pa.RightContainerMoved.Name)
+                        pa.RightContainerMoved.Count++;
+                    else if (n == pa.RightToteMoved.Name)
+                        pa.RightToteMoved.Count++;
+                    else if (n == pa.StartingHeight.Name)
+                        pa.StartingHeight.Count++;
+                    else if (n == pa.ThrowPastOpponentLandfill.Name)
+                        pa.ThrowPastOpponentLandfill.Count++;
+                    else if (n == pa.ThrowToOpponentLandfill.Name)
+                        pa.ThrowToOpponentLandfill.Count++;
+                    else if (n == pa.ThrowToOwnLandfill.Name)
+                        pa.ThrowToOwnLandfill.Count++;
+                    else if (n == pa.ThrowShortOfOwnLandfill.Name)
+                        pa.ThrowShortOfOwnLandfill.Count++;
+                    else if (n == pa.ThrowToStep.Name)
+                        pa.ThrowToStep.Count++;
+                    else if (n == pa.TotesStacked.Name)
                         pa.TotesStacked.Count++;
-                    else if (n == pa.ScoredLow.Name)
-                        pa.ScoredLow.Count++;
-                    else if (n == pa.MissedHigh.Name)
-                        pa.MissedHigh.Count++;
-                    else if (n == pa.MissedLow.Name)
-                        pa.MissedLow.Count++;
-                    else if (n == pa.BlockedShot.Name)
-                        pa.BlockedShot.Count++;
-                    else if (n == pa.StartedInGoalBox.Name)
-                        pa.StartedInGoalBox.Count++;
-                    else if (n == pa.BlockedRobot.Name)
-                        pa.BlockedRobot.Count++;
-                    else if (n == pa.BlockedPass.Name)
-                        pa.BlockedPass.Count++;
-                    else if (n == pa.Pass.Name)
-                        pa.Pass.Count++;
-                    else if (n == pa.TechFoul.Name)
-                        pa.TechFoul.Count++;
-                    else if (n == pa.Truss.Name)
-                        pa.Truss.Count++;
-                    else if (n == pa.TrussCatch.Name)
-                        pa.TrussCatch.Count++;
-                    else if (n == pa.Inbound.Name)
-                        pa.Inbound.Count++;
-                    else if (n == pa.MissedInbound.Name)
-                        pa.MissedInbound.Count++;
+                    else if (n == pa.Failure.Name)
+                        pa.Failure.Count++;
+                    else if (n == "") 
+                    {
+                        pa.StartingHeight.Count += e.StartingHeight;
+                        pa.NumTotesAdded.Count += e.NumTotesAdded;
+                        pa.IsContainerAdded.Count += e.IsContainerAdded?1:0;
+                        pa.IsLitterAdded.Count += e.IsLitterAdded?1:0;
+                    }
+                    else
+                    {
+                        var r = n;
+                    }
                 }
             }
             tss.Add(ts);
 
             return tss;
-        }
-
-        private List<TeamScore> RankTeamScores(List<TeamScore> tss)
-        {
-            var q = from t in tss
-                    orderby t.imEffectivness descending
-                    select t;
-            List<TeamScore> ql = q.ToList();
-
-            for (int x = 1; x < ql.Count() + 1; x++)
-            {
-                ql[x - 1].HelperRank = x;
-            }
-
-            var q2 = from t in ql
-                     orderby t.Offense1Rank descending
-                     select t;
-            ql = q2.ToList();
-
-            for (int x = 1; x < ql.Count() + 1; x++)
-            {
-                ql[x - 1].Offense1Rank = x;
-            }
-
-            var q3 = from t in ql
-                     orderby t.gmEffectivness descending
-                     select t;
-            ql = q3.ToList();
-
-            for (int x = 1; x < ql.Count() + 1; x++)
-            {
-                ql[x - 1].Offense2Rank = x;
-            }
-            
-            return ql;
         }
 
         private int CurrentEvent()

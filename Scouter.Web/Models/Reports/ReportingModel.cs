@@ -87,9 +87,107 @@ namespace Scouter.Web.Models.Scouting
                 return drive ? "D": string.Empty;
             }
         }
+
+        public string TotesMoved
+        {
+            get
+            {
+                double leftTotesMoved = 0.0;
+                double centerTotesMoved = 0.0;
+                double rightTotesMoved = 0.0;
+                foreach (PointAllocation p in this.pa)
+                {
+                    if (p.RobotMode == RobotMode.Autonomous)
+                    {
+                        if (p.LeftToteMoved.Count > 0)
+                            leftTotesMoved += p.LeftToteMoved.Count;
+                        if (p.CenterToteMoved.Count > 0)
+                            centerTotesMoved += p.CenterContainerMoved.Count;
+                        if (p.RightToteMoved.Count > 0)
+                            rightTotesMoved += p.RightToteMoved.Count;
+                    }
+                }
+                return string.Format("{0} : {1} : {2}", leftTotesMoved, centerTotesMoved, rightTotesMoved);
+            }
+        }
+
+        public string ContainersMoved
+        {
+            get
+            {
+                double l = 0.0;
+                double c = 0.0;
+                double r = 0.0;
+                foreach (PointAllocation p in this.pa)
+                {
+                    if (p.RobotMode == RobotMode.Autonomous)
+                    {
+                        if (p.LeftContainerMoved.Count > 0)
+                            l += p.LeftContainerMoved.Count;
+                        if (p.CenterContainerMoved.Count > 0)
+                            c += p.CenterContainerMoved.Count;
+                        if (p.RightContainerMoved.Count > 0)
+                            r += p.RightContainerMoved.Count;
+                    }
+                }
+                return string.Format("{0} : {1} : {2}", l, c, r);
+            }
+        }
         #endregion Auto
 
         #region Teleop
+        //
+        // Robot Key Indicators
+        //
+        public string TotesPickup
+        {
+            get
+            {
+                double leftChutePickup = 0.0;
+                double rightChutePickup = 0.0;
+                double groundPickup = 0.0;
+                foreach (PointAllocation p in this.pa)
+                {
+                    if (p.RobotMode == RobotMode.Teleop)
+                    {
+                        if (p.LeftChutePickUp.Count > 0)
+                            leftChutePickup += p.LeftChutePickUp.Count;
+                        if (p.RightChutePickUp.Count > 0)
+                            rightChutePickup += p.RightChutePickUp.Count;
+                        if (p.GroundPickUp.Count > 0)
+                            groundPickup += p.GroundPickUp.Count;
+                    }
+                }
+                return string.Format("{0} : {1} : {2}", leftChutePickup, rightChutePickup, groundPickup);
+            }
+        }
+
+        public string ContainersPickup
+        {
+            get
+            {
+                double r = 0.0;
+                double rc = 0.0;
+                double lc = 0.0;
+                double l = 0.0;
+                foreach(PointAllocation p in this.pa)
+                {
+                    if (p.RobotMode == RobotMode.Teleop)
+                    {
+                        if (p.RightContainerFromStep.Count > 0)
+                            r += p.RightContainerFromStep.Count;
+                        if (p.RightCenterContainerFromStep.Count > 0)
+                            rc += p.RightCenterContainerFromStep.Count;
+                        if (p.LeftCenterContainerFromStep.Count > 0)
+                            lc += p.LeftCenterContainerFromStep.Count;
+                        if (p.LeftContainerFromStep.Count > 0)
+                            l += p.LeftContainerFromStep.Count;
+                    }
+                }
+                return string.Format("{0} : {1} : {2} : {3}", r, rc, lc, l);
+            }
+        }
+
         public string StackEfficiancy
         {
             get
@@ -98,217 +196,38 @@ namespace Scouter.Web.Models.Scouting
                 double totalStacked = 0.0;
                 foreach (PointAllocation p in this.pa)
                 {
-                    if (p.RobotMode == RobotMode.Teleop && (p.GroundPickUp.Count > 0 || p.LeftChutePickUp.Count > 0 || p.RightChutePickUp.Count > 0))
-                        totesPickedUp++;
-
-                    totalStacked += p.TotesStacked.Count;
+                    if (p.RobotMode == RobotMode.Teleop)
+                    {
+                        if (p.GroundPickUp.Count > 0 || p.LeftChutePickUp.Count > 0 || p.RightChutePickUp.Count > 0)
+                            totesPickedUp += p.GroundPickUp.Count + p.LeftChutePickUp.Count + p.RightChutePickUp.Count;
+                        if (p.TotesStacked.Count > 0)
+                            totalStacked += p.TotesStacked.Count;
+                    }
                 }
                 return string.Format("{0}/{1}", totalStacked, totesPickedUp);
             }
         }
 
-        public string StacksInformation
+        //
+        // Human Key Indicators
+        //
+        public string HumanPlayerConflict
         {
             get
             {
-                double initialStackHeight = 0.0;
-                double totesAddedThisTime = 0.0;
-                double isContainerOnTop = 0.0;
-                double isLitterInContainer = 0.0;
+                double n = 0.0;
+                double d = 0.0;
                 foreach(PointAllocation p in this.pa)
                 {
-                    if (p.RobotMode == RobotMode.Teleop & (p.TotesStacked.Count > 0))
-                    {
-                        initialStackHeight += p.StartingHeight.Count;
-                        totesAddedThisTime += p.NumTotesAdded.Count;
-                        isContainerOnTop += p.IsContainerAdded.Count;
-                        isLitterInContainer += p.IsLitterAdded.Count;
-                    }
+                    if (p.ThrowShortOfOwnLandfill.Count > 0 || p.ThrowToOwnLandfill.Count > 0)
+                        n += p.ThrowShortOfOwnLandfill.Count + p.ThrowToOwnLandfill.Count;
+                    if (p.ThrowShortOfOwnLandfill.Count > 0 || p.ThrowToOwnLandfill.Count > 0 || p.ThrowToStep.Count > 0 || p.ThrowToOpponentLandfill.Count > 0 || p.ThrowPastOpponentLandfill.Count > 0 || p.Failure.Count > 0)
+                        d += p.ThrowShortOfOwnLandfill.Count + p.ThrowToOwnLandfill.Count + p.ThrowToStep.Count + p.ThrowToOpponentLandfill.Count + p.ThrowPastOpponentLandfill.Count + p.Failure.Count;
                 }
-                return string.Format("S{0}A{1}C{2}L{3}", initialStackHeight, totesAddedThisTime, isContainerOnTop, isLitterInContainer);
-            }
-        }
-
-        public string TotesPickup
-        {
-            get
-            {
-                double leftChutePickup = 0.0;
-                double rightChutePickup = 0.0;
-                double groundPickup = 0.0;
-                foreach(PointAllocation p in this.pa)
-                {
-                    if (p.RobotMode == RobotMode.Teleop & p.LeftChutePickUp.Count > 0)
-                        leftChutePickup += p.LeftChutePickUp.Count;
-                    
-                    if (p.RobotMode == RobotMode.Teleop & p.RightChutePickUp.Count > 0)
-                        rightChutePickup += p.RightChutePickUp.Count;
-
-                    if (p.RobotMode == RobotMode.Teleop & p.GroundPickUp.Count > 0)
-                        groundPickup += p.GroundPickUp.Count;
-                }
-                return string.Format("L{0}R{1}G{2}", leftChutePickup, rightChutePickup, groundPickup)
-            }
-        }
-
-        public string LitterMovedToLandfill
-        {
-            get
-            {
-                double litterMovedToLandfill = 0.0;
-                foreach(PointAllocation p in this.pa)
-                {
-                    if (p.RobotMode == RobotMode.Teleop && p.BulldozeLitterToLandfill.Count > 0)
-                        litterMovedToLandfill += p.BulldozeLitterToLandfill.Count;
-                }
-                return string.Format("{0}", litterMovedToLandfill);
-            }
-        }
-
-        public string Orientation
-        {
-            get
-            {
-                double orientContainer = 0.0;
-                double orientTote = 0.0;
-                foreach(PointAllocation p in this.pa)
-                {
-                    if (p.RobotMode == RobotMode.Teleop && p.OrientContainer.Count > 0)
-                        orientContainer += p.OrientContainer.Count;
-
-                    if (p.RobotMode == RobotMode.Teleop && p.OrientTote.Count > 0)
-                        orientTote += p.OrientTote.Count;
-                }
-                return string.Format("C{0}T{1}", orientContainer, orientTote);
-            }
-        }
-
-        public string ClearedAway
-        {
-            get
-            {
-                double clearedContainer = 0.0;
-                double clearedTote = 0.0;
-                double clearedLitter = 0.0;
-                foreach(PointAllocation p in this.pa)
-                {
-                    if (p.RobotMode == RobotMode.Teleop && p.ClearContainer.Count > 0)
-                        clearedContainer += p.ClearContainer.Count;
-                    if (p.RobotMode == RobotMode.Teleop && p.ClearTote.Count > 0)
-                        clearedTote += p.ClearTote.Count;
-                    if (p.RobotMode == RobotMode.Teleop && p.ClearLitter.Count > 0)
-                        clearedLitter += p.ClearLitter.Count;
-                }
-                return string.Format("C{0}T{1}L{2}", clearedContainer, clearedTote, clearedLitter);
-            }
-        }
-
-        public string ContainersTakenFromStep
-        {
-            get
-            {
-                double takenLeft = 0.0;
-                double takenCenterLeft = 0.0;
-                double takenCenterRight = 0.0;
-                double takenRight = 0.0;
-                foreach(PointAllocation p in this.pa)
-                {
-                    if (p.RobotMode == RobotMode.Teleop && p.LeftContainerFromStep.Count > 0)
-                        takenLeft += p.LeftContainerFromStep.Count;
-                    else if (p.RobotMode == RobotMode.Teleop && p.LeftCenterContainerFromStep.Count > 0)
-                        takenCenterLeft += p.LeftCenterContainerFromStep.Count;
-                    else if (p.RobotMode == RobotMode.Teleop && p.RightCenterContainerFromStep.Count > 0)
-                        takenCenterRight += p.RightCenterContainerFromStep.Count;
-                    else if (p.RobotMode == RobotMode.Teleop && p.RightContainerFromStep.Count > 0)
-                        takenRight += p.RightContainerFromStep.Count;
-                }
-                return string.Format("L{0}CL{1}CR{2}R{3}", takenLeft, takenCenterLeft, takenCenterRight, takenRight);
+                return string.Format("{0} : {1}", n, d);
             }
         }
         #endregion Teleop
-
-        #region KeyIndicators
-
-        /// <summary>
-        /// By default hold the accumlation of Inbound, MissedInboud and Pass counts but allows for an override for sorting purposes
-        /// </summary>
-        //public int HelperRank { get; set; }
-
-        //public double imEffectivness
-        //{
-        //    get
-        //    {
-        //        double perc = 0.0;
-        //        double g = 0.0;
-        //        double m = 0.0;
-        //        foreach(PointAllocation p in this.pa)
-        //        {
-        //            g += p. + p.Pass.Count + (p.BlockedPass.Count + p.BlockedRobot.Count + p.BlockedShot.Count)/3;
-        //            m += p.MissedInbound.Count;
-        //        }
-        //        if (g + m > 0)
-        //            perc = Math.Round((g / (double)(g + m)) * g, 3);
-        //        else
-        //            perc = 0.0;
-        //        return perc;
-        //    }
-        //}
-
-        //private int offense1Rank = -1;
-        ///// <summary>
-        ///// By default hold the accumlation of Truss and TrussCatch counts but allows for an override for sorting purposes
-        ///// </summary>
-        //public int Offense1Rank
-        //{
-        //    get
-        //    {
-        //        if (offense1Rank > -1)
-        //            return offense1Rank;
-
-        //        int accum = 0;
-        //        foreach(PointAllocation p in this.pa)
-        //        {
-        //            if (p.RobotMode == RobotMode.Teleop)
-        //            {
-        //                accum += p.TrussCatch.Count;
-        //                accum += p.Truss.Count;
-        //            }
-        //        }
-        //        return accum;
-        //    }
-        //    set { offense1Rank = value; }
-        //}
-
-        //public double gmEffectivness
-        //{
-        //    get
-        //    {
-        //        double perc = 0.0;
-        //        int g = 0;
-        //        int m = 0;
-        //        foreach(PointAllocation p in this.pa)
-        //        {
-        //            g += p.ScoredHigh.Count + p.ScoredLow.Count;
-        //            m += p.MissedHigh.Count + p.MissedLow.Count;
-
-        //            g += p.AutonomousMoved.Count;
-        //            g += p.AutoScoredHigh.Count + p.AutoScoredLow.Count;
-        //            m += p.AutoMissedHigh.Count + p.AutoMissedLow.Count;
-        //        }
-        //        if (g + m > 0)
-        //            perc = Math.Round((g / (double)(g + m)) * g, 3);
-        //        else
-        //            perc = 0.0;
-        //        return perc;
-        //    }
-        //}
-
-        ///// <summary>
-        ///// set by sorting method
-        ///// </summary>
-        //public int Offense2Rank { get; set; }
-
-        #endregion KeyIndicators
     }
 
     /// <summary>
@@ -356,6 +275,8 @@ namespace Scouter.Web.Models.Scouting
         public PointType ThrowPastOpponentLandfill { get; set; }
         public PointType ThrowToOpponentLandfill { get; set; }
         public PointType ThrowToOwnLandfill { get; set; }
+        public PointType ThrowShortOfOwnLandfill { get; set; }
+        public PointType ThrowToStep { get; set; }
 
         // Stack Events
         public PointType StartingHeight { get; set; }
@@ -368,44 +289,47 @@ namespace Scouter.Web.Models.Scouting
             this.matchId = matchId;
  
             // Robot Events
-            BulldozeLitterToLandfill = new PointType("BulldozeLitterToLandfill", (int)RobotEventType.BulldozeLitterToLandfill, 0);
-            ClearLitter = new PointType("ClearLitter", (int)RobotEventType.ClearLitter, 0);
-            ClearTote = new PointType("ClearTote", (int)RobotEventType.ClearTote, 0);
-            ClearContainer = new PointType("ClearContainer", (int)RobotEventType.ClearContainer, 0);
-            CoopertitionToteOne = new PointType("CoopertitionToteOne", (int)RobotEventType.CoopertitionToteOne, 0);
-            CoopertitionToteTwo = new PointType("CoopertitionToteTwo", (int)RobotEventType.CoopertitionToteTwo, 0);
-            CoopertitionToteThree = new PointType("CoopertitionToteThree", (int)RobotEventType.CoopertitionToteThree, 0);
-            Foul = new PointType("Foul", (int)RobotEventType.Foul, 0);
-            GroundPickUp = new PointType("GroundPickup", (int)RobotEventType.GroundPickUp, 0);
-            LeftCenterContainerFromStep = new PointType("LeftCenterContainerFromStep", (int)RobotEventType.LeftCenterContainerFromStep, 0);
-            LeftChutePickUp = new PointType("LeftChutePickUp", (int)RobotEventType.LeftChutePickUp, 0);
-            LeftContainerFromStep = new PointType("LeftContainerFromStep", (int)RobotEventType.LeftContainerFromStep, 0);
-            OrientTote = new PointType("OrientTote", (int)RobotEventType.OrientTote, 0);
-            OrientContainer = new PointType("ClearContainer", (int)RobotEventType.OrientContainer, 0);
-            RightCenterContainerFromStep = new PointType("", (int)RobotEventType.RightCenterContainerFromStep, 0);
-            RightChutePickUp = new PointType("RightChutePickUp", (int)RobotEventType.RightChutePickUp, 0);
-            AutoAttemptClutter = new PointType("AutoAttemptClutter", (int)RobotEventType.AutoAttemptClutter, 0);
-            AutonomousMoved = new PointType("AutonomousMoved", (int)RobotEventType.AutonomousMoved, 0);
-            CenterContainerMoved = new PointType("CenterContainerMoved", (int)RobotEventType.CenterContainerMoved, 0);
-            CenterToteMoved = new PointType("CenterToteMoved", (int)RobotEventType.CenterToteMoved, 0);
-            LeftContainerMoved = new PointType("LeftContainerMoved", (int)RobotEventType.LeftContainerMoved, 0);
-            LeftToteMoved = new PointType("LeftToteMoved", (int)RobotEventType.LeftToteMoved, 0);
-            NoAutonomous = new PointType("NoAutonomous", (int)RobotEventType.NoAutonomous, 0);
-            RightContainerMoved = new PointType("RightContainerMoved", (int)RobotEventType.RightContainerMoved, 0);
-            RightToteMoved = new PointType("RightToteMoved", (int)RobotEventType.RightToteMoved, 0);
-            TotesStacked = new PointType("TotesStacked", (int)RobotEventType.TotesStacked, 0);
+            BulldozeLitterToLandfill = new PointType("BulldozeLitterToLandfill", (int)RobotEventType.BulldozeLitterToLandfill, 1);
+            ClearLitter = new PointType("ClearLitter", (int)RobotEventType.ClearLitter, 1);
+            ClearTote = new PointType("ClearTote", (int)RobotEventType.ClearTote, 1);
+            ClearContainer = new PointType("ClearContainer", (int)RobotEventType.ClearContainer, 1);
+            CoopertitionToteOne = new PointType("CoopertitionToteOne", (int)RobotEventType.CoopertitionToteOne, 1);
+            CoopertitionToteTwo = new PointType("CoopertitionToteTwo", (int)RobotEventType.CoopertitionToteTwo, 1);
+            CoopertitionToteThree = new PointType("CoopertitionToteThree", (int)RobotEventType.CoopertitionToteThree, 1);
+            Foul = new PointType("Foul", (int)RobotEventType.Foul, 1);
+            GroundPickUp = new PointType("GroundPickUp", (int)RobotEventType.GroundPickUp, 1);
+            LeftCenterContainerFromStep = new PointType("LeftCenterContainerFromStep", (int)RobotEventType.LeftCenterContainerFromStep, 1);
+            LeftChutePickUp = new PointType("LeftChutePickUp", (int)RobotEventType.LeftChutePickUp, 1);
+            LeftContainerFromStep = new PointType("LeftContainerFromStep", (int)RobotEventType.LeftContainerFromStep, 1);
+            OrientTote = new PointType("OrientTote", (int)RobotEventType.OrientTote, 1);
+            OrientContainer = new PointType("OrientContainer", (int)RobotEventType.OrientContainer, 1);
+            RightCenterContainerFromStep = new PointType("RightCenterContainerFromStep", (int)RobotEventType.RightCenterContainerFromStep, 1);
+            RightContainerFromStep = new PointType("RightContainerFromStep", (int)RobotEventType.RightContainerFromStep, 1);
+            RightChutePickUp = new PointType("RightChutePickUp", (int)RobotEventType.RightChutePickUp, 1);
+            AutoAttemptClutter = new PointType("AutoAttemptClutter", (int)RobotEventType.AutoAttemptClutter, 1);
+            AutonomousMoved = new PointType("AutonomousMoved", (int)RobotEventType.AutonomousMoved, 1);
+            CenterContainerMoved = new PointType("CenterContainerMoved", (int)RobotEventType.CenterContainerMoved, 1);
+            CenterToteMoved = new PointType("CenterToteMoved", (int)RobotEventType.CenterToteMoved, 1);
+            LeftContainerMoved = new PointType("LeftContainerMoved", (int)RobotEventType.LeftContainerMoved, 1);
+            LeftToteMoved = new PointType("LeftToteMoved", (int)RobotEventType.LeftToteMoved, 1);
+            NoAutonomous = new PointType("NoAutonomous", (int)RobotEventType.NoAutonomous, 1);
+            RightContainerMoved = new PointType("RightContainerMoved", (int)RobotEventType.RightContainerMoved, 1);
+            RightToteMoved = new PointType("RightToteMoved", (int)RobotEventType.RightToteMoved, 1);
+            TotesStacked = new PointType("TotesStacked", (int)RobotEventType.TotesStacked, 1);
 
             // Human Events
-            Failure = new PointType("Failure", (int)HumanEventType.Failure, 0);
-            ThrowPastOpponentLandfill = new PointType("ThrowPastOpponentLandfill", (int)HumanEventType.ThrowPastOpponentLandfill, 0);
-            ThrowToOpponentLandfill = new PointType("", (int)HumanEventType.ThrowToOpponentLandfill, 0);
-            ThrowToOwnLandfill = new PointType("ThrowToOwnLandfill", (int)HumanEventType.ThrowToOwnLandfill, 0);
+            Failure = new PointType("Failure", (int)HumanEventType.Failure, 1);
+            ThrowPastOpponentLandfill = new PointType("ThrowPastOpponentLandfill", (int)HumanEventType.ThrowPastOpponentLandfill, 1);
+            ThrowToOpponentLandfill = new PointType("ThrowToOpponentLandfill", (int)HumanEventType.ThrowToOpponentLandfill, 1);
+            ThrowToOwnLandfill = new PointType("ThrowToOwnLandfill", (int)HumanEventType.ThrowToOwnLandfill, 1);
+            ThrowToStep = new PointType("ThrowToStep", (int)HumanEventType.ThrowToStep, 1);
+            ThrowShortOfOwnLandfill = new PointType("ThrowShortOfOwnLandfill", (int)HumanEventType.ThrowShortOfOwnLandfill, 6);
 
             // Stack Events
-            StartingHeight = new PointType("StartingHeight", 1, 0);
-            NumTotesAdded = new PointType("NumTotesAdded", 2, 0);
-            IsContainerAdded = new PointType("IsContainerAdded", 3, 0);
-            IsLitterAdded = new PointType("IsLitterAdded", 4, 0);
+            StartingHeight = new PointType("StartingHeight", 1, 1);
+            NumTotesAdded = new PointType("NumTotesAdded", 2, 2);
+            IsContainerAdded = new PointType("IsContainerAdded", 3, 4);
+            IsLitterAdded = new PointType("IsLitterAdded", 4, 6);
         }
     }
 
@@ -437,9 +361,12 @@ namespace Scouter.Web.Models.Scouting
         public int Team_Number {get; set; }
         public string Picture { get; set; }
         public string Team_Description { get; set; }
-        public RobotEventType RobotEventType { get; set; }
-        public HumanEventType HumanEventType { get; set; }
+        public string EventType { get; set; }
         public RobotMode RobotMode { get; set; }
         public int Match_Seq { get; set; }
+        public int NumTotesAdded { get; set; }
+        public bool IsContainerAdded { get; set; }
+        public bool IsLitterAdded { get; set; }
+        public int StartingHeight { get; set; }
     }
 }

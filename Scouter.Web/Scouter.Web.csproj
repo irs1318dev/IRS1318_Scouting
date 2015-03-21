@@ -231,6 +231,7 @@
     <Compile Include="Models\FRCEvent\FRCEventDataTransfer.cs" />
     <Compile Include="Models\FRCEvent\FRCMatchDataTransfer.cs" />
     <Compile Include="Models\FRCMatch\FRCMatchDataTransfer.cs" />
+    <Compile Include="Models\Reports\EventContainer.cs" />
     <Compile Include="Models\Scouting\HumanEventDataTransfer.cs" />
     <Compile Include="Models\Scouting\HumanScoutCounter.cs" />
     <Compile Include="Models\Scouting\MatchInfoDataTransfer.cs" />
