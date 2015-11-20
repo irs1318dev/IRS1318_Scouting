@@ -47,7 +47,7 @@ namespace Scouting_Server.Data
       Type t = typeof(DataModel);
       foreach (PropertyInfo m in t.GetProperties())
       {
-        stream.Write(m.GetValue(data).ToString() + "\t");
+        stream.Write(m.GetValue(data, null).ToString() + ",");
       }
       stream.Write('\n');
 
@@ -59,7 +59,7 @@ namespace Scouting_Server.Data
       Type t = typeof(DataModel);
       foreach (PropertyInfo m in t.GetProperties())
       {
-        stream.Write(m.Name + '\t');
+        stream.Write(m.Name + ',');
       }
       stream.Write('\n');
     }

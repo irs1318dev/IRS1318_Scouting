@@ -19,6 +19,10 @@ namespace Scouting_Server
 
       string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\test.csv";
       Data.DataFile<Models.Test> test = new Data.DataFile<Models.Test>(path);
+      Models.Test testData = new Models.Test();
+      testData.MyProperty = 1000;
+      testData.TheWortzmanOne = 2000;
+      test.WriteRow(testData);
       test.WriteRow(new Models.Test() { MyProperty = 1, what = 2, theThird = 3, myAction = 4, TheWortzmanOne = 5});
       test.WriteRow(new Models.Test() { MyProperty = 5, what = 4, theThird = 3, myAction = 2, TheWortzmanOne = 99 });
     }
