@@ -13,18 +13,30 @@ namespace Scouting_Server
 {
   public partial class Form1 : Form
   {
+    Data.DataFile<Models.Test> test;
     public Form1()
     {
       InitializeComponent();
 
       string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\test.csv";
-      Data.DataFile<Models.Test> test = new Data.DataFile<Models.Test>(path);
+      test = new Data.DataFile<Models.Test>(path);
       Models.Test testData = new Models.Test();
       testData.MyProperty = 1000;
       testData.TheWortzmanOne = 2000;
-      test.WriteRow(testData);
-      test.WriteRow(new Models.Test() { MyProperty = 1, what = 2, theThird = 3, myAction = 4, TheWortzmanOne = 5});
-      test.WriteRow(new Models.Test() { MyProperty = 5, what = 4, theThird = 3, myAction = 2, TheWortzmanOne = 99 });
+      test.Add(testData);
+      test.Add(new Models.Test() { MyProperty = 1, what = 2, theThird = 3, myAction = 4, TheWortzmanOne = 5});
+      ulong idVal = test.Add(new Models.Test() { MyProperty = 5, what = 4, theThird = 3, myAction = 2, TheWortzmanOne = 99 });
+      test.Remove(idVal);
+      test.Add(new Models.Test() { MyProperty = 5, what = 4, theThird = 3, myAction = 2, TheWortzmanOne = 99 });
+
+      if(test.Exists(10))
+      {
+        var model = test.Get(10);
+        model.myAction = 9999999;
+        test.Update(model);
+      }
+
+      test.Save();
     }
   }
 }

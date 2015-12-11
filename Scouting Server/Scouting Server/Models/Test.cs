@@ -8,6 +8,7 @@ namespace Scouting_Server.Models
 {
   public class Test
   {
+    public ulong Id { get; set; }
     public int MyProperty { get; set; }
     public int what { get; set; }
     public int theThird { get; set; }

@@ -12,54 +12,172 @@ namespace Scouting_Server.Data
   {
     string Path;
     ASCIIEncoding Enc;
+    char Delimiter;
+    Dictionary<ulong, DataModel> rows;
+    Dictionary<string, PropertyInfo> properties;
+    ulong id;
 
     /// <summary>
     /// Creates a new datafile using the datafile
     /// </summary>
-    /// <param name="path"></param>
-    public DataFile(string path)
+    /// <param name="path">the path for the file</param>
+    /// <param name="delimiter">the delimiter to separate columns </param>
+    public DataFile(string path, char delimiter = ',')
     {
+      rows = new Dictionary<ulong, DataModel>();
+      properties = new Dictionary<string, PropertyInfo>();
+      Delimiter = delimiter;
       Enc = new ASCIIEncoding();
       Path = path;
       FileInfo info = new FileInfo(path);
       bool exists = info.Exists;
-      var stream = info.AppendText();
 
-      if (!exists)
+      Type t = typeof(DataModel);
+
+      var props = t.GetProperties();
+
+      foreach(var prop in props)
       {
-        CreateFile(stream);
+        properties.Add(prop.Name.ToLower(), prop);
       }
 
-      stream.Close();
+      try
+      {
+        var temp = properties["id"];
+
+      }
+      catch
+      {
+        throw new Exception("DataModel must contain an id field of type ulong!");
+      }
+
+      if (properties["id"].PropertyType != typeof(ulong))
+        throw new Exception("DataModel's id field must be of type ulong!");
+
+      if (exists)
+      {
+        Load();
+      }
     }
 
-    public void WriteRow(DataModel data)
+    public ulong Add(DataModel data)
+    {
+      properties["id"].SetValue(data, id, null);
+      rows.Add(id, data);
+      return id++;
+    }
+
+    public void Update(DataModel data, ulong id)
+    {
+      if (rows.ContainsKey(id))
+      {
+        properties["id"].SetValue(data, id, null);
+        rows[id] = data;
+      }
+      else
+        throw new InvalidOperationException("Data does not contain a row with ID: " + id);
+    }
+
+    public void Update(DataModel data)
+    {
+      ulong id = (ulong)properties["id"].GetValue(data, null);
+
+      Update(data, id);
+    }
+
+    public void Remove(ulong id)
+    {
+      if (rows.ContainsKey(id))
+        rows.Remove(id);
+      else
+        throw new InvalidOperationException("Data does not contain a row with ID: " + id);
+    }
+
+    public void Remove(DataModel data)
+    {
+      ulong id = (ulong)properties["id"].GetValue(data, null);
+
+      Remove(id);
+    }
+
+    public bool Exists(ulong id)
+    {
+      return rows.ContainsKey(id);
+    }
+
+    public DataModel Get(ulong id)
+    {
+      return rows[id];
+    }
+
+    public DataModel[] GetAll()
+    {
+      return rows.Values.ToArray();
+    }
+
+    public void Save()
     {
       FileInfo info = new FileInfo(Path);
-      bool exists = info.Exists;
-      var stream = info.AppendText();
+      StreamWriter stream = new StreamWriter(info.Open(FileMode.Create));
 
-      if (!exists)
-      {
-        CreateFile(stream);
-      }
+      WriteHeaders(stream);
 
-      Type t = typeof(DataModel);
-      foreach (PropertyInfo m in t.GetProperties())
+      foreach(var pair in rows)
       {
-        stream.Write(m.GetValue(data, null).ToString() + ",");
+        WriteRow(pair.Value, stream);
       }
-      stream.Write('\n');
 
       stream.Close();
     }
 
-    private void CreateFile(StreamWriter stream)
+    private void Load()
     {
-      Type t = typeof(DataModel);
-      foreach (PropertyInfo m in t.GetProperties())
+      FileInfo info = new FileInfo(Path);
+      StreamReader stream = new StreamReader(info.Open(FileMode.Open));
+
+      //get rid of the first line
+      stream.ReadLine();
+
+      ConstructorInfo ctor = typeof(DataModel).GetConstructor(Type.EmptyTypes);
+
+      while (!stream.EndOfStream)
       {
-        stream.Write(m.Name + ',');
+        string line = stream.ReadLine();
+        string[] data = line.Split(Delimiter);
+        DataModel mod = (DataModel)ctor.Invoke(null);
+
+        for (int i = 0; i < properties.Values.Count; ++i)
+        {
+          PropertyInfo prop = properties.Values.ElementAt(i);
+
+          prop.SetValue(mod, Convert.ChangeType(data[i], prop.PropertyType), null);
+        }
+        ulong id = (ulong)properties["id"].GetValue(mod, null);
+
+        if (this.id <= id)
+          this.id = id + 1;
+
+        rows.Add(id, mod);
+      }
+
+      stream.Close();
+    }
+
+    private void WriteRow(DataModel data, StreamWriter stream)
+    {
+      foreach (PropertyInfo m in properties.Values)
+      {
+        stream.Write(m.GetValue(data, null).ToString() + Delimiter);
+      }
+
+      stream.Write('\n');
+    }
+
+    private void WriteHeaders(StreamWriter stream)
+    {
+      foreach (PropertyInfo m in properties.Values)
+      {
+        stream.Write(m.Name + Delimiter);
       }
       stream.Write('\n');
     }
