@@ -14,6 +14,7 @@ namespace Scouting_Server
   public partial class Form1 : Form
   {
     Data.DataFile<Models.Test> test;
+    Net.NetworkServer serv;
     public Form1()
     {
       InitializeComponent();
@@ -24,12 +25,12 @@ namespace Scouting_Server
       testData.MyProperty = 1000;
       testData.TheWortzmanOne = 2000;
       test.Add(testData);
-      test.Add(new Models.Test() { MyProperty = 1, what = 2, theThird = 3, myAction = 4, TheWortzmanOne = 5});
+      test.Add(new Models.Test() { MyProperty = 1, what = 2, theThird = 3, myAction = 4, TheWortzmanOne = 5 });
       ulong idVal = test.Add(new Models.Test() { MyProperty = 5, what = 4, theThird = 3, myAction = 2, TheWortzmanOne = 99 });
       test.Remove(idVal);
       test.Add(new Models.Test() { MyProperty = 5, what = 4, theThird = 3, myAction = 2, TheWortzmanOne = 99 });
 
-      if(test.Exists(10))
+      if (test.Exists(10))
       {
         var model = test.Get(10);
         model.myAction = 9999999;
@@ -37,6 +38,21 @@ namespace Scouting_Server
       }
 
       test.Save();
+
+      //network
+      serv = new Net.NetworkServer(444);
+      serv.Connected += Serv_Connected;
+      serv.DataAvailable += Serv_DataAvailable;
+    }
+
+    private void Serv_DataAvailable(object sender)
+    {
+
+    }
+
+    private void Serv_Connected(object sender)
+    {
+
     }
   }
 }
