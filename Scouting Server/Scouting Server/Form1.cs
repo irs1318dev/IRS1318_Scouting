@@ -51,18 +51,31 @@ namespace Scouting_Server
             XmlDocument doc = new XmlDocument();
             doc.Load("path");
             XmlElement v = doc.DocumentElement;
-            XmlNodeList autolist = v.GetElementsByTagName("Auto");
-            XmlNode autonnode = autolist[0];
-            XmlElement offence = autonnode["Offence"];
-            XmlNodeList actions = offence.GetElementsByTagName("Action");
-            loadObjects(actions, "Auto", "Offense");
+            XmlNodeList mainlist = v.GetElementsByTagName("Auto");
+            XmlNode mainnode = mainlist[0];
+            XmlElement catagory = mainnode["Offence"];
+            loadObjects(catagory, "Auto", "Offense");
+            catagory = mainnode["Defence"];
+            loadObjects(catagory, null, "Defence");
+            mainlist = v.GetElementsByTagName("Teleop");
+            mainnode = mainlist[0];
+            catagory = mainnode["Offense"];
+            loadObjects(catagory, "Teleop", "Offense");
+            catagory = mainnode["Defence"];
+            loadObjects(catagory, null, "Defence"); 
         }
-        public void loadObjects(XmlNodeList actions, String pageName, String catagoryName)
+        public void loadObjects(XmlElement catagory, String pageName, String catagoryName)
         {
+            XmlNodeList actions = catagory.GetElementsByTagName("Action");
             String[] objectName = new String[actions.Count];
             int[] objectType = new int[actions.Count];
             if (pageName != null)
             {
+                if (i != 0)
+                {
+                    objectType[i] = 7;
+                    i++;
+                }
                 objectName[i] = pageName;
                 i++;
             }
