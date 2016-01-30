@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace Scouting_Server.Net
     /// The actual data inside the packet.
     /// </summary>
     public string Data { get; set; }
+    public TcpClient Sender { get; set; }
     /// <summary>
     /// Returns the data assuming that it is a double
     /// </summary>

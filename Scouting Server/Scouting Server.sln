@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scouting Server", "Scouting Server\Scouting Server.csproj", "{8570691C-849F-474A-9880-B8D2273B045B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkTest", "NetworkTest\NetworkTest.csproj", "{56931FA0-EBE3-4B90-AA11-A2472F74391C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{8570691C-849F-474A-9880-B8D2273B045B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8570691C-849F-474A-9880-B8D2273B045B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8570691C-849F-474A-9880-B8D2273B045B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56931FA0-EBE3-4B90-AA11-A2472F74391C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56931FA0-EBE3-4B90-AA11-A2472F74391C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56931FA0-EBE3-4B90-AA11-A2472F74391C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56931FA0-EBE3-4B90-AA11-A2472F74391C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -32,14 +32,14 @@ public class NetworkPacket
     Data = data;
   }
 
-  public static NetworkPacket[] GetPackets(char[] buffer)
+  public static NetworkPacket[] GetPackets(byte[] buffer)
   {
     ArrayList<NetworkPacket> packets = new ArrayList<>();
     ArrayList<String> bufferData = new ArrayList<>();
     String currentData = "";
-    for (char b : buffer)
+    for (byte b : buffer)
     {
-      char input = b;
+      char input = (char)b;
       if (input == (char) 0)
       {
         bufferData.add(currentData);

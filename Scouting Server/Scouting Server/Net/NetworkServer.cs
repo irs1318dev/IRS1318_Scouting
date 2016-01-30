@@ -16,7 +16,8 @@ namespace Scouting_Server.Net
 
     public List<TcpClient> Clients { get; private set; }
     public int Port { get; set; }
-    public List<NetworkPacket> Packets { get; private set; }
+    private List<NetworkPacket> Packets { get; set; }
+    
 
     private bool running;
 
@@ -37,9 +38,10 @@ namespace Scouting_Server.Net
     /// disconnects a client from the server
     /// </summary>
     /// <param name="client">the client to be disconnected</param>
-    public void DisconnectClient(TcpClient client)
+    public void DisconnectClient(TcpClient client, bool sendGoodbye = true)
     {
-      SendPacket(NetworkPacket.goodbye, client);
+      if(sendGoodbye)
+        SendPacket(NetworkPacket.goodbye, client);
 
       if (Disconnected != null)
         Disconnected(client);
@@ -65,6 +67,13 @@ namespace Scouting_Server.Net
       {
         DisconnectClient(0);
       }
+    }
+
+    public NetworkPacket[] GetPackets()
+    {
+      NetworkPacket[] packets = Packets.ToArray();
+      Packets.Clear();
+      return packets;
     }
 
     /// <summary>
@@ -117,7 +126,7 @@ namespace Scouting_Server.Net
                 --i;
                 break;
               }
-
+              p.Sender = Clients[i];
               Packets.Add(p);
             }
 
@@ -144,10 +153,21 @@ namespace Scouting_Server.Net
     /// <param name="packets">packets to send</param>
     public void SendPackets(NetworkPacket[] packets, TcpClient client)
     {
-      StreamWriter writer = new StreamWriter(client.GetStream());
-      foreach (var packet in packets)
+      try
       {
-        writer.Write(packet.ToByteBuffer());
+        foreach (var packet in packets)
+        {
+          byte[] buff = packet.ToByteBuffer();
+          client.GetStream().Write(buff, 0, buff.Length);
+        }
+      }
+      catch (IOException)
+      {
+        DisconnectClient(client, false);
+      }
+      catch (ObjectDisposedException)
+      {
+        DisconnectClient(client, false);
       }
     }
 
@@ -223,9 +243,15 @@ namespace Scouting_Server.Net
     /// <param name="packets">packets to send</param>
     public void SendPackets(NetworkPacket[] packets)
     {
-      foreach (var client in Clients)
+      int size = Clients.Count;
+      for(int i = 0; i < size; ++i)
       {
-        SendPackets(packets, client);
+        SendPackets(packets, Clients[i]);
+        if(Clients.Count < size)
+        {
+          i -= size - Clients.Count;
+          size = Clients.Count;
+        }
       }
     }
 
@@ -267,6 +293,8 @@ namespace Scouting_Server.Net
     public NetworkServer(int port)
     {
       listen = new TcpListener(IPAddress.Any, port);
+      Clients = new List<TcpClient>();
+      Packets = new List<NetworkPacket>();
     }
 
     ~NetworkServer()
