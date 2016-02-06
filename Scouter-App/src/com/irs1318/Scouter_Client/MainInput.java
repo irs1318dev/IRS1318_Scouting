@@ -28,22 +28,25 @@ public class MainInput extends Activity {
         setContentView(R.layout.main);
     }
 
-    public void dataThing(TCPClient client) {
-        NetworkPacket[] networkPackets = client.GetPackets();
-        if(!connected) {
-            for (i = 0; i < networkPackets.length; i++) {
-                objectName[i] = networkPackets[i].Name;
-                objectType[i] = networkPackets[i].DataAsInt();
-            }
-            connected = true;
-            loadObjects();
-        }
-    }
-
     public void connect(View v) {
         EditText editText = (EditText) findViewById(R.id.editText);
         client = new TCPClient(11111, editText.getText().toString());
-        //client.OnDataAvailable.add(this::dataThing);
+        client.OnDataAvailable.add(new NetworkEvent()
+        {
+            @Override
+            public void Call(TCPClient sender) throws Exception
+            {
+                NetworkPacket[] networkPackets = client.GetPackets();
+                if(!connected) {
+                    for (i = 0; i < networkPackets.length; i++) {
+                        objectName[i] = networkPackets[i].Name;
+                        objectType[i] = networkPackets[i].DataAsInt();
+                    }
+                    connected = true;
+                    loadObjects();
+                }
+            }
+        });
     }
 
     public void noConnect(View v) {

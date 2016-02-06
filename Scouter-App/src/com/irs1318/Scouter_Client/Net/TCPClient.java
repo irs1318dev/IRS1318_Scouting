@@ -23,7 +23,9 @@ public class TCPClient
     Port = port;
     address = Address;
     Packets = new ArrayList<>();
-    //RunThread = new FutureTask(this::Run);
+    RunThread = new FutureTask(() -> {
+        return this.Run();
+    });
     thread = Executors.newFixedThreadPool(1);
     OnConnected = new ArrayList<>();
     OnDisconnected = new ArrayList<>();
@@ -92,7 +94,6 @@ public class TCPClient
   private Object Run() throws Exception
   {
     InputStream input = Server.getInputStream();
-    OutputStream output = Server.getOutputStream();
     while (!RunThread.isCancelled())
     {
       if(Server == null)
