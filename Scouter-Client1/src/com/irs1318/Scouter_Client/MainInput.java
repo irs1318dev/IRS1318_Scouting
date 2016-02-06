@@ -1,14 +1,17 @@
 package com.irs1318.Scouter_Client;
 
 import android.app.Activity;
+import android.location.GpsStatus;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import com.irs1318.Scouter_Client.Net.*;
+
+import java.io.IOError;
 import java.io.IOException;
 
 public class MainInput extends Activity {
-    int objectNum;
+    int objectNum = 24;
     int pageId = 0;
     int i;
     String text;
@@ -18,9 +21,9 @@ public class MainInput extends Activity {
     GridLayout gridLayout;
     LinearLayout linearLayout;
 
-    int[] objectType;
-    int[] objectValue;
-    String[] objectName;
+    int[] objectType = new int[objectNum];
+    int[] objectValue = new int[objectNum];
+    String[] objectName = new String[objectNum];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,32 +31,25 @@ public class MainInput extends Activity {
         setContentView(R.layout.main);
     }
 
+    public void dataThing(TCPClient client) {
+        NetworkPacket[] networkPackets = client.GetPackets();
+        if(!connected) {
+            for (i = 0; i < networkPackets.length; i++) {
+                objectName[i] = networkPackets[i].Name;
+                objectType[i] = networkPackets[i].DataAsInt();
+            }
+            connected = true;
+            loadObjects();
+        }
+    }
+
     public void connect(View v) {
         EditText editText = (EditText) findViewById(R.id.editText);
         client = new TCPClient(11111, editText.getText().toString());
-        client.OnDataAvailable.add(new NetworkEvent()
-        {
-            @Override
-            public void Call(TCPClient sender) throws Exception
-            //Error:(37, 25) java: Call(com.irs1318.Scouter_Client.Net.TCPClient) in <anonymous com.irs1318.Scouter_Client.MainInput$1> cannot implement Call(com.irs1318.Scouter_Client.Net.TCPClient) in com.irs1318.Scouter_Client.Net.NetworkEvent
-            //overridden method does not throw java.lang.Exception
-            {
-                NetworkPacket[] networkPackets = client.GetPackets();
-                if(!connected) {
-                    for (i = 0; i < networkPackets.length; i++) {
-                        objectName[i] = networkPackets[i].Name;
-                        objectType[i] = networkPackets[i].DataAsInt();
-                    }
-                    connected = true;
-                    loadObjects();
-                    objectNum = networkPackets.length;
-                }
-            }
-        });
+        //client.OnDataAvailable.add(this::dataThing);
     }
 
     public void noConnect(View v) {
-        objectNum = 24;
         for (i = 1; i < objectNum; i++) {
             switch(i) {
                 case 0:
@@ -263,12 +259,9 @@ public class MainInput extends Activity {
         public void onStopTrackingTouch(SeekBar seekBar) {
         }
     };
-    RadioGroup.OnCheckedChangeListener checkedChangeListener = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup radioGroup, int i) {
-            try {
-                if(connected) client.SendPacket(objectName[radioGroup.getChildAt(i).getId()] + "#" + team,"checked");
-            } catch (IOException ie) {}
-        }
+    RadioGroup.OnCheckedChangeListener checkedChangeListener = (radioGroup, i1) -> {
+        try {
+            if(connected) client.SendPacket(objectName[radioGroup.getChildAt(i1).getId()] + "#" + team,"checked");
+        } catch (IOException ie) {}
     };
 }
