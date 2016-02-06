@@ -4,6 +4,8 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TCPClient
 {
@@ -15,71 +17,85 @@ public class TCPClient
   public ArrayList<NetworkEvent> OnConnected;
   public ArrayList<NetworkEvent> OnDisconnected;
   public ArrayList<NetworkEvent> OnDataAvailable;
-  private Executor thread;
-  private FutureTask RunThread;
+  private Thread RunThread;
 
   public TCPClient(int port, String address)
   {
     Port = port;
     address = Address;
     Packets = new ArrayList<>();
-    RunThread = new FutureTask(new Callable()
+    RunThread = new Thread(new Runnable()
     {
         @Override
-        public Object call() throws Exception
+        public void run()
         {
-            InputStream input = Server.getInputStream();
-            while (!RunThread.isCancelled())
-            {
-              if(Server == null)
-              {
-                for(NetworkEvent e : OnDisconnected)
-                  e.Call(null);
-                return null;
-              }
-              if(Server.isClosed() || !Server.isConnected())
-              {
-                for(NetworkEvent e : OnDisconnected)
-                  e.Call(null);
-                return null;
-              }
-
-              int available = input.available();
-
-              if(available != 0)
-              {
-                byte[] buffer = new byte[available];
-                input.read(buffer, 0, available);
-                NetworkPacket[] packets = NetworkPacket.GetPackets(buffer);
-
-                for(NetworkPacket p : packets)
+            InputStream input = null;
+            try {
+                input = Server.getInputStream();
+                while (RunThread.isAlive())
                 {
-                  if(p.Name.equals(NetworkPacket.GOODBYE.Name))
-                  {
-                    Disconnect();
-
-                    break;
-                  }
-
-                  Packets.add(p);
+                    if(Server == null)
+                    {
+                        for(NetworkEvent e : OnDisconnected)
+                            e.Call(null);
+                        return;
+                    }
+                    if(Server.isClosed() || !Server.isConnected())
+                    {
+                        for(NetworkEvent e : OnDisconnected)
+                            e.Call(null);
+                        return;
+                    }
+                    
+                    int available = input.available();
+                    
+                    if(available != 0)
+                    {
+                        try {
+                            byte[] buffer = new byte[available];
+                            input.read(buffer, 0, available);
+                            NetworkPacket[] packets = NetworkPacket.GetPackets(buffer);
+                            
+                            for(NetworkPacket p : packets)
+                            {
+                                if(p.Name.equals(NetworkPacket.GOODBYE.Name))
+                                {
+                                    Disconnect();
+                                    
+                                    break;
+                                }
+                                
+                                Packets.add(p);
+                            }
+                            
+                            for(NetworkEvent e : OnDataAvailable)
+                                e.Call(null);
+                        } catch (IOException ex) {
+                            //todo crash spectacularly
+                        } catch (Exception ex) {
+                            //todo crash spectacularly
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            Thread.sleep(100);
+                        }
+                        catch (InterruptedException ex){}
+                    }
+                }   return;
+            } catch (IOException ex) {
+                Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    input.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
-                for(NetworkEvent e : OnDataAvailable)
-                  e.Call(null);
-              }
-              else
-              {
-                try
-                {
-                  Thread.sleep(100);
-                }
-                catch (InterruptedException ex){}
-              }
             }
-            return null;
         }
     });
-    thread = Executors.newFixedThreadPool(1);
     OnConnected = new ArrayList<>();
     OnDisconnected = new ArrayList<>();
     OnDataAvailable = new ArrayList<>();
@@ -99,7 +115,7 @@ public class TCPClient
       Disconnect();
     Server = new Socket(Address, Port);
 
-    thread.execute(RunThread);
+    RunThread.start();
     
     for(NetworkEvent e : OnConnected)
       e.Call(this);
@@ -110,7 +126,7 @@ public class TCPClient
     if (Server == null)
       return;
 
-    RunThread.cancel(false);
+    RunThread.interrupt();
 
     try
     {
