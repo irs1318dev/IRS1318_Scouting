@@ -23,8 +23,61 @@ public class TCPClient
     Port = port;
     address = Address;
     Packets = new ArrayList<>();
-    RunThread = new FutureTask(() -> {
-        return this.Run();
+    RunThread = new FutureTask(new Callable()
+    {
+        @Override
+        public Object call() throws Exception
+        {
+            InputStream input = Server.getInputStream();
+            while (!RunThread.isCancelled())
+            {
+              if(Server == null)
+              {
+                for(NetworkEvent e : OnDisconnected)
+                  e.Call(null);
+                return null;
+              }
+              if(Server.isClosed() || !Server.isConnected())
+              {
+                for(NetworkEvent e : OnDisconnected)
+                  e.Call(null);
+                return null;
+              }
+
+              int available = input.available();
+
+              if(available != 0)
+              {
+                byte[] buffer = new byte[available];
+                input.read(buffer, 0, available);
+                NetworkPacket[] packets = NetworkPacket.GetPackets(buffer);
+
+                for(NetworkPacket p : packets)
+                {
+                  if(p.Name.equals(NetworkPacket.GOODBYE.Name))
+                  {
+                    Disconnect();
+
+                    break;
+                  }
+
+                  Packets.add(p);
+                }
+
+                for(NetworkEvent e : OnDataAvailable)
+                  e.Call(null);
+              }
+              else
+              {
+                try
+                {
+                  Thread.sleep(100);
+                }
+                catch (InterruptedException ex){}
+              }
+            }
+            return null;
+        }
     });
     thread = Executors.newFixedThreadPool(1);
     OnConnected = new ArrayList<>();
@@ -89,59 +142,6 @@ public class TCPClient
   public void SendPacket(String name, String data) throws IOException
   {
     SendPackets(new NetworkPacket(name, data));
-  }
-
-  private Object Run() throws Exception
-  {
-    InputStream input = Server.getInputStream();
-    while (!RunThread.isCancelled())
-    {
-      if(Server == null)
-      {
-        for(NetworkEvent e : OnDisconnected)
-          e.Call(this);
-        return null;
-      }
-      if(Server.isClosed() || !Server.isConnected())
-      {
-        for(NetworkEvent e : OnDisconnected)
-          e.Call(this);
-        return null;
-      }
-      
-      int available = input.available();
-      
-      if(available != 0)
-      {
-        byte[] buffer = new byte[available];
-        input.read(buffer, 0, available);
-        NetworkPacket[] packets = NetworkPacket.GetPackets(buffer);
-        
-        for(NetworkPacket p : packets)
-        {
-          if(p.Name.equals(NetworkPacket.GOODBYE.Name))
-          {
-            Disconnect();
-            
-            break;
-          }
-          
-          Packets.add(p);
-        }
-        
-        for(NetworkEvent e : OnDataAvailable)
-          e.Call(this);
-      }
-      else
-      {
-        try
-        {
-          Thread.sleep(100);
-        }
-        catch (InterruptedException ex){}
-      }
-    }
-    return null;
   }
 
   public NetworkPacket[] GetPackets()
