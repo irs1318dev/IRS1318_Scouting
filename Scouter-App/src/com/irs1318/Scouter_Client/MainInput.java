@@ -3,6 +3,7 @@ package com.irs1318.Scouter_Client;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 import com.irs1318.Scouter_Client.Net.*;
 import java.io.IOException;
@@ -34,19 +35,20 @@ public class MainInput extends Activity {
         client.OnDataAvailable.add(new NetworkEvent()
         {
             @Override
-            public void Call(TCPClient sender) throws Exception
-            //Error:(37, 25) java: Call(com.irs1318.Scouter_Client.Net.TCPClient) in <anonymous com.irs1318.Scouter_Client.MainInput$1> cannot implement Call(com.irs1318.Scouter_Client.Net.TCPClient) in com.irs1318.Scouter_Client.Net.NetworkEvent
-            //overridden method does not throw java.lang.Exception
+            public void Call(TCPClient sender)
             {
                 NetworkPacket[] networkPackets = client.GetPackets();
                 if(!connected) {
+                    objectNum = networkPackets.length;
+                    objectName = new String[objectNum];
+                    objectType = new int[objectNum];
+                    objectValue = new int[objectNum];
                     for (i = 0; i < networkPackets.length; i++) {
                         objectName[i] = networkPackets[i].Name;
                         objectType[i] = networkPackets[i].DataAsInt();
                     }
                     connected = true;
                     loadObjects();
-                    objectNum = networkPackets.length;
                 }
             }
         });
@@ -54,10 +56,14 @@ public class MainInput extends Activity {
 
     public void noConnect(View v) {
         objectNum = 24;
+        objectName = new String[objectNum];
+        objectType = new int[objectNum];
+        objectValue = new int[objectNum];
         for (i = 1; i < objectNum; i++) {
             switch(i) {
                 case 0:
                     objectName[i] = "First Page";
+                    objectType[i] = 0;
                     break;
                 case 1:
                     objectName[1] = "First Set";
@@ -126,6 +132,7 @@ public class MainInput extends Activity {
         boolean inRadio = false;
         boolean newPage = false;
         int oldPageId = 0;
+        RadioGroup radioGroup = new RadioGroup(this);
 
         for(i = 1; i < objectNum; i++) {
             text = objectName[i];
@@ -134,7 +141,7 @@ public class MainInput extends Activity {
                     if(!newPage) makeGrid();
                     Button button = new Button(this);
                     button.setOnClickListener(pageListener);
-                    makeView(button);
+                    makeView(button, gridLayout);
 
                     linearLayout = new LinearLayout(this);
                     linearLayout.setId(i + objectNum);
@@ -145,36 +152,36 @@ public class MainInput extends Activity {
                     makeGrid();
                     inRadio = false;
                     oldPageId = pageId;
-                    pageId = i;
+                    pageId = i + objectNum;
+                    objectValue[i] = pageId;
                     newPage = false;
                     break;
                 case 2:
                     TextView textView = new TextView(this);
                     textView.setTextSize(20);
                     textView.setGravity(1);
-                    makeView(textView);
+                    makeView(textView, linearLayout);
 
                     makeGrid();
                     inRadio = false;
                     break;
                 case 3:
                     CheckBox checkBox = new CheckBox(this);
-                    makeView(checkBox);
+                    makeView(checkBox, gridLayout);
                     break;
                 case 4:
                     button = new Button(this);
                     text = objectName[i] + ": 0";
                     button.setOnClickListener(clickListener);
-                    makeView(button);
+                    makeView(button, gridLayout);
                     break;
                 case 5:
                     textView = new TextView(this);
                     text = objectName[i] + ": 0";
-                    makeView(textView, i + objectNum);
+                    makeView(textView, i + objectNum, linearLayout);
 
                     SeekBar seekBar = new SeekBar(this);
                     seekBar.setId(i);
-                    seekBar.setMax(Integer.parseInt(objectName[i].split(":")[1]));
                     seekBar.setOnSeekBarChangeListener(seekBarChangeListener);
                     linearLayout.addView(seekBar);
 
@@ -182,49 +189,49 @@ public class MainInput extends Activity {
                     break;
                 case 6:
                     if(!inRadio) {
-                        RadioGroup radioGroup = new RadioGroup(this);
+                        radioGroup = new RadioGroup(this);
                         radioGroup.setOnCheckedChangeListener(checkedChangeListener);
                         gridLayout.addView(radioGroup);
                         inRadio = true;
                     }
 
                     RadioButton radioButton = new RadioButton(this);
-                    makeView(radioButton);
+                    makeView(radioButton, radioGroup);
                     break;
                 case 7:
                     makeGrid();
 
                     button = new Button(this);
                     button.setOnClickListener(pageListener);
-                    makeView(button, oldPageId);
+                    makeView(button, gridLayout);
 
                     newPage = true;
+                    objectValue[i] = oldPageId;
                     break;
             }
         }
-        pageId = objectNum;
+        pageId = 0;
     }
     public void makeGrid() {
         gridLayout = new GridLayout(this);
         gridLayout.setColumnCount(3);
         linearLayout.addView(gridLayout);
     }
-    public void makeView(TextView textView) {
+    public void makeView(TextView textView, ViewGroup viewGroup) {
         textView.setId(i);
         textView.setText(text);
-        gridLayout.addView(textView);
+        viewGroup.addView(textView);
     }
-    public void makeView(TextView textView, int id) {
+    public void makeView(TextView textView, int id, ViewGroup viewGroup) {
         textView.setId(id);
         textView.setText(text);
-        gridLayout.addView(textView);
+        viewGroup.addView(textView);
     }
     Button.OnClickListener pageListener = new Button.OnClickListener() {
         @Override
         public void onClick(View v) {
             findViewById(pageId).setVisibility(View.GONE);
-            i = v.getId();
-            pageId = i + objectNum;
+            pageId = objectValue[v.getId()];
             findViewById(pageId).setVisibility(View.VISIBLE);
             try {
                 if(connected) client.SendPacket(objectName[i] + "#" + team,"Page");
@@ -249,6 +256,7 @@ public class MainInput extends Activity {
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             i = seekBar.getId();
             TextView textView = (TextView) findViewById(i + objectNum);
+            seekBar.setMax(Integer.parseInt(objectName[i].split(":")[1]));
             text = objectName[i].split(":")[0] + ":" + String.valueOf(progress);
             objectValue[i] = progress;
             if(fromUser) textView.setText(text);

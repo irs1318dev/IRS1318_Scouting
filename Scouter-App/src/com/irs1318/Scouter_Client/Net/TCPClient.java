@@ -22,7 +22,7 @@ public class TCPClient
   public TCPClient(int port, String address)
   {
     Port = port;
-    address = Address;
+    Address = address;
     Packets = new ArrayList<>();
     RunThread = new Thread(new Runnable()
     {
