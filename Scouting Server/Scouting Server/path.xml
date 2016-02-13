@@ -1,0 +1,42 @@
+<Scouter>
+    <Category Name="Offence" Page="Auto">
+      <Actions>
+      <Action Type="Check" Name="Start with Ball"></Action>
+      <Action Type="Counter" Name="Passage Low"></Action>
+      <Action Type="Counter" Name="Bar Low"></Action>
+      <Action Type="Counter" Name="Passage High"></Action>
+      <Action Type="Counter" Name="Center High"></Action>
+      <Action Type="Counter" Name="Bar High"></Action>
+      </Actions>
+    </Category>
+    <Category Name="Defences" Page="Auto">
+      <Actions>
+      <Action Type="Choice" Name="Low Bar"></Action>
+      <Action Type="Choice" Name="Spot 2"></Action>
+      <Action Type="Choice" Name="Spot 3"></Action>
+      <Action Type="Choice" Name="Spot 4"></Action>
+      <Action Type="Choice" Name="Spot 5"></Action>
+      <Action Type="Counter" Name="Crossed"></Action>
+      <Action Type="Check" Name="Reached"></Action>
+    </Actions>
+    </Category>
+    <Category Name="Offence" Page="Teleop">
+      <Actions>
+      <Action Type="Counter" Name="Passage Low"></Action>
+      <Action Type="Counter" Name="Bar Low"></Action>
+      <Action Type="Counter" Name="Passage High"></Action>
+      <Action Type="Counter" Name="Center High"></Action>
+      <Action Type="Counter" Name="Bar High"></Action>
+    </Actions>
+    </Category>
+    <Category Name="Defences" Page="Teleop">
+      <Actions>
+      <Action Type="Choice" Name="Low Bar"></Action>
+      <Action Type="Choice" Name="Spot 2"></Action>
+      <Action Type="Choice" Name="Spot 3"></Action>
+      <Action Type="Choice" Name="Spot 4"></Action>
+      <Action Type="Choice" Name="Spot 5"></Action>
+      <Action Type="Check" Name="Assiting"> </Action>
+    </Actions>
+    </Category>
+</Scouter>
