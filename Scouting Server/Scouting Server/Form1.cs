@@ -16,7 +16,8 @@ namespace Scouting_Server
   public partial class Form1 : Form
   {
     int devices = 0;
-    Data.DataFile<Models.Test> test;
+    Data.DataFile<Models.Match> Matches;
+    Data.DataFile<Models.Team> Teams;
     Net.NetworkServer serv;
     List<String> objectName = new List<String>();
     List<int> objectType = new List<int>();
@@ -129,6 +130,16 @@ namespace Scouting_Server
     }
 
     private void Serv_Connected(object sender)
+    {
+
+    }
+
+    private Models.Team GetTeamByNumber(int number)
+    {
+      
+    }
+
+    private void SetMatchButton_Click(object sender, EventArgs e)
     {
 
     }

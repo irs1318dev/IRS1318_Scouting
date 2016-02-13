@@ -53,7 +53,9 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\Test.cs" />
+    <Compile Include="Models\DataModel.cs" />
+    <Compile Include="Models\Match.cs" />
+    <Compile Include="Models\Team.cs" />
     <Compile Include="Net\NetworkPacket.cs" />
     <Compile Include="Net\NetworkServer.cs" />
     <Compile Include="Program.cs" />

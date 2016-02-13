@@ -44,12 +44,12 @@
       this.label6 = new System.Windows.Forms.Label();
       this.label7 = new System.Windows.Forms.Label();
       this.SetMatchButton = new System.Windows.Forms.Button();
-      this.scoutControl1 = new Scouting_Server.ScoutControl();
-      this.scoutControl2 = new Scouting_Server.ScoutControl();
-      this.scoutControl3 = new Scouting_Server.ScoutControl();
-      this.scoutControl4 = new Scouting_Server.ScoutControl();
-      this.scoutControl5 = new Scouting_Server.ScoutControl();
       this.scoutControl6 = new Scouting_Server.ScoutControl();
+      this.scoutControl5 = new Scouting_Server.ScoutControl();
+      this.scoutControl4 = new Scouting_Server.ScoutControl();
+      this.scoutControl3 = new Scouting_Server.ScoutControl();
+      this.scoutControl2 = new Scouting_Server.ScoutControl();
+      this.scoutControl1 = new Scouting_Server.ScoutControl();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
@@ -188,38 +188,15 @@
       this.SetMatchButton.TabIndex = 15;
       this.SetMatchButton.Text = "Set";
       this.SetMatchButton.UseVisualStyleBackColor = true;
+      this.SetMatchButton.Click += new System.EventHandler(this.SetMatchButton_Click);
       // 
-      // scoutControl1
+      // scoutControl6
       // 
-      this.scoutControl1.BackColor = System.Drawing.Color.Red;
-      this.scoutControl1.Location = new System.Drawing.Point(17, 103);
-      this.scoutControl1.Name = "scoutControl1";
-      this.scoutControl1.Size = new System.Drawing.Size(187, 65);
-      this.scoutControl1.TabIndex = 16;
-      // 
-      // scoutControl2
-      // 
-      this.scoutControl2.BackColor = System.Drawing.Color.Red;
-      this.scoutControl2.Location = new System.Drawing.Point(211, 103);
-      this.scoutControl2.Name = "scoutControl2";
-      this.scoutControl2.Size = new System.Drawing.Size(187, 65);
-      this.scoutControl2.TabIndex = 17;
-      // 
-      // scoutControl3
-      // 
-      this.scoutControl3.BackColor = System.Drawing.Color.Red;
-      this.scoutControl3.Location = new System.Drawing.Point(404, 103);
-      this.scoutControl3.Name = "scoutControl3";
-      this.scoutControl3.Size = new System.Drawing.Size(187, 65);
-      this.scoutControl3.TabIndex = 18;
-      // 
-      // scoutControl4
-      // 
-      this.scoutControl4.BackColor = System.Drawing.Color.DodgerBlue;
-      this.scoutControl4.Location = new System.Drawing.Point(15, 174);
-      this.scoutControl4.Name = "scoutControl4";
-      this.scoutControl4.Size = new System.Drawing.Size(187, 65);
-      this.scoutControl4.TabIndex = 19;
+      this.scoutControl6.BackColor = System.Drawing.Color.DodgerBlue;
+      this.scoutControl6.Location = new System.Drawing.Point(404, 174);
+      this.scoutControl6.Name = "scoutControl6";
+      this.scoutControl6.Size = new System.Drawing.Size(187, 65);
+      this.scoutControl6.TabIndex = 21;
       // 
       // scoutControl5
       // 
@@ -229,13 +206,37 @@
       this.scoutControl5.Size = new System.Drawing.Size(187, 65);
       this.scoutControl5.TabIndex = 20;
       // 
-      // scoutControl6
+      // scoutControl4
       // 
-      this.scoutControl6.BackColor = System.Drawing.Color.DodgerBlue;
-      this.scoutControl6.Location = new System.Drawing.Point(404, 174);
-      this.scoutControl6.Name = "scoutControl6";
-      this.scoutControl6.Size = new System.Drawing.Size(187, 65);
-      this.scoutControl6.TabIndex = 21;
+      this.scoutControl4.BackColor = System.Drawing.Color.DodgerBlue;
+      this.scoutControl4.Location = new System.Drawing.Point(15, 174);
+      this.scoutControl4.Name = "scoutControl4";
+      this.scoutControl4.Size = new System.Drawing.Size(187, 65);
+      this.scoutControl4.TabIndex = 19;
+      // 
+      // scoutControl3
+      // 
+      this.scoutControl3.BackColor = System.Drawing.Color.Red;
+      this.scoutControl3.Location = new System.Drawing.Point(404, 103);
+      this.scoutControl3.Name = "scoutControl3";
+      this.scoutControl3.Size = new System.Drawing.Size(187, 65);
+      this.scoutControl3.TabIndex = 18;
+      // 
+      // scoutControl2
+      // 
+      this.scoutControl2.BackColor = System.Drawing.Color.Red;
+      this.scoutControl2.Location = new System.Drawing.Point(211, 103);
+      this.scoutControl2.Name = "scoutControl2";
+      this.scoutControl2.Size = new System.Drawing.Size(187, 65);
+      this.scoutControl2.TabIndex = 17;
+      // 
+      // scoutControl1
+      // 
+      this.scoutControl1.BackColor = System.Drawing.Color.Red;
+      this.scoutControl1.Location = new System.Drawing.Point(17, 103);
+      this.scoutControl1.Name = "scoutControl1";
+      this.scoutControl1.Size = new System.Drawing.Size(187, 65);
+      this.scoutControl1.TabIndex = 16;
       // 
       // Form1
       // 
@@ -264,8 +265,11 @@
       this.Controls.Add(this.numericUpDown2);
       this.Controls.Add(this.numericUpDown1);
       this.Controls.Add(this.LoadMatchButton);
+      this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+      this.MaximizeBox = false;
       this.Name = "Form1";
-      this.Text = "Form1";
+      this.ShowIcon = false;
+      this.Text = "Scouting Server";
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
