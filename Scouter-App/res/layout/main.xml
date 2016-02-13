@@ -22,19 +22,64 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/startLayout">
             <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/editText"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText"
+                android:textSize="25dp"/>
             <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Connect"
-                    android:id="@+id/button" android:onClick="connect"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Connect"
+                android:id="@+id/button" android:onClick="connect"
+                android:textSize="25dp"/>
             <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Don&apos;t Connect"
-                    android:id="@+id/button2" android:onClick="noConnect" android:nestedScrollingEnabled="false"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Don&apos;t Connect"
+                android:id="@+id/button2" android:onClick="noConnect"
+                android:textSize="25dp"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Large Device"
+                android:id="@+id/checkBox"
+                android:onClick="toggleLarge"
+                android:textSize="25dp"
+                android:checked="true"/>
         </LinearLayout>
     </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="&lt;--"
+        android:id="@+id/last"
+        android:layout_below="@+id/mainLayout"
+        android:layout_alignParentStart="true"
+        android:visibility="invisible"
+        android:onClick="pageSwap"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-->"
+        android:id="@+id/next"
+        android:layout_below="@+id/mainLayout"
+        android:layout_alignParentEnd="true"
+        android:onClick="pageSwap"
+        android:visibility="invisible"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Undo"
+        android:id="@+id/undo"
+        android:layout_below="@+id/mainLayout"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"
+        android:onClick="undo"/>
+
 </RelativeLayout>
