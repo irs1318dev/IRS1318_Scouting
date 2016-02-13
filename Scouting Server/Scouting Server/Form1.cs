@@ -52,7 +52,7 @@ namespace Scouting_Server
 
 
       XmlDocument doc = new XmlDocument();
-      doc.Load("path.xml");
+      doc.Load("../../path.xml");
       string pageName = "";
       XmlElement v = doc.DocumentElement;
       XmlNodeList mainlist = v.GetElementsByTagName("Category");
