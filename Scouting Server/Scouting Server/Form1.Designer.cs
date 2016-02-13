@@ -29,13 +29,13 @@
     private void InitializeComponent()
     {
       this.LoadMatchButton = new System.Windows.Forms.Button();
-      this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-      this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-      this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
-      this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
-      this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
-      this.numericUpDown6 = new System.Windows.Forms.NumericUpDown();
-      this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
+      this.red3Team = new System.Windows.Forms.NumericUpDown();
+      this.red1Team = new System.Windows.Forms.NumericUpDown();
+      this.red2Team = new System.Windows.Forms.NumericUpDown();
+      this.matchNumber = new System.Windows.Forms.NumericUpDown();
+      this.blue1Team = new System.Windows.Forms.NumericUpDown();
+      this.blue2Team = new System.Windows.Forms.NumericUpDown();
+      this.blue3Team = new System.Windows.Forms.NumericUpDown();
       this.label1 = new System.Windows.Forms.Label();
       this.label2 = new System.Windows.Forms.Label();
       this.label3 = new System.Windows.Forms.Label();
@@ -44,19 +44,20 @@
       this.label6 = new System.Windows.Forms.Label();
       this.label7 = new System.Windows.Forms.Label();
       this.SetMatchButton = new System.Windows.Forms.Button();
+      this.errorMessage = new System.Windows.Forms.Label();
       this.scoutControl6 = new Scouting_Server.ScoutControl();
       this.scoutControl5 = new Scouting_Server.ScoutControl();
       this.scoutControl4 = new Scouting_Server.ScoutControl();
       this.scoutControl3 = new Scouting_Server.ScoutControl();
       this.scoutControl2 = new Scouting_Server.ScoutControl();
       this.scoutControl1 = new Scouting_Server.ScoutControl();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.red3Team)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.red1Team)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.red2Team)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.matchNumber)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.blue1Team)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.blue2Team)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.blue3Team)).BeginInit();
       this.SuspendLayout();
       // 
       // LoadMatchButton
@@ -67,55 +68,86 @@
       this.LoadMatchButton.TabIndex = 0;
       this.LoadMatchButton.Text = "Load";
       this.LoadMatchButton.UseVisualStyleBackColor = true;
+      this.LoadMatchButton.Click += new System.EventHandler(this.LoadMatchButton_Click);
       // 
-      // numericUpDown1
+      // red3Team
       // 
-      this.numericUpDown1.Location = new System.Drawing.Point(267, 63);
-      this.numericUpDown1.Name = "numericUpDown1";
-      this.numericUpDown1.Size = new System.Drawing.Size(122, 20);
-      this.numericUpDown1.TabIndex = 1;
+      this.red3Team.Location = new System.Drawing.Point(267, 63);
+      this.red3Team.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+      this.red3Team.Name = "red3Team";
+      this.red3Team.Size = new System.Drawing.Size(122, 20);
+      this.red3Team.TabIndex = 1;
       // 
-      // numericUpDown2
+      // red1Team
       // 
-      this.numericUpDown2.Location = new System.Drawing.Point(15, 63);
-      this.numericUpDown2.Name = "numericUpDown2";
-      this.numericUpDown2.Size = new System.Drawing.Size(122, 20);
-      this.numericUpDown2.TabIndex = 2;
+      this.red1Team.Location = new System.Drawing.Point(15, 63);
+      this.red1Team.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+      this.red1Team.Name = "red1Team";
+      this.red1Team.Size = new System.Drawing.Size(122, 20);
+      this.red1Team.TabIndex = 2;
       // 
-      // numericUpDown3
+      // red2Team
       // 
-      this.numericUpDown3.Location = new System.Drawing.Point(141, 63);
-      this.numericUpDown3.Name = "numericUpDown3";
-      this.numericUpDown3.Size = new System.Drawing.Size(122, 20);
-      this.numericUpDown3.TabIndex = 3;
+      this.red2Team.Location = new System.Drawing.Point(141, 63);
+      this.red2Team.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+      this.red2Team.Name = "red2Team";
+      this.red2Team.Size = new System.Drawing.Size(122, 20);
+      this.red2Team.TabIndex = 3;
       // 
-      // numericUpDown4
+      // matchNumber
       // 
-      this.numericUpDown4.Location = new System.Drawing.Point(55, 12);
-      this.numericUpDown4.Name = "numericUpDown4";
-      this.numericUpDown4.Size = new System.Drawing.Size(120, 20);
-      this.numericUpDown4.TabIndex = 4;
+      this.matchNumber.Location = new System.Drawing.Point(55, 12);
+      this.matchNumber.Name = "matchNumber";
+      this.matchNumber.Size = new System.Drawing.Size(120, 20);
+      this.matchNumber.TabIndex = 4;
       // 
-      // numericUpDown5
+      // blue1Team
       // 
-      this.numericUpDown5.Location = new System.Drawing.Point(393, 63);
-      this.numericUpDown5.Name = "numericUpDown5";
-      this.numericUpDown5.Size = new System.Drawing.Size(122, 20);
-      this.numericUpDown5.TabIndex = 5;
+      this.blue1Team.Location = new System.Drawing.Point(393, 63);
+      this.blue1Team.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+      this.blue1Team.Name = "blue1Team";
+      this.blue1Team.Size = new System.Drawing.Size(122, 20);
+      this.blue1Team.TabIndex = 5;
       // 
-      // numericUpDown6
+      // blue2Team
       // 
-      this.numericUpDown6.Location = new System.Drawing.Point(519, 63);
-      this.numericUpDown6.Name = "numericUpDown6";
-      this.numericUpDown6.Size = new System.Drawing.Size(122, 20);
-      this.numericUpDown6.TabIndex = 6;
+      this.blue2Team.Location = new System.Drawing.Point(519, 63);
+      this.blue2Team.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+      this.blue2Team.Name = "blue2Team";
+      this.blue2Team.Size = new System.Drawing.Size(122, 20);
+      this.blue2Team.TabIndex = 6;
       // 
-      // numericUpDown7
+      // blue3Team
       // 
-      this.numericUpDown7.Location = new System.Drawing.Point(645, 63);
-      this.numericUpDown7.Name = "numericUpDown7";
-      this.numericUpDown7.Size = new System.Drawing.Size(122, 20);
-      this.numericUpDown7.TabIndex = 7;
+      this.blue3Team.Location = new System.Drawing.Point(645, 63);
+      this.blue3Team.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+      this.blue3Team.Name = "blue3Team";
+      this.blue3Team.Size = new System.Drawing.Size(122, 20);
+      this.blue3Team.TabIndex = 7;
       // 
       // label1
       // 
@@ -190,6 +222,14 @@
       this.SetMatchButton.UseVisualStyleBackColor = true;
       this.SetMatchButton.Click += new System.EventHandler(this.SetMatchButton_Click);
       // 
+      // errorMessage
+      // 
+      this.errorMessage.AutoSize = true;
+      this.errorMessage.Location = new System.Drawing.Point(343, 17);
+      this.errorMessage.Name = "errorMessage";
+      this.errorMessage.Size = new System.Drawing.Size(0, 13);
+      this.errorMessage.TabIndex = 22;
+      // 
       // scoutControl6
       // 
       this.scoutControl6.BackColor = System.Drawing.Color.DodgerBlue;
@@ -243,6 +283,7 @@
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(778, 251);
+      this.Controls.Add(this.errorMessage);
       this.Controls.Add(this.scoutControl6);
       this.Controls.Add(this.scoutControl5);
       this.Controls.Add(this.scoutControl4);
@@ -257,26 +298,26 @@
       this.Controls.Add(this.label3);
       this.Controls.Add(this.label2);
       this.Controls.Add(this.label1);
-      this.Controls.Add(this.numericUpDown7);
-      this.Controls.Add(this.numericUpDown6);
-      this.Controls.Add(this.numericUpDown5);
-      this.Controls.Add(this.numericUpDown4);
-      this.Controls.Add(this.numericUpDown3);
-      this.Controls.Add(this.numericUpDown2);
-      this.Controls.Add(this.numericUpDown1);
+      this.Controls.Add(this.blue3Team);
+      this.Controls.Add(this.blue2Team);
+      this.Controls.Add(this.blue1Team);
+      this.Controls.Add(this.matchNumber);
+      this.Controls.Add(this.red2Team);
+      this.Controls.Add(this.red1Team);
+      this.Controls.Add(this.red3Team);
       this.Controls.Add(this.LoadMatchButton);
       this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
       this.MaximizeBox = false;
       this.Name = "Form1";
       this.ShowIcon = false;
       this.Text = "Scouting Server";
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.red3Team)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.red1Team)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.red2Team)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.matchNumber)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.blue1Team)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.blue2Team)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.blue3Team)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -285,13 +326,13 @@
         #endregion
 
         private System.Windows.Forms.Button LoadMatchButton;
-    private System.Windows.Forms.NumericUpDown numericUpDown1;
-    private System.Windows.Forms.NumericUpDown numericUpDown2;
-    private System.Windows.Forms.NumericUpDown numericUpDown3;
-    private System.Windows.Forms.NumericUpDown numericUpDown4;
-    private System.Windows.Forms.NumericUpDown numericUpDown5;
-    private System.Windows.Forms.NumericUpDown numericUpDown6;
-    private System.Windows.Forms.NumericUpDown numericUpDown7;
+    private System.Windows.Forms.NumericUpDown red3Team;
+    private System.Windows.Forms.NumericUpDown red1Team;
+    private System.Windows.Forms.NumericUpDown red2Team;
+    private System.Windows.Forms.NumericUpDown matchNumber;
+    private System.Windows.Forms.NumericUpDown blue1Team;
+    private System.Windows.Forms.NumericUpDown blue2Team;
+    private System.Windows.Forms.NumericUpDown blue3Team;
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.Label label2;
     private System.Windows.Forms.Label label3;
@@ -306,6 +347,7 @@
     private ScoutControl scoutControl4;
     private ScoutControl scoutControl5;
     private ScoutControl scoutControl6;
+    private System.Windows.Forms.Label errorMessage;
   }
 }
 

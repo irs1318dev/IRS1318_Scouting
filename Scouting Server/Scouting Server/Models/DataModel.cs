@@ -7,6 +7,6 @@ namespace Scouting_Server.Models
 {
   public class DataModel
   {
-    public int id { get; set; }
+    public ulong id { get; set; }
   }
 }
