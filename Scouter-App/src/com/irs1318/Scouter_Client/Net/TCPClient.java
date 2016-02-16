@@ -116,10 +116,10 @@ public class TCPClient
           public void run() {
               try
               {
-
-                  for (int i = 0; i < SendArr.length; ++i)
+                  NetworkPacket[] temparr = SendArr;
+                  for (int i = 0; i < temparr.length; ++i)
                   {
-                      byte[] buffer = SendArr[i].ToByteBuffer();
+                      byte[] buffer = temparr[i].ToByteBuffer();
                       Server.getOutputStream().write(buffer);
                   }
               }

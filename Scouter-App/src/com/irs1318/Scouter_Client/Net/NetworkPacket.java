@@ -1,6 +1,5 @@
 package com.irs1318.Scouter_Client.Net;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class NetworkPacket
@@ -65,6 +64,6 @@ public class NetworkPacket
   public byte[] ToByteBuffer()
   {
     String str = Name + (char) (0) + Data + (char) (0);
-    return str.getBytes(StandardCharsets.UTF_8);
+    return str.getBytes();
   }
 }
