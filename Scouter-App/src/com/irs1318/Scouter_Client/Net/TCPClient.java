@@ -80,8 +80,12 @@ public class TCPClient
                             for(NetworkEvent e : OnDataAvailable)
                                 e.Call(null);
                         } catch (IOException ex) {
+
+                            Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
                             //todo crash spectacularly
                         } catch (Exception ex) {
+
+                            Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
                             //todo crash spectacularly
                         }
                     }

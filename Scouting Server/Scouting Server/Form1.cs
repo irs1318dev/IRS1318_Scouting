@@ -15,6 +15,7 @@ namespace Scouting_Server
 {
   public partial class Form1 : Form
   {
+    const int PORT = 11112;
     int devices = 0;
     Data.DataFile<Models.Match> matches;
     Data.DataFile<Models.Team> teams;
@@ -54,11 +55,11 @@ namespace Scouting_Server
         loadObjects(actions);
       }
 
-      serv = new Net.NetworkServer(11111);
+      serv = new Net.NetworkServer(PORT);
       serv.Connected += Serv_Connected1;
       serv.Disconnected += Serv_Disconnected;
       serv.DataAvailable += Serv_DataAvailable1;
-      serv.Start(11111);
+      serv.Start(PORT);
 
     }
 
@@ -70,7 +71,10 @@ namespace Scouting_Server
 
     private void Serv_DataAvailable1(object sender)
     {
+      foreach(var packet in serv.GetPackets())
+      {
 
+      }
     }
 
     private void Serv_Disconnected(object sender)

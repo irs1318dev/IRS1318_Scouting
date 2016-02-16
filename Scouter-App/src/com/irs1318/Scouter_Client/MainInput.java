@@ -3,6 +3,7 @@ package com.irs1318.Scouter_Client;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -82,7 +83,16 @@ public class MainInput extends Activity {
                     }
                     pageId = new int[page];
                     connected = true;
-                    loadObjects();
+
+                    Handler mainHandle = new Handler(getMainLooper());
+
+                    mainHandle.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            loadObjects();
+                        }
+                    });
                 }
             }
         });

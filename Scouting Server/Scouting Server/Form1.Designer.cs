@@ -249,7 +249,7 @@
       // scoutControl4
       // 
       this.scoutControl4.BackColor = System.Drawing.Color.DodgerBlue;
-      this.scoutControl4.Location = new System.Drawing.Point(15, 174);
+      this.scoutControl4.Location = new System.Drawing.Point(18, 174);
       this.scoutControl4.Name = "scoutControl4";
       this.scoutControl4.Size = new System.Drawing.Size(187, 65);
       this.scoutControl4.TabIndex = 19;
