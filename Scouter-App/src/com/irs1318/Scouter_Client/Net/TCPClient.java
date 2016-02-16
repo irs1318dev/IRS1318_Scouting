@@ -177,7 +177,9 @@ public class TCPClient
   public void SendPackets(NetworkPacket... packets) throws IOException
   {
     SendArr = packets;
-      SendThread.start();
+    if(SendThread.isAlive())
+        SendThread.stop();
+    SendThread.run();
   }
 
   public void SendPacket(NetworkPacket packet) throws IOException
