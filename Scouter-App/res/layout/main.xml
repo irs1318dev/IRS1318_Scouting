@@ -39,14 +39,6 @@
                 android:id="@+id/button2" android:onClick="noConnect"
                 android:textSize="25dp"/>
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Large Device"
-                android:id="@+id/checkBox"
-                android:onClick="toggleLarge"
-                android:textSize="25dp"
-                android:checked="true"/>
         </LinearLayout>
     </LinearLayout>
 

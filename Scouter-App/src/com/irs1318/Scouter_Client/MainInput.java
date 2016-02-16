@@ -9,9 +9,6 @@ import android.widget.*;
 import com.irs1318.Scouter_Client.Net.*;
 
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.util.*;
 
 public class MainInput extends Activity {
@@ -19,13 +16,14 @@ public class MainInput extends Activity {
     int objectNum;
     int i;
     int page = 0;
+    int column = 0;
     String text;
     String team = "1318 IRS";
     boolean connected = false;
-    boolean largeScreen = false;
     TCPClient client;
-    GridLayout gridLayout;
+    LinearLayout lineLayout;
     LinearLayout linearLayout;
+
 
     //Complex variables
     int[] pageId;
@@ -40,9 +38,21 @@ public class MainInput extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        if(getActionBar() != null) getActionBar().hide();
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.Title);
         relativeLayout.setBackgroundColor(Color.rgb(82,0,204));
-        toggleLarge(findViewById(R.id.checkBox));
+        TextView last = (TextView) findViewById(R.id.last);
+        last.setTextColor(Color.rgb(255,255,77));
+        last.setTextSize(40);
+        TextView next = (TextView) findViewById(R.id.next);
+        next.setTextSize(40);
+        next.setTextColor(Color.rgb(255,255,77));
+        TextView undo = (TextView) findViewById(R.id.undo);
+        undo.setTextSize(40);
+        undo.setTextColor(Color.rgb(255,255,77));
+        TextView teamNum = (TextView) findViewById(R.id.teamNum);
+        teamNum.setTextColor(Color.rgb(255,255,77));
+        teamNum.setTextSize(42);
     }
 
     //Connecting to PC
@@ -79,7 +89,7 @@ public class MainInput extends Activity {
 
     //Setting alternate values for testing
     public void noConnect(View v) {
-        objectNum = 23;
+        objectNum = 30;
         pageId = new int[3];
         objectName = new String[objectNum];
         objectType = new int[objectNum];
@@ -122,9 +132,13 @@ public class MainInput extends Activity {
                     objectName[i] = "Third Page";
                     objectType[i] = 1;
                     break;
-                case 20:case 21:case 22:
-                    objectName[i] = "Multiple Choice";
-                    objectType[i] = 5;
+                case 20:
+                    objectName[i] = "Team Select";
+                    objectType[i] = 2;
+                    break;
+                case 21:case 22:case 23:case 24:case 25:case 26:case 27:case 28:case 29:
+                    objectName[i] = "Team " + i + i;
+                    objectType[i] = 6;
                     break;
             }
         }
@@ -143,7 +157,7 @@ public class MainInput extends Activity {
         linearLayout = new LinearLayout(this);
         boolean inRadio = false;
         int currentRadio = 0;
-        makeGrid();
+        makeLine();
         page = 0;
 
         //Creating actual form
@@ -158,42 +172,50 @@ public class MainInput extends Activity {
                     if (page != 0) linearLayout.setVisibility(View.GONE);
                     mainLayout.addView(linearLayout);
 
-                    makeGrid();
+                    makeLine();
                     pageId[page] = i;
                     page++;
                     break;
                 case 2:
-                    //Label
+                    //Category
                     TextView textView = new TextView(this);
                     textView.setGravity(1);
                     makeView(textView, linearLayout);
                     textView.setTextSize(textView.getTextSize() + 1);
-                    makeGrid();
+                    makeLine();
                     break;
 
                 case 3:
                     //Check-box
                     CheckBox checkBox = new CheckBox(this);
-                    makeView(checkBox, gridLayout);
+                    makeView(checkBox, lineLayout);
                     break;
                 case 4:
                     //Counter
                     Button button = new Button(this);
                     text = objectName[i] + ": 0";
-                    makeView(button, gridLayout);
+                    makeView(button, lineLayout);
                     break;
                 case 5:
                     //Multiple Choice
                     if (!inRadio) {
+                        //Group for choices
                         radioGroup = new RadioGroup(this);
                         radioGroup.setOrientation(LinearLayout.HORIZONTAL);
-                        gridLayout.addView(radioGroup);
+                        lineLayout.addView(radioGroup);
                         inRadio = true;
                         currentRadio++;
                     }
+
+                    //Choice
                     RadioButton radioButton = new RadioButton(this);
                     makeView(radioButton, radioGroup);
                     objectValue[i] = currentRadio;
+                    break;
+                case 6:
+                    //Disappear
+                    radioButton = new RadioButton(this);
+                    makeView(radioButton, lineLayout);
                     break;
             }
             if(objectType[i] != 5) inRadio = false;
@@ -203,11 +225,11 @@ public class MainInput extends Activity {
     }
 
     //Creating a grid for other objects
-    public void makeGrid() {
-        gridLayout = new GridLayout(this);
-        if (largeScreen) gridLayout.setColumnCount(7);
-        else gridLayout.setColumnCount(3);
-        linearLayout.addView(gridLayout);
+    public void makeLine() {
+        lineLayout = new LinearLayout(this);
+        lineLayout.setId(objectNum);
+        linearLayout.addView(lineLayout);
+        column = 0;
     }
 
     //Finalizing the object
@@ -215,16 +237,24 @@ public class MainInput extends Activity {
         textView.setId(i);
         textView.setText(text);
         if (objectType[i] > 2) textView.setOnClickListener(clickListener);
-        if (largeScreen) textView.setTextSize(25);
+        textView.setTextSize(25);
         textView.setTextColor(Color.rgb(255,255,77));
         viewGroup.addView(textView);
+
+        if(viewGroup.getId() == objectNum) column++;
+        else column = 0;
+        if(column > 5) makeLine();
     }
 
+    //Changing page
     public void pageSwap(View v) {
+        //Displaying correct page
         findViewById(pageId[page]).setVisibility(View.GONE);
         if (v.getId() == R.id.next) page++;
         if (v.getId() == R.id.last) page--;
         findViewById(pageId[page]).setVisibility(View.VISIBLE);
+
+        //Displaying correct buttons
         if (page == 0 || page == pageId.length - 1) v.setVisibility(View.INVISIBLE);
         else {
             findViewById(R.id.last).setVisibility(View.VISIBLE);
@@ -252,7 +282,6 @@ public class MainInput extends Activity {
                 case 5:
                     RadioButton radioButton = (RadioButton) findViewById(i);
                     radioButton.setChecked(false);
-                    radioButton.setVisibility(View.VISIBLE);
                     if (!radioHistory.empty()) {
                         radioHistory.pop();
                         if (!radioHistory.empty()) {
@@ -265,37 +294,17 @@ public class MainInput extends Activity {
                         }
                     }
                     break;
+                case 6:
+                    radioButton = (RadioButton) findViewById(i);
+                    radioButton.setChecked(false);
+                    radioButton.setVisibility(View.VISIBLE);
             }
-            if(objectType[i] == 5) text = "Checked";
+            if(objectType[i] == 5 || objectType[i] == 6) text = "Checked";
             else text = String.valueOf(objectValue[i]);
             try {
                 if (connected) client.SendPacket(objectName[i] + "#" + team, text + "Undo");
             } catch (IOException ie) {
             }
-        }
-    }
-
-    public void toggleLarge(View v) {
-        CheckBox checkBox = (CheckBox) v;
-        largeScreen = checkBox.isChecked();
-        TextView last = (TextView) findViewById(R.id.last);
-        last.setTextColor(Color.rgb(255,255,77));
-        TextView next = (TextView) findViewById(R.id.next);
-        next.setTextColor(Color.rgb(255,255,77));
-        TextView undo = (TextView) findViewById(R.id.undo);
-        undo.setTextColor(Color.rgb(255,255,77));
-        TextView teamNum = (TextView) findViewById(R.id.teamNum);
-        teamNum.setTextColor(Color.rgb(255,255,77));
-        if(largeScreen) {
-            last.setTextSize(40);
-            next.setTextSize(40);
-            undo.setTextSize(40);
-            teamNum.setTextSize(42);
-        } else {
-            last.setTextSize(15);
-            next.setTextSize(15);
-            undo.setTextSize(15);
-            teamNum.setTextSize(17);
         }
     }
 
@@ -317,9 +326,15 @@ public class MainInput extends Activity {
                     break;
                 case 5:
                     radioHistory.push(i);
+                    break;
+                case 6:
+                    v.setVisibility(View.GONE);
+                    break;
             }
+            if(objectType[i] == 5 || objectType[i] == 6) text = "Checked";
+            else text = String.valueOf(objectValue[i]);
             try {
-                if (connected) client.SendPacket(objectName[i] + "#" + team, String.valueOf(objectValue[i]));
+                if (connected) client.SendPacket(objectName[i] + "#" + team, text);
             } catch (IOException ie) {
             }
             history.push(i);
