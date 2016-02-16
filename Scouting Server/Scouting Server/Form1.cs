@@ -73,7 +73,6 @@ namespace Scouting_Server
     {
       foreach(var packet in serv.GetPackets())
       {
-
       }
     }
 
