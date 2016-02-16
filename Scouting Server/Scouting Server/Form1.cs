@@ -71,7 +71,7 @@ namespace Scouting_Server
 
     private void Serv_DataAvailable1(object sender)
     {
-      foreach(var packet in serv.GetPackets())
+      foreach (var packet in serv.GetPackets())
       {
       }
     }
@@ -105,11 +105,8 @@ namespace Scouting_Server
           case "Counter":
             objectType.Add(4);
             break;
-          case "Slider":
-            objectType.Add(5);
-            break;
           case "Choice":
-            objectType.Add(6);
+            objectType.Add(5);
             break;
         }
       }
