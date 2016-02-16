@@ -18,6 +18,8 @@ public class TCPClient
   public ArrayList<NetworkEvent> OnDisconnected;
   public ArrayList<NetworkEvent> OnDataAvailable;
   private Thread RunThread;
+    private Thread SendThread;
+    private NetworkPacket[] SendArr;
 
   public TCPClient(int port, String address)
   {
@@ -108,7 +110,25 @@ public class TCPClient
                 }
             }
         }
-    });
+    }, "Network-Listen");
+      SendThread = new Thread(new Runnable() {
+          @Override
+          public void run() {
+              try
+              {
+                  NetworkPacket[] temparr = SendArr;
+                  for (int i = 0; i < temparr.length; ++i)
+                  {
+                      byte[] buffer = temparr[i].ToByteBuffer();
+                      Server.getOutputStream().write(buffer);
+                  }
+              }
+              catch (IOException ex)
+              {
+
+              }
+          }
+      }, "Network-Send");
     OnConnected = new ArrayList<>();
     OnDisconnected = new ArrayList<>();
     OnDataAvailable = new ArrayList<>();
@@ -156,11 +176,10 @@ public class TCPClient
 
   public void SendPackets(NetworkPacket... packets) throws IOException
   {
-    for (int i = 0; i < packets.length; ++i)
-    {
-      byte[] buffer = packets[i].ToByteBuffer();
-      Server.getOutputStream().write(buffer);
-    }
+    SendArr = packets;
+    if(SendThread.isAlive())
+        SendThread.stop();
+    SendThread.run();
   }
 
   public void SendPacket(NetworkPacket packet) throws IOException
