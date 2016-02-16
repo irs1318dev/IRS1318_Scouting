@@ -29,10 +29,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainInput.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MainInput.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/irs1318/Scouter_Client/MainInput.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.2987552">
+            <state vertical-scroll-proportion="0.0">
               <caret line="182" column="73" selection-start-line="182" selection-start-column="73" selection-end-line="182" selection-end-column="73" />
               <folding />
             </state>
@@ -81,12 +81,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TCPClient.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TCPClient.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/irs1318/Scouter_Client/Net/TCPClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.6244813">
+              <caret line="179" column="25" selection-start-line="179" selection-start-column="25" selection-end-line="179" selection-end-column="25" />
+              <folding>
+                <element signature="class#742:3846" expanded="false" />
+                <element signature="method#run#0;class#742:3846" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -150,8 +153,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/src/com/irs1318/Scouter_Client/Net/TCPClient.java" />
         <option value="$PROJECT_DIR$/src/com/irs1318/Scouter_Client/MainInput.java" />
+        <option value="$PROJECT_DIR$/src/com/irs1318/Scouter_Client/Net/TCPClient.java" />
       </list>
     </option>
   </component>
@@ -503,7 +506,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32969153" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32894737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32894737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32894737" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -567,18 +570,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/irs1318/Scouter_Client/Net/TCPClient.java</url>
-          <line>33</line>
-          <properties />
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/irs1318/Scouter_Client/Net/TCPClient.java</url>
-          <line>38</line>
-          <properties />
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/irs1318/Scouter_Client/MainInput.java</url>
           <line>83</line>
           <properties />
@@ -589,30 +580,6 @@
           <line>74</line>
           <properties />
           <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/irs1318/Scouter_Client/Net/TCPClient.java</url>
-          <line>83</line>
-          <properties />
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/irs1318/Scouter_Client/Net/TCPClient.java</url>
-          <line>87</line>
-          <properties />
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/irs1318/Scouter_Client/Net/TCPClient.java</url>
-          <line>81</line>
-          <properties />
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/irs1318/Scouter_Client/Net/TCPClient.java</url>
-          <line>85</line>
-          <properties />
-          <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/irs1318/Scouter_Client/MainInput.java</url>
@@ -776,19 +743,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/irs1318/Scouter_Client/Net/TCPClient.java">
+    <entry file="file://$PROJECT_DIR$/src/com/irs1318/Scouter_Client/MainInput.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+          <caret line="182" column="73" selection-start-line="182" selection-start-column="73" selection-end-line="182" selection-end-column="73" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/irs1318/Scouter_Client/MainInput.java">
+    <entry file="file://$PROJECT_DIR$/src/com/irs1318/Scouter_Client/Net/TCPClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2987552">
-          <caret line="182" column="73" selection-start-line="182" selection-start-column="73" selection-end-line="182" selection-end-column="73" />
-          <folding />
+        <state vertical-scroll-proportion="0.6244813">
+          <caret line="179" column="25" selection-start-line="179" selection-start-column="25" selection-end-line="179" selection-end-column="25" />
+          <folding>
+            <element signature="class#742:3846" expanded="false" />
+            <element signature="method#run#0;class#742:3846" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

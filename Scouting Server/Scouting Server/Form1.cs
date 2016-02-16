@@ -15,7 +15,7 @@ namespace Scouting_Server
 {
   public partial class Form1 : Form
   {
-    const int PORT = 11112;
+    const int PORT = 11111;
     int devices = 0;
     Data.DataFile<Models.Match> matches;
     Data.DataFile<Models.Team> teams;
@@ -73,6 +73,14 @@ namespace Scouting_Server
     {
       foreach (var packet in serv.GetPackets())
       {
+        if(packet.Name == "Update")
+        {
+          //todo handle updates
+        }
+        else if (packet.Name == "Event")
+        {
+          //todo handle recording events
+        }
       }
     }
 
