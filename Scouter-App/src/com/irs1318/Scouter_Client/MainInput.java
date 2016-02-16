@@ -224,9 +224,13 @@ public class MainInput extends Activity {
                     objectValue[i] = currentRadio;
                     break;
                 case 6:
-                    //Disappear
+                    //Fade
                     radioButton = new RadioButton(this);
                     makeView(radioButton, lineLayout);
+                    break;
+                case 7:
+                    //Line
+                    makeLine();
                     break;
             }
             if(objectType[i] != 5) inRadio = false;
