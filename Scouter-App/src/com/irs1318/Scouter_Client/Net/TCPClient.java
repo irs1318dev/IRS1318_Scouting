@@ -29,6 +29,15 @@ public class TCPClient
         @Override
         public void run()
         {
+            try
+            {
+                Server = new Socket(Address, Port);
+            }
+            catch (Exception e)
+            {
+                //todo actually care
+                return;
+            }
             InputStream input = null;
             try {
                 input = Server.getInputStream();
@@ -113,7 +122,7 @@ public class TCPClient
   {
     if (Server != null)
       Disconnect();
-    Server = new Socket(Address, Port);
+
 
     RunThread.start();
     

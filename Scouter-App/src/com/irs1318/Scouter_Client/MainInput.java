@@ -62,6 +62,7 @@ public class MainInput extends Activity {
         try {
             client.Connect();
         } catch (Exception e) {
+            e.toString();
         }
         //When receiving data
         client.OnDataAvailable.add(new NetworkEvent() {
