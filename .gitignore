@@ -191,3 +191,6 @@ ModelManifest.xml
 /Networking/nbproject/private/
 /Scouter-App/Netbeansproj/nbproject/private/
 /Scouter-App/nbproject/private/
+/Scouter-App/gen/
+/netbeansproject/gen/
+/Scouter-App/nbandroid/
