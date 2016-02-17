@@ -42,36 +42,34 @@
         </LinearLayout>
     </LinearLayout>
 
+    <Space
+            android:layout_width="fill_parent"
+            android:layout_height="20px"
+            android:layout_below="@+id/mainLayout" android:layout_centerHorizontal="true" android:id="@+id/space"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="&lt;--"
         android:id="@+id/last"
-        android:layout_below="@+id/mainLayout"
-        android:layout_alignParentStart="true"
         android:visibility="invisible"
         android:onClick="pageSwap"
-        />
+        android:layout_below="@+id/space" android:layout_alignParentLeft="true"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="-->"
         android:id="@+id/next"
-        android:layout_below="@+id/mainLayout"
-        android:layout_alignParentEnd="true"
         android:onClick="pageSwap"
         android:visibility="invisible"
-        />
+        android:layout_below="@+id/space" android:layout_alignParentRight="true"/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Undo"
-        android:id="@+id/undo"
-        android:layout_below="@+id/mainLayout"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible"
-        android:onClick="undo"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Undo"
+            android:id="@+id/undo"
+            android:visibility="invisible"
+            android:onClick="undo" android:layout_below="@+id/space" android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

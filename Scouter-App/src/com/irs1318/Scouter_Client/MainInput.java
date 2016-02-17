@@ -180,12 +180,6 @@ public class MainInput extends Activity {
             switch (objectType[i]) {
                 case 1:
                     //Page
-                    //Increasing space between lines
-                    Space space = new Space(this);
-                    space.setMinimumHeight(20);
-                    linearLayout.addView(space);
-
-                    //Creating new page
                     linearLayout = new LinearLayout(this);
                     linearLayout.setId(i);
                     linearLayout.setOrientation(LinearLayout.VERTICAL);
