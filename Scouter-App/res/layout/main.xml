@@ -3,41 +3,81 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".Input" android:id="@+id/Title">
+                tools:context=".Input" android:id="@+id/Title" android:clickable="false" android:background="#5200cc">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/mainLayout">
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mainLayout">
 
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/teamNum" android:text="1318" android:singleLine="true"
-                android:gravity="center_horizontal"/>
+                android:gravity="center_horizontal" android:textColor="#ffff4d" android:textSize="40dp"/>
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/startLayout">
+                android:layout_height="wrap_content" android:id="@+id/startLayout" android:gravity="center_horizontal">
             <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editText"
-                android:textSize="25dp"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Connect"
-                android:id="@+id/button" android:onClick="connect"
-                android:textSize="25dp"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Don&apos;t Connect"
-                android:id="@+id/button2" android:onClick="noConnect"
-                android:textSize="25dp"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText"
+                    android:textSize="25dp" android:textColor="#ffff4d"/>
+            <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" android:gravity="center_horizontal"
+            >
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Don&apos;t Connect"
+                        android:id="@+id/button2" android:onClick="noConnect"
+                        android:textSize="60dp" android:layout_gravity="center_horizontal" android:textColor="#ffff4d"/>
+                <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" android:layout_gravity="center_horizontal"
+                        android:background="#ff0000"
+                        android:showDividers="middle">
+                    <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/S0" android:onClick="connect" android:text="Red 1"
+                            android:textSize="50dp"/>
+                    <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Red 2"
+                            android:id="@+id/S1" android:onClick="connect" android:textSize="50dp"/>
+                    <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Red 3"
+                            android:id="@+id/S2" android:onClick="connect" android:textSize="50dp"/>
+                </TableRow>
+                <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:layout_gravity="center_horizontal"
+                        android:background="#0000ff">
+                    <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Blue 1"
+                            android:id="@+id/S3" android:onClick="connect" android:textSize="50dp"/>
+                    <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Blue 2"
+                            android:id="@+id/S4" android:onClick="connect" android:textSize="50dp"/>
+                    <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Blue 3"
+                            android:id="@+id/S5" android:onClick="connect" android:textSize="50dp"/>
+                </TableRow>
+            </TableLayout>
 
         </LinearLayout>
     </LinearLayout>
@@ -47,22 +87,24 @@
             android:layout_height="20px"
             android:layout_below="@+id/mainLayout" android:layout_centerHorizontal="true" android:id="@+id/space"/>
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="&lt;--"
-        android:id="@+id/last"
-        android:visibility="invisible"
-        android:onClick="pageSwap"
-        android:layout_below="@+id/space" android:layout_alignParentLeft="true"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&lt;--"
+            android:id="@+id/last"
+            android:visibility="invisible"
+            android:onClick="pageSwap"
+            android:layout_below="@+id/space" android:layout_alignParentLeft="true" android:textColor="#ffff4d"
+            android:textSize="40dp"/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="-->"
-        android:id="@+id/next"
-        android:onClick="pageSwap"
-        android:visibility="invisible"
-        android:layout_below="@+id/space" android:layout_alignParentRight="true"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-->"
+            android:id="@+id/next"
+            android:onClick="pageSwap"
+            android:visibility="invisible"
+            android:layout_below="@+id/space" android:layout_alignParentRight="true" android:textColor="#ffff4d"
+            android:textSize="40dp"/>
 
     <Button
             android:layout_width="wrap_content"
@@ -70,6 +112,7 @@
             android:text="Undo"
             android:id="@+id/undo"
             android:visibility="invisible"
-            android:onClick="undo" android:layout_below="@+id/space" android:layout_centerHorizontal="true"/>
+            android:onClick="undo" android:layout_below="@+id/space" android:layout_centerHorizontal="true"
+            android:textColor="#ffff4d" android:textSize="40dp"/>
 
 </RelativeLayout>

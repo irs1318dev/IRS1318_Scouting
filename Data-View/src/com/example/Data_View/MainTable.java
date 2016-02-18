@@ -1,6 +1,7 @@
 package com.example.Data_View;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -14,6 +15,7 @@ public class MainTable extends Activity {
     int i;
     int j;
     int sortBy = 0;
+    int filter = 0;
     int teamNum;
     int[][] data;
     Stack<Integer> stack;
@@ -35,23 +37,31 @@ public class MainTable extends Activity {
         dataTypes[0] = "Team";
         dataTypes[1] = "Offense";
         dataTypes[2] = "Defence";
-        dataTypes[3] = "Score";
-        teamNum = 9;
+        dataTypes[3] = "Breaching";
+        teamNum = 30;
         checked = new boolean[teamNum];
         data = new int[teamNum][dataTypes.length];
         for(i = 0; i < teamNum; i++) {
-            stack.push(i);
             data[i][0] = teamNum - i;
-            for(j = 1; j < dataTypes.length; j++) data[i][j] = j + i;
+            for(j = 1; j < dataTypes.length; j++) {
+                if(i % 2 == 0) data[i][j] = j + i;
+                else data[i][j] = j - i;
+                if(j % 2 == 0) data[i][j] = -data[i][j];
+            }
+        }
+        i = teamNum;
+        while(i > 0) {
+            i--;
+            stack.push(i);
         }
         loadObjects();
     }
 
     public void loadObjects() {
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.MainLayout);
+        ScrollView scrollView = (ScrollView) findViewById(R.id.MainLayout);
         TableLayout tableLayout = new TableLayout(this);
         tableLayout.setId(teamNum * 2);
-        linearLayout.addView(tableLayout);
+        scrollView.addView(tableLayout);
 
         TableRow topRow = new TableRow(this);
         tableLayout.addView(topRow);
@@ -59,7 +69,9 @@ public class MainTable extends Activity {
         for(i = 0; i < dataTypes.length; i++) {
             Button button = new Button(this);
             button.setText(dataTypes[i]);
+            button.setTextColor(Color.rgb(255,255,77));
             button.setOnClickListener(clickListener);
+            button.setTextSize(20);
             topRow.addView(button);
         }
         while(!stack.empty()) {
@@ -69,15 +81,33 @@ public class MainTable extends Activity {
             tableLayout.addView(tableRow);
             CheckBox checkBox = new CheckBox(this);
             checkBox.setId(i + teamNum);
+            checkBox.setTextSize(20);
             checkBox.setText(String.valueOf(data[i][0]));
+            checkBox.setTextColor(Color.rgb(255,255,77));
             if(checked[i]) checkBox.setChecked(true);
             checkBox.setOnCheckedChangeListener(checkedChangeListener);
             tableRow.addView(checkBox);
             for(int j = 1; j < dataTypes.length; j++) {
                 TextView textView = new TextView(this);
                 textView.setText(String.valueOf(data[i][j]));
+                textView.setTextColor(Color.rgb(255,255,77));
+                textView.setTextSize(25);
                 tableRow.addView(textView);
             }
+        }
+        switch(filter) {
+            case 0:
+                RadioButton radioButton = (RadioButton) findViewById(R.id.All);
+                radioButton.callOnClick();
+                break;
+            case 1:
+                radioButton = (RadioButton) findViewById(R.id.Grab);
+                radioButton.callOnClick();
+                break;
+            case 2:
+                radioButton = (RadioButton) findViewById(R.id.Drop);
+                radioButton.callOnClick();
+                break;
         }
     }
 
@@ -86,17 +116,21 @@ public class MainTable extends Activity {
             TableRow tableRow = (TableRow) findViewById(i);
             CheckBox checkBox = (CheckBox) findViewById(i + teamNum);
             switch(v.getId()) {
+                case  R.id.All:
+                    tableRow.setVisibility(View.VISIBLE);
+                    filter = 0;
+                    break;
                 case R.id.Grab:
                     if(checkBox.isChecked()) tableRow.setVisibility(View.VISIBLE);
                     else tableRow.setVisibility(View.GONE);
+                    filter = 1;
                     break;
                 case R.id.Drop:
                     if(checkBox.isChecked()) tableRow.setVisibility(View.GONE);
                     else tableRow.setVisibility(View.VISIBLE);
+                    filter = 2;
                     break;
-                case  R.id.All:
-                    tableRow.setVisibility(View.VISIBLE);
-                    break;
+
             }
         }
     }
@@ -143,20 +177,22 @@ public class MainTable extends Activity {
             Button button = (Button) v;
             i = 0;
             while(button.getText() != dataTypes[i]) i++;
-            sortBy = i;
             String[] newData = new String[teamNum];
             for(j = 0; j < teamNum; j++) newData[j] = data[j][i] + "," + j;
             Arrays.sort(newData, new Comparator<String>() {
                         @Override
                         public int compare(String s, String t1) {
-                            return Integer.valueOf(s.split(",")[0]) - Integer.valueOf(t1.split(",")[0]);
+                            if(i == sortBy) return Integer.valueOf(t1.split(",")[0]) - Integer.valueOf(s.split(",")[0]);
+                            else return Integer.valueOf(s.split(",")[0]) - Integer.valueOf(t1.split(",")[0]);
                         }
             });
             stack = new Stack<>();
             for(j = 0; j < teamNum; j++) {
                 stack.push(Integer.valueOf(newData[j].split(",")[1]));
             }
-            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.MainLayout);
+            if(i == sortBy) sortBy = -1;
+            else sortBy = i;
+            ScrollView linearLayout = (ScrollView) findViewById(R.id.MainLayout);
             TableLayout tableLayout = (TableLayout) findViewById(teamNum * 2);
             linearLayout.removeView(tableLayout);
             loadObjects();
