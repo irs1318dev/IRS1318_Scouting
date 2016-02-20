@@ -1,6 +1,7 @@
 <Scouter>
   <Category Name="OuterWorks" Page="Auto">
     <Actions>
+      <Action Type="Line" Name="5"/>
       <Action Type="Label" Name="Low Bar"/>
       <Action Type="Label" Name="Spot 2"/>
       <Action Type="Label" Name="Spot 3"/>

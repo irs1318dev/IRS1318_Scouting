@@ -25,9 +25,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/teamName" android:singleLine="false"
-                    android:gravity="center_horizontal" android:textColor="#ffff4d" android:textSize="40dp"
-                    android:layout_gravity="center_horizontal"/>
+                    android:id="@+id/teamName" android:gravity="center_horizontal" android:textColor="#ffff4d"
+                    android:textSize="40dp" android:layout_gravity="center_horizontal"/>
         </LinearLayout>
         <TextView
                 android:layout_width="wrap_content"

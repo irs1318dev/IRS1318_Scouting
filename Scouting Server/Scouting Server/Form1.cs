@@ -93,7 +93,7 @@ namespace Scouting_Server
         {
           // ScoutNumber,PageNumber,MatchNumber,TeamNumber
           var PageInfo = packet.GetDataAs<NetworkData.PageChangeTransferData>();
-          ScouterControls[PageInfo.ScoutNumber].SetMatchNumber(PageInfo.ScoutNumber);
+          ScouterControls[PageInfo.ScoutNumber].SetMatchNumber(PageInfo.MatchNumber);
           ScouterControls[PageInfo.ScoutNumber].SetStatus("Page: " + PageInfo.PageNumber);
           ScouterControls[PageInfo.ScoutNumber].SetTeamNumber(PageInfo.TeamNumber);
         }
