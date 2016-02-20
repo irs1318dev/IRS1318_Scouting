@@ -25,6 +25,7 @@ public class MainInput extends Activity {
     String team = "1318 IRS";
     boolean connected = false;
     boolean inRadio = false;
+    boolean reverse = false;
     TCPClient client;
     TableLayout tableLayout;
     LinearLayout sideLayout;
@@ -37,8 +38,6 @@ public class MainInput extends Activity {
     int[] objectType;
     int[] objectValue;
     String[] objectName;
-    Stack<Integer> history = new Stack<>();
-    Stack<Integer> radioHistory = new Stack<>();
 
     //Setting up the Activity
     @Override
@@ -113,82 +112,101 @@ public class MainInput extends Activity {
 
     //Setting alternate values for testing
     public void noConnect(View v) {
-        objectNum = 42;
-        pageId = new int[3];
+        objectNum = 100;
+        i = 0;
+        int j;
+        pageId = new int[2];
         objectName = new String[objectNum];
         objectType = new int[objectNum];
         objectValue = new int[objectNum];
-        objectName[0] = "Auto";
-        objectType[0] = 1;
-        objectName[1] = "OuterWorks";
-        objectType[1] = 2;
-        objectName[2] = "Low Bar";
-        objectType[2] = 8;
-        for(i = 3; i < 7; i++) {
-            objectName[i] = "Slot" + String.valueOf(i - 2);
-            objectType[i] = 8;
-        }
-        for(i = 7; i < 12; i++) {
-            objectName[i] = "Start";
-            objectType[i] = 3;
-        }
-        for(i = 12; i < 17; i++) {
-            objectName[i] = "Reach";
-            objectType[i] = 3;
-        }
-        for(i = 17; i < 22; i++) {
-            objectName[i] = "Cross";
-            objectType[i] = 4;
-        }
-        for(i = 22; i < 27; i++) {
-            objectName[i] = "back";
-            objectType[i] = 4;
-        }
-        for(i = 27; i < 32; i++) {
-            objectName[i] = "End";
-            objectType[i] = 3;
-        }
-        objectName[32] = "Scoring";
-        objectType[32] = 2;
-        objectName[33] = "Start with ball";
-        objectType[33] = 3;
-        objectName[34] = "End with ball";
-        objectType[34] = 3;
-        objectName[35] = "3";
-        objectType[35] = 7;
-        objectName[36] = "Passage High";
-        objectType[36] = 4;
-        objectName[37] = "Center High";
-        objectType[37] = 4;
-        objectName[38] = "Low bar High";
-        objectType[38] = 4;
-        objectName[39] = "Passage Low";
-        objectType[39] = 4;
-        objectName[40] = "Miss";
-        objectType[40] = 4;
-        objectName[41] = "Low bar Low";
-        objectType[41] = 4;
-
-
-
+        makeObject("Auto",1);
+        makeObject("OuterWorks",2);
+        makeObject("Low Bar",7);
+        for(j = 0; j < 4; j++) makeObject("Slot " + (j + 1),7);
+        for(j = 0; j < 5; j++) makeObject("Start",5);
+        for(j = 0; j < 5; j++) makeObject("Cross",4);
+        for(j = 0; j < 5; j++) makeObject("End",5);
+        makeObject("2",6);
+        makeObject("Spy",3);
+        makeObject("Reach",3);
+        makeObject("Fouls",7);
+        makeObject("2",6);
+        makeObject("Foul",4);
+        makeObject("Tech Foul",4);
+        makeObject("Scoring",2);
+        makeObject("2",6);
+        makeObject("Passage High",4);
+        makeObject("Passage Low",4);
+        makeObject("Center High",4);
+        makeObject("Miss",4);
+        makeObject("Bar High",4);
+        makeObject("Bar Low",4);
+        makeObject("Possession",7);
+        makeObject("1",6);
+        makeObject("Start with ball",3);
+        makeObject("End with ball",3);
+        makeObject("Teleop",1);
+        makeObject("OuterWorks",2);
+        makeObject("5",6);
+        makeObject("Low Bar",7);
+        for(j = 0; j < 4; j++) makeObject("Slot " + (j + 1),7);
+        for(j = 0; j < 5; j++) makeObject("Cross",4);
+        for(j = 0; j < 5; j++) makeObject("Help",4);
+        makeObject("Defending",7);
+        makeObject("4",6);
+        makeObject("Pin",4);
+        makeObject("Block Shot",4);
+        makeObject("Take Ball",4);
+        makeObject("Block Cross",4);
+        makeObject("Fouls",7);
+        makeObject("2",6);
+        makeObject("Foul",4);
+        makeObject("Tech Foul",4);
+        makeObject("Scoring",2);
+        makeObject("2",6);
+        makeObject("Passage High",4);
+        makeObject("Passage Low",4);
+        makeObject("Center High",4);
+        makeObject("Miss",4);
+        makeObject("Bar High",4);
+        makeObject("Bar Low",4);
+        makeObject("Retrieval",7);
+        makeObject("3",6);
+        makeObject("Castle High",4);
+        makeObject("Castle Low ",4);
+        makeObject("Ground",4);
+        makeObject("End Game",7);
+        makeObject("2",6);
+        makeObject("Challenge",5);
+        makeObject("Scale",5);
         loadObjects();
+    }
+
+    public void makeObject(String name, int type) {
+        objectName[i] = name;
+        objectType[i] = type;
+        i++;
     }
 
     public void loadObjects() {
         //Showing required parts
         findViewById(R.id.startLayout).setVisibility(View.GONE);
         findViewById(R.id.next).setVisibility(View.VISIBLE);
-        findViewById(R.id.undo).setVisibility(View.VISIBLE);
+        findViewById(R.id.Reverse).setVisibility(View.VISIBLE);
 
         //Adding essential variables
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
-        RadioGroup radioGroup = new RadioGroup(this);
+        LinearLayout radioGroup = new LinearLayout(this);
         linearLayout = new LinearLayout(this);
         sideLayout = new LinearLayout(this);
         tableLayout = new TableLayout(this);
         int currentRadio = 0;
         makeLine();
         page = 0;
+
+        //Changing Title
+        TextView textView = (TextView) findViewById(R.id.PageText);
+        textView.setText(objectName[0]);
 
         //Creating actual form
         for (i = 0; i < objectNum; i++) {
@@ -198,6 +216,7 @@ public class MainInput extends Activity {
                     //Page
                     linearLayout = new LinearLayout(this);
                     linearLayout.setId(i);
+                    linearLayout.setGravity(1);
                     if (page != 0) linearLayout.setVisibility(View.GONE);
                     mainLayout.addView(linearLayout);
 
@@ -207,59 +226,99 @@ public class MainInput extends Activity {
                     break;
                 case 2:
                     //Category
+                    //First Divider
+                    TextView divider = new TextView(this);
+                    divider.setWidth(5);
+                    divider.setBackgroundColor(Color.LTGRAY);
+                    divider.setHeight(650);
+                    linearLayout.addView(divider);
+                    Space space = new Space(this);
+                    space.setMinimumWidth(5);
+                    linearLayout.addView(space);
+
                     sideLayout = new LinearLayout(this);
+                    sideLayout.setGravity(1);
+                    sideLayout.setOrientation(LinearLayout.VERTICAL);
                     linearLayout.addView(sideLayout);
 
-                    TextView textView = new TextView(this);
+                    //Second divider
+                    space = new Space(this);
+                    space.setMinimumWidth(5);
+                    linearLayout.addView(space);
+                    divider = new TextView(this);
+                    divider.setWidth(5);
+                    divider.setBackgroundColor(Color.LTGRAY);
+                    divider.setHeight(650);
+                    linearLayout.addView(divider);
+
+
+                    //Labelling
+                    textView = new TextView(this);
+                    textView.setGravity(1);
                     makeView(textView, sideLayout);
+                    textView.setTextSize(25);
 
                     tableLayout = new TableLayout(this);
                     sideLayout.addView(tableLayout);
-                    sideLayout.setOrientation(LinearLayout.VERTICAL);
                     makeLine();
+
                     break;
 
                 case 3:
-                    //Check
-                    CheckBox checkBox = new CheckBox(this);
-                    makeView(checkBox, lineLayout);
+                    //Switch
+                    LinearLayout switchLayout = new LinearLayout(this);
+                    switchLayout.setOrientation(LinearLayout.VERTICAL);
+                    switchLayout.setId(i + objectNum);
+                    switchLayout.setOnClickListener(clickListener);
+                    lineLayout.addView(switchLayout);
+                    textView = new TextView(this);
+                    makeView(textView,switchLayout);
+                    column--;
+                    text = "";
+                    Switch aSwitch = new Switch(this);
+                    aSwitch.setOnClickListener(clickListener);
+                    aSwitch.setId(i);
+                    aSwitch.setGravity(1);
+                    makeView(aSwitch, switchLayout);
                     break;
                 case 4:
                     //Count
                     Button button = new Button(this);
+                    button.setOnClickListener(clickListener);
+                    button.setId(i);
                     text = objectName[i] + ": 0";
                     makeView(button, lineLayout);
                     break;
                 case 5:
                     //Choice
-                    if (!inRadio) {
-                        //Group for choices
-                        radioGroup = new RadioGroup(this);
-                        radioGroup.setOrientation(LinearLayout.HORIZONTAL);
-                        linearLayout.addView(radioGroup);
-                        inRadio = true;
-                        currentRadio++;
-                    }
-
-                    //Choice
+                    radioGroup = new LinearLayout(this);
+                    radioGroup.setOnClickListener(clickListener);
+                    radioGroup.setId(i + objectNum);
+                    radioGroup.setOrientation(LinearLayout.HORIZONTAL);
+                    lineLayout.addView(radioGroup);
+                    textView = new TextView(this);
+                    makeView(textView,radioGroup);
+                    column--;
+                    text = "";
                     RadioButton radioButton = new RadioButton(this);
-                    makeView(radioButton, lineLayout);
-                    objectValue[i] = currentRadio;
+                    radioButton.setId(i);
+                    radioButton.setOnClickListener(clickListener);
+                    makeView(radioButton, radioGroup);
                     break;
                 case 6:
-                    //Fade
-                    radioButton = new RadioButton(this);
-                    makeView(radioButton, lineLayout);
-                    break;
-                case 7:
                     //Line
+                    tableLayout = new TableLayout(this);
+                    sideLayout.addView(tableLayout);
+
                     lineLength = Integer.valueOf(objectName[i]);
                     makeLine();
                     break;
-                case 8:
+                case 7:
                     //Label
                     textView = new TextView(this);
+                    textView.setGravity(1);
                     makeView(textView, lineLayout);
+                    textView.setTextSize(25);
                     break;
             }
         }
@@ -269,10 +328,6 @@ public class MainInput extends Activity {
 
     //Creating a grid for other objects
     public void makeLine() {
-        //Adding more space
-        Space space = new Space(this);
-        space.setMinimumHeight(20);
-        tableLayout.addView(space);
 
         //New line
         lineLayout = new TableRow(this);
@@ -287,10 +342,9 @@ public class MainInput extends Activity {
     //Finalizing the object
     public void makeView(TextView textView, ViewGroup viewGroup) {
         //Formatting and adding object
-        textView.setId(i);
         textView.setText(text);
-        if (objectType[i] > 2) textView.setOnClickListener(clickListener);
         textView.setTextSize(20);
+        textView.setGravity(1);
         textView.setTextColor(Color.rgb(255,255,77));
         viewGroup.addView(textView);
 
@@ -309,11 +363,13 @@ public class MainInput extends Activity {
         findViewById(pageId[page]).setVisibility(View.VISIBLE);
 
         //Displaying correct buttons
+        findViewById(R.id.last).setVisibility(View.VISIBLE);
+        findViewById(R.id.next).setVisibility(View.VISIBLE);
         if (page == 0 || page == pageId.length - 1) v.setVisibility(View.INVISIBLE);
-        else {
-            findViewById(R.id.last).setVisibility(View.VISIBLE);
-            findViewById(R.id.next).setVisibility(View.VISIBLE);
-        }
+
+        //Changing title
+        TextView textView = (TextView) findViewById(R.id.PageText);
+        textView.setText(objectName[pageId[page]]);
 
         //Sending page update
         try {
@@ -322,59 +378,9 @@ public class MainInput extends Activity {
         }
     }
 
-    public void undo(View v) {
-        if (!history.empty()) {
-
-            //Locating last change
-            i = history.pop();
-
-            //Changing display to remove change
-            switch (objectType[i]) {
-                case 3:
-                    //Check
-                    CheckBox checkBox = (CheckBox) findViewById(i);
-                    if (checkBox.isChecked()) checkBox.setChecked(false);
-                    else checkBox.setChecked(true);
-                    break;
-                case 4:
-                    //Count
-                    if (objectValue[i] > 0) {
-                        Button button = (Button) findViewById(i);
-                        objectValue[i]--;
-                        text = objectName[i] + ": " + objectValue[i];
-                        button.setText(text);
-                    }
-                    break;
-                case 5:
-                    //Choice
-                    RadioButton radioButton = (RadioButton) findViewById(i);
-                    radioButton.setChecked(false);
-                    if (!radioHistory.empty()) {
-                        radioHistory.pop();
-                        if (!radioHistory.empty()) {
-                            //Checking previous choice
-                            Stack<Integer> radioHistoryClone = radioHistory;
-                            int j = radioHistoryClone.peek();
-                            while (objectValue[j] != objectValue[i] && !radioHistoryClone.empty())
-                                j = radioHistoryClone.pop();
-                            radioButton = (RadioButton) findViewById(j);
-                            radioButton.setChecked(true);
-                        }
-                    }
-                    break;
-                case 6:
-                    //Fade
-                    radioButton = (RadioButton) findViewById(i);
-                    radioButton.setChecked(false);
-                    radioButton.setVisibility(View.VISIBLE);
-            }
-
-            //Sending undo message
-            try {
-                if (connected) client.SendPacket("Undo", String.valueOf(scouter));
-            } catch (IOException ie) {
-            }
-        }
+    public void reverse(View v) {
+        Switch aSwitch = (Switch) v;
+        reverse = aSwitch.isChecked();
     }
 
     Button.OnClickListener clickListener = new Button.OnClickListener() {
@@ -383,40 +389,52 @@ public class MainInput extends Activity {
 
             //Finding clicked object
             i = v.getId();
+            if(i >= objectNum) i = i - objectNum;
 
             //Making background changes
             switch (objectType[i]) {
                 case 3:
-                    //Check
-                    CheckBox checkBox = (CheckBox) v;
-                    if (checkBox.isChecked()) objectValue[i] = 1;
-                    else objectValue[i] = 0;
+                    //Switch
+                    Switch aSwitch = (Switch) findViewById(i);
+                    if(objectValue[i] == 1) {
+                        aSwitch.setChecked(false);
+                        objectValue[i] = 0;
+                    }
+                    else {
+                        aSwitch.setChecked(true);
+                        objectValue[i] = 1;
+                    }
                     break;
                 case 4:
                     //Count
                     Button button = (Button) v;
-                    objectValue[i]++;
+                    if(!reverse) objectValue[i]++;
+                    else if(objectValue[i] > 0) objectValue[i]--;
                     text = objectName[i] + ": " + objectValue[i];
                     button.setText(text);
                     break;
                 case 5:
-                    //Check
-                    radioHistory.push(i);
-                    break;
-                case 6:
-                    //Fade
-                    v.setVisibility(View.GONE);
+                    //Choice
+                    int j = i;
+                    while(objectType[j] == 5) j++;
+                    j--;
+                    while(objectType[j] == 5) {
+                        RadioButton radioButton = (RadioButton) findViewById(j);
+                        radioButton.setChecked(false);
+                        objectValue[j] = 0;
+                        if(i == j && !reverse) radioButton.setChecked(true);
+                        j--;
+                    }
+                    objectValue[i] = 1;
                     break;
             }
-
+            if(reverse) text = "Undo";
+            else text = "Event";
             //Notifying server of change
             try {
-                if (connected) client.SendPacket("Event", scouter + "," + i);
+                if (connected) client.SendPacket(text, scouter + "," + i);
             } catch (IOException ie) {
             }
-
-            //Documenting change
-            history.push(i);
         }
     };
 }

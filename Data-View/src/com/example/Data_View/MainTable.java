@@ -33,11 +33,19 @@ public class MainTable extends Activity {
 
     public void noConnect() {
         stack = new Stack<>();
-        dataTypes = new String[4];
+        dataTypes = new String[12];
         dataTypes[0] = "Team";
-        dataTypes[1] = "Offense";
-        dataTypes[2] = "Defence";
-        dataTypes[3] = "Breaching";
+        dataTypes[1] = "A Breach";
+        dataTypes[2] = "T Breach";
+        dataTypes[3] = "A Score";
+        dataTypes[4] = "T Score";
+        dataTypes[5] = "Offense";
+        dataTypes[6] = "Defense";
+        dataTypes[7] = "Breaching";
+        dataTypes[8] = "A:P-C";
+        dataTypes[9] = "B:M-R";
+        dataTypes[10] = "C:D-S";
+        dataTypes[11] = "D:W-T";
         teamNum = 30;
         checked = new boolean[teamNum];
         data = new int[teamNum][dataTypes.length];
@@ -78,6 +86,7 @@ public class MainTable extends Activity {
             i = stack.pop();
             TableRow tableRow = new TableRow(this);
             tableRow.setId(i);
+            tableLayout.setOnClickListener(onClickListener);
             tableLayout.addView(tableRow);
             CheckBox checkBox = new CheckBox(this);
             checkBox.setId(i + teamNum);
@@ -92,6 +101,7 @@ public class MainTable extends Activity {
                 textView.setText(String.valueOf(data[i][j]));
                 textView.setTextColor(Color.rgb(255,255,77));
                 textView.setTextSize(25);
+                if(j == sortBy || j == -sortBy) textView.setBackgroundColor(Color.rgb(75,0,186));
                 tableRow.addView(textView);
             }
         }
@@ -190,12 +200,19 @@ public class MainTable extends Activity {
             for(j = 0; j < teamNum; j++) {
                 stack.push(Integer.valueOf(newData[j].split(",")[1]));
             }
-            if(i == sortBy) sortBy = -1;
+            if(i == sortBy) sortBy = -i;
             else sortBy = i;
             ScrollView linearLayout = (ScrollView) findViewById(R.id.MainLayout);
             TableLayout tableLayout = (TableLayout) findViewById(teamNum * 2);
             linearLayout.removeView(tableLayout);
             loadObjects();
+        }
+    };
+    LinearLayout.OnClickListener onClickListener = new LinearLayout.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            CheckBox checkBox = (CheckBox) findViewById(v.getId() + teamNum);
+            //checkBox.toggle();
         }
     };
 }

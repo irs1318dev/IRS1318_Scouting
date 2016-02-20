@@ -46,9 +46,14 @@
                 android:id="@+id/Deselect" android:onClick="deselect" android:textSize="20dp"
                 android:textColor="#ffff4d"/>
     </LinearLayout>
-    <ScrollView
+    <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/MainLayout"/>
+            android:layout_height="match_parent"
+            android:id="@+id/horizontalScrollView">
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MainLayout"/>
+    </HorizontalScrollView>
 </LinearLayout>
 

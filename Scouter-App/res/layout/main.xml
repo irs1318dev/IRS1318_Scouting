@@ -11,12 +11,31 @@
             android:layout_height="wrap_content"
             android:id="@+id/mainLayout">
 
-        <TextView
+        <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Connect"
+                    android:id="@+id/Connect" android:onClick="connect" android:textColor="#ffff4d"
+                    android:textSize="40dp"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/teamNum" android:text="1318" android:singleLine="true"
+                    android:gravity="center_horizontal" android:textColor="#ffff4d" android:textSize="40dp"
+                    android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+        <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/teamNum" android:text="1318" android:singleLine="true"
-                android:gravity="center_horizontal" android:textColor="#ffff4d" android:textSize="40dp"/>
+                android:text="Startup"
+                android:id="@+id/PageText" android:textSize="40dp" android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal" android:textColor="#ffff4d"/>
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -82,37 +101,31 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Space
-            android:layout_width="fill_parent"
-            android:layout_height="20px"
-            android:layout_below="@+id/mainLayout" android:layout_centerHorizontal="true" android:id="@+id/space"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="&lt;--"
+            android:text="&lt;-- Auto"
             android:id="@+id/last"
             android:visibility="invisible"
             android:onClick="pageSwap"
-            android:layout_below="@+id/space" android:layout_alignParentLeft="true" android:textColor="#ffff4d"
-            android:textSize="40dp"/>
+            android:layout_alignParentLeft="true" android:textColor="#ffff4d"
+            android:textSize="40dp" android:layout_below="@+id/mainLayout"/>
 
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-->"
+            android:text="Tele -->"
             android:id="@+id/next"
             android:onClick="pageSwap"
             android:visibility="invisible"
-            android:layout_below="@+id/space" android:layout_alignParentRight="true" android:textColor="#ffff4d"
-            android:textSize="40dp"/>
-
-    <Button
+            android:layout_alignParentRight="true" android:textColor="#ffff4d"
+            android:textSize="40dp" android:layout_below="@+id/mainLayout"/>
+    <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Undo"
-            android:id="@+id/undo"
-            android:visibility="invisible"
-            android:onClick="undo" android:layout_below="@+id/space" android:layout_centerHorizontal="true"
-            android:textColor="#ffff4d" android:textSize="40dp"/>
+            android:text="Reverse"
+            android:id="@+id/Reverse" android:layout_below="@+id/mainLayout" android:layout_centerHorizontal="true"
+            android:visibility="gone" android:onClick="reverse" android:textSize="40dp" android:textColor="#ffff4d"
+            android:gravity="center_vertical"/>
 
 </RelativeLayout>
