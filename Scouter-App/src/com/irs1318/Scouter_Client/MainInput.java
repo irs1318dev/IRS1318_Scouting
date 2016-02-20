@@ -10,7 +10,6 @@ import android.widget.*;
 import com.irs1318.Scouter_Client.Net.*;
 
 import java.io.IOException;
-import java.util.*;
 
 public class MainInput extends Activity {
     //Basic variables
@@ -49,63 +48,97 @@ public class MainInput extends Activity {
 
     //Connecting to PC
     public void connect(View v) {
-        switch (v.getId()) {
-            case R.id.S0:
-                scouter = 0;
-                break;
-            case R.id.S1:
-                scouter = 1;
-                break;
-            case R.id.S2:
-                scouter = 2;
-                break;
-            case R.id.S3:
-                scouter = 3;
-                break;
-            case R.id.S4:
-                scouter = 4;
-                break;
-            case R.id.S5:
-                scouter = 5;
-                break;
-        }
-        EditText editText = (EditText) findViewById(R.id.editText);
-        client = new TCPClient(11111, editText.getText().toString());
-        try {
-            client.Connect();
-        } catch (Exception e) {
-            e.toString();
-        }
-        //When receiving data
-        client.OnDataAvailable.add(new NetworkEvent() {
-            @Override
-            public void Call(TCPClient sender) {
-                NetworkPacket[] networkPackets = client.GetPackets();
-                if (networkPackets[0].Name.equals("Game")) {
-                    //Reading first Packets of data
-                    objectNum = networkPackets.length;
-                    objectName = new String[objectNum];
-                    objectType = new int[objectNum];
-                    objectValue = new int[objectNum];
-                    for (i = 0; i < networkPackets.length; i++) {
-                        objectName[i] = networkPackets[i].Data.split(",")[0];
-                        text = networkPackets[i].Data.split(",")[1];
-                        objectType[i] = Integer.valueOf(text);
-                        if (objectType[i] == 1) page++;
-                    }
-                    pageId = new int[page];
-                    connected = true;
-
-                    Handler mainHandle = new Handler(getMainLooper());
-
-                    mainHandle.post(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            loadObjects();
+        setConnect();
+        if (!connected) {
+            switch (v.getId()) {
+                case R.id.S0:
+                    scouter = 0;
+                    break;
+                case R.id.S1:
+                    scouter = 1;
+                    break;
+                case R.id.S2:
+                    scouter = 2;
+                    break;
+                case R.id.S3:
+                    scouter = 3;
+                    break;
+                case R.id.S4:
+                    scouter = 4;
+                    break;
+                case R.id.S5:
+                    scouter = 5;
+                    break;
+            }
+            EditText editText = (EditText) findViewById(R.id.editText);
+            client = new TCPClient(11111, editText.getText().toString());
+            try {
+                client.Connect();
+            } catch (Exception e) {
+                e.toString();
+            }
+            //When receiving data
+            client.OnDataAvailable.add(new NetworkEvent() {
+                @Override
+                public void Call(TCPClient sender) {
+                    NetworkPacket[] networkPackets = client.GetPackets();
+                    if (networkPackets[0].Name.equals("Game")) {
+                        //Reading first Packets of data
+                        objectNum = networkPackets.length;
+                        objectName = new String[objectNum];
+                        objectType = new int[objectNum];
+                        objectValue = new int[objectNum];
+                        for (i = 0; i < networkPackets.length && networkPackets[0].Name.equals("Game"); i++) {
+                            objectName[i] = networkPackets[i].Data.split(",")[0];
+                            text = networkPackets[i].Data.split(",")[1];
+                            objectType[i] = Integer.valueOf(text);
+                            if (objectType[i] == 1) page++;
                         }
-                    });
+                        pageId = new int[page];
+                        connected = true;
+                        setConnect();
+
+                        Handler mainHandle = new Handler(getMainLooper());
+
+                        mainHandle.post(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                loadObjects();
+                            }
+                        });
+                    }
                 }
+            });
+            client.OnConnected.add(new NetworkEvent() {
+                @Override
+                public void Call(TCPClient sender) {
+                    try {
+                        if (connected) client.SendPacket("Hello", String.valueOf(scouter));
+                    } catch (IOException ie) {
+                    }
+                    connected = true;
+                    setConnect();
+                }
+            });
+            client.OnDisconnected.add(new NetworkEvent() {
+                @Override
+                public void Call(TCPClient sender) {
+                    connected = false;
+                    setConnect();
+                }
+            });
+        }
+    }
+
+    public void setConnect() {
+        Handler mainHandle = new Handler(getMainLooper());
+
+        mainHandle.post(new Runnable() {
+            @Override
+            public void run() {
+                RadioButton radioButton = (RadioButton) findViewById(R.id.Connect);
+                radioButton.setChecked(connected);
             }
         });
     }
@@ -373,7 +406,7 @@ public class MainInput extends Activity {
 
         //Sending page update
         try {
-            if (connected) client.SendPacket("Page", scouter + "," + page + "," + match);
+            if (connected) client.SendPacket("Page", scouter + "," + page + "," + match + "," + team);
         } catch (IOException ie) {
         }
     }
