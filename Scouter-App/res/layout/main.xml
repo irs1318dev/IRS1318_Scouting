@@ -25,7 +25,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/teamName" android:text="1318" android:singleLine="true"
+                    android:id="@+id/teamName" android:singleLine="false"
                     android:gravity="center_horizontal" android:textColor="#ffff4d" android:textSize="40dp"
                     android:layout_gravity="center_horizontal"/>
         </LinearLayout>
@@ -50,12 +50,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" android:gravity="center_horizontal"
             >
-                <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Don&apos;t Connect"
-                        android:id="@+id/button2" android:onClick="noConnect"
-                        android:textSize="60dp" android:layout_gravity="center_horizontal" android:textColor="#ffff4d"/>
                 <TableRow
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent" android:layout_gravity="center_horizontal"
@@ -105,8 +99,8 @@
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="&lt;-- Auto"
-            android:id="@+id/last"
+            android:text="&lt;-- Last Page"
+            android:id="@+id/LastPage"
             android:visibility="invisible"
             android:onClick="pageSwap"
             android:layout_alignParentLeft="true" android:textColor="#ffff4d"
@@ -115,8 +109,8 @@
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tele -->"
-            android:id="@+id/next"
+            android:text="Next Page -->"
+            android:id="@+id/NextPage"
             android:onClick="pageSwap"
             android:visibility="invisible"
             android:layout_alignParentRight="true" android:textColor="#ffff4d"
@@ -132,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Loading"
+            android:text="Waiting for server..."
             android:id="@+id/Loading" android:layout_centerVertical="true" android:layout_centerHorizontal="true"
             android:textSize="75dp" android:visibility="gone"/>
 

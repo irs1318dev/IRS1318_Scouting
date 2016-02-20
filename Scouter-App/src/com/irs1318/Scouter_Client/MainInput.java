@@ -18,17 +18,19 @@ public class MainInput extends Activity {
     int page = 0;
     int column = 0;
     int scouter = 0;
-    int lineLength = 5;
+    int lineLength = 0;
     int match = 0;
     String text;
-    int team = 1318;
-    String teamName = "IRS";
+    int team = 0;
+    String teamName = "";
     boolean connected = false;
     boolean inRadio = false;
     boolean reverse = false;
+    boolean loading = false;
     TCPClient client;
     TableLayout tableLayout;
     LinearLayout sideLayout;
+    LinearLayout mainLayout;
     LinearLayout lineLayout;
     LinearLayout linearLayout;
 
@@ -107,8 +109,9 @@ public class MainInput extends Activity {
                             objectType[i] = Integer.valueOf(text);
                             if (objectType[i] == 1) page++;
                         }
-                        pageId = new int[page];
+                        pageId = new int[page + 1];
                         connected = true;
+                        loading = true;
                         setConnect();
                         Handler mainHandle = new Handler(getMainLooper());
                         mainHandle.post(new Runnable() {
@@ -121,10 +124,11 @@ public class MainInput extends Activity {
                         });
                     }
                     if(networkPackets[i].Name.equals("Match")) {
-                        if(match != Integer.valueOf(networkPackets[i].Data.split(",")[0])) {
+                        if(loading) {
                             match = Integer.valueOf(networkPackets[i].Data.split(",")[0]);
                             team = Integer.valueOf(networkPackets[i].Data.split(",")[1]);
                             teamName = networkPackets[i].Data.split(",")[2];
+                            loading = false;
 
                             Handler mainHandle = new Handler(getMainLooper());
                             mainHandle.post(new Runnable() {
@@ -161,94 +165,18 @@ public class MainInput extends Activity {
         });
     }
 
-    //Setting alternate values for testing
-    public void noConnect(View v) {
-        objectNum = 100;
-        i = 0;
-        int j;
-        pageId = new int[2];
-        objectName = new String[objectNum];
-        objectType = new int[objectNum];
-        makeObject("Auto",1);
-        makeObject("OuterWorks",2);
-        makeObject("Low Bar",7);
-        for(j = 0; j < 4; j++) makeObject("Slot " + (j + 1),7);
-        for(j = 0; j < 5; j++) makeObject("Start",5);
-        for(j = 0; j < 5; j++) makeObject("Cross",4);
-        for(j = 0; j < 5; j++) makeObject("End",5);
-        makeObject("2",6);
-        makeObject("Spy",3);
-        makeObject("Reach",3);
-        makeObject("Fouls",7);
-        makeObject("2",6);
-        makeObject("Foul",4);
-        makeObject("Tech Foul",4);
-        makeObject("Scoring",2);
-        makeObject("2",6);
-        makeObject("Passage High",4);
-        makeObject("Passage Low",4);
-        makeObject("Center High",4);
-        makeObject("Miss",4);
-        makeObject("Bar High",4);
-        makeObject("Bar Low",4);
-        makeObject("Possession",7);
-        makeObject("1",6);
-        makeObject("Start with ball",3);
-        makeObject("End with ball",3);
-        makeObject("Teleop",1);
-        makeObject("OuterWorks",2);
-        makeObject("5",6);
-        makeObject("Low Bar",7);
-        for(j = 0; j < 4; j++) makeObject("Slot " + (j + 1),7);
-        for(j = 0; j < 5; j++) makeObject("Cross",4);
-        for(j = 0; j < 5; j++) makeObject("Help",4);
-        makeObject("Defending",7);
-        makeObject("4",6);
-        makeObject("Pin",4);
-        makeObject("Block Shot",4);
-        makeObject("Take Ball",4);
-        makeObject("Block Cross",4);
-        makeObject("Fouls",7);
-        makeObject("2",6);
-        makeObject("Foul",4);
-        makeObject("Tech Foul",4);
-        makeObject("Scoring",2);
-        makeObject("2",6);
-        makeObject("Passage High",4);
-        makeObject("Passage Low",4);
-        makeObject("Center High",4);
-        makeObject("Miss",4);
-        makeObject("Bar High",4);
-        makeObject("Bar Low",4);
-        makeObject("Retrieval",7);
-        makeObject("3",6);
-        makeObject("Castle High",4);
-        makeObject("Castle Low ",4);
-        makeObject("Ground",4);
-        makeObject("End Game",7);
-        makeObject("2",6);
-        makeObject("Challenge",5);
-        makeObject("Scale",5);
-        loadObjects();
-    }
-
-    public void makeObject(String name, int type) {
-        objectName[i] = name;
-        objectType[i] = type;
-        i++;
-    }
-
     public void loadObjects() {
         //Showing required parts
         findViewById(R.id.Loading).setVisibility(View.GONE);
-        findViewById(R.id.next).setVisibility(View.VISIBLE);
+        findViewById(R.id.NextPage).setVisibility(View.VISIBLE);
         findViewById(R.id.Reverse).setVisibility(View.VISIBLE);
 
         //Adding essential variables
-        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
+        linearLayout = (LinearLayout) findViewById(R.id.mainLayout);
+        mainLayout = new LinearLayout(this);
+        linearLayout.addView(mainLayout);
         LinearLayout radioGroup = new LinearLayout(this);
         objectValue = new int[objectNum];
-        linearLayout = new LinearLayout(this);
         sideLayout = new LinearLayout(this);
         tableLayout = new TableLayout(this);
         int currentRadio = 0;
@@ -413,18 +341,32 @@ public class MainInput extends Activity {
     public void pageSwap(View v) {
         //Displaying correct page
         findViewById(pageId[page]).setVisibility(View.GONE);
-        if (v.getId() == R.id.next) page++;
-        if (v.getId() == R.id.last) page--;
+        if (v.getId() == R.id.NextPage) page++;
+        if (v.getId() == R.id.LastPage) page--;
         findViewById(pageId[page]).setVisibility(View.VISIBLE);
 
         //Displaying correct buttons
-        findViewById(R.id.last).setVisibility(View.VISIBLE);
-        findViewById(R.id.next).setVisibility(View.VISIBLE);
-        if (page == 0 || page == pageId.length - 1) v.setVisibility(View.INVISIBLE);
+        findViewById(R.id.LastPage).setVisibility(View.VISIBLE);
+        findViewById(R.id.NextPage).setVisibility(View.VISIBLE);
+        if (page == 0 || page == pageId.length - 1) v.setVisibility(View.GONE);
+        Button button = (Button) findViewById(R.id.NextPage);
+        if(page == pageId.length - 2) button.setText("Next Match -->");
+        else button.setText("Next Page -->");
 
         //Changing title
         TextView textView = (TextView) findViewById(R.id.PageText);
-        textView.setText(objectName[pageId[page]]);
+        if(page == pageId.length - 1) {
+            textView.setText("");
+            LinearLayout  linearLayout = (LinearLayout) findViewById(R.id.mainLayout);
+            linearLayout.removeView(mainLayout);
+            findViewById(R.id.LastPage).setVisibility(View.GONE);
+            findViewById(R.id.Loading).setVisibility(View.VISIBLE);
+            findViewById(R.id.Reverse).setVisibility(View.GONE);
+            match = -1;
+            loading = true;
+        }
+        else textView.setText(objectName[pageId[page]]);
+
 
         //Sending page update
         try {
