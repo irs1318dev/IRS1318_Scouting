@@ -72,6 +72,18 @@ public class MainInput extends Activity {
             }
             EditText editText = (EditText) findViewById(R.id.editText);
             client = new TCPClient(11111, editText.getText().toString());
+            client.OnConnected.add(new NetworkEvent() {
+                @Override
+                public void Call(TCPClient sender) {
+                    try {
+                        client.SendPacket("Hello", String.valueOf(scouter));
+                    } catch (IOException ie) {
+                        int gfd =3;
+                    }
+                    connected = true;
+                    setConnect();
+                }
+            });
             try {
                 client.Connect();
             } catch (Exception e) {
@@ -108,17 +120,6 @@ public class MainInput extends Activity {
                             }
                         });
                     }
-                }
-            });
-            client.OnConnected.add(new NetworkEvent() {
-                @Override
-                public void Call(TCPClient sender) {
-                    try {
-                        if (connected) client.SendPacket("Hello", String.valueOf(scouter));
-                    } catch (IOException ie) {
-                    }
-                    connected = true;
-                    setConnect();
                 }
             });
             client.OnDisconnected.add(new NetworkEvent() {
