@@ -81,7 +81,7 @@ public class MainInput extends Activity {
             @Override
             public void Call(TCPClient sender) {
                 NetworkPacket[] networkPackets = client.GetPackets();
-                if (networkPackets[0].Name == "Game") {
+                if (networkPackets[0].Name.equals("Game")) {
                     //Reading first Packets of data
                     objectNum = networkPackets.length;
                     objectName = new String[objectNum];

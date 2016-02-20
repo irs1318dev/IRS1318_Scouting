@@ -101,7 +101,7 @@ namespace Scouting_Server
       TcpClient client = (TcpClient)sender;
       for (int i = 0; i < objectType.Count; i++)
       {
-        serv.SendPacket(objectName[i], objectType[i].ToString(), client);
+        serv.SendPacket("Game", objectName[i] + "," + objectType[i].ToString(), client);
       }
       devices++;
     }
