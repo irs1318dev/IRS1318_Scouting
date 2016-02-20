@@ -19,13 +19,14 @@ namespace Scouting_Server
     const int PORT = 11111;
     Data.DataFile<Models.Match> Matches;
     Data.DataFile<Models.Team> Teams;
-    Data.DataFile<Models.Event> Events;
+    Data.DataFile<Models.Event> RobotEvents;
     MatchInfo current;
     Net.NetworkServer Serv;
     List<String> ObjectName = new List<String>();
     List<int> ObjectType = new List<int>();
-    Timer ErrorTimer;
+    System.Windows.Forms.Timer ErrorTimer;
     Dictionary<TcpClient, int> ScoutersDictionary;
+    TcpClient[] Scouters;
     ScoutControl[] ScouterControls;
 
     public Form1()
@@ -33,13 +34,13 @@ namespace Scouting_Server
       InitializeComponent();
       current = new MatchInfo();
 
-      ErrorTimer = new Timer();
+      ErrorTimer = new System.Windows.Forms.Timer();
       ErrorTimer.Interval = (int)TimeSpan.FromSeconds(5).TotalMilliseconds;
       ErrorTimer.Tick += ErrorTimer_Tick;
 
       Matches = new Data.DataFile<Models.Match>("Matches.csv");
       Teams = new Data.DataFile<Models.Team>("Teams.csv");
-      Events = new Data.DataFile<Models.Event>("Events.csv");
+      RobotEvents = new Data.DataFile<Models.Event>("Events.csv");
       
       XmlDocument doc = new XmlDocument();
       doc.Load("../../path.xml");
@@ -102,11 +103,11 @@ namespace Scouting_Server
           ev.EventType = EventData.EventType;
           ev.MatchKey = current.Match.id;
           ev.TeamKey = current.Teams[EventData.ScoutNumber].id;
-          Events.Add(ev);
+          RobotEvents.Add(ev);
           ThreadPool.QueueUserWorkItem(
             (object state) =>
           {
-            Events.Save();
+            RobotEvents.Save();
           });
         }
         else if (packet.Name == "Undo")
@@ -115,20 +116,21 @@ namespace Scouting_Server
           //R1, R2, R3, B1, B2, B3 (0-5)
           var EventData = packet.GetDataAs<NetworkData.EventTransferData>();
 
-          var query = from evnt in Events.GetAll()
+          var query = from evnt in RobotEvents.GetAll()
                       where evnt.MatchKey == current.Match.id &&
                       evnt.TeamKey == current.Teams[EventData.ScoutNumber].id &&
                       evnt.EventType == EventData.EventType
                       select evnt;
 
           if(query.Count() > 0)
-            Events.Remove(query.ToArray()[query.Count() - 1]);
+            RobotEvents.Remove(query.ToArray()[query.Count() - 1]);
 
         }
         else if (packet.Name == "Hello")
         {
           var scoutNumber = packet.DataAsInt;
           ScoutersDictionary[packet.Sender] = scoutNumber;
+          ScoutersDictionary[scoutNumber] = packet.Sender;
           ScouterControls[scoutNumber].SetMatchNumber(0);
           ScouterControls[scoutNumber].SetStatus("Connected");
           ScouterControls[scoutNumber].SetTeamNumber(0);
@@ -153,6 +155,7 @@ namespace Scouting_Server
         ScouterControls[scoutnum].SetMatchNumber(0);
         ScouterControls[scoutnum].SetTeamNumber(0);
         ScoutersDictionary.Remove(client);
+        Scouters[scoutnum] = null;
       }
     }
 
@@ -250,10 +253,16 @@ namespace Scouting_Server
       }
 
       #region getTeams
+      Models.Team red1;
+      Models.Team red2;
+      Models.Team red3;
+      Models.Team blue1;
+      Models.Team blue2;
+      Models.Team blue3;
       //RED 1
       try
       {
-        var red1 = GetTeamByNumber((int)red1Team.Value);
+        red1 = GetTeamByNumber((int)red1Team.Value);
         m.R1TeamKey = red1.id;
       }
       catch (IndexOutOfRangeException)
@@ -264,7 +273,7 @@ namespace Scouting_Server
       //RED 2
       try
       {
-        var red2 = GetTeamByNumber((int)red2Team.Value);
+        red2 = GetTeamByNumber((int)red2Team.Value);
         m.R2TeamKey = red2.id;
       }
       catch (IndexOutOfRangeException)
@@ -275,7 +284,7 @@ namespace Scouting_Server
       //RED 3
       try
       {
-        var red3 = GetTeamByNumber((int)red3Team.Value);
+        red3 = GetTeamByNumber((int)red3Team.Value);
         m.R3TeamKey = red3.id;
       }
       catch (IndexOutOfRangeException)
@@ -286,7 +295,7 @@ namespace Scouting_Server
       //BLUE 1
       try
       {
-        var blue1 = GetTeamByNumber((int)blue1Team.Value);
+        blue1 = GetTeamByNumber((int)blue1Team.Value);
         m.B1TeamKey = blue1.id;
       }
       catch (IndexOutOfRangeException)
@@ -297,7 +306,7 @@ namespace Scouting_Server
       //BLUE 2
       try
       {
-        var blue2 = GetTeamByNumber((int)blue2Team.Value);
+        blue2 = GetTeamByNumber((int)blue2Team.Value);
         m.B2TeamKey = blue2.id;
       }
       catch (IndexOutOfRangeException)
@@ -308,7 +317,7 @@ namespace Scouting_Server
       //BLUE 3
       try
       {
-        var blue3 = GetTeamByNumber((int)blue3Team.Value);
+        blue3 = GetTeamByNumber((int)blue3Team.Value);
         m.B3TeamKey = blue3.id;
       }
       catch (IndexOutOfRangeException)
@@ -326,6 +335,27 @@ namespace Scouting_Server
         Matches.Add(m);
 
       Matches.Save();
+
+      current.Match = m;
+
+      current.Teams[0] = red1;
+      current.Teams[1] = red2;
+      current.Teams[2] = red3;
+      current.Teams[3] = blue1;
+      current.Teams[4] = blue2;
+      current.Teams[5] = blue3;
+
+      for(int i = 0; i < 6; ++i)
+      {
+        if(Scouters[i] != null)
+        {
+          var inf = new NetworkData.MatchInfoTransferData();
+          inf.MatchNumber = current.Match.MatchNumber;
+          inf.TeamName = current.Teams[i].TeamName;
+          inf.TeamNumber = current.Teams[i].TeamNumber;
+          Serv.SendPacket("Match", inf.ToString(), Scouters[i]);
+        }
+      }
 
       Message("Match Set");
     }
