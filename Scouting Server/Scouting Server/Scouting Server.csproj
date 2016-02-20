@@ -54,8 +54,12 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\DataModel.cs" />
+    <Compile Include="Models\Event.cs" />
+    <Compile Include="NetworkData\EventTransferData.cs" />
     <Compile Include="Models\Match.cs" />
     <Compile Include="Models\Team.cs" />
+    <Compile Include="NetworkData\MatchInfoTransferData.cs" />
+    <Compile Include="NetworkData\PageChangeTransferData.cs" />
     <Compile Include="Net\NetworkPacket.cs" />
     <Compile Include="Net\NetworkServer.cs" />
     <Compile Include="Program.cs" />
@@ -66,7 +70,7 @@
     <Compile Include="ScoutControl.Designer.cs">
       <DependentUpon>ScoutControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="ScoutingData.cs" />
+    <Compile Include="MatchInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -97,7 +101,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="path.xml" />
+    <Content Include="path.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
