@@ -101,12 +101,6 @@ namespace Scouting_Server.Net
 
         for (int i = 0; i < Clients.Count; ++i)
         {
-          if(!Clients[i].Connected)
-          {
-            Clients.RemoveAt(i);
-            --i;
-            continue;
-          }
           if(Clients[i].Available > 0)
           {
             StreamReader reader = new StreamReader(Clients[i].GetStream());

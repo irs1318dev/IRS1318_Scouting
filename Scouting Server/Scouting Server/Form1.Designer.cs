@@ -28,6 +28,7 @@
     /// </summary>
     private void InitializeComponent()
     {
+      this.components = new System.ComponentModel.Container();
       this.LoadMatchButton = new System.Windows.Forms.Button();
       this.red3Team = new System.Windows.Forms.NumericUpDown();
       this.red1Team = new System.Windows.Forms.NumericUpDown();
@@ -51,6 +52,7 @@
       this.scoutControl3 = new Scouting_Server.ScoutControl();
       this.scoutControl2 = new Scouting_Server.ScoutControl();
       this.scoutControl1 = new Scouting_Server.ScoutControl();
+      this.pulse = new System.Windows.Forms.Timer(this.components);
       ((System.ComponentModel.ISupportInitialize)(this.red3Team)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.red1Team)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.red2Team)).BeginInit();
@@ -278,6 +280,12 @@
       this.scoutControl1.Size = new System.Drawing.Size(187, 65);
       this.scoutControl1.TabIndex = 16;
       // 
+      // pulse
+      // 
+      this.pulse.Enabled = true;
+      this.pulse.Interval = 1000;
+      this.pulse.Tick += new System.EventHandler(this.pulse_Tick);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -348,6 +356,7 @@
     private ScoutControl scoutControl5;
     private ScoutControl scoutControl6;
     private System.Windows.Forms.Label errorMessage;
+    private System.Windows.Forms.Timer pulse;
   }
 }
 

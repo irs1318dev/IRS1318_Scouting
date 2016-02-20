@@ -131,6 +131,11 @@ namespace Scouting_Server
         else if (packet.Name == "Hello")
         {
           var scoutNumber = packet.DataAsInt;
+          if(ScoutersDictionary.ContainsKey(packet.Sender))
+          {
+            Scouters[ScoutersDictionary[packet.Sender]] = null;
+            ScoutersDictionary.Remove(packet.Sender);
+          }
           ScoutersDictionary.Add(packet.Sender, scoutNumber);
           Scouters[scoutNumber] = packet.Sender;
           ScouterControls[scoutNumber].SetMatchNumber(0);
@@ -393,6 +398,14 @@ namespace Scouting_Server
       blue1Team.Value = Teams.Get(match.B1TeamKey).TeamNumber;
       blue2Team.Value = Teams.Get(match.B2TeamKey).TeamNumber;
       blue3Team.Value = Teams.Get(match.B3TeamKey).TeamNumber;
+    }
+
+    private void pulse_Tick(object sender, EventArgs e)
+    {
+      if(Serv != null)
+      {
+        Serv.SendPacket("PING", "");
+      }
     }
   }
 }
