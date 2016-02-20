@@ -14,7 +14,7 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent" android:id="@+id/TopLine" android:visibility="invisible">
             <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/teamNum" android:text="1318" android:singleLine="true"
+                    android:id="@+id/teamName" android:text="1318" android:singleLine="true"
                     android:gravity="center_horizontal" android:textColor="#ffff4d" android:textSize="40dp"
                     android:layout_gravity="center_horizontal"/>
         </LinearLayout>
@@ -39,7 +39,8 @@
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/startLayout" android:gravity="center_horizontal">
+                android:layout_height="wrap_content" android:id="@+id/startLayout" android:gravity="center_horizontal"
+        >
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -127,5 +128,12 @@
             android:id="@+id/Reverse" android:layout_below="@+id/mainLayout" android:layout_centerHorizontal="true"
             android:visibility="gone" android:onClick="reverse" android:textSize="40dp" android:textColor="#ffff4d"
             android:gravity="center_vertical"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Loading"
+            android:id="@+id/Loading" android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+            android:textSize="75dp" android:visibility="gone"/>
 
 </RelativeLayout>

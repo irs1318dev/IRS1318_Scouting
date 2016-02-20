@@ -21,7 +21,8 @@ public class MainInput extends Activity {
     int lineLength = 5;
     int match = 0;
     String text;
-    String team = "1318 IRS";
+    int team = 1318;
+    String teamName = "IRS";
     boolean connected = false;
     boolean inRadio = false;
     boolean reverse = false;
@@ -94,12 +95,12 @@ public class MainInput extends Activity {
                 @Override
                 public void Call(TCPClient sender) {
                     NetworkPacket[] networkPackets = client.GetPackets();
-                    if (networkPackets[0].Name.equals("Game")) {
+                    i = 0;
+                    if (networkPackets[i].Name.equals("Game")) {
                         //Reading first Packets of data
                         objectNum = networkPackets.length;
                         objectName = new String[objectNum];
                         objectType = new int[objectNum];
-                        objectValue = new int[objectNum];
                         for (i = 0; i < networkPackets.length && networkPackets[0].Name.equals("Game"); i++) {
                             objectName[i] = networkPackets[i].Data.split(",")[0];
                             text = networkPackets[i].Data.split(",")[1];
@@ -109,16 +110,32 @@ public class MainInput extends Activity {
                         pageId = new int[page];
                         connected = true;
                         setConnect();
-
                         Handler mainHandle = new Handler(getMainLooper());
-
                         mainHandle.post(new Runnable() {
                             @Override
                             public void run() {
-
-                                loadObjects();
+                                findViewById(R.id.startLayout).setVisibility(View.GONE);
+                                findViewById(R.id.TopLine).setVisibility(View.VISIBLE);
+                                findViewById(R.id.Loading).setVisibility(View.VISIBLE);
                             }
                         });
+                    }
+                    if(networkPackets[i].Name.equals("Match")) {
+                        if(match != Integer.valueOf(networkPackets[i].Data.split(",")[0])) {
+                            match = Integer.valueOf(networkPackets[i].Data.split(",")[0]);
+                            team = Integer.valueOf(networkPackets[i].Data.split(",")[1]);
+                            teamName = networkPackets[i].Data.split(",")[2];
+
+                            Handler mainHandle = new Handler(getMainLooper());
+                            mainHandle.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    TextView textView = (TextView) findViewById(R.id.teamName);
+                                    textView.setText(team + " " + teamName + " Match:" + match);
+                                    loadObjects();
+                                }
+                            });
+                        }
                     }
                 }
             });
@@ -152,7 +169,6 @@ public class MainInput extends Activity {
         pageId = new int[2];
         objectName = new String[objectNum];
         objectType = new int[objectNum];
-        objectValue = new int[objectNum];
         makeObject("Auto",1);
         makeObject("OuterWorks",2);
         makeObject("Low Bar",7);
@@ -224,13 +240,14 @@ public class MainInput extends Activity {
 
     public void loadObjects() {
         //Showing required parts
-        findViewById(R.id.startLayout).setVisibility(View.GONE);
+        findViewById(R.id.Loading).setVisibility(View.GONE);
         findViewById(R.id.next).setVisibility(View.VISIBLE);
         findViewById(R.id.Reverse).setVisibility(View.VISIBLE);
 
         //Adding essential variables
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
         LinearLayout radioGroup = new LinearLayout(this);
+        objectValue = new int[objectNum];
         linearLayout = new LinearLayout(this);
         sideLayout = new LinearLayout(this);
         tableLayout = new TableLayout(this);
@@ -358,6 +375,10 @@ public class MainInput extends Activity {
         }
         i = 0;
         page = 0;
+        try {
+            if (connected) client.SendPacket("Page", scouter + ",0" + "," + match + "," + team);
+        } catch (IOException ie) {
+        }
     }
 
     //Creating a grid for other objects
