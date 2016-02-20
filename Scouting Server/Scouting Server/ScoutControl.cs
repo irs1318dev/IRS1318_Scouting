@@ -18,27 +18,62 @@ namespace Scouting_Server
 
     public void SetTeamNumber(int number)
     {
-      teamNum.Text = "Team#: " + number;
+      if(teamNum.InvokeRequired)
+      {
+        teamNum.Invoke(new MethodInvoker(() => {
+          teamNum.Text = "Team#: " + number;
+        }));
+      }
+      else
+        teamNum.Text = "Team#: " + number;
     }
 
     public void SetTeamNumber(string number)
     {
-      teamNum.Text = "Team#: " + number;
+      if (teamNum.InvokeRequired)
+      {
+        teamNum.Invoke(new MethodInvoker(() => {
+          teamNum.Text = "Team#: " + number;
+        }));
+      }
+      else
+        teamNum.Text = "Team#: " + number;
     }
 
     public void SetMatchNumber(int number)
     {
-      matchNum.Text = "Match#: " + number;
+      if (teamNum.InvokeRequired)
+      {
+        teamNum.Invoke(new MethodInvoker(() => {
+          matchNum.Text = "Match#: " + number;
+        }));
+      }
+      else
+        matchNum.Text = "Match#: " + number;
     }
 
     public void SetMatchNumber(string number)
     {
-      matchNum.Text = "Match#: " + number;
+      if (teamNum.InvokeRequired)
+      {
+        teamNum.Invoke(new MethodInvoker(() => {
+          matchNum.Text = "Match#: " + number;
+        }));
+      }
+      else
+        matchNum.Text = "Match#: " + number;
     }
 
     public void SetStatus(string scoutStatus)
     {
-      status.Text = "Status: " + scoutStatus;
+      if (teamNum.InvokeRequired)
+      {
+        teamNum.Invoke(new MethodInvoker(() => {
+          status.Text = "Status: " + scoutStatus;
+        }));
+      }
+      else
+        status.Text = "Status: " + scoutStatus;
     }
   }
 }

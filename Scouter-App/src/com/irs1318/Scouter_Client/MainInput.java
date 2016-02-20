@@ -77,7 +77,7 @@ public class MainInput extends Activity {
                 public void Call(TCPClient sender) {
                     try {
                         client.SendPacket("Hello", String.valueOf(scouter));
-                    } catch (IOException ie) {
+                    } catch (Exception ie) {
                         int gfd =3;
                     }
                     connected = true;
