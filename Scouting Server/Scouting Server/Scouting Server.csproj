@@ -66,6 +66,7 @@
     <Compile Include="ScoutControl.Designer.cs">
       <DependentUpon>ScoutControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="ScoutingData.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

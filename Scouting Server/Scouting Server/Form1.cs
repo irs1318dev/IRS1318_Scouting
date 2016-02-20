@@ -73,13 +73,20 @@ namespace Scouting_Server
     {
       foreach (var packet in serv.GetPackets())
       {
-        if(packet.Name == "Update")
+        if (packet.Name == "Page")
         {
-          //todo handle updates
+          // ScoutNumber,PageNumber,MatchNumber
         }
         else if (packet.Name == "Event")
         {
-          //todo handle recording events
+          // ScoutNumber,EventNumber
+        }
+        else if (packet.Name == "Undo")
+        {
+          //ScoutNumber
+          //R1, R2, R3, B1, B2, B3 (0-5)
+          int ScountNumber = packet.DataAsInt;
+
         }
       }
     }
