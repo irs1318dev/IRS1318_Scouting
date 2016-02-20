@@ -18,10 +18,16 @@ public class MainInput extends Activity {
     int i;
     int page = 0;
     int column = 0;
+    int scouter = 0;
+    int lineLength = 5;
+    int match = 0;
     String text;
     String team = "1318 IRS";
     boolean connected = false;
+    boolean inRadio = false;
     TCPClient client;
+    TableLayout tableLayout;
+    LinearLayout sideLayout;
     LinearLayout lineLayout;
     LinearLayout linearLayout;
 
@@ -40,24 +46,30 @@ public class MainInput extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         if(getActionBar() != null) getActionBar().hide();
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.Title);
-        relativeLayout.setBackgroundColor(Color.rgb(82,0,204));
-        TextView last = (TextView) findViewById(R.id.last);
-        last.setTextColor(Color.rgb(255,255,77));
-        last.setTextSize(40);
-        TextView next = (TextView) findViewById(R.id.next);
-        next.setTextSize(40);
-        next.setTextColor(Color.rgb(255,255,77));
-        TextView undo = (TextView) findViewById(R.id.undo);
-        undo.setTextSize(40);
-        undo.setTextColor(Color.rgb(255,255,77));
-        TextView teamNum = (TextView) findViewById(R.id.teamNum);
-        teamNum.setTextColor(Color.rgb(255,255,77));
-        teamNum.setTextSize(42);
     }
 
     //Connecting to PC
     public void connect(View v) {
+        switch (v.getId()) {
+            case R.id.S0:
+                scouter = 0;
+                break;
+            case R.id.S1:
+                scouter = 1;
+                break;
+            case R.id.S2:
+                scouter = 2;
+                break;
+            case R.id.S3:
+                scouter = 3;
+                break;
+            case R.id.S4:
+                scouter = 4;
+                break;
+            case R.id.S5:
+                scouter = 5;
+                break;
+        }
         EditText editText = (EditText) findViewById(R.id.editText);
         client = new TCPClient(11111, editText.getText().toString());
         try {
@@ -70,15 +82,16 @@ public class MainInput extends Activity {
             @Override
             public void Call(TCPClient sender) {
                 NetworkPacket[] networkPackets = client.GetPackets();
-                if (!connected) {
-                    //Reading first Packet of data
+                if (networkPackets[0].Name == "Game") {
+                    //Reading first Packets of data
                     objectNum = networkPackets.length;
                     objectName = new String[objectNum];
                     objectType = new int[objectNum];
                     objectValue = new int[objectNum];
                     for (i = 0; i < networkPackets.length; i++) {
-                        objectName[i] = networkPackets[i].Name;
-                        objectType[i] = networkPackets[i].DataAsInt();
+                        objectName[i] = networkPackets[i].Data.split(",")[0];
+                        text = networkPackets[i].Data.split(",")[1];
+                        objectType[i] = Integer.valueOf(text);
                         if (objectType[i] == 1) page++;
                     }
                     pageId = new int[page];
@@ -100,59 +113,64 @@ public class MainInput extends Activity {
 
     //Setting alternate values for testing
     public void noConnect(View v) {
-        objectNum = 30;
+        objectNum = 42;
         pageId = new int[3];
         objectName = new String[objectNum];
         objectType = new int[objectNum];
         objectValue = new int[objectNum];
-        for (i = 0; i < objectNum; i++) {
-            switch (i) {
-                case 0:
-                    objectName[i] = "First Page";
-                    objectType[i] = 1;
-                    break;
-                case 1:
-                    objectName[1] = "First Set";
-                    objectType[1] = 2;
-                    break;
-                case 2:case 3:case 4:
-                    objectName[i] = "Multiple Choice";
-                    objectType[i] = 5;
-                    break;
-                case 5:
-                    objectName[i] = "Second Set";
-                    objectType[i] = 2;
-                    break;
-                case 6:case 7:
-                    objectName[i] = "Buttons";
-                    objectType[i] = 4;
-                    break;
-                case 8:
-                    objectName[i] = "Second Page";
-                    objectType[i] = 1;
-                    break;
-                case 9:
-                    objectName[i] = "First Set";
-                    objectType[i] = 2;
-                    break;
-                case 10:case 11:case 12:case 13:case 14:case 15:case 16:case 17:case 18:
-                    objectName[i] = "Switches";
-                    objectType[i] = 3;
-                    break;
-                case 19:
-                    objectName[i] = "Third Page";
-                    objectType[i] = 1;
-                    break;
-                case 20:
-                    objectName[i] = "Team Select";
-                    objectType[i] = 2;
-                    break;
-                case 21:case 22:case 23:case 24:case 25:case 26:case 27:case 28:case 29:
-                    objectName[i] = "Team " + i + i;
-                    objectType[i] = 6;
-                    break;
-            }
+        objectName[0] = "Auto";
+        objectType[0] = 1;
+        objectName[1] = "OuterWorks";
+        objectType[1] = 2;
+        objectName[2] = "Low Bar";
+        objectType[2] = 8;
+        for(i = 3; i < 7; i++) {
+            objectName[i] = "Slot" + String.valueOf(i - 2);
+            objectType[i] = 8;
         }
+        for(i = 7; i < 12; i++) {
+            objectName[i] = "Start";
+            objectType[i] = 3;
+        }
+        for(i = 12; i < 17; i++) {
+            objectName[i] = "Reach";
+            objectType[i] = 3;
+        }
+        for(i = 17; i < 22; i++) {
+            objectName[i] = "Cross";
+            objectType[i] = 4;
+        }
+        for(i = 22; i < 27; i++) {
+            objectName[i] = "back";
+            objectType[i] = 4;
+        }
+        for(i = 27; i < 32; i++) {
+            objectName[i] = "End";
+            objectType[i] = 3;
+        }
+        objectName[32] = "Scoring";
+        objectType[32] = 2;
+        objectName[33] = "Start with ball";
+        objectType[33] = 3;
+        objectName[34] = "End with ball";
+        objectType[34] = 3;
+        objectName[35] = "3";
+        objectType[35] = 7;
+        objectName[36] = "Passage High";
+        objectType[36] = 4;
+        objectName[37] = "Center High";
+        objectType[37] = 4;
+        objectName[38] = "Low bar High";
+        objectType[38] = 4;
+        objectName[39] = "Passage Low";
+        objectType[39] = 4;
+        objectName[40] = "Miss";
+        objectType[40] = 4;
+        objectName[41] = "Low bar Low";
+        objectType[41] = 4;
+
+
+
         loadObjects();
     }
 
@@ -166,7 +184,8 @@ public class MainInput extends Activity {
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
         RadioGroup radioGroup = new RadioGroup(this);
         linearLayout = new LinearLayout(this);
-        boolean inRadio = false;
+        sideLayout = new LinearLayout(this);
+        tableLayout = new TableLayout(this);
         int currentRadio = 0;
         makeLine();
         page = 0;
@@ -179,57 +198,70 @@ public class MainInput extends Activity {
                     //Page
                     linearLayout = new LinearLayout(this);
                     linearLayout.setId(i);
-                    linearLayout.setOrientation(LinearLayout.VERTICAL);
                     if (page != 0) linearLayout.setVisibility(View.GONE);
                     mainLayout.addView(linearLayout);
 
-                    makeLine();
+                    //Adjusting variables
                     pageId[page] = i;
                     page++;
                     break;
                 case 2:
                     //Category
+                    sideLayout = new LinearLayout(this);
+                    linearLayout.addView(sideLayout);
+
                     TextView textView = new TextView(this);
-                    textView.setGravity(1);
-                    makeView(textView, linearLayout);
-                    textView.setTextSize(textView.getTextSize() + 1);
+                    makeView(textView, sideLayout);
+
+                    tableLayout = new TableLayout(this);
+                    sideLayout.addView(tableLayout);
+                    sideLayout.setOrientation(LinearLayout.VERTICAL);
                     makeLine();
                     break;
 
                 case 3:
-                    //Check-box
+                    //Check
                     CheckBox checkBox = new CheckBox(this);
                     makeView(checkBox, lineLayout);
                     break;
                 case 4:
-                    //Counter
+                    //Count
                     Button button = new Button(this);
                     text = objectName[i] + ": 0";
                     makeView(button, lineLayout);
                     break;
                 case 5:
-                    //Multiple Choice
+                    //Choice
                     if (!inRadio) {
                         //Group for choices
                         radioGroup = new RadioGroup(this);
                         radioGroup.setOrientation(LinearLayout.HORIZONTAL);
-                        lineLayout.addView(radioGroup);
+                        linearLayout.addView(radioGroup);
                         inRadio = true;
                         currentRadio++;
                     }
 
                     //Choice
                     RadioButton radioButton = new RadioButton(this);
-                    makeView(radioButton, radioGroup);
+                    makeView(radioButton, lineLayout);
                     objectValue[i] = currentRadio;
                     break;
                 case 6:
-                    //Disappear
+                    //Fade
                     radioButton = new RadioButton(this);
                     makeView(radioButton, lineLayout);
                     break;
+                case 7:
+                    //Line
+                    lineLength = Integer.valueOf(objectName[i]);
+                    makeLine();
+                    break;
+                case 8:
+                    //Label
+                    textView = new TextView(this);
+                    makeView(textView, lineLayout);
+                    break;
             }
-            if(objectType[i] != 5) inRadio = false;
         }
         i = 0;
         page = 0;
@@ -237,24 +269,35 @@ public class MainInput extends Activity {
 
     //Creating a grid for other objects
     public void makeLine() {
-        lineLayout = new LinearLayout(this);
-        lineLayout.setId(objectNum);
-        linearLayout.addView(lineLayout);
+        //Adding more space
+        Space space = new Space(this);
+        space.setMinimumHeight(20);
+        tableLayout.addView(space);
+
+        //New line
+        lineLayout = new TableRow(this);
+        lineLayout.setGravity(1);
+        tableLayout.addView(lineLayout);
+
+        //Resetting other variables
         column = 0;
+        inRadio = false;
     }
 
     //Finalizing the object
     public void makeView(TextView textView, ViewGroup viewGroup) {
+        //Formatting and adding object
         textView.setId(i);
         textView.setText(text);
         if (objectType[i] > 2) textView.setOnClickListener(clickListener);
-        textView.setTextSize(25);
+        textView.setTextSize(20);
         textView.setTextColor(Color.rgb(255,255,77));
         viewGroup.addView(textView);
 
-        if(viewGroup.getId() == objectNum) column++;
+        //Checking for end of row
+        if(objectType[i] > 2) column++;
         else column = 0;
-        if(column > 5) makeLine();
+        if(column == lineLength) makeLine();
     }
 
     //Changing page
@@ -271,18 +314,30 @@ public class MainInput extends Activity {
             findViewById(R.id.last).setVisibility(View.VISIBLE);
             findViewById(R.id.next).setVisibility(View.VISIBLE);
         }
+
+        //Sending page update
+        try {
+            if (connected) client.SendPacket("Page", scouter + "," + page + "," + match);
+        } catch (IOException ie) {
+        }
     }
 
     public void undo(View v) {
         if (!history.empty()) {
+
+            //Locating last change
             i = history.pop();
+
+            //Changing display to remove change
             switch (objectType[i]) {
                 case 3:
+                    //Check
                     CheckBox checkBox = (CheckBox) findViewById(i);
                     if (checkBox.isChecked()) checkBox.setChecked(false);
                     else checkBox.setChecked(true);
                     break;
                 case 4:
+                    //Count
                     if (objectValue[i] > 0) {
                         Button button = (Button) findViewById(i);
                         objectValue[i]--;
@@ -291,11 +346,13 @@ public class MainInput extends Activity {
                     }
                     break;
                 case 5:
+                    //Choice
                     RadioButton radioButton = (RadioButton) findViewById(i);
                     radioButton.setChecked(false);
                     if (!radioHistory.empty()) {
                         radioHistory.pop();
                         if (!radioHistory.empty()) {
+                            //Checking previous choice
                             Stack<Integer> radioHistoryClone = radioHistory;
                             int j = radioHistoryClone.peek();
                             while (objectValue[j] != objectValue[i] && !radioHistoryClone.empty())
@@ -306,14 +363,15 @@ public class MainInput extends Activity {
                     }
                     break;
                 case 6:
+                    //Fade
                     radioButton = (RadioButton) findViewById(i);
                     radioButton.setChecked(false);
                     radioButton.setVisibility(View.VISIBLE);
             }
-            if(objectType[i] == 5 || objectType[i] == 6) text = "Checked";
-            else text = String.valueOf(objectValue[i]);
+
+            //Sending undo message
             try {
-                if (connected) client.SendPacket(objectName[i] + "#" + team, text + "Undo");
+                if (connected) client.SendPacket("Undo", String.valueOf(scouter));
             } catch (IOException ie) {
             }
         }
@@ -322,32 +380,42 @@ public class MainInput extends Activity {
     Button.OnClickListener clickListener = new Button.OnClickListener() {
         @Override
         public void onClick(View v) {
+
+            //Finding clicked object
             i = v.getId();
+
+            //Making background changes
             switch (objectType[i]) {
                 case 3:
+                    //Check
                     CheckBox checkBox = (CheckBox) v;
                     if (checkBox.isChecked()) objectValue[i] = 1;
                     else objectValue[i] = 0;
                     break;
                 case 4:
+                    //Count
                     Button button = (Button) v;
                     objectValue[i]++;
                     text = objectName[i] + ": " + objectValue[i];
                     button.setText(text);
                     break;
                 case 5:
+                    //Check
                     radioHistory.push(i);
                     break;
                 case 6:
+                    //Fade
                     v.setVisibility(View.GONE);
                     break;
             }
-            if(objectType[i] == 5 || objectType[i] == 6) text = "Checked";
-            else text = String.valueOf(objectValue[i]);
+
+            //Notifying server of change
             try {
-                if (connected) client.SendPacket(objectName[i] + "#" + team, text);
+                if (connected) client.SendPacket("Event", scouter + "," + i);
             } catch (IOException ie) {
             }
+
+            //Documenting change
             history.push(i);
         }
     };

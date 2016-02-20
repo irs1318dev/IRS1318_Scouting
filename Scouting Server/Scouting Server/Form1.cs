@@ -123,6 +123,12 @@ namespace Scouting_Server
           case "Choice":
             objectType.Add(5);
             break;
+                    case "Fade":
+                        objectType.Add(6);
+                        break;
+                    case "Line":
+                        objectType.Add(7);
+                        break;
         }
       }
     }
@@ -282,7 +288,7 @@ namespace Scouting_Server
                     where m.MatchNumber == num
                     select m;
 
-      if(matches.Count() == 0)
+            if (matches.Count() == 0)
       {
         Error("Info for match " + num + " could not be found");
         return;
