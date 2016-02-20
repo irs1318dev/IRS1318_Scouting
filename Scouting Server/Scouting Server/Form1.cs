@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
@@ -16,24 +17,29 @@ namespace Scouting_Server
   public partial class Form1 : Form
   {
     const int PORT = 11111;
-    int devices = 0;
-    Data.DataFile<Models.Match> matches;
-    Data.DataFile<Models.Team> teams;
-    Net.NetworkServer serv;
-    List<String> objectName = new List<String>();
-    List<int> objectType = new List<int>();
-    Timer errorTimer;
+    Data.DataFile<Models.Match> Matches;
+    Data.DataFile<Models.Team> Teams;
+    Data.DataFile<Models.Event> Events;
+    MatchInfo current;
+    Net.NetworkServer Serv;
+    List<String> ObjectName = new List<String>();
+    List<int> ObjectType = new List<int>();
+    Timer ErrorTimer;
+    Dictionary<TcpClient, int> ScoutersDictionary;
+    ScoutControl[] ScouterControls;
 
     public Form1()
     {
       InitializeComponent();
+      current = new MatchInfo();
 
-      errorTimer = new Timer();
-      errorTimer.Interval = (int)TimeSpan.FromSeconds(5).TotalMilliseconds;
-      errorTimer.Tick += ErrorTimer_Tick;
+      ErrorTimer = new Timer();
+      ErrorTimer.Interval = (int)TimeSpan.FromSeconds(5).TotalMilliseconds;
+      ErrorTimer.Tick += ErrorTimer_Tick;
 
-      matches = new Data.DataFile<Models.Match>("Matches.csv");
-      teams = new Data.DataFile<Models.Team>("Teams.csv");
+      Matches = new Data.DataFile<Models.Match>("Matches.csv");
+      Teams = new Data.DataFile<Models.Team>("Teams.csv");
+      Events = new Data.DataFile<Models.Event>("Events.csv");
       
       XmlDocument doc = new XmlDocument();
       doc.Load("../../path.xml");
@@ -45,65 +51,118 @@ namespace Scouting_Server
         XmlNode category = mainlist[i];
         if (pageName != category.Attributes["Page"].Value)
         {
-          objectName.Add(category.Attributes["Page"].Value);
-          objectType.Add(1);
+          ObjectName.Add(category.Attributes["Page"].Value);
+          ObjectType.Add(1);
           pageName = category.Attributes["Page"].Value;
         }
-        objectName.Add(category.Attributes["Name"].Value);
-        objectType.Add(2);
+        ObjectName.Add(category.Attributes["Name"].Value);
+        ObjectType.Add(2);
         XmlElement actions = category["Actions"];
         loadObjects(actions);
       }
+      ScouterControls = new ScoutControl[6];
+      ScouterControls[0] = scoutControl1;
+      ScouterControls[1] = scoutControl2;
+      ScouterControls[2] = scoutControl3;
+      ScouterControls[3] = scoutControl4;
+      ScouterControls[4] = scoutControl5;
+      ScouterControls[5] = scoutControl6;
 
-      serv = new Net.NetworkServer(PORT);
-      serv.Connected += Serv_Connected1;
-      serv.Disconnected += Serv_Disconnected;
-      serv.DataAvailable += Serv_DataAvailable1;
-      serv.Start(PORT);
+      Serv = new Net.NetworkServer(PORT);
+      Serv.Connected += Serv_Connected1;
+      Serv.Disconnected += Serv_Disconnected;
+      Serv.DataAvailable += Serv_DataAvailable1;
+      Serv.Start(PORT);
 
     }
 
     private void ErrorTimer_Tick(object sender, EventArgs e)
     {
       errorMessage.Text = "";
-      errorTimer.Stop();
+      ErrorTimer.Stop();
     }
 
     private void Serv_DataAvailable1(object sender)
     {
-      foreach (var packet in serv.GetPackets())
+      foreach (var packet in Serv.GetPackets())
       {
         if (packet.Name == "Page")
         {
-          // ScoutNumber,PageNumber,MatchNumber
+          // ScoutNumber,PageNumber,MatchNumber,TeamNumber
+          var PageInfo = packet.GetDataAs<NetworkData.PageChangeTransferData>();
+          ScouterControls[PageInfo.ScoutNumber].SetMatchNumber(PageInfo.ScoutNumber);
+          ScouterControls[PageInfo.ScoutNumber].SetStatus("Page: " + PageInfo.PageNumber);
+          ScouterControls[PageInfo.ScoutNumber].SetTeamNumber(PageInfo.TeamNumber);
         }
         else if (packet.Name == "Event")
         {
           // ScoutNumber,EventNumber
+          var EventData = packet.GetDataAs<NetworkData.EventTransferData>();
+          Models.Event ev = new Models.Event();
+          ev.EventType = EventData.EventType;
+          ev.MatchKey = current.Match.id;
+          ev.TeamKey = current.Teams[EventData.ScoutNumber].id;
+          Events.Add(ev);
+          ThreadPool.QueueUserWorkItem(
+            (object state) =>
+          {
+            Events.Save();
+          });
         }
         else if (packet.Name == "Undo")
         {
-          //ScoutNumber
+          //ScoutNumber,EventNumber
           //R1, R2, R3, B1, B2, B3 (0-5)
-          int ScountNumber = packet.DataAsInt;
+          var EventData = packet.GetDataAs<NetworkData.EventTransferData>();
 
+          var query = from evnt in Events.GetAll()
+                      where evnt.MatchKey == current.Match.id &&
+                      evnt.TeamKey == current.Teams[EventData.ScoutNumber].id &&
+                      evnt.EventType == EventData.EventType
+                      select evnt;
+
+          if(query.Count() > 0)
+            Events.Remove(query.ToArray()[query.Count() - 1]);
+
+        }
+        else if (packet.Name == "Hello")
+        {
+          var scoutNumber = packet.DataAsInt;
+          ScoutersDictionary[packet.Sender] = scoutNumber;
+          ScouterControls[scoutNumber].SetMatchNumber(0);
+          ScouterControls[scoutNumber].SetStatus("Connected");
+          ScouterControls[scoutNumber].SetTeamNumber(0);
+
+          var info = new NetworkData.MatchInfoTransferData();
+          info.MatchNumber = current.Match.MatchNumber;
+          info.TeamName = current.Teams[scoutNumber].TeamName;
+          info.TeamNumber = current.Teams[scoutNumber].TeamNumber;
+
+          Serv.SendPacket("Match", info.ToString(), packet.Sender);
         }
       }
     }
 
     private void Serv_Disconnected(object sender)
     {
-
+      TcpClient client = (TcpClient)sender;
+      if(ScoutersDictionary.ContainsKey(client))
+      {
+        int scoutnum = ScoutersDictionary[client];
+        ScouterControls[scoutnum].SetStatus("None");
+        ScouterControls[scoutnum].SetMatchNumber(0);
+        ScouterControls[scoutnum].SetTeamNumber(0);
+        ScoutersDictionary.Remove(client);
+      }
     }
 
     private void Serv_Connected1(object sender)
     {
       TcpClient client = (TcpClient)sender;
-      for (int i = 0; i < objectType.Count; i++)
+      for (int i = 0; i < ObjectType.Count; i++)
       {
-        serv.SendPacket("Game", objectName[i] + "," + objectType[i].ToString(), client);
+        Serv.SendPacket("Game", ObjectName[i] + "," + ObjectType[i].ToString(), client);
       }
-      devices++;
     }
 
     public void loadObjects(XmlElement category)
@@ -111,65 +170,55 @@ namespace Scouting_Server
       XmlNodeList actions = category.GetElementsByTagName("Action");
       for (int i = 0; i < actions.Count; i++)
       {
-        objectName.Add(actions[i].Attributes["Name"].Value);
+        ObjectName.Add(actions[i].Attributes["Name"].Value);
         switch (actions[i].Attributes["Type"].Value)
         {
           case "Check":
-            objectType.Add(3);
+            ObjectType.Add(3);
             break;
           case "Counter":
-            objectType.Add(4);
+            ObjectType.Add(4);
             break;
           case "Choice":
-            objectType.Add(5);
+            ObjectType.Add(5);
             break;
                     case "Fade":
-                        objectType.Add(6);
+                        ObjectType.Add(6);
                         break;
                     case "Line":
-                        objectType.Add(7);
+                        ObjectType.Add(7);
                         break;
         }
       }
     }
-
-    private void Serv_DataAvailable(object sender)
-    {
-
-    }
-
-    private void Serv_Connected(object sender)
-    {
-
-    }
-
+    
     private void Error(string message)
     {
-      errorTimer.Stop();
+      ErrorTimer.Stop();
       errorMessage.ForeColor = Color.Red;
       errorMessage.Text = DateTime.Now.ToLongTimeString() + ": " + message;
-      errorTimer.Start();
+      ErrorTimer.Start();
     }
 
     private void Warning(string message)
     {
-      errorTimer.Stop();
+      ErrorTimer.Stop();
       errorMessage.ForeColor = Color.Goldenrod;
       errorMessage.Text = DateTime.Now.ToLongTimeString() + ": " + message;
-      errorTimer.Start();
+      ErrorTimer.Start();
     }
 
     private void Message(string message)
     {
-      errorTimer.Stop();
+      ErrorTimer.Stop();
       errorMessage.ForeColor = Color.Black;
       errorMessage.Text = DateTime.Now.ToLongTimeString() + ": " + message;
-      errorTimer.Start();
+      ErrorTimer.Start();
     }
 
     private Models.Team GetTeamByNumber(int number)
     {
-      var teams = from team in this.teams.GetAll()
+      var teams = from team in this.Teams.GetAll()
                   where team.TeamNumber == number
                   select team;
 
@@ -178,7 +227,7 @@ namespace Scouting_Server
 
     private Models.Match GetMatchByNumber(int number)
     {
-      var matches = from match in this.matches.GetAll()
+      var matches = from match in this.Matches.GetAll()
                     where match.MatchNumber == number
                     select match;
 
@@ -272,11 +321,11 @@ namespace Scouting_Server
       m.MatchNumber = (int)matchNumber.Value;
 
       if (update)
-        matches.Update(m);
+        Matches.Update(m);
       else
-        matches.Add(m);
+        Matches.Add(m);
 
-      matches.Save();
+      Matches.Save();
 
       Message("Match Set");
     }
@@ -284,7 +333,7 @@ namespace Scouting_Server
     private void LoadMatchButton_Click(object sender, EventArgs e)
     {
       int num = (int)matchNumber.Value;
-      var matches = from m in this.matches.GetAll()
+      var matches = from m in this.Matches.GetAll()
                     where m.MatchNumber == num
                     select m;
 
@@ -296,12 +345,12 @@ namespace Scouting_Server
 
       var match = matches.ToArray()[0];
 
-      red1Team.Value = teams.Get(match.R1TeamKey).TeamNumber;
-      red2Team.Value = teams.Get(match.R2TeamKey).TeamNumber;
-      red3Team.Value = teams.Get(match.R3TeamKey).TeamNumber;
-      blue1Team.Value = teams.Get(match.B1TeamKey).TeamNumber;
-      blue2Team.Value = teams.Get(match.B2TeamKey).TeamNumber;
-      blue3Team.Value = teams.Get(match.B3TeamKey).TeamNumber;
+      red1Team.Value = Teams.Get(match.R1TeamKey).TeamNumber;
+      red2Team.Value = Teams.Get(match.R2TeamKey).TeamNumber;
+      red3Team.Value = Teams.Get(match.R3TeamKey).TeamNumber;
+      blue1Team.Value = Teams.Get(match.B1TeamKey).TeamNumber;
+      blue2Team.Value = Teams.Get(match.B2TeamKey).TeamNumber;
+      blue3Team.Value = Teams.Get(match.B3TeamKey).TeamNumber;
     }
   }
 }
