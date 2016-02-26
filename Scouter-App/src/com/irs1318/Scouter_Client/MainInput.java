@@ -24,6 +24,7 @@ public class MainInput extends Activity {
     String text;
     String scoutName;
     String teamName = "";
+    String[] changes = new String[4];
     boolean connected = false;
     boolean inRadio = false;
     boolean reverse = false;
@@ -80,6 +81,7 @@ public class MainInput extends Activity {
                     scoutName = "(Blue 3)";
                     break;
             }
+
             EditText editText = (EditText) findViewById(R.id.editText);
             client = new TCPClient(11111, editText.getText().toString());
             client.OnConnected.add(new NetworkEvent() {
@@ -182,9 +184,13 @@ public class MainInput extends Activity {
         linearLayout.removeView(mainLayout);
 
         //Showing required parts
+        Button button = (Button) findViewById(R.id.NextPage);
+        button.setText("Next Page -->");
+        button.setVisibility(View.VISIBLE);
+
         findViewById(R.id.Loading).setVisibility(View.GONE);
         findViewById(R.id.LastPage).setVisibility(View.GONE);
-        findViewById(R.id.NextPage).setVisibility(View.VISIBLE);
+
         findViewById(R.id.Reverse).setVisibility(View.VISIBLE);
         findViewById(R.id.Refresh).setVisibility(View.VISIBLE);
 
@@ -193,9 +199,11 @@ public class MainInput extends Activity {
         mainLayout = new LinearLayout(this);
         mainLayout.setGravity(1);
         linearLayout.addView(mainLayout);
+
         LinearLayout radioGroup = new LinearLayout(this);
         sideLayout = new LinearLayout(this);
         tableLayout = new TableLayout(this);
+
         int currentRadio = 0;
         makeLine();
         page = 0;
@@ -228,6 +236,7 @@ public class MainInput extends Activity {
                     divider.setBackgroundColor(Color.LTGRAY);
                     divider.setHeight(650);
                     linearLayout.addView(divider);
+
                     Space space = new Space(this);
                     space.setMinimumWidth(5);
                     linearLayout.addView(space);
@@ -241,6 +250,7 @@ public class MainInput extends Activity {
                     space = new Space(this);
                     space.setMinimumWidth(5);
                     linearLayout.addView(space);
+
                     divider = new TextView(this);
                     divider.setWidth(5);
                     divider.setBackgroundColor(Color.LTGRAY);
@@ -250,9 +260,9 @@ public class MainInput extends Activity {
 
                     //Labelling
                     textView = new TextView(this);
-                    textView.setGravity(1);
                     makeView(textView, sideLayout);
                     textView.setTextSize(25);
+                    textView.setTextColor(Color.rgb(249,178,52));
 
                     tableLayout = new TableLayout(this);
                     sideLayout.addView(tableLayout);
@@ -267,10 +277,12 @@ public class MainInput extends Activity {
                     switchLayout.setId(i + objectNum);
                     switchLayout.setOnClickListener(clickListener);
                     lineLayout.addView(switchLayout);
+
                     textView = new TextView(this);
                     makeView(textView,switchLayout);
                     column--;
                     text = "";
+
                     Switch aSwitch = new Switch(this);
                     aSwitch.setOnClickListener(clickListener);
                     aSwitch.setId(i);
@@ -280,7 +292,7 @@ public class MainInput extends Activity {
                     break;
                 case 4:
                     //Count
-                    Button button = new Button(this);
+                    button = new Button(this);
                     button.setOnClickListener(clickListener);
                     button.setId(i);
                     text = objectName[i] + ": " + objectValue[i];
@@ -293,6 +305,7 @@ public class MainInput extends Activity {
                     radioGroup.setId(i + objectNum);
                     radioGroup.setOrientation(LinearLayout.HORIZONTAL);
                     lineLayout.addView(radioGroup);
+
                     textView = new TextView(this);
                     makeView(textView,radioGroup);
                     column--;
@@ -314,9 +327,17 @@ public class MainInput extends Activity {
                 case 7:
                     //Label
                     textView = new TextView(this);
-                    textView.setGravity(1);
                     makeView(textView, lineLayout);
                     textView.setTextSize(25);
+                    textView.setTextColor(Color.rgb(249,178,52));
+                    break;
+                case 8:
+                    //Defense
+                    textView = new TextView(this);
+                    text = changes[Integer.valueOf(objectName[i]) - 2];
+                    makeView(textView, lineLayout);
+                    textView.setTextSize(25);
+                    textView.setTextColor(Color.rgb(249,178,52));
                     break;
             }
         }
@@ -343,7 +364,8 @@ public class MainInput extends Activity {
         textView.setText(text);
         textView.setTextSize(20);
         textView.setGravity(1);
-        textView.setTextColor(Color.rgb(255,255,77));
+        textView.setHighlightColor(Color.rgb(54,179,222));
+        textView.setTextColor(Color.LTGRAY);
         viewGroup.addView(textView);
 
         //Checking for end of row
