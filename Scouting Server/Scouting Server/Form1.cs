@@ -85,6 +85,49 @@ namespace Scouting_Server
       ErrorTimer.Stop();
     }
 
+    string GetDataPacket(ulong teamID, Models.Match match)
+    {
+      var quer = from ev in RobotEvents.GetAll()
+                 where ev.MatchKey == match.id &&
+                 ev.TeamKey == match.R1TeamKey
+                 select ev;
+
+      string data = match.MatchNumber + "," + Teams.Get(match.R1TeamKey).TeamNumber + "&";
+
+      var evs = new Dictionary<int, int>();
+      foreach (var evnt in quer)
+      {
+        if (evs.ContainsKey(evnt.EventType))
+          ++evs[evnt.EventType];
+        else
+          evs.Add(evnt.EventType, 1);
+      }
+      bool first = true;
+      foreach (var p in evs)
+      {
+        if (!first)
+          data += ",";
+        else
+          first = false;
+
+        data += p.Key + ":" + p.Value;
+      }
+      return data;
+    }
+
+    private void SendData(TcpClient to)
+    {
+      foreach(var match in Matches.GetAll())
+      {
+        Serv.SendPacket("Matchdata", GetDataPacket(match.R1TeamKey, match), to);
+        Serv.SendPacket("Matchdata", GetDataPacket(match.R2TeamKey, match), to);
+        Serv.SendPacket("Matchdata", GetDataPacket(match.R3TeamKey, match), to);
+        Serv.SendPacket("Matchdata", GetDataPacket(match.B1TeamKey, match), to);
+        Serv.SendPacket("Matchdata", GetDataPacket(match.B2TeamKey, match), to);
+        Serv.SendPacket("Matchdata", GetDataPacket(match.B3TeamKey, match), to);
+      }
+    }
+
     private void Serv_DataAvailable1(object sender)
     {
       foreach (var packet in Serv.GetPackets())
@@ -151,6 +194,10 @@ namespace Scouting_Server
           }
 
           Serv.SendPacket("Match", info.ToString(), packet.Sender);
+        }
+        else if (packet.Name == "GetData")
+        {
+          SendData(packet.Sender);
         }
       }
     }
