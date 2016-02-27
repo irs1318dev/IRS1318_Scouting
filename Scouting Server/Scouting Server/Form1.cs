@@ -89,10 +89,10 @@ namespace Scouting_Server
     {
       var quer = from ev in RobotEvents.GetAll()
                  where ev.MatchKey == match.id &&
-                 ev.TeamKey == match.R1TeamKey
+                 ev.TeamKey == teamID
                  select ev;
 
-      string data = match.MatchNumber + "," + Teams.Get(match.R1TeamKey).TeamNumber + "&";
+      string data = match.MatchNumber + "," + Teams.Get(teamID).TeamNumber + "&";
 
       var evs = new Dictionary<int, int>();
       foreach (var evnt in quer)
