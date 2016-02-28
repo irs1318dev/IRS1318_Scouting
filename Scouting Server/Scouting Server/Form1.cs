@@ -115,6 +115,26 @@ namespace Scouting_Server
       return data;
     }
 
+    //for the 2016 game
+    private void SendDefenseData()
+    {
+      string data = "";
+
+      data += RedDef1.Text + ",";
+      data += RedDef2.Text + ",";
+      data += RedDef3.Text + ",";
+      data += RedDef4.Text + ",";
+      data += RedDef5.Text + "&";
+
+      data += BlueDef1.Text + ",";
+      data += BlueDef2.Text + ",";
+      data += BlueDef3.Text + ",";
+      data += BlueDef4.Text + ",";
+      data += BlueDef5.Text;
+
+      Serv.SendPacket("DefenseInfo", data);
+    }
+
     private void SendData(TcpClient to)
     {
       foreach(var match in Matches.GetAll())
@@ -194,6 +214,7 @@ namespace Scouting_Server
           }
 
           Serv.SendPacket("Match", info.ToString(), packet.Sender);
+          SendDefenseData();
         }
         else if (packet.Name == "GetData")
         {
@@ -421,6 +442,7 @@ namespace Scouting_Server
         }
       }
 
+      SendDefenseData();
       Message("Match Set");
     }
 
