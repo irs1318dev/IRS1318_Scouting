@@ -3,10 +3,10 @@
     <Actions>
       <Action Type="Line" Name="5"/>
       <Action Type="Label" Name="Low Bar"/>
-      <Action Type="Label" Name="Spot 2"/>
-      <Action Type="Label" Name="Spot 3"/>
-      <Action Type="Label" Name="Spot 4"/>
-      <Action Type="Label" Name="Spot 5"/>
+      <Action Type="Change" Name="2"/>
+      <Action Type="Change" Name="3"/>
+      <Action Type="Change" Name="4"/>
+      <Action Type="Change" Name="5"/>
       <Action Type="Choice" Name="Start" Number="5"/>
       <Action Type="Count" Name="Cross" Number="5"/>
       <Action Type="Choice" Name="End" Number="5"/>
@@ -37,17 +37,17 @@
     <Actions>
       <Action Type="Line" Name="5"/>
       <Action Type="Label" Name="Low Bar"/>
-      <Action Type="Label" Name="Spot 2"/>
-      <Action Type="Label" Name="Spot 3"/>
-      <Action Type="Label" Name="Spot 4"/>
-      <Action Type="Label" Name="Spot 5"/>
+      <Action Type="Change" Name="2"/>
+      <Action Type="Change" Name="3"/>
+      <Action Type="Change" Name="4"/>
+      <Action Type="Change" Name="5"/>
       <Action Type="Count" Name="Cross" Number="5"/>
       <Action Type="Count" Name="Help" Number="5"/>
       <Action Type="Label" Name="Defending"/>
       <Action Type="Line" Name="4"/>
       <Action Type="Count" Name="Pin"/>
       <Action Type="Count" Name="Block Shot"/>
-      <Action Type="Count" Name="Take Ball"/>
+      <Action Type="Count" Name="Steal Ball"/>
       <Action Type="Count" Name="Block Cross"/>
       <Action Type="Label" Name="Fouls"/>
       <Action Type="Line" Name="2"/>

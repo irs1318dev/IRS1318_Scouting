@@ -205,7 +205,10 @@ namespace Scouting_Server
             case "Label":
               ObjectType.Add(7);
               break;
-          }
+                        case "Change":
+                            ObjectType.Add(8);
+                            break;
+                    }
           j--;
         }
       }
