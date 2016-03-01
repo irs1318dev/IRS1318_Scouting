@@ -85,6 +85,69 @@ namespace Scouting_Server
       ErrorTimer.Stop();
     }
 
+    string GetDataPacket(ulong teamID, Models.Match match)
+    {
+      var quer = from ev in RobotEvents.GetAll()
+                 where ev.MatchKey == match.id &&
+                 ev.TeamKey == teamID
+                 select ev;
+
+      string data = match.MatchNumber + "," + Teams.Get(teamID).TeamNumber + "&";
+
+      var evs = new Dictionary<int, int>();
+      foreach (var evnt in quer)
+      {
+        if (evs.ContainsKey(evnt.EventType))
+          ++evs[evnt.EventType];
+        else
+          evs.Add(evnt.EventType, 1);
+      }
+      bool first = true;
+      foreach (var p in evs)
+      {
+        if (!first)
+          data += ",";
+        else
+          first = false;
+
+        data += p.Key + ":" + p.Value;
+      }
+      return data;
+    }
+
+    //for the 2016 game
+    private void SendDefenseData()
+    {
+      string data = "";
+
+      data += RedDef1.Text + ",";
+      data += RedDef2.Text + ",";
+      data += RedDef3.Text + ",";
+      data += RedDef4.Text + ",";
+      data += RedDef5.Text + "&";
+
+      data += BlueDef1.Text + ",";
+      data += BlueDef2.Text + ",";
+      data += BlueDef3.Text + ",";
+      data += BlueDef4.Text + ",";
+      data += BlueDef5.Text;
+
+      Serv.SendPacket("DefenseInfo", data);
+    }
+
+    private void SendData(TcpClient to)
+    {
+      foreach(var match in Matches.GetAll())
+      {
+        Serv.SendPacket("Matchdata", GetDataPacket(match.R1TeamKey, match), to);
+        Serv.SendPacket("Matchdata", GetDataPacket(match.R2TeamKey, match), to);
+        Serv.SendPacket("Matchdata", GetDataPacket(match.R3TeamKey, match), to);
+        Serv.SendPacket("Matchdata", GetDataPacket(match.B1TeamKey, match), to);
+        Serv.SendPacket("Matchdata", GetDataPacket(match.B2TeamKey, match), to);
+        Serv.SendPacket("Matchdata", GetDataPacket(match.B3TeamKey, match), to);
+      }
+    }
+
     private void Serv_DataAvailable1(object sender)
     {
       foreach (var packet in Serv.GetPackets())
@@ -151,6 +214,11 @@ namespace Scouting_Server
           }
 
           Serv.SendPacket("Match", info.ToString(), packet.Sender);
+          SendDefenseData();
+        }
+        else if (packet.Name == "GetData")
+        {
+          SendData(packet.Sender);
         }
       }
     }
@@ -377,6 +445,7 @@ namespace Scouting_Server
         }
       }
 
+      SendDefenseData();
       Message("Match Set");
     }
 
