@@ -34,7 +34,6 @@ public class MainInput extends Activity {
     LinearLayout sideLayout;
     LinearLayout mainLayout;
     LinearLayout lineLayout;
-    LinearLayout linearLayout;
 
 
     //Complex variables
@@ -152,6 +151,13 @@ public class MainInput extends Activity {
                         try {
                             if (connected) client.SendPacket("Page", scouter + ",0" + "," + match + "," + team);
                         } catch (IOException ie) {
+                        }
+                        if(networkPackets[i].Name.equals("DefenseInfo")) {
+                            if(scouter < 3) text = networkPackets[i].Data.split("&")[0];
+                            else text = networkPackets[i].Data.split("&")[1];
+                            for(int j = 0; j < changes.length; j++) {
+                                changes[j] = text.split(",")[j];
+                            }
                         }
                     }
                 }
@@ -332,9 +338,9 @@ public class MainInput extends Activity {
                     textView.setTextColor(Color.rgb(249,178,52));
                     break;
                 case 8:
-                    //Defense
+                    //Change
                     textView = new TextView(this);
-                    text = changes[Integer.valueOf(objectName[i]) - 2];
+                    if(changes[0] != null)text = changes[Integer.valueOf(objectName[i]) - 2];
                     makeView(textView, lineLayout);
                     textView.setTextSize(25);
                     textView.setTextColor(Color.rgb(249,178,52));
