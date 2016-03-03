@@ -115,8 +115,9 @@ namespace Scouting_Server
       return data;
     }
 
-    //for the 2016 game
-    private void SendDefenseData()
+    //don't call this. this is mine
+    //seriously don't
+    private void SDD()
     {
       string data = "";
 
@@ -133,6 +134,20 @@ namespace Scouting_Server
       data += BlueDef5.Text;
 
       Serv.SendPacket("DefenseInfo", data);
+    }
+
+    //for the 2016 game
+    private void SendDefenseData()
+    {
+      if (InvokeRequired)
+      {
+        BeginInvoke(new MethodInvoker(() =>
+        {
+          SDD();
+        }));
+      }
+      else
+        SDD();
     }
 
     private void SendData(TcpClient to)
