@@ -34,6 +34,8 @@ public class TCPClient
             try
             {
                 Server = new Socket(Address, Port);
+                for(NetworkEvent e : OnConnected)
+                    e.Call(null);
             }
             catch (Exception e)
             {
@@ -149,9 +151,7 @@ public class TCPClient
 
 
     RunThread.start();
-    
-    for(NetworkEvent e : OnConnected)
-      e.Call(this);
+
   }
 
   public void Disconnect() throws Exception

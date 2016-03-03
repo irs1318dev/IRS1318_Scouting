@@ -6,10 +6,31 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="20adeeb6-d179-4b4a-9896-2f82660b136e" name="Default" comment="" />
+    <list default="true" id="20adeeb6-d179-4b4a-9896-2f82660b136e" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-View/res/drawable-hdpi/logo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-View/res/drawable-ldpi/logo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-View/res/drawable-mdpi/logo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-View/res/drawable-xhdpi/logo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-View/.idea/uiDesigner.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-View/src/com/example/Data_View/MainTable.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-App/.idea/workspace.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Data-View/AndroidManifest.xml" afterPath="$PROJECT_DIR$/Data-View/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Data-View/Data-View.iml" afterPath="$PROJECT_DIR$/Data-View/Data-View.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Data-View/res/layout/main.xml" afterPath="$PROJECT_DIR$/Data-View/res/layout/main.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/.idea/Scouter-App.iml" afterPath="$PROJECT_DIR$/Scouter-App/.idea/Scouter-App.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/AndroidManifest.xml" afterPath="$PROJECT_DIR$/Scouter-App/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/Scouter-App.iml" afterPath="$PROJECT_DIR$/Scouter-App/Scouter-App.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/res/layout/main.xml" afterPath="$PROJECT_DIR$/Scouter-App/res/layout/main.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java" afterPath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java" afterPath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java" />
+    </list>
     <ignored path="IRS1318_Scouting.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -30,31 +51,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Scouter-App/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="28" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="MainInput.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3878327">
-              <caret line="291" column="41" selection-start-line="291" selection-start-column="41" selection-end-line="291" selection-end-column="41" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TCPClient.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="30" column="17" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.84790874">
+              <caret line="343" column="51" selection-start-line="343" selection-start-column="51" selection-end-line="343" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -496,10 +497,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1218" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299539" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299539" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
@@ -510,7 +512,7 @@
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299539" sideWeight="0.49791667" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24947916" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24947916" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -520,7 +522,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3299539" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -575,7 +576,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="30" column="17" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
-          <folding />
+          <folding>
+            <element signature="e#738#3930#0" expanded="true" />
+            <element signature="e#3929#3930#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -648,7 +652,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Scouter-App/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="-9.225806">
           <caret line="13" column="28" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
           <folding />
         </state>
@@ -668,18 +672,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java">
+    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3878327">
-          <caret line="291" column="41" selection-start-line="291" selection-start-column="41" selection-end-line="291" selection-end-column="41" />
-          <folding />
+        <state vertical-scroll-proportion="0.020912547">
+          <caret line="32" column="9" selection-start-line="32" selection-start-column="9" selection-end-line="32" selection-end-column="9" />
+          <folding>
+            <element signature="e#738#3930#0" expanded="true" />
+            <element signature="e#3929#3930#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java">
+    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="30" column="17" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.84790874">
+          <caret line="343" column="51" selection-start-line="343" selection-start-column="51" selection-end-line="343" selection-end-column="51" />
           <folding />
         </state>
       </provider>

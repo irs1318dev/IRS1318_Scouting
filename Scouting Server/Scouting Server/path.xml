@@ -1,42 +1,77 @@
 <Scouter>
-    <Category Name="Offence" Page="Auto">
-      <Actions>
-      <Action Type="Check" Name="Start with Ball"></Action>
-      <Action Type="Counter" Name="Passage Low"></Action>
-      <Action Type="Counter" Name="Bar Low"></Action>
-      <Action Type="Counter" Name="Passage High"></Action>
-      <Action Type="Counter" Name="Center High"></Action>
-      <Action Type="Counter" Name="Bar High"></Action>
-      </Actions>
-    </Category>
-    <Category Name="Defences" Page="Auto">
-      <Actions>
-      <Action Type="Choice" Name="Low Bar"></Action>
-      <Action Type="Choice" Name="Spot 2"></Action>
-      <Action Type="Choice" Name="Spot 3"></Action>
-      <Action Type="Choice" Name="Spot 4"></Action>
-      <Action Type="Choice" Name="Spot 5"></Action>
-      <Action Type="Counter" Name="Crossed"></Action>
-      <Action Type="Check" Name="Reached"></Action>
+  <Category Name="OuterWorks" Page="Auto">
+    <Actions>
+      <Action Type="Line" Name="5"/>
+      <Action Type="Label" Name="Low Bar"/>
+      <Action Type="Change" Name="2"/>
+      <Action Type="Change" Name="3"/>
+      <Action Type="Change" Name="4"/>
+      <Action Type="Change" Name="5"/>
+      <Action Type="Choice" Name="Start" Number="5"/>
+      <Action Type="Count" Name="Cross" Number="5"/>
+      <Action Type="Choice" Name="End" Number="5"/>
+      <Action Type="Line" Name="2"/>
+      <Action Type="Switch" Name="Spy"/>
+      <Action Type="Switch" Name="Reach"/>
+      <Action Type="Label" Name="Fouls"/>
+      <Action Type="Line" Name="2"/>
+      <Action Type="Count" Name="Foul"/>
+      <Action Type="Count" Name="Tech Foul"/>
     </Actions>
-    </Category>
-    <Category Name="Offence" Page="Teleop">
-      <Actions>
-      <Action Type="Counter" Name="Passage Low"></Action>
-      <Action Type="Counter" Name="Bar Low"></Action>
-      <Action Type="Counter" Name="Passage High"></Action>
-      <Action Type="Counter" Name="Center High"></Action>
-      <Action Type="Counter" Name="Bar High"></Action>
+  </Category>
+  <Category Name="Scoring" Page="Auto">
+    <Actions>
+      <Action Type="Count" Name="Passage High"/>
+      <Action Type="Count" Name="Passage Low"/>
+      <Action Type="Count" Name="Center High"/>
+      <Action Type="Count" Name="Miss"/>
+      <Action Type="Count" Name="Bar High"/>
+      <Action Type="Count" Name="Bar Low"/>
+      <Action Type="Label" Name="Possession"/>
+      <Action Type="Line" Name="1"/>
+      <Action Type="Switch" Name="Start with Ball"/>
+      <Action Type="Switch" Name="End with Ball"/>
     </Actions>
-    </Category>
-    <Category Name="Defences" Page="Teleop">
-      <Actions>
-      <Action Type="Choice" Name="Low Bar"></Action>
-      <Action Type="Choice" Name="Spot 2"></Action>
-      <Action Type="Choice" Name="Spot 3"></Action>
-      <Action Type="Choice" Name="Spot 4"></Action>
-      <Action Type="Choice" Name="Spot 5"></Action>
-      <Action Type="Check" Name="Assiting"> </Action>
+  </Category>
+  <Category Name="OuterWorks" Page="Teleop">
+    <Actions>
+      <Action Type="Line" Name="5"/>
+      <Action Type="Label" Name="Low Bar"/>
+      <Action Type="Change" Name="2"/>
+      <Action Type="Change" Name="3"/>
+      <Action Type="Change" Name="4"/>
+      <Action Type="Change" Name="5"/>
+      <Action Type="Count" Name="Cross" Number="5"/>
+      <Action Type="Count" Name="Help" Number="5"/>
+      <Action Type="Label" Name="Defending"/>
+      <Action Type="Line" Name="4"/>
+      <Action Type="Count" Name="Pin"/>
+      <Action Type="Count" Name="Block Shot"/>
+      <Action Type="Count" Name="Steal Ball"/>
+      <Action Type="Count" Name="Block Cross"/>
+      <Action Type="Label" Name="Fouls"/>
+      <Action Type="Line" Name="2"/>
+      <Action Type="Count" Name="Foul"/>
+      <Action Type="Count" Name="Tech Foul"/>
     </Actions>
-    </Category>
+  </Category>
+  <Category Name="Scoring" Page="Teleop">
+    <Actions>
+      <Action Type="Count" Name="Passage High"/>
+      <Action Type="Count" Name="Passage Low"/>
+      <Action Type="Count" Name="Center High"/>
+      <Action Type="Count" Name="Miss"/>
+      <Action Type="Count" Name="Bar High"/>
+      <Action Type="Count" Name="Bar Low"/>
+      <Action Type="Label" Name="Retrieval"/>
+      <Action Type="Line" Name="3"/>
+      <Action Type="Count" Name="Castle High"/>
+      <Action Type="Count" Name="Castle Low"/>
+      <Action Type="Count" Name="Ground"/>
+      <Action Type="Label" Name="End Game"/>
+      <Action Type="Line" Name="2"/>
+      <Action Type="Choice" Name="Challenge"/>
+      <Action Type="Choice" Name="Scale"/>
+    </Actions>
+  </Category>
 </Scouter>

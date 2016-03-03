@@ -28,6 +28,7 @@
     /// </summary>
     private void InitializeComponent()
     {
+      this.components = new System.ComponentModel.Container();
       this.LoadMatchButton = new System.Windows.Forms.Button();
       this.red3Team = new System.Windows.Forms.NumericUpDown();
       this.red1Team = new System.Windows.Forms.NumericUpDown();
@@ -45,12 +46,28 @@
       this.label7 = new System.Windows.Forms.Label();
       this.SetMatchButton = new System.Windows.Forms.Button();
       this.errorMessage = new System.Windows.Forms.Label();
+      this.pulse = new System.Windows.Forms.Timer(this.components);
+      this.RedDef1 = new System.Windows.Forms.ComboBox();
+      this.RedDef2 = new System.Windows.Forms.ComboBox();
+      this.RedDef3 = new System.Windows.Forms.ComboBox();
+      this.RedDef4 = new System.Windows.Forms.ComboBox();
+      this.RedDef5 = new System.Windows.Forms.ComboBox();
+      this.BlueDef5 = new System.Windows.Forms.ComboBox();
+      this.BlueDef4 = new System.Windows.Forms.ComboBox();
+      this.BlueDef3 = new System.Windows.Forms.ComboBox();
+      this.BlueDef2 = new System.Windows.Forms.ComboBox();
+      this.BlueDef1 = new System.Windows.Forms.ComboBox();
       this.scoutControl6 = new Scouting_Server.ScoutControl();
       this.scoutControl5 = new Scouting_Server.ScoutControl();
       this.scoutControl4 = new Scouting_Server.ScoutControl();
       this.scoutControl3 = new Scouting_Server.ScoutControl();
       this.scoutControl2 = new Scouting_Server.ScoutControl();
       this.scoutControl1 = new Scouting_Server.ScoutControl();
+      this.label8 = new System.Windows.Forms.Label();
+      this.label9 = new System.Windows.Forms.Label();
+      this.label10 = new System.Windows.Forms.Label();
+      this.label11 = new System.Windows.Forms.Label();
+      this.label12 = new System.Windows.Forms.Label();
       ((System.ComponentModel.ISupportInitialize)(this.red3Team)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.red1Team)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.red2Team)).BeginInit();
@@ -230,6 +247,188 @@
       this.errorMessage.Size = new System.Drawing.Size(0, 13);
       this.errorMessage.TabIndex = 22;
       // 
+      // pulse
+      // 
+      this.pulse.Enabled = true;
+      this.pulse.Interval = 1000;
+      this.pulse.Tick += new System.EventHandler(this.pulse_Tick);
+      // 
+      // RedDef1
+      // 
+      this.RedDef1.BackColor = System.Drawing.Color.Red;
+      this.RedDef1.FormattingEnabled = true;
+      this.RedDef1.Items.AddRange(new object[] {
+            "Low Bar"});
+      this.RedDef1.Location = new System.Drawing.Point(18, 258);
+      this.RedDef1.Name = "RedDef1";
+      this.RedDef1.Size = new System.Drawing.Size(121, 21);
+      this.RedDef1.TabIndex = 23;
+      this.RedDef1.Text = "Low Bar";
+      // 
+      // RedDef2
+      // 
+      this.RedDef2.BackColor = System.Drawing.Color.Red;
+      this.RedDef2.FormattingEnabled = true;
+      this.RedDef2.Items.AddRange(new object[] {
+            "Cheval de Frise",
+            "Drawbridge",
+            "Low Bar",
+            "Moat",
+            "Portcullis",
+            "Ramparts",
+            "Rock Wall",
+            "Rough Terrain",
+            "Sally Port"});
+      this.RedDef2.Location = new System.Drawing.Point(145, 258);
+      this.RedDef2.Name = "RedDef2";
+      this.RedDef2.Size = new System.Drawing.Size(121, 21);
+      this.RedDef2.TabIndex = 24;
+      // 
+      // RedDef3
+      // 
+      this.RedDef3.BackColor = System.Drawing.Color.Red;
+      this.RedDef3.FormattingEnabled = true;
+      this.RedDef3.Items.AddRange(new object[] {
+            "Cheval de Frise",
+            "Drawbridge",
+            "Low Bar",
+            "Moat",
+            "Portcullis",
+            "Ramparts",
+            "Rock Wall",
+            "Rough Terrain",
+            "Sally Port"});
+      this.RedDef3.Location = new System.Drawing.Point(272, 258);
+      this.RedDef3.Name = "RedDef3";
+      this.RedDef3.Size = new System.Drawing.Size(121, 21);
+      this.RedDef3.TabIndex = 25;
+      // 
+      // RedDef4
+      // 
+      this.RedDef4.BackColor = System.Drawing.Color.Red;
+      this.RedDef4.FormattingEnabled = true;
+      this.RedDef4.Items.AddRange(new object[] {
+            "Cheval de Frise",
+            "Drawbridge",
+            "Low Bar",
+            "Moat",
+            "Portcullis",
+            "Ramparts",
+            "Rock Wall",
+            "Rough Terrain",
+            "Sally Port"});
+      this.RedDef4.Location = new System.Drawing.Point(399, 258);
+      this.RedDef4.Name = "RedDef4";
+      this.RedDef4.Size = new System.Drawing.Size(121, 21);
+      this.RedDef4.TabIndex = 26;
+      // 
+      // RedDef5
+      // 
+      this.RedDef5.BackColor = System.Drawing.Color.Red;
+      this.RedDef5.FormattingEnabled = true;
+      this.RedDef5.Items.AddRange(new object[] {
+            "Cheval de Frise",
+            "Drawbridge",
+            "Low Bar",
+            "Moat",
+            "Portcullis",
+            "Ramparts",
+            "Rock Wall",
+            "Rough Terrain",
+            "Sally Port"});
+      this.RedDef5.Location = new System.Drawing.Point(526, 258);
+      this.RedDef5.Name = "RedDef5";
+      this.RedDef5.Size = new System.Drawing.Size(121, 21);
+      this.RedDef5.TabIndex = 27;
+      // 
+      // BlueDef5
+      // 
+      this.BlueDef5.BackColor = System.Drawing.Color.DodgerBlue;
+      this.BlueDef5.FormattingEnabled = true;
+      this.BlueDef5.Items.AddRange(new object[] {
+            "Cheval de Frise",
+            "Drawbridge",
+            "Low Bar",
+            "Moat",
+            "Portcullis",
+            "Ramparts",
+            "Rock Wall",
+            "Rough Terrain",
+            "Sally Port"});
+      this.BlueDef5.Location = new System.Drawing.Point(526, 285);
+      this.BlueDef5.Name = "BlueDef5";
+      this.BlueDef5.Size = new System.Drawing.Size(121, 21);
+      this.BlueDef5.TabIndex = 32;
+      // 
+      // BlueDef4
+      // 
+      this.BlueDef4.BackColor = System.Drawing.Color.DodgerBlue;
+      this.BlueDef4.FormattingEnabled = true;
+      this.BlueDef4.Items.AddRange(new object[] {
+            "Cheval de Frise",
+            "Drawbridge",
+            "Low Bar",
+            "Moat",
+            "Portcullis",
+            "Ramparts",
+            "Rock Wall",
+            "Rough Terrain",
+            "Sally Port"});
+      this.BlueDef4.Location = new System.Drawing.Point(399, 285);
+      this.BlueDef4.Name = "BlueDef4";
+      this.BlueDef4.Size = new System.Drawing.Size(121, 21);
+      this.BlueDef4.TabIndex = 31;
+      // 
+      // BlueDef3
+      // 
+      this.BlueDef3.BackColor = System.Drawing.Color.DodgerBlue;
+      this.BlueDef3.FormattingEnabled = true;
+      this.BlueDef3.Items.AddRange(new object[] {
+            "Cheval de Frise",
+            "Drawbridge",
+            "Low Bar",
+            "Moat",
+            "Portcullis",
+            "Ramparts",
+            "Rock Wall",
+            "Rough Terrain",
+            "Sally Port"});
+      this.BlueDef3.Location = new System.Drawing.Point(272, 285);
+      this.BlueDef3.Name = "BlueDef3";
+      this.BlueDef3.Size = new System.Drawing.Size(121, 21);
+      this.BlueDef3.TabIndex = 30;
+      // 
+      // BlueDef2
+      // 
+      this.BlueDef2.BackColor = System.Drawing.Color.DodgerBlue;
+      this.BlueDef2.FormattingEnabled = true;
+      this.BlueDef2.Items.AddRange(new object[] {
+            "Cheval de Frise",
+            "Drawbridge",
+            "Low Bar",
+            "Moat",
+            "Portcullis",
+            "Ramparts",
+            "Rock Wall",
+            "Rough Terrain",
+            "Sally Port"});
+      this.BlueDef2.Location = new System.Drawing.Point(145, 285);
+      this.BlueDef2.Name = "BlueDef2";
+      this.BlueDef2.Size = new System.Drawing.Size(121, 21);
+      this.BlueDef2.TabIndex = 29;
+      // 
+      // BlueDef1
+      // 
+      this.BlueDef1.BackColor = System.Drawing.Color.DodgerBlue;
+      this.BlueDef1.FormattingEnabled = true;
+      this.BlueDef1.Items.AddRange(new object[] {
+            "Low Bar"});
+      this.BlueDef1.Location = new System.Drawing.Point(18, 285);
+      this.BlueDef1.Name = "BlueDef1";
+      this.BlueDef1.Size = new System.Drawing.Size(121, 21);
+      this.BlueDef1.TabIndex = 28;
+      this.BlueDef1.Text = "Low Bar";
+      // 
       // scoutControl6
       // 
       this.scoutControl6.BackColor = System.Drawing.Color.DodgerBlue;
@@ -278,11 +477,71 @@
       this.scoutControl1.Size = new System.Drawing.Size(187, 65);
       this.scoutControl1.TabIndex = 16;
       // 
+      // label8
+      // 
+      this.label8.AutoSize = true;
+      this.label8.Location = new System.Drawing.Point(269, 242);
+      this.label8.Name = "label8";
+      this.label8.Size = new System.Drawing.Size(56, 13);
+      this.label8.TabIndex = 33;
+      this.label8.Text = "Defense 3";
+      // 
+      // label9
+      // 
+      this.label9.AutoSize = true;
+      this.label9.Location = new System.Drawing.Point(401, 242);
+      this.label9.Name = "label9";
+      this.label9.Size = new System.Drawing.Size(56, 13);
+      this.label9.TabIndex = 34;
+      this.label9.Text = "Defense 4";
+      // 
+      // label10
+      // 
+      this.label10.AutoSize = true;
+      this.label10.Location = new System.Drawing.Point(526, 242);
+      this.label10.Name = "label10";
+      this.label10.Size = new System.Drawing.Size(56, 13);
+      this.label10.TabIndex = 35;
+      this.label10.Text = "Defense 5";
+      // 
+      // label11
+      // 
+      this.label11.AutoSize = true;
+      this.label11.Location = new System.Drawing.Point(145, 242);
+      this.label11.Name = "label11";
+      this.label11.Size = new System.Drawing.Size(56, 13);
+      this.label11.TabIndex = 36;
+      this.label11.Text = "Defense 2";
+      // 
+      // label12
+      // 
+      this.label12.AutoSize = true;
+      this.label12.Location = new System.Drawing.Point(15, 242);
+      this.label12.Name = "label12";
+      this.label12.Size = new System.Drawing.Size(104, 13);
+      this.label12.TabIndex = 37;
+      this.label12.Text = "Defense 1 (Low Bar)";
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(778, 251);
+      this.ClientSize = new System.Drawing.Size(778, 318);
+      this.Controls.Add(this.label12);
+      this.Controls.Add(this.label11);
+      this.Controls.Add(this.label10);
+      this.Controls.Add(this.label9);
+      this.Controls.Add(this.label8);
+      this.Controls.Add(this.BlueDef5);
+      this.Controls.Add(this.BlueDef4);
+      this.Controls.Add(this.BlueDef3);
+      this.Controls.Add(this.BlueDef2);
+      this.Controls.Add(this.BlueDef1);
+      this.Controls.Add(this.RedDef5);
+      this.Controls.Add(this.RedDef4);
+      this.Controls.Add(this.RedDef3);
+      this.Controls.Add(this.RedDef2);
+      this.Controls.Add(this.RedDef1);
       this.Controls.Add(this.errorMessage);
       this.Controls.Add(this.scoutControl6);
       this.Controls.Add(this.scoutControl5);
@@ -348,6 +607,22 @@
     private ScoutControl scoutControl5;
     private ScoutControl scoutControl6;
     private System.Windows.Forms.Label errorMessage;
+    private System.Windows.Forms.Timer pulse;
+    private System.Windows.Forms.ComboBox RedDef1;
+    private System.Windows.Forms.ComboBox RedDef2;
+    private System.Windows.Forms.ComboBox RedDef3;
+    private System.Windows.Forms.ComboBox RedDef4;
+    private System.Windows.Forms.ComboBox RedDef5;
+    private System.Windows.Forms.ComboBox BlueDef5;
+    private System.Windows.Forms.ComboBox BlueDef4;
+    private System.Windows.Forms.ComboBox BlueDef3;
+    private System.Windows.Forms.ComboBox BlueDef2;
+    private System.Windows.Forms.ComboBox BlueDef1;
+    private System.Windows.Forms.Label label8;
+    private System.Windows.Forms.Label label9;
+    private System.Windows.Forms.Label label10;
+    private System.Windows.Forms.Label label11;
+    private System.Windows.Forms.Label label12;
   }
 }
 
