@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Stack;
+import com.example.Data_View.Net.*;
+
+import java.util.*;
 
 public class MainTable extends Activity {
     int i;
@@ -18,13 +18,15 @@ public class MainTable extends Activity {
     int teamNum;
     int viewMode = 1;
     int defenseStart;
-    int[] teams = new int[6];
+    int dataNum = 0;
     int[][] data;
-    int[][] dataValue = new int[6][90];
     String[] dataTypes;
-    String[] dataName = new String[90];
+    String[] dataName;
+    List<Integer> teams;
+    List<List<Integer[]>> dataValue;
     Stack<Integer> stack;
     Stack<Integer> history = new Stack<>();
+    TCPClient client;
     boolean[] checked;
     TableLayout tableLayout;
 
@@ -74,6 +76,56 @@ public class MainTable extends Activity {
             }
         }
         loadDefenceTable();
+    }
+
+    public void connect(View V) {
+        EditText editText = (EditText) findViewById(R.id.editText);
+        client = new TCPClient(11111, editText.getText().toString());
+        client.OnConnected.add(new NetworkEvent() {
+            @Override
+            public void Call(TCPClient sender) {
+                try {
+                    client.SendPacket("GetData", "Hello?");
+                } catch (Exception ie) {
+                }
+            }
+        });
+        try {
+            client.Connect();
+        } catch (Exception e) {
+            e.toString();
+        }
+        //When receiving data
+        client.OnDataAvailable.add(new NetworkEvent() {
+            @Override
+            public void Call(TCPClient sender) {
+                NetworkPacket[] networkPackets = client.GetPackets();
+                i = 0;
+                if(networkPackets[i].Name.equals("Game")) {
+                    dataName = new String[networkPackets.length];
+                    for(i = 0; i < networkPackets.length; i++) dataName[i] = networkPackets[i].Data.split(",")[0];
+                }
+                if(networkPackets[i].Name.equals("MatchData")) {
+                    for(i = 0; i < networkPackets.length; i++) {
+                        int team = Integer.valueOf(networkPackets[i].Data.split("&")[0].split(",")[1]);
+                        if(!teams.contains(team)) teams.add(team);
+                        j = teams.indexOf(team);
+                        String[] currentData = networkPackets[i].Data.split("&")[1].split(",");
+                        Integer[] teamData = new Integer[currentData.length];
+                        Stack<Integer> id = new Stack<>();
+                        for(int k = 0; k < teamData.length; k++) {
+                            id.add(Integer.valueOf(currentData[k].split(":")[0]));
+                        }
+                        for(int k = 0; k < teamData.length; k++) {
+                            int l = id.indexOf(k);
+                            teamData[k] = Integer.valueOf(currentData[l].split(":")[1]);
+                        }
+                        dataValue.get(j).add(teamData);
+                    }
+                    noConnect();
+                }
+            }
+        });
     }
 
     public void loadTable() {
@@ -351,7 +403,7 @@ public class MainTable extends Activity {
         TextView textView = new TextView(this);
         textView.setTextSize(25);
         textView.setTextColor(Color.LTGRAY);
-        textView.setText("Team: " + teams[i]);
+        textView.setText("Team: " + teams.get(i));
         linearLayout.addView(textView);
 
         GridLayout gridLayout = new GridLayout(this);
@@ -359,10 +411,15 @@ public class MainTable extends Activity {
         linearLayout.addView(gridLayout);
 
         for(j = 0; j < dataName.length; j++) {
+            List<Integer[]> currentTeam = dataValue.get(i);
+            int value = currentTeam.get(currentTeam.size())[j];
+            value += currentTeam.get(currentTeam.size() - 1)[j];
+            value += currentTeam.get(currentTeam.size() - 2)[j];
+
             textView = new TextView(this);
             textView.setTextSize(20);
             textView.setTextColor(Color.GRAY);
-            textView.setText(dataName[j] + ": " + dataValue[i][j]);
+            textView.setText(dataName[j] + ": " + value);
             gridLayout.addView(textView);
 
             Space space = new Space(this);

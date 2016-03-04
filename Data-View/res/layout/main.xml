@@ -3,11 +3,11 @@
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              android:id="@+id/LinearLayout" android:background="#662382">
+              android:id="@+id/LinearLayout" android:background="#662382" android:gravity="center">
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/ScrollView">
+            android:id="@+id/ScrollView" android:visibility="gone">
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -79,5 +79,14 @@
             </HorizontalScrollView>
         </LinearLayout>
     </ScrollView>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText" android:singleLine="true" android:textColor="#f9b234" android:textSize="40dp"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Connect"
+            android:id="@+id/button" android:onClick="connect" android:textColor="#f9b234" android:textSize="40dp"/>
 </LinearLayout>
 
