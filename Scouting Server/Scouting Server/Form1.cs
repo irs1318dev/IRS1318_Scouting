@@ -446,7 +446,6 @@ namespace Scouting_Server
       
       Message("Match Saved");
     }
-
     private void SetMatchButton_Click(object sender, EventArgs e)
     {
       bool update = true;
@@ -555,8 +554,7 @@ namespace Scouting_Server
       current.Teams[3] = blue1;
       current.Teams[4] = blue2;
       current.Teams[5] = blue3;
-      
-      Message("Match Set");
+
       for (int i = 0; i < 6; ++i)
       {
         if (Scouters[i] != null)
@@ -568,8 +566,9 @@ namespace Scouting_Server
           Serv.SendPacket("Match", inf.ToString(), Scouters[i]);
         }
       }
-    }
 
+      Message("Match Set");
+    }
     private void LoadMatchButton_Click(object sender, EventArgs e)
     {
       int num = (int)matchNumber.Value;
