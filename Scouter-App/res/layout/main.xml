@@ -3,7 +3,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".Input" android:id="@+id/Title" android:clickable="false" android:background="#5200cc">
+                tools:context=".Input" android:id="@+id/Title" android:clickable="false" android:background="#662382">
 
     <LinearLayout
             android:orientation="vertical"
@@ -19,23 +19,36 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Connect"
-                    android:id="@+id/Connect" android:onClick="connect" android:textColor="#ffff4d"
+                    android:id="@+id/Connect" android:onClick="connect" android:textColor="#f9b234"
                     android:textSize="40dp"/>
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/teamName" android:singleLine="false"
-                    android:gravity="center_horizontal" android:textColor="#ffff4d" android:textSize="40dp"
-                    android:layout_gravity="center_horizontal"/>
+                    android:id="@+id/teamName" android:gravity="center_horizontal" android:textColor="#f9b234"
+                    android:textSize="40dp" android:layout_gravity="center_horizontal"/>
         </LinearLayout>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Startup"
-                android:id="@+id/PageText" android:textSize="40dp" android:gravity="center_horizontal"
-                android:layout_gravity="center_horizontal" android:textColor="#ffff4d"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+        >
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Refresh"
+                    android:id="@+id/Refresh" android:layout_gravity="left"
+                    android:onClick="loadObjects" android:visibility="gone" android:gravity="left|start"
+                    android:textColor="#f9b234"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Startup"
+                    android:id="@+id/PageText" android:textSize="40dp"
+                    android:layout_gravity="center_horizontal" android:textColor="#f9b234"
+                    android:gravity="center_horizontal"/>
+        </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -45,7 +58,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/editText"
-                    android:textSize="25dp" android:textColor="#ffff4d"/>
+                    android:textSize="25dp" android:textColor="#f9b234" android:singleLine="true"
+                    android:gravity="center_horizontal"/>
+            <Space
+                    android:layout_width="20px"
+                    android:layout_height="75dp"
+            />
             <TableLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" android:gravity="center_horizontal"
@@ -103,8 +121,8 @@
             android:id="@+id/LastPage"
             android:visibility="invisible"
             android:onClick="pageSwap"
-            android:layout_alignParentLeft="true" android:textColor="#ffff4d"
-            android:textSize="40dp" android:layout_below="@+id/mainLayout"/>
+            android:textColor="#f9b234"
+            android:textSize="40dp" android:layout_alignParentBottom="true" android:layout_alignParentStart="true"/>
 
     <Button
             android:layout_width="wrap_content"
@@ -113,15 +131,8 @@
             android:id="@+id/NextPage"
             android:onClick="pageSwap"
             android:visibility="invisible"
-            android:layout_alignParentRight="true" android:textColor="#ffff4d"
-            android:textSize="40dp" android:layout_below="@+id/mainLayout"/>
-    <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reverse"
-            android:id="@+id/Reverse" android:layout_below="@+id/mainLayout" android:layout_centerHorizontal="true"
-            android:visibility="gone" android:onClick="reverse" android:textSize="40dp" android:textColor="#ffff4d"
-            android:gravity="center_vertical"/>
+            android:textColor="#f9b234"
+            android:textSize="40dp" android:layout_alignParentBottom="true" android:layout_alignParentEnd="true"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -129,5 +140,11 @@
             android:text="Waiting for server..."
             android:id="@+id/Loading" android:layout_centerVertical="true" android:layout_centerHorizontal="true"
             android:textSize="75dp" android:visibility="gone"/>
+    <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reverse"
+            android:id="@+id/Reverse" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
+            android:onClick="reverse" android:textColor="#f9b234" android:textSize="40dp" android:visibility="gone"/>
 
 </RelativeLayout>

@@ -17,12 +17,14 @@ public class MainInput extends Activity {
     int i;
     int page = 0;
     int column = 0;
-    int scouter = 0;
+    int scouter = -1;
     int lineLength = 0;
-    int match = 0;
-    String text;
+    int match = -1;
     int team = 0;
+    String text;
+    String scoutName;
     String teamName = "";
+    String[] changes = new String[4];
     boolean connected = false;
     boolean inRadio = false;
     boolean reverse = false;
@@ -32,7 +34,6 @@ public class MainInput extends Activity {
     LinearLayout sideLayout;
     LinearLayout mainLayout;
     LinearLayout lineLayout;
-    LinearLayout linearLayout;
 
 
     //Complex variables
@@ -56,23 +57,30 @@ public class MainInput extends Activity {
             switch (v.getId()) {
                 case R.id.S0:
                     scouter = 0;
+                    scoutName = "(Red 1)";
                     break;
                 case R.id.S1:
                     scouter = 1;
+                    scoutName = "(Red 2)";
                     break;
                 case R.id.S2:
                     scouter = 2;
+                    scoutName = "(Red 3)";
                     break;
                 case R.id.S3:
                     scouter = 3;
+                    scoutName = "(Blue 1)";
                     break;
                 case R.id.S4:
                     scouter = 4;
+                    scoutName = "(Blue 2)";
                     break;
                 case R.id.S5:
                     scouter = 5;
+                    scoutName = "(Blue 3)";
                     break;
             }
+
             EditText editText = (EditText) findViewById(R.id.editText);
             client = new TCPClient(11111, editText.getText().toString());
             client.OnConnected.add(new NetworkEvent() {
@@ -81,7 +89,6 @@ public class MainInput extends Activity {
                     try {
                         client.SendPacket("Hello", String.valueOf(scouter));
                     } catch (Exception ie) {
-                        int gfd =3;
                     }
                     connected = true;
                     setConnect();
@@ -103,6 +110,8 @@ public class MainInput extends Activity {
                         objectNum = networkPackets.length;
                         objectName = new String[objectNum];
                         objectType = new int[objectNum];
+                        objectValue = new int[objectNum];
+                        page = 0;
                         for (i = 0; i < networkPackets.length && networkPackets[0].Name.equals("Game"); i++) {
                             objectName[i] = networkPackets[i].Data.split(",")[0];
                             text = networkPackets[i].Data.split(",")[1];
@@ -111,7 +120,7 @@ public class MainInput extends Activity {
                         }
                         pageId = new int[page + 1];
                         connected = true;
-                        loading = true;
+                        if(match == -1) loading = true;
                         setConnect();
                         Handler mainHandle = new Handler(getMainLooper());
                         mainHandle.post(new Runnable() {
@@ -119,12 +128,11 @@ public class MainInput extends Activity {
                             public void run() {
                                 findViewById(R.id.startLayout).setVisibility(View.GONE);
                                 findViewById(R.id.TopLine).setVisibility(View.VISIBLE);
-                                findViewById(R.id.Loading).setVisibility(View.VISIBLE);
+                                if(loading) findViewById(R.id.Loading).setVisibility(View.VISIBLE);
                             }
                         });
                     }
                     if(networkPackets[i].Name.equals("Match")) {
-                        if(loading) {
                             match = Integer.valueOf(networkPackets[i].Data.split(",")[0]);
                             team = Integer.valueOf(networkPackets[i].Data.split(",")[1]);
                             teamName = networkPackets[i].Data.split(",")[2];
@@ -135,10 +143,21 @@ public class MainInput extends Activity {
                                 @Override
                                 public void run() {
                                     TextView textView = (TextView) findViewById(R.id.teamName);
-                                    textView.setText(team + " " + teamName + " Match:" + match);
-                                    loadObjects();
+                                    textView.setText(team + " " + teamName + " " + scoutName);
+                                    for(i = 0; i < objectNum; i++) objectValue[i] = 0;
+                                    loadObjects(null);
                                 }
                             });
+                        try {
+                            if (connected) client.SendPacket("Page", scouter + ",0" + "," + match + "," + team);
+                        } catch (IOException ie) {
+                        }
+                        if(networkPackets[i].Name.equals("DefenseInfo")) {
+                            if(scouter < 3) text = networkPackets[i].Data.split("&")[0];
+                            else text = networkPackets[i].Data.split("&")[1];
+                            for(int j = 0; j < changes.length; j++) {
+                                changes[j] = text.split(",")[j];
+                            }
                         }
                     }
                 }
@@ -165,27 +184,39 @@ public class MainInput extends Activity {
         });
     }
 
-    public void loadObjects() {
+    public void loadObjects(View v) {
+        //Removing old layout
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.mainLayout);
+        linearLayout.removeView(mainLayout);
+
         //Showing required parts
+        Button button = (Button) findViewById(R.id.NextPage);
+        button.setText("Next Page -->");
+        button.setVisibility(View.VISIBLE);
+
         findViewById(R.id.Loading).setVisibility(View.GONE);
-        findViewById(R.id.NextPage).setVisibility(View.VISIBLE);
+        findViewById(R.id.LastPage).setVisibility(View.GONE);
+
         findViewById(R.id.Reverse).setVisibility(View.VISIBLE);
+        findViewById(R.id.Refresh).setVisibility(View.VISIBLE);
 
         //Adding essential variables
         linearLayout = (LinearLayout) findViewById(R.id.mainLayout);
         mainLayout = new LinearLayout(this);
+        mainLayout.setGravity(1);
         linearLayout.addView(mainLayout);
+
         LinearLayout radioGroup = new LinearLayout(this);
-        objectValue = new int[objectNum];
         sideLayout = new LinearLayout(this);
         tableLayout = new TableLayout(this);
+
         int currentRadio = 0;
         makeLine();
         page = 0;
 
         //Changing Title
         TextView textView = (TextView) findViewById(R.id.PageText);
-        textView.setText(objectName[0]);
+        textView.setText(objectName[0] + " Match: " + match);
 
         //Creating actual form
         for (i = 0; i < objectNum; i++) {
@@ -211,6 +242,7 @@ public class MainInput extends Activity {
                     divider.setBackgroundColor(Color.LTGRAY);
                     divider.setHeight(650);
                     linearLayout.addView(divider);
+
                     Space space = new Space(this);
                     space.setMinimumWidth(5);
                     linearLayout.addView(space);
@@ -224,6 +256,7 @@ public class MainInput extends Activity {
                     space = new Space(this);
                     space.setMinimumWidth(5);
                     linearLayout.addView(space);
+
                     divider = new TextView(this);
                     divider.setWidth(5);
                     divider.setBackgroundColor(Color.LTGRAY);
@@ -233,9 +266,9 @@ public class MainInput extends Activity {
 
                     //Labelling
                     textView = new TextView(this);
-                    textView.setGravity(1);
                     makeView(textView, sideLayout);
                     textView.setTextSize(25);
+                    textView.setTextColor(Color.rgb(249,178,52));
 
                     tableLayout = new TableLayout(this);
                     sideLayout.addView(tableLayout);
@@ -250,22 +283,25 @@ public class MainInput extends Activity {
                     switchLayout.setId(i + objectNum);
                     switchLayout.setOnClickListener(clickListener);
                     lineLayout.addView(switchLayout);
+
                     textView = new TextView(this);
                     makeView(textView,switchLayout);
                     column--;
                     text = "";
+
                     Switch aSwitch = new Switch(this);
                     aSwitch.setOnClickListener(clickListener);
                     aSwitch.setId(i);
+                    if(objectValue[i] == 1) aSwitch.setChecked(true);
                     aSwitch.setGravity(1);
                     makeView(aSwitch, switchLayout);
                     break;
                 case 4:
                     //Count
-                    Button button = new Button(this);
+                    button = new Button(this);
                     button.setOnClickListener(clickListener);
                     button.setId(i);
-                    text = objectName[i] + ": 0";
+                    text = objectName[i] + ": " + objectValue[i];
                     makeView(button, lineLayout);
                     break;
                 case 5:
@@ -275,12 +311,14 @@ public class MainInput extends Activity {
                     radioGroup.setId(i + objectNum);
                     radioGroup.setOrientation(LinearLayout.HORIZONTAL);
                     lineLayout.addView(radioGroup);
+
                     textView = new TextView(this);
                     makeView(textView,radioGroup);
                     column--;
                     text = "";
                     RadioButton radioButton = new RadioButton(this);
                     radioButton.setId(i);
+                    if(objectValue[i] == 1) radioButton.setChecked(true);
                     radioButton.setOnClickListener(clickListener);
                     makeView(radioButton, radioGroup);
                     break;
@@ -295,18 +333,22 @@ public class MainInput extends Activity {
                 case 7:
                     //Label
                     textView = new TextView(this);
-                    textView.setGravity(1);
                     makeView(textView, lineLayout);
                     textView.setTextSize(25);
+                    textView.setTextColor(Color.rgb(249,178,52));
+                    break;
+                case 8:
+                    //Change
+                    textView = new TextView(this);
+                    if(changes[0] != null)text = changes[Integer.valueOf(objectName[i]) - 2];
+                    makeView(textView, lineLayout);
+                    textView.setTextSize(25);
+                    textView.setTextColor(Color.rgb(249,178,52));
                     break;
             }
         }
         i = 0;
         page = 0;
-        try {
-            if (connected) client.SendPacket("Page", scouter + ",0" + "," + match + "," + team);
-        } catch (IOException ie) {
-        }
     }
 
     //Creating a grid for other objects
@@ -328,7 +370,8 @@ public class MainInput extends Activity {
         textView.setText(text);
         textView.setTextSize(20);
         textView.setGravity(1);
-        textView.setTextColor(Color.rgb(255,255,77));
+        textView.setHighlightColor(Color.rgb(54,179,222));
+        textView.setTextColor(Color.LTGRAY);
         viewGroup.addView(textView);
 
         //Checking for end of row
@@ -353,19 +396,23 @@ public class MainInput extends Activity {
         if(page == pageId.length - 2) button.setText("Next Match -->");
         else button.setText("Next Page -->");
 
+
         //Changing title
         TextView textView = (TextView) findViewById(R.id.PageText);
         if(page == pageId.length - 1) {
-            textView.setText("");
-            LinearLayout  linearLayout = (LinearLayout) findViewById(R.id.mainLayout);
-            linearLayout.removeView(mainLayout);
-            findViewById(R.id.LastPage).setVisibility(View.GONE);
+            textView.setText("Match: " + match);
             findViewById(R.id.Loading).setVisibility(View.VISIBLE);
             findViewById(R.id.Reverse).setVisibility(View.GONE);
-            match = -1;
+            mainLayout.setVisibility(View.GONE);
             loading = true;
         }
-        else textView.setText(objectName[pageId[page]]);
+        else {
+            textView.setText(objectName[pageId[page]] + " Match: " + match);
+            mainLayout.setVisibility(View.VISIBLE);
+            findViewById(R.id.Loading).setVisibility(View.GONE);
+            findViewById(R.id.Reverse).setVisibility(View.VISIBLE);
+            loading = false;
+        }
 
 
         //Sending page update
@@ -378,6 +425,13 @@ public class MainInput extends Activity {
     public void reverse(View v) {
         Switch aSwitch = (Switch) v;
         reverse = aSwitch.isChecked();
+    }
+
+    public void onBackPressed() {
+        try {
+            if (connected) client.Disconnect();
+        } catch (Exception e) {
+        }
     }
 
     Button.OnClickListener clickListener = new Button.OnClickListener() {
