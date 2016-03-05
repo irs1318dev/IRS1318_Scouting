@@ -224,6 +224,7 @@ namespace Scouting_Server
           }
           ScoutersDictionary.Add(packet.Sender, scoutNumber);
           Scouters[scoutNumber] = packet.Sender;
+          ScouterControls[scoutNumber].SetLastIP(packet.Sender.Client.LocalEndPoint.ToString());
 
           var info = new NetworkData.MatchInfoTransferData();
           if(current.Match != null)
@@ -463,8 +464,7 @@ namespace Scouting_Server
           Serv.SendPacket("Match", inf.ToString(), Scouters[i]);
         }
       }
-
-      SendDefenseData();
+      
       Message("Match Set");
     }
 
@@ -507,6 +507,11 @@ namespace Scouting_Server
       blue1Team.Value = 0;
       blue2Team.Value = 0;
       blue3Team.Value = 0;
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+      SendDefenseData();
     }
   }
 }
