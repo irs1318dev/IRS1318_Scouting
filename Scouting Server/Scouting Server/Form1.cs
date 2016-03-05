@@ -260,10 +260,10 @@ namespace Scouting_Server
     private void Serv_Connected1(object sender)
     {
       TcpClient client = (TcpClient)sender;
-      for (int i = 0; i < ObjectType.Count; i++)
-      {
-        Serv.SendPacket("Game", ObjectName[i] + "," + ObjectType[i].ToString(), client);
-      }
+            for (int i = 0; i < ObjectType.Count; i++)
+            {
+                Serv.SendPacket("Game", ObjectName[i] + "," + ObjectType[i].ToString(), client);
+            }
     }
 
     public void loadObjects(XmlElement category)
@@ -344,7 +344,7 @@ namespace Scouting_Server
       return matches.ToArray()[0];
     }
 
-    private void SetMatchButton_Click(object sender, EventArgs e)
+    private void SaveMatchButton_Click(object sender, EventArgs e)
     {
       bool update = true;
       Models.Match m;
@@ -452,21 +452,26 @@ namespace Scouting_Server
       current.Teams[3] = blue1;
       current.Teams[4] = blue2;
       current.Teams[5] = blue3;
-
-      for (int i = 0; i < 6; ++i)
-      {
-        if (Scouters[i] != null)
-        {
-          var inf = new NetworkData.MatchInfoTransferData();
-          inf.MatchNumber = current.Match.MatchNumber;
-          inf.TeamName = current.Teams[i].TeamName;
-          inf.TeamNumber = current.Teams[i].TeamNumber;
-          Serv.SendPacket("Match", inf.ToString(), Scouters[i]);
-        }
-      }
       
-      Message("Match Set");
+      Message("Match Saved");
     }
+    
+    private void SetMatchButton_Click(object sender, EventArgs e)
+        {
+            SaveMatchButton_Click(sender, e);
+            Message("Match Set");
+            for (int i = 0; i < 6; ++i)
+            {
+                if (Scouters[i] != null)
+                {
+                    var inf = new NetworkData.MatchInfoTransferData();
+                    inf.MatchNumber = current.Match.MatchNumber;
+                    inf.TeamName = current.Teams[i].TeamName;
+                    inf.TeamNumber = current.Teams[i].TeamNumber;
+                    Serv.SendPacket("Match", inf.ToString(), Scouters[i]);
+                }
+            }
+        }
 
     private void LoadMatchButton_Click(object sender, EventArgs e)
     {

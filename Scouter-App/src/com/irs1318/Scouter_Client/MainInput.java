@@ -84,7 +84,7 @@ public class MainInput extends Activity {
             }
 
             EditText editText = (EditText) findViewById(R.id.editText);
-            text = String.valueOf(editText.getId());
+            text = String.valueOf(editText.getText());
             client = new TCPClient(11111, text);
             client.OnConnected.add(new NetworkEvent() {
                 @Override
@@ -203,7 +203,7 @@ public class MainInput extends Activity {
             public void run() {
                 RadioButton radioButton = (RadioButton) findViewById(R.id.Connect);
                 radioButton.setChecked(connected);
-                if(!connected) findViewById(R.id.Reconnect).setVisibility(View.VISIBLE);
+                if(connected) findViewById(R.id.Reconnect).setVisibility(View.VISIBLE);
             }
         });
     }

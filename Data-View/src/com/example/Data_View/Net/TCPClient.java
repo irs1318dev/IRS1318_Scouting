@@ -39,7 +39,7 @@ public class TCPClient
             }
             catch (Exception e)
             {
-                //todo actually care
+                e.toString();
                 return;
             }
             InputStream input = null;

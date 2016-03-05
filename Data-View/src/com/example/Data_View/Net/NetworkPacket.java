@@ -47,8 +47,11 @@ public class NetworkPacket
       else
         currentData += input;
     }
+
+    //Right here is the error that breaks everything hurry I need it done please!!!!!!! <----- <------ <<<<<<<<<<<<
     for (int i = 0; i < bufferData.size(); i += 2)
     {
+      //When it is odd the index gets out of range
       packets.add(new NetworkPacket(bufferData.get(i), bufferData.get(i + 1)));
     }
     NetworkPacket[] arr = new NetworkPacket[packets.size()];

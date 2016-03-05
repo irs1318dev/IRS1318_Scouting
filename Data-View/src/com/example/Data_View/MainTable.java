@@ -21,6 +21,7 @@ public class MainTable extends Activity {
     int defenseStart;
     int dataNum = 0;
     int[][] data;
+    String text;
     String[] dataTypes;
     String[] dataName;
     List<Integer> teams;
@@ -80,7 +81,8 @@ public class MainTable extends Activity {
 
     public void connect(View V) {
         EditText editText = (EditText) findViewById(R.id.editText);
-        client = new TCPClient(11111, editText.getText().toString());
+        text = String.valueOf(editText.getText());
+        client = new TCPClient(11111, text);
         client.OnConnected.add(new NetworkEvent() {
             @Override
             public void Call(TCPClient sender) {
@@ -107,6 +109,14 @@ public class MainTable extends Activity {
                 if(networkPackets[i].Name.equals("Game")) {
                     dataName = new String[networkPackets.length];
                     for(i = 0; i < networkPackets.length; i++) dataName[i] = networkPackets[i].Data.split(",")[0];
+                    Handler mainHandle = new Handler(getMainLooper());
+                    mainHandle.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            TextView textView = (TextView) findViewById(R.id.textView);
+                            textView.setText("Loading");
+                        }
+                    });
                 }
                 if(networkPackets[i].Name.equals("MatchData")) {
                     for(i = 0; i < networkPackets.length; i++) {
