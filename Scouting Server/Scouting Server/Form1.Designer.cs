@@ -127,6 +127,11 @@
       // matchNumber
       // 
       this.matchNumber.Location = new System.Drawing.Point(55, 12);
+      this.matchNumber.Maximum = new decimal(new int[] {
+            -1530494976,
+            232830,
+            0,
+            0});
       this.matchNumber.Name = "matchNumber";
       this.matchNumber.Size = new System.Drawing.Size(120, 20);
       this.matchNumber.TabIndex = 0;
