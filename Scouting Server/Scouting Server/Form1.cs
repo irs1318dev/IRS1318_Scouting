@@ -184,11 +184,7 @@ namespace Scouting_Server
           ev.MatchKey = current.Match.id;
           ev.TeamKey = current.Teams[EventData.ScoutNumber].id;
           RobotEvents.Add(ev);
-          ThreadPool.QueueUserWorkItem(
-            (object state) =>
-          {
-            RobotEvents.Save();
-          });
+          RobotEvents.Save();
         }
         else if (packet.Name == "Undo")
         {
@@ -209,16 +205,25 @@ namespace Scouting_Server
         else if (packet.Name == "Hello")
         {
           var scoutNumber = packet.DataAsInt;
-          if(ScoutersDictionary.ContainsKey(packet.Sender))
+
+          if (Scouters[scoutNumber] != null && Scouters[scoutNumber] != packet.Sender)
           {
-            Scouters[ScoutersDictionary[packet.Sender]] = null;
+            ScoutersDictionary.Remove(Scouters[scoutNumber]);
+            Serv.DisconnectClient(Scouters[scoutNumber]);
+          }
+          if (ScoutersDictionary.ContainsKey(packet.Sender))
+          {
+            int oldnum = ScoutersDictionary[packet.Sender];
+
+            ScouterControls[oldnum].SetMatchNumber(0);
+            ScouterControls[oldnum].SetStatus("None");
+            ScouterControls[oldnum].SetTeamNumber(0);
+
+            Scouters[oldnum] = null;
             ScoutersDictionary.Remove(packet.Sender);
           }
           ScoutersDictionary.Add(packet.Sender, scoutNumber);
           Scouters[scoutNumber] = packet.Sender;
-          ScouterControls[scoutNumber].SetMatchNumber(0);
-          ScouterControls[scoutNumber].SetStatus("Connected");
-          ScouterControls[scoutNumber].SetTeamNumber(0);
 
           var info = new NetworkData.MatchInfoTransferData();
           if(current.Match != null)
