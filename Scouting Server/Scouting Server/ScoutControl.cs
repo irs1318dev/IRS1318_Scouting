@@ -75,5 +75,17 @@ namespace Scouting_Server
       else
         status.Text = "Status: " + scoutStatus;
     }
+
+    public void SetLastIP(string ip)
+    {
+      if (teamNum.InvokeRequired)
+      {
+        teamNum.Invoke(new MethodInvoker(() => {
+          LastIP.Text = "LastIP: " + ip;
+        }));
+      }
+      else
+        LastIP.Text = "LastIP: " + ip;
+    }
   }
 }

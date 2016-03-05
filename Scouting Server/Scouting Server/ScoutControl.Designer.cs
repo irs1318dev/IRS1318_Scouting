@@ -31,6 +31,7 @@
       this.matchNum = new System.Windows.Forms.Label();
       this.teamNum = new System.Windows.Forms.Label();
       this.status = new System.Windows.Forms.Label();
+      this.LastIP = new System.Windows.Forms.Label();
       this.SuspendLayout();
       // 
       // matchNum
@@ -63,15 +64,26 @@
       this.status.TabIndex = 2;
       this.status.Text = "Status:";
       // 
+      // LastIP
+      // 
+      this.LastIP.AutoSize = true;
+      this.LastIP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.LastIP.Location = new System.Drawing.Point(3, 61);
+      this.LastIP.Name = "LastIP";
+      this.LastIP.Size = new System.Drawing.Size(59, 20);
+      this.LastIP.TabIndex = 3;
+      this.LastIP.Text = "LastIP:";
+      // 
       // ScoutControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.Controls.Add(this.LastIP);
       this.Controls.Add(this.status);
       this.Controls.Add(this.teamNum);
       this.Controls.Add(this.matchNum);
       this.Name = "ScoutControl";
-      this.Size = new System.Drawing.Size(187, 65);
+      this.Size = new System.Drawing.Size(187, 86);
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -82,5 +94,6 @@
     private System.Windows.Forms.Label matchNum;
     private System.Windows.Forms.Label teamNum;
     private System.Windows.Forms.Label status;
+    private System.Windows.Forms.Label LastIP;
   }
 }

@@ -3,6 +3,7 @@ package com.example.Data_View;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.*;
 
@@ -20,6 +21,7 @@ public class MainTable extends Activity {
     int defenseStart;
     int dataNum = 0;
     int[][] data;
+    String text;
     String[] dataTypes;
     String[] dataName;
     List<Integer> teams;
@@ -36,7 +38,6 @@ public class MainTable extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         if(getActionBar() != null) getActionBar().hide();
-        noConnect();
     }
 
     public void noConnect() {
@@ -80,21 +81,25 @@ public class MainTable extends Activity {
 
     public void connect(View V) {
         EditText editText = (EditText) findViewById(R.id.editText);
-        client = new TCPClient(11111, editText.getText().toString());
+        text = String.valueOf(editText.getText());
+        client = new TCPClient(11111, text);
         client.OnConnected.add(new NetworkEvent() {
             @Override
             public void Call(TCPClient sender) {
                 try {
                     client.SendPacket("GetData", "Hello?");
+                    Handler mainHandle = new Handler(getMainLooper());
+                    mainHandle.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            TextView textView = (TextView) findViewById(R.id.textView);
+                            textView.setText("Connected");
+                        }
+                    });
                 } catch (Exception ie) {
                 }
             }
         });
-        try {
-            client.Connect();
-        } catch (Exception e) {
-            e.toString();
-        }
         //When receiving data
         client.OnDataAvailable.add(new NetworkEvent() {
             @Override
@@ -104,6 +109,14 @@ public class MainTable extends Activity {
                 if(networkPackets[i].Name.equals("Game")) {
                     dataName = new String[networkPackets.length];
                     for(i = 0; i < networkPackets.length; i++) dataName[i] = networkPackets[i].Data.split(",")[0];
+                    Handler mainHandle = new Handler(getMainLooper());
+                    mainHandle.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            TextView textView = (TextView) findViewById(R.id.textView);
+                            textView.setText("Loading");
+                        }
+                    });
                 }
                 if(networkPackets[i].Name.equals("MatchData")) {
                     for(i = 0; i < networkPackets.length; i++) {
@@ -122,10 +135,20 @@ public class MainTable extends Activity {
                         }
                         dataValue.get(j).add(teamData);
                     }
-                    noConnect();
+                    Handler mainHandle = new Handler(getMainLooper());
+                    mainHandle.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            noConnect();
+                        }
+                    });
                 }
             }
         });
+        try {
+            client.Connect();
+        } catch (Exception e) {
+        }
     }
 
     public void loadTable() {
@@ -387,6 +410,12 @@ public class MainTable extends Activity {
             }
         }
         defenseStart = dataTypes.length - 11;
+    }
+
+    public void onBackPressed() {
+        try {
+            client.Disconnect();
+        } catch (Exception e) {}
     }
 
     public void loadTeam() {

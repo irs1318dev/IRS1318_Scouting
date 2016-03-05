@@ -152,7 +152,7 @@ namespace Scouting_Server
 
     private void SendData(TcpClient to)
     {
-      foreach(var match in Matches.GetAll())
+      foreach (var match in Matches.GetAll())
       {
         Serv.SendPacket("Matchdata", GetDataPacket(match.R1TeamKey, match), to);
         Serv.SendPacket("Matchdata", GetDataPacket(match.R2TeamKey, match), to);
@@ -224,9 +224,10 @@ namespace Scouting_Server
           }
           ScoutersDictionary.Add(packet.Sender, scoutNumber);
           Scouters[scoutNumber] = packet.Sender;
+          ScouterControls[scoutNumber].SetLastIP(packet.Sender.Client.LocalEndPoint.ToString());
 
           var info = new NetworkData.MatchInfoTransferData();
-          if(current.Match != null)
+          if (current.Match != null)
           {
             info.MatchNumber = current.Match.MatchNumber;
             info.TeamName = current.Teams[scoutNumber].TeamName;
@@ -292,10 +293,10 @@ namespace Scouting_Server
             case "Label":
               ObjectType.Add(7);
               break;
-                        case "Change":
-                            ObjectType.Add(8);
-                            break;
-                    }
+            case "Change":
+              ObjectType.Add(8);
+              break;
+          }
           j--;
         }
       }
@@ -341,6 +342,109 @@ namespace Scouting_Server
                     select match;
 
       return matches.ToArray()[0];
+    }
+
+    private void SaveMatchButton_Click(object sender, EventArgs e)
+    {
+      bool update = true;
+      Models.Match m;
+
+      try
+      {
+        m = GetMatchByNumber((int)matchNumber.Value);
+      }
+      catch (IndexOutOfRangeException)
+      {
+        update = false;
+        m = new Models.Match();
+      }
+
+
+      #region getTeams
+      Models.Team red1;
+      Models.Team red2;
+      Models.Team red3;
+      Models.Team blue1;
+      Models.Team blue2;
+      Models.Team blue3;
+      //RED 1
+      try
+      {
+        red1 = GetTeamByNumber((int)red1Team.Value);
+        m.R1TeamKey = red1.id;
+      }
+      catch (IndexOutOfRangeException)
+      {
+        Error("Match could not be set. Team: " + (int)red1Team.Value + " not found");
+        return;
+      }
+      //RED 2
+      try
+      {
+        red2 = GetTeamByNumber((int)red2Team.Value);
+        m.R2TeamKey = red2.id;
+      }
+      catch (IndexOutOfRangeException)
+      {
+        Error("Match could not be set. Team: " + (int)red2Team.Value + " not found");
+        return;
+      }
+      //RED 3
+      try
+      {
+        red3 = GetTeamByNumber((int)red3Team.Value);
+        m.R3TeamKey = red3.id;
+      }
+      catch (IndexOutOfRangeException)
+      {
+        Error("Match could not be set. Team: " + (int)red3Team.Value + " not found");
+        return;
+      }
+      //BLUE 1
+      try
+      {
+        blue1 = GetTeamByNumber((int)blue1Team.Value);
+        m.B1TeamKey = blue1.id;
+      }
+      catch (IndexOutOfRangeException)
+      {
+        Error("Match could not be set. Team: " + (int)blue1Team.Value + " not found");
+        return;
+      }
+      //BLUE 2
+      try
+      {
+        blue2 = GetTeamByNumber((int)blue2Team.Value);
+        m.B2TeamKey = blue2.id;
+      }
+      catch (IndexOutOfRangeException)
+      {
+        Error("Match could not be set. Team: " + (int)blue2Team.Value + " not found");
+        return;
+      }
+      //BLUE 3
+      try
+      {
+        blue3 = GetTeamByNumber((int)blue3Team.Value);
+        m.B3TeamKey = blue3.id;
+      }
+      catch (IndexOutOfRangeException)
+      {
+        Error("Match could not be set. Team: " + (int)blue3Team.Value + " not found");
+        return;
+      }
+      #endregion
+
+      m.MatchNumber = (int)matchNumber.Value;
+
+      if (update)
+        Matches.Update(m);
+      else
+        Matches.Add(m);
+
+      Matches.Save();
+      
+      Message("Match Saved");
     }
 
     private void SetMatchButton_Click(object sender, EventArgs e)
@@ -451,7 +555,8 @@ namespace Scouting_Server
       current.Teams[3] = blue1;
       current.Teams[4] = blue2;
       current.Teams[5] = blue3;
-
+      
+      Message("Match Set");
       for (int i = 0; i < 6; ++i)
       {
         if (Scouters[i] != null)
@@ -463,9 +568,6 @@ namespace Scouting_Server
           Serv.SendPacket("Match", inf.ToString(), Scouters[i]);
         }
       }
-
-      SendDefenseData();
-      Message("Match Set");
     }
 
     private void LoadMatchButton_Click(object sender, EventArgs e)
@@ -493,10 +595,25 @@ namespace Scouting_Server
 
     private void pulse_Tick(object sender, EventArgs e)
     {
-      if(Serv != null)
+      if (Serv != null)
       {
         Serv.SendPacket("PING", "");
       }
+    }
+
+    private void matchNumber_ValueChanged(object sender, EventArgs e)
+    {
+      red1Team.Value = 0;
+      red2Team.Value = 0;
+      red3Team.Value = 0;
+      blue1Team.Value = 0;
+      blue2Team.Value = 0;
+      blue3Team.Value = 0;
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+      SendDefenseData();
     }
   }
 }

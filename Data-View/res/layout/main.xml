@@ -79,14 +79,25 @@
             </HorizontalScrollView>
         </LinearLayout>
     </ScrollView>
+
     <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText" android:singleLine="true" android:textColor="#f9b234" android:textSize="40dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText" android:singleLine="true" android:textColor="#f9b234" android:textSize="40dp"
+        android:gravity="center_horizontal"/>
+
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Connect"
             android:id="@+id/button" android:onClick="connect" android:textColor="#f9b234" android:textSize="40dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Ready"
+        android:id="@+id/textView"/>
+
 </LinearLayout>
 
