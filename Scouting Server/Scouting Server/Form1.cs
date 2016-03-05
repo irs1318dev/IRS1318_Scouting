@@ -493,5 +493,15 @@ namespace Scouting_Server
         Serv.SendPacket("PING", "");
       }
     }
+
+    private void matchNumber_ValueChanged(object sender, EventArgs e)
+    {
+      red1Team.Value = 0;
+      red2Team.Value = 0;
+      red3Team.Value = 0;
+      blue1Team.Value = 0;
+      blue2Team.Value = 0;
+      blue3Team.Value = 0;
+    }
   }
 }
