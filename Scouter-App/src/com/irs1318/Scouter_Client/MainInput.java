@@ -357,14 +357,10 @@ public class MainInput extends Activity {
                     break;
                 case 7:
                     //Label
-                    makeLine();
-
                     textView = new TextView(this);
                     makeView(textView, lineLayout);
                     textView.setTextSize(25);
                     textView.setTextColor(Color.rgb(249,178,52));
-
-                    makeLine();
                     break;
                 case 8:
                     //Change
