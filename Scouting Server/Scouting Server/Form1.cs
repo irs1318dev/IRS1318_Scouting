@@ -229,7 +229,6 @@ namespace Scouting_Server
           }
 
           Serv.SendPacket("Match", info.ToString(), packet.Sender);
-          SendDefenseData();
         }
         else if (packet.Name == "GetData")
         {
