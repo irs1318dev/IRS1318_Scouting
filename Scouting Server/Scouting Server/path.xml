@@ -2,7 +2,7 @@
   <Category Name="OuterWorks" Page="Auto">
     <Actions>
       <Action Type="Line" Name="5"/>
-      <Action Type="Label" Name="Low Bar"/>
+      <Action Type="Change" Name="1"/>
       <Action Type="Change" Name="2"/>
       <Action Type="Change" Name="3"/>
       <Action Type="Change" Name="4"/>
@@ -36,7 +36,7 @@
   <Category Name="OuterWorks" Page="Teleop">
     <Actions>
       <Action Type="Line" Name="5"/>
-      <Action Type="Label" Name="Low Bar"/>
+      <Action Type="Change" Name="1"/>
       <Action Type="Change" Name="2"/>
       <Action Type="Change" Name="3"/>
       <Action Type="Change" Name="4"/>
