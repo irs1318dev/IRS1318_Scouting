@@ -184,11 +184,7 @@ namespace Scouting_Server
           ev.MatchKey = current.Match.id;
           ev.TeamKey = current.Teams[EventData.ScoutNumber].id;
           RobotEvents.Add(ev);
-          ThreadPool.QueueUserWorkItem(
-            (object state) =>
-          {
-            RobotEvents.Save();
-          });
+          RobotEvents.Save();
         }
         else if (packet.Name == "Undo")
         {
@@ -209,16 +205,26 @@ namespace Scouting_Server
         else if (packet.Name == "Hello")
         {
           var scoutNumber = packet.DataAsInt;
-          if(ScoutersDictionary.ContainsKey(packet.Sender))
+
+          if (Scouters[scoutNumber] != null && Scouters[scoutNumber] != packet.Sender)
           {
-            Scouters[ScoutersDictionary[packet.Sender]] = null;
+            ScoutersDictionary.Remove(Scouters[scoutNumber]);
+            Serv.DisconnectClient(Scouters[scoutNumber]);
+          }
+          if (ScoutersDictionary.ContainsKey(packet.Sender))
+          {
+            int oldnum = ScoutersDictionary[packet.Sender];
+
+            ScouterControls[oldnum].SetMatchNumber(0);
+            ScouterControls[oldnum].SetStatus("None");
+            ScouterControls[oldnum].SetTeamNumber(0);
+
+            Scouters[oldnum] = null;
             ScoutersDictionary.Remove(packet.Sender);
           }
           ScoutersDictionary.Add(packet.Sender, scoutNumber);
           Scouters[scoutNumber] = packet.Sender;
-          ScouterControls[scoutNumber].SetMatchNumber(0);
-          ScouterControls[scoutNumber].SetStatus("Connected");
-          ScouterControls[scoutNumber].SetTeamNumber(0);
+          ScouterControls[scoutNumber].SetLastIP(packet.Sender.Client.LocalEndPoint.ToString());
 
           var info = new NetworkData.MatchInfoTransferData();
           if(current.Match != null)
@@ -229,7 +235,6 @@ namespace Scouting_Server
           }
 
           Serv.SendPacket("Match", info.ToString(), packet.Sender);
-          SendDefenseData();
         }
         else if (packet.Name == "GetData")
         {
@@ -459,8 +464,7 @@ namespace Scouting_Server
           Serv.SendPacket("Match", inf.ToString(), Scouters[i]);
         }
       }
-
-      SendDefenseData();
+      
       Message("Match Set");
     }
 
@@ -493,6 +497,21 @@ namespace Scouting_Server
       {
         Serv.SendPacket("PING", "");
       }
+    }
+
+    private void matchNumber_ValueChanged(object sender, EventArgs e)
+    {
+      red1Team.Value = 0;
+      red2Team.Value = 0;
+      red3Team.Value = 0;
+      blue1Team.Value = 0;
+      blue2Team.Value = 0;
+      blue3Team.Value = 0;
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+      SendDefenseData();
     }
   }
 }
