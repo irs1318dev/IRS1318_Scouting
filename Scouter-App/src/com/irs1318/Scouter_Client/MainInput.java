@@ -102,8 +102,7 @@ public class MainInput extends Activity {
                 @Override
                 public void Call(TCPClient sender) {
                     NetworkPacket[] networkPackets = client.GetPackets();
-                    i = 0;
-                    if (networkPackets[i].Name.equals("Game")) {
+                    if (networkPackets[0].Name.equals("Game")) {
                         //Reading first Packets of data
                         objectNum = networkPackets.length;
                         objectName = new String[objectNum];
@@ -131,7 +130,7 @@ public class MainInput extends Activity {
                             }
                         });
                     }
-                    if(networkPackets[i].Name.equals("Match")) {
+                    if(networkPackets[0].Name.equals("Match")) {
                         if(!networkPackets[i].Data.equals(lastMatch)) {
                             match = Integer.valueOf(networkPackets[i].Data.split(",")[0]);
                             team = Integer.valueOf(networkPackets[i].Data.split(",")[1]);
@@ -165,7 +164,7 @@ public class MainInput extends Activity {
                             }
                         }
                     }
-                    if(networkPackets[i].Name.equals("DefenseInfo")) {
+                    if(networkPackets[0].Name.equals("DefenseInfo")) {
                         if(scouter > 2) text = networkPackets[i].Data.split("&")[0];
                         else text = networkPackets[i].Data.split("&")[1];
                         for(int j = 0; j < changes.length; j++) {
@@ -191,6 +190,7 @@ public class MainInput extends Activity {
             try {
                 client.Connect();
             } catch (Exception e) {
+                e.toString();
             }
         }
     }
@@ -201,7 +201,7 @@ public class MainInput extends Activity {
         mainHandle.post(new Runnable() {
             @Override
             public void run() {
-                RadioButton radioButton = (RadioButton) findViewById(R.id.Connect);
+                RadioButton radioButton = (RadioButton) findViewById(R.id.Connect);                                                                                                                                                                     7gggggggggggggggggggggggggggggg) findViewById(R.id.Connect);
                 radioButton.setChecked(connected);
                 if(connected) findViewById(R.id.Reconnect).setVisibility(View.VISIBLE);
             }
@@ -211,7 +211,13 @@ public class MainInput extends Activity {
     public void reconnect(View v) {
         try {
             client.Disconnect();
-            connect(null);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    connect(null);
+                }
+            },10);
         } catch (Exception e) {
         }
     }
@@ -226,6 +232,7 @@ public class MainInput extends Activity {
         mainLayout = new LinearLayout(this);
         mainLayout.setGravity(1);
         linearLayout.addView(mainLayout);
+        findViewById(R.id.Loading).setVisibility(View.GONE);
 
         sideLayout = new LinearLayout(this);
         tableLayout = new TableLayout(this);

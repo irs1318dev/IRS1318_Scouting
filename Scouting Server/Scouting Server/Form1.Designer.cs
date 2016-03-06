@@ -246,12 +246,11 @@
             this.SetMatchButton.Text = "Set";
             this.SetMatchButton.UseVisualStyleBackColor = true;
             this.SetMatchButton.Click += new System.EventHandler(this.SetMatchButton_Click);
-           
             // 
             // errorMessage
             // 
             this.errorMessage.AutoSize = true;
-            this.errorMessage.Location = new System.Drawing.Point(343, 17);
+            this.errorMessage.Location = new System.Drawing.Point(443, 17);
             this.errorMessage.Name = "errorMessage";
             this.errorMessage.Size = new System.Drawing.Size(0, 13);
             this.errorMessage.TabIndex = 22;
