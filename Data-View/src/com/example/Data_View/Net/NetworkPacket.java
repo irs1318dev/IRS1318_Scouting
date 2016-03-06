@@ -41,7 +41,8 @@ public class NetworkPacket
       char input = (char)b;
       if (input == (char) 0)
       {
-        bufferData.add(currentData);
+        if(!currentData.isEmpty())
+            bufferData.add(currentData);
         currentData = "";
       }
       else
@@ -49,7 +50,7 @@ public class NetworkPacket
     }
 
     //Right here is the error that breaks everything hurry I need it done please!!!!!!! <----- <------ <<<<<<<<<<<<
-    for (int i = 0; i < bufferData.size(); i += 2)
+    for (int i = 0; i < bufferData.size() - 1; i += 2)
     {
       //When it is odd the index gets out of range
       packets.add(new NetworkPacket(bufferData.get(i), bufferData.get(i + 1)));
