@@ -1,4 +1,4 @@
-package com.irs1318.Scouter_Client.Net;
+package Net;
 
 import java.io.IOException;
 import java.io.InputStream;

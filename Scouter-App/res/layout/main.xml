@@ -112,16 +112,6 @@
                 </TableRow>
             </TableLayout>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Reconnect"
-                android:id="@+id/Reconnect"
-                android:onClick="reconnect"
-                android:textColor="#f9b234"
-                android:textSize="40dp"
-                android:visibility="gone"/>
-
         </LinearLayout>
     </LinearLayout>
 

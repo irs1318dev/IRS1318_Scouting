@@ -9,9 +9,94 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f0be26f4-3c48-42e0-8254-8defc485f39a" name="Default" comment="Other updates">
+    <list default="true" id="f0be26f4-3c48-42e0-8254-8defc485f39a" name="Default" comment="Started new viewer">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-Set/Data-Set.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-Set/src/MainData.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-Set/src/Net/NetworkEvent.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-Set/src/Net/NetworkPacket.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-Set/src/Net/TCPClient.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-Set/src/Start.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/.name" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/compiler.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/copyright/profiles_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/dictionaries/stuin.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/encodings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/uiDesigner.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/workspace.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/AndroidManifest.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/Data-View.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/ant.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/build.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/gen/com/example/Data_View/BuildConfig.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/gen/com/example/Data_View/Manifest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/gen/com/example/Data_View/R.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/local.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/proguard-project.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/project.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/drawable-hdpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/drawable-hdpi/logo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/drawable-ldpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/drawable-ldpi/logo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/drawable-mdpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/drawable-mdpi/logo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/drawable-xhdpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/drawable-xhdpi/logo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/layout/main.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/values/strings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/src/com/example/Data_View/MainTable.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/src/com/example/Data_View/Net/NetworkEvent.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/src/com/example/Data_View/Net/NetworkPacket.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/src/com/example/Data_View/Net/TCPClient.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/.name" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/compiler.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/copyright/profiles_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/encodings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/uiDesigner.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/vcs.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/workspace.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/AndroidManifest.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/gen/com/irs1318/Scouter_Client/BuildConfig.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/gen/com/irs1318/Scouter_Client/Manifest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/gen/com/irs1318/Scouter_Client/R.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/ScouterClient.apk" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/ScouterClient.unaligned.apk" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/BuildConfig.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/MainInput$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/MainInput$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/MainInput$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/MainInput.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/Net/NetworkEvent.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/Net/NetworkPacket.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/Net/TCPClient.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/R$attr.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/R$drawable.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/R$id.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/R$layout.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/R$string.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/R.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/res/drawable-hdpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/res/drawable-ldpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/res/drawable-mdpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/res/drawable-xhdpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/res/layout/main.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/res/values/strings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/src/com/irs1318/Scouter_Client/MainInput.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/src/com/irs1318/Scouter_Client/Net/NetworkEvent.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/src/com/irs1318/Scouter_Client/Net/NetworkPacket.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/src/com/irs1318/Scouter_Client/Net/TCPClient.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/AndroidManifest.xml" afterPath="$PROJECT_DIR$/Scouter-App/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/Scouter-App.iml" afterPath="$PROJECT_DIR$/Scouter-App/Scouter-App.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/res/layout/main.xml" afterPath="$PROJECT_DIR$/Scouter-App/res/layout/main.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java" afterPath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/NetworkPacket.java" afterPath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/NetworkPacket.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java" afterPath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java" />
     </list>
     <ignored path="IRS1318_Scouting.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,32 +117,50 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MainInput.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MainInput.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.24797407">
-              <caret line="193" column="13" selection-start-line="193" selection-start-column="13" selection-end-line="193" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="83" column="13" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
               <folding>
+                <element signature="imports" expanded="true" />
                 <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
-                <element signature="method#reconnect#0;class#MainInput#0" expanded="false" />
-                <element signature="method#loadObjects#0;class#MainInput#0" expanded="false" />
                 <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TCPClient.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java">
+      <file leaf-file-name="MainData.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Data-Set/src/MainData.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Start.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Data-Set/src/Start.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.16790123">
+              <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -70,15 +173,28 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Scouter-App/res/layout/main.xml" />
         <option value="$PROJECT_DIR$/Data-View/res/layout/main.xml" />
-        <option value="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java" />
         <option value="$PROJECT_DIR$/Data-View/src/com/example/Data_View/Net/TCPClient.java" />
         <option value="$PROJECT_DIR$/Data-View/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/Data-View/src/com/example/Data_View/MainTable.java" />
         <option value="$PROJECT_DIR$/Data-View/src/com/example/Data_View/Net/NetworkPacket.java" />
+        <option value="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/NetworkEvent.java" />
+        <option value="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/NetworkPacket.java" />
+        <option value="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java" />
+        <option value="$PROJECT_DIR$/Scouter-App/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/Data-Set/src/Net/TCPClient.java" />
+        <option value="$PROJECT_DIR$/Scouter-App/res/layout/main.xml" />
         <option value="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java" />
+        <option value="$PROJECT_DIR$/Data-Set/src/Start.java" />
+        <option value="$PROJECT_DIR$/Data-Set/src/MainData.java" />
       </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Bundled (Maven 3)" />
+      </MavenGeneralSettings>
     </option>
   </component>
   <component name="ProjectFrameBounds">
@@ -113,7 +229,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -178,7 +293,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Data-View" />
+              <option name="myItemId" value="Scouter-App" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -188,15 +307,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Data-View" />
+              <option name="myItemId" value="Scouter-App" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Data_View" />
+              <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -206,38 +325,46 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Data-View" />
+              <option name="myItemId" value="Data-Set" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="IRS1318_Scouting" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Data-Set" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Data_View" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Net" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/Data-View" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="AndroidTargetDevices" value="00ea21ab" />
-    <property name="DEBUGGABLE_DEVICE" value="asus-nexus_7-00ea21ab" />
+    <property name="AndroidTargetDevices" value="00ea1f34" />
+    <property name="DEBUGGABLE_DEVICE" value="asus-nexus_7-00ea31a4" />
     <property name="DEBUGGABLE_PROCESS" value="com.irs1318.Scouter_Client" />
     <property name="SHOW_ALL_PROCESSES" value="false" />
   </component>
-  <component name="RunManager" selected="Android Application.Scouter-App">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\IRS 001\Source\Repos\IRS1318_Scouting\Data-Set\src\Net" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Data-Set">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
@@ -303,6 +430,9 @@
       <option name="CLOUD_DEVICE_SERIAL_NUMBER" value="" />
       <method />
     </configuration>
+    <configuration default="true" type="AntRunConfiguration" factoryName="Ant Target">
+      <method />
+    </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HTML_USED" value="false" />
       <option name="WIDTH" value="400" />
@@ -324,6 +454,9 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
       <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="CompoundRunConfigurationType" factoryName="Compound Run Configuration">
       <method />
     </configuration>
     <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
@@ -430,6 +563,28 @@
       <envs />
       <method />
     </configuration>
+    <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list />
+            </option>
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method />
+    </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -523,38 +678,24 @@
       <option name="CLOUD_DEVICE_SERIAL_NUMBER" value="" />
       <method />
     </configuration>
-    <configuration default="false" name="Data-View" type="AndroidRunConfigurationType" factoryName="Android Application">
-      <module name="Data-View" />
-      <option name="ACTIVITY_CLASS" value="" />
-      <option name="MODE" value="default_activity" />
-      <option name="DEPLOY" value="true" />
-      <option name="ARTIFACT_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="USB_DEVICE" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="Please select a project..." />
-      <option name="SELECTED_CLOUD_DEVICE_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_DEVICE_PROJECT_ID" value="Please select a project..." />
-      <option name="IS_VALID_CLOUD_MATRIX_SELECTION" value="false" />
-      <option name="INVALID_CLOUD_MATRIX_SELECTION_ERROR" value="Cloud configuration not specified" />
-      <option name="IS_VALID_CLOUD_DEVICE_SELECTION" value="false" />
-      <option name="INVALID_CLOUD_DEVICE_SELECTION_ERROR" value="Cloud configuration not specified" />
-      <option name="CLOUD_DEVICE_SERIAL_NUMBER" value="" />
+    <configuration default="false" name="Data-Set" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="Start" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="Data-Set" />
+      <envs />
       <method />
     </configuration>
     <list size="2">
       <item index="0" class="java.lang.String" itemvalue="Android Application.Scouter-App" />
-      <item index="1" class="java.lang.String" itemvalue="Android Application.Data-View" />
+      <item index="1" class="java.lang.String" itemvalue="Application.Data-Set" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -585,10 +726,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
@@ -603,11 +745,10 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329429" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -624,7 +765,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Did lots of things: name changing, 6 team data viewer, detail viewer, recoloring, etc." />
     <MESSAGE value="Other updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="Other updates" />
+    <MESSAGE value="Started new viewer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Started new viewer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -635,14 +777,8 @@
           <properties />
           <option name="timeStamp" value="8" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java</url>
-          <line>87</line>
-          <properties />
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="14" />
+      <option name="time" value="15" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -654,11 +790,40 @@
     <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
+          <caret line="83" column="13" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data-Set/src/MainData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data-Set/src/Start.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
-            <element signature="method#reconnect#0;class#MainInput#0" expanded="false" />
-            <element signature="method#loadObjects#0;class#MainInput#0" expanded="false" />
             <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
           </folding>
         </state>
@@ -672,25 +837,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Data-View/src/com/example/Data_View/MainTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="124" column="48" selection-start-line="124" selection-start-column="48" selection-end-line="124" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data-View/src/com/example/Data_View/Net/TCPClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data-View/src/com/example/Data_View/Net/NetworkPacket.java">
+    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -699,9 +862,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
-            <element signature="method#reconnect#0;class#MainInput#0" expanded="false" />
-            <element signature="method#loadObjects#0;class#MainInput#0" expanded="false" />
             <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
           </folding>
         </state>
@@ -712,37 +874,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="315" column="50" selection-start-line="315" selection-start-column="50" selection-end-line="315" selection-end-column="50" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
-            <element signature="method#reconnect#0;class#MainInput#0" expanded="false" />
-            <element signature="method#loadObjects#0;class#MainInput#0" expanded="false" />
-            <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data-View/src/com/example/Data_View/MainTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
-            <element signature="method#reconnect#0;class#MainInput#0" expanded="false" />
-            <element signature="method#loadObjects#0;class#MainInput#0" expanded="false" />
             <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
           </folding>
         </state>
@@ -761,9 +894,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
-            <element signature="method#reconnect#0;class#MainInput#0" expanded="false" />
-            <element signature="method#loadObjects#0;class#MainInput#0" expanded="false" />
             <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
           </folding>
         </state>
@@ -782,9 +914,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
-            <element signature="method#reconnect#0;class#MainInput#0" expanded="false" />
-            <element signature="method#loadObjects#0;class#MainInput#0" expanded="false" />
             <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
           </folding>
         </state>
@@ -798,34 +929,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Data-View/src/com/example/Data_View/MainTable.java">
+    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Data-View/res/layout/main.xml">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="61" selection-start-line="22" selection-start-column="61" selection-end-line="22" selection-end-column="61" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data-View/src/com/example/Data_View/MainTable.java">
+    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data-View/src/com/example/Data_View/MainTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="292" column="5" selection-start-line="292" selection-start-column="5" selection-end-line="292" selection-end-column="5" />
+          <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -834,122 +954,21 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
-            <element signature="method#reconnect#0;class#MainInput#0" expanded="false" />
-            <element signature="method#loadObjects#0;class#MainInput#0" expanded="false" />
             <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
           </folding>
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data-View/res/layout/main.xml">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Scouter-App/res/layout/main.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data-View/src/com/example/Data_View/MainTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data-View/res/layout/main.xml">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Scouter-App/res/layout/main.xml">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data-View/res/layout/main.xml">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="61" selection-start-line="22" selection-start-column="61" selection-end-line="22" selection-end-column="61" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/NetworkPacket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16790123">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/NetworkEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.08395062">
-          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Scouter-App/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17941953">
-          <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data-View/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.2692308">
-          <caret line="5" column="42" selection-start-line="5" selection-start-column="42" selection-end-line="5" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data-View/src/com/example/Data_View/Net/NetworkPacket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7037037">
-          <caret line="48" column="5" selection-start-line="48" selection-start-column="5" selection-end-line="48" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data-View/src/com/example/Data_View/Net/TCPClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.04197531">
-          <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data-View/src/com/example/Data_View/MainTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.04197531">
-          <caret line="124" column="48" selection-start-line="124" selection-start-column="48" selection-end-line="124" selection-end-column="48" />
         </state>
       </provider>
     </entry>
@@ -960,26 +979,183 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/NetworkPacket.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="34" selection-start-line="0" selection-start-column="34" selection-end-line="0" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/NetworkEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="34" selection-start-line="0" selection-start-column="34" selection-end-line="0" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data-Set/src/Net/NetworkPacket.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scouter-App/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.20135364">
+          <caret line="7" column="42" selection-start-line="7" selection-start-column="42" selection-end-line="7" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+          <caret line="39" column="31" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scouter-App/res/layout/main.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data-Set/Data-Set.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data-Set/src/Net/NetworkEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.08395062">
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data-Set/src/Net/TCPClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.110210694">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24797407">
-          <caret line="193" column="13" selection-start-line="193" selection-start-column="13" selection-end-line="193" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="83" column="13" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
-            <element signature="method#reconnect#0;class#MainInput#0" expanded="false" />
-            <element signature="method#loadObjects#0;class#MainInput#0" expanded="false" />
             <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Data-Set/src/MainData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data-Set/src/Start.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16790123">
+          <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Android</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>Android API 18 Platform</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>Scouter-App</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

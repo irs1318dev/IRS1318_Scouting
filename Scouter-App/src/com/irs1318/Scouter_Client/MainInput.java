@@ -106,7 +106,7 @@ public class MainInput extends Activity {
                     for (i = 0; i < networkPackets.length; ++i) {
                         if (networkPackets[i].Name.equals("Game")) {
                             //Reading first Packets of data
-                            if(gamePackets == false) {
+                            if(!gamePackets) {
                                 objectNum = networkPackets.length;
                                 objectName = new String[objectNum];
                                 objectType = new int[objectNum];
@@ -209,17 +209,8 @@ public class MainInput extends Activity {
             public void run() {
                 RadioButton radioButton = (RadioButton) findViewById(R.id.Connect);
                 radioButton.setChecked(connected);
-                if(connected) findViewById(R.id.Reconnect).setVisibility(View.VISIBLE);
             }
         });
-    }
-
-    public void reconnect(View v) {
-        try {
-            client.Disconnect();
-            connect(null);
-        } catch (Exception e) {
-        }
     }
 
     public void loadObjects(View v) {
