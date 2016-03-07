@@ -1,6 +1,8 @@
 import Net.*;
 
 import java.io.Console;
+import java.io.SyncFailedException;
+import java.util.Scanner;
 
 public class MainData {
     int i = 0;
@@ -8,14 +10,14 @@ public class MainData {
     String text;
     String[] objectName;
     boolean connected = false;
-    Console console;
     TCPClient client;
 
-    public void run(Console c) {
-        console = c;
+    public void run() {
         if(connected) saveData();
         else {
-            text = console.readLine("Enter Server Address:");
+            System.out.print("Enter Server Address:");
+            Scanner scanner = new Scanner(System.in);
+            text = scanner.nextLine();
             connect();
         }
     }
@@ -51,12 +53,12 @@ public class MainData {
             client.Connect();
         } catch (Exception e) {
         }
-        run(console);
+        run();
     }
 
     public void saveData() {
         for(i = 0; i < objectName.length; i++) {
-            console.printf(objectName[i]);
+            System.out.print(objectName[i]);
         }
     }
 }

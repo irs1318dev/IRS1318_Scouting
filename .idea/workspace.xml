@@ -10,93 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0be26f4-3c48-42e0-8254-8defc485f39a" name="Default" comment="Started new viewer">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-Set/Data-Set.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-Set/src/MainData.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-Set/src/Net/NetworkEvent.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-Set/src/Net/NetworkPacket.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-Set/src/Net/TCPClient.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Data-Set/src/Start.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/.name" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/compiler.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/copyright/profiles_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/dictionaries/stuin.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/uiDesigner.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/.idea/workspace.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/Data-View.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/ant.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/build.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/gen/com/example/Data_View/BuildConfig.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/gen/com/example/Data_View/Manifest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/gen/com/example/Data_View/R.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/local.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/proguard-project.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/project.properties" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/drawable-hdpi/ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/drawable-hdpi/logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/drawable-ldpi/ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/drawable-ldpi/logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/drawable-mdpi/ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/drawable-mdpi/logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/drawable-xhdpi/ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/drawable-xhdpi/logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/layout/main.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/res/values/strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/src/com/example/Data_View/MainTable.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/src/com/example/Data_View/Net/NetworkEvent.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/src/com/example/Data_View/Net/NetworkPacket.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Data-View/src/com/example/Data_View/Net/TCPClient.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/.name" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/compiler.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/copyright/profiles_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/uiDesigner.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/vcs.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/.idea/workspace.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/gen/com/irs1318/Scouter_Client/BuildConfig.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/gen/com/irs1318/Scouter_Client/Manifest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/gen/com/irs1318/Scouter_Client/R.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/ScouterClient.apk" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/ScouterClient.unaligned.apk" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/BuildConfig.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/MainInput$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/MainInput$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/MainInput$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/MainInput.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/Net/NetworkEvent.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/Net/NetworkPacket.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/Net/TCPClient.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/R$attr.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/R$drawable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/R$id.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/R$layout.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/R$string.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/out/production/ScouterClient/com/irs1318/Scouter_Client/R.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/res/drawable-hdpi/ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/res/drawable-ldpi/ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/res/drawable-mdpi/ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/res/drawable-xhdpi/ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/res/layout/main.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/res/values/strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/src/com/irs1318/Scouter_Client/MainInput.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/src/com/irs1318/Scouter_Client/Net/NetworkEvent.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/src/com/irs1318/Scouter_Client/Net/NetworkPacket.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Scouter-Client1/src/com/irs1318/Scouter_Client/Net/TCPClient.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/AndroidManifest.xml" afterPath="$PROJECT_DIR$/Scouter-App/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Data-Set/src/MainData.java" afterPath="$PROJECT_DIR$/Data-Set/src/MainData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Data-Set/src/Start.java" afterPath="$PROJECT_DIR$/Data-Set/src/Start.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/Scouter-App.iml" afterPath="$PROJECT_DIR$/Scouter-App/Scouter-App.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/res/layout/main.xml" afterPath="$PROJECT_DIR$/Scouter-App/res/layout/main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java" afterPath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/NetworkPacket.java" afterPath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/NetworkPacket.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java" afterPath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java" />
     </list>
     <ignored path="IRS1318_Scouting.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -123,19 +40,20 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="83" column="13" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
               <folding>
-                <element signature="imports" expanded="true" />
                 <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+                <element signature="e#6991#6992#0" expanded="false" />
+                <element signature="e#7080#7081#0" expanded="false" />
                 <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainData.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MainData.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Data-Set/src/MainData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.72447324">
+              <caret line="60" column="44" selection-start-line="60" selection-start-column="44" selection-end-line="60" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -143,11 +61,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Start.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Start.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Data-Set/src/Start.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.16790123">
-              <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="2" column="20" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NetworkPacket.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Data-Set/src/Net/NetworkPacket.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="47" column="10" selection-start-line="47" selection-start-column="10" selection-end-line="47" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -351,7 +279,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/Data-View" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="AndroidTargetDevices" value="00ea1f34" />
@@ -721,7 +649,13 @@
       <option name="project" value="LOCAL" />
       <updated>1457148854576</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Started new viewer">
+      <created>1457352397936</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1457352397936</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -730,7 +664,7 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
@@ -792,8 +726,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="83" column="13" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#6991#6992#0" expanded="false" />
+            <element signature="e#7080#7081#0" expanded="false" />
             <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
           </folding>
         </state>
@@ -822,8 +757,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#6991#6992#0" expanded="false" />
+            <element signature="e#7080#7081#0" expanded="false" />
             <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
           </folding>
         </state>
@@ -842,8 +778,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#6991#6992#0" expanded="false" />
+            <element signature="e#7080#7081#0" expanded="false" />
             <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
           </folding>
         </state>
@@ -862,8 +799,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#6991#6992#0" expanded="false" />
+            <element signature="e#7080#7081#0" expanded="false" />
             <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
           </folding>
         </state>
@@ -874,8 +812,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="315" column="50" selection-start-line="315" selection-start-column="50" selection-end-line="315" selection-end-column="50" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#6991#6992#0" expanded="false" />
+            <element signature="e#7080#7081#0" expanded="false" />
             <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
           </folding>
         </state>
@@ -894,8 +833,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#6991#6992#0" expanded="false" />
+            <element signature="e#7080#7081#0" expanded="false" />
             <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
           </folding>
         </state>
@@ -914,8 +854,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#6991#6992#0" expanded="false" />
+            <element signature="e#7080#7081#0" expanded="false" />
             <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
           </folding>
         </state>
@@ -934,8 +875,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#6991#6992#0" expanded="false" />
+            <element signature="e#7080#7081#0" expanded="false" />
             <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
           </folding>
         </state>
@@ -954,8 +896,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#6991#6992#0" expanded="false" />
+            <element signature="e#7080#7081#0" expanded="false" />
             <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
           </folding>
         </state>
@@ -991,14 +934,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="34" selection-start-line="0" selection-start-column="34" selection-end-line="0" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Data-Set/src/Net/NetworkPacket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1058,28 +993,37 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="83" column="13" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#6991#6992#0" expanded="false" />
+            <element signature="e#7080#7081#0" expanded="false" />
             <element signature="method#makeLine#0;class#MainInput#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Data-Set/src/MainData.java">
+    <entry file="file://$PROJECT_DIR$/Data-Set/src/Net/NetworkPacket.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <caret line="47" column="10" selection-start-line="47" selection-start-column="10" selection-end-line="47" selection-end-column="10" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Data-Set/src/Start.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16790123">
-          <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="20" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Data-Set/src/MainData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.72447324">
+          <caret line="60" column="44" selection-start-line="60" selection-start-column="44" selection-end-line="60" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1135,11 +1079,12 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>Scouter-App</last-edited>
+          <last-edited>Data-Set</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
