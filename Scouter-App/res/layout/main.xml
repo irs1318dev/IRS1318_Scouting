@@ -55,11 +55,12 @@
                 android:layout_height="wrap_content" android:id="@+id/startLayout" android:gravity="center_horizontal"
         >
             <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/editText"
-                    android:textSize="25dp" android:textColor="#f9b234" android:singleLine="true"
-                    android:gravity="center_horizontal"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText"
+                android:textSize="25dp" android:textColor="#f9b234" android:singleLine="true"
+                android:gravity="center_horizontal"
+                android:text="192.168.42"/>
             <Space
                     android:layout_width="20px"
                     android:layout_height="75dp"

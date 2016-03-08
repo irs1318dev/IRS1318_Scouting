@@ -57,17 +57,19 @@
       this.BlueDef3 = new System.Windows.Forms.ComboBox();
       this.BlueDef2 = new System.Windows.Forms.ComboBox();
       this.BlueDef1 = new System.Windows.Forms.ComboBox();
+      this.label8 = new System.Windows.Forms.Label();
+      this.label9 = new System.Windows.Forms.Label();
+      this.label10 = new System.Windows.Forms.Label();
+      this.label11 = new System.Windows.Forms.Label();
+      this.label12 = new System.Windows.Forms.Label();
+      this.button1 = new System.Windows.Forms.Button();
       this.scoutControl6 = new Scouting_Server.ScoutControl();
       this.scoutControl5 = new Scouting_Server.ScoutControl();
       this.scoutControl4 = new Scouting_Server.ScoutControl();
       this.scoutControl3 = new Scouting_Server.ScoutControl();
       this.scoutControl2 = new Scouting_Server.ScoutControl();
       this.scoutControl1 = new Scouting_Server.ScoutControl();
-      this.label8 = new System.Windows.Forms.Label();
-      this.label9 = new System.Windows.Forms.Label();
-      this.label10 = new System.Windows.Forms.Label();
-      this.label11 = new System.Windows.Forms.Label();
-      this.label12 = new System.Windows.Forms.Label();
+      this.SaveMatchButton = new System.Windows.Forms.Button();
       ((System.ComponentModel.ISupportInitialize)(this.red3Team)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.red1Team)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.red2Team)).BeginInit();
@@ -82,7 +84,7 @@
       this.LoadMatchButton.Location = new System.Drawing.Point(181, 12);
       this.LoadMatchButton.Name = "LoadMatchButton";
       this.LoadMatchButton.Size = new System.Drawing.Size(75, 23);
-      this.LoadMatchButton.TabIndex = 0;
+      this.LoadMatchButton.TabIndex = 1;
       this.LoadMatchButton.Text = "Load";
       this.LoadMatchButton.UseVisualStyleBackColor = true;
       this.LoadMatchButton.Click += new System.EventHandler(this.LoadMatchButton_Click);
@@ -97,7 +99,7 @@
             0});
       this.red3Team.Name = "red3Team";
       this.red3Team.Size = new System.Drawing.Size(122, 20);
-      this.red3Team.TabIndex = 1;
+      this.red3Team.TabIndex = 4;
       // 
       // red1Team
       // 
@@ -126,9 +128,15 @@
       // matchNumber
       // 
       this.matchNumber.Location = new System.Drawing.Point(55, 12);
+      this.matchNumber.Maximum = new decimal(new int[] {
+            -1530494976,
+            232830,
+            0,
+            0});
       this.matchNumber.Name = "matchNumber";
       this.matchNumber.Size = new System.Drawing.Size(120, 20);
-      this.matchNumber.TabIndex = 4;
+      this.matchNumber.TabIndex = 0;
+      this.matchNumber.ValueChanged += new System.EventHandler(this.matchNumber_ValueChanged);
       // 
       // blue1Team
       // 
@@ -234,7 +242,7 @@
       this.SetMatchButton.Location = new System.Drawing.Point(262, 12);
       this.SetMatchButton.Name = "SetMatchButton";
       this.SetMatchButton.Size = new System.Drawing.Size(75, 23);
-      this.SetMatchButton.TabIndex = 15;
+      this.SetMatchButton.TabIndex = 8;
       this.SetMatchButton.Text = "Set";
       this.SetMatchButton.UseVisualStyleBackColor = true;
       this.SetMatchButton.Click += new System.EventHandler(this.SetMatchButton_Click);
@@ -242,7 +250,7 @@
       // errorMessage
       // 
       this.errorMessage.AutoSize = true;
-      this.errorMessage.Location = new System.Drawing.Point(343, 17);
+      this.errorMessage.Location = new System.Drawing.Point(424, 17);
       this.errorMessage.Name = "errorMessage";
       this.errorMessage.Size = new System.Drawing.Size(0, 13);
       this.errorMessage.TabIndex = 22;
@@ -255,18 +263,24 @@
       // 
       // RedDef1
       // 
+      this.RedDef1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+      this.RedDef1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
       this.RedDef1.BackColor = System.Drawing.Color.Red;
       this.RedDef1.FormattingEnabled = true;
       this.RedDef1.Items.AddRange(new object[] {
             "Low Bar"});
-      this.RedDef1.Location = new System.Drawing.Point(18, 258);
+      this.RedDef1.Location = new System.Drawing.Point(18, 296);
       this.RedDef1.Name = "RedDef1";
       this.RedDef1.Size = new System.Drawing.Size(121, 21);
-      this.RedDef1.TabIndex = 23;
+      this.RedDef1.Sorted = true;
+      this.RedDef1.TabIndex = 0;
+      this.RedDef1.TabStop = false;
       this.RedDef1.Text = "Low Bar";
       // 
       // RedDef2
       // 
+      this.RedDef2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+      this.RedDef2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
       this.RedDef2.BackColor = System.Drawing.Color.Red;
       this.RedDef2.FormattingEnabled = true;
       this.RedDef2.Items.AddRange(new object[] {
@@ -279,13 +293,17 @@
             "Rock Wall",
             "Rough Terrain",
             "Sally Port"});
-      this.RedDef2.Location = new System.Drawing.Point(145, 258);
+      this.RedDef2.Location = new System.Drawing.Point(145, 296);
       this.RedDef2.Name = "RedDef2";
       this.RedDef2.Size = new System.Drawing.Size(121, 21);
-      this.RedDef2.TabIndex = 24;
+      this.RedDef2.Sorted = true;
+      this.RedDef2.TabIndex = 0;
+      this.RedDef2.TabStop = false;
       // 
       // RedDef3
       // 
+      this.RedDef3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+      this.RedDef3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
       this.RedDef3.BackColor = System.Drawing.Color.Red;
       this.RedDef3.FormattingEnabled = true;
       this.RedDef3.Items.AddRange(new object[] {
@@ -298,13 +316,17 @@
             "Rock Wall",
             "Rough Terrain",
             "Sally Port"});
-      this.RedDef3.Location = new System.Drawing.Point(272, 258);
+      this.RedDef3.Location = new System.Drawing.Point(272, 296);
       this.RedDef3.Name = "RedDef3";
       this.RedDef3.Size = new System.Drawing.Size(121, 21);
-      this.RedDef3.TabIndex = 25;
+      this.RedDef3.Sorted = true;
+      this.RedDef3.TabIndex = 0;
+      this.RedDef3.TabStop = false;
       // 
       // RedDef4
       // 
+      this.RedDef4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+      this.RedDef4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
       this.RedDef4.BackColor = System.Drawing.Color.Red;
       this.RedDef4.FormattingEnabled = true;
       this.RedDef4.Items.AddRange(new object[] {
@@ -317,13 +339,17 @@
             "Rock Wall",
             "Rough Terrain",
             "Sally Port"});
-      this.RedDef4.Location = new System.Drawing.Point(399, 258);
+      this.RedDef4.Location = new System.Drawing.Point(399, 296);
       this.RedDef4.Name = "RedDef4";
       this.RedDef4.Size = new System.Drawing.Size(121, 21);
-      this.RedDef4.TabIndex = 26;
+      this.RedDef4.Sorted = true;
+      this.RedDef4.TabIndex = 0;
+      this.RedDef4.TabStop = false;
       // 
       // RedDef5
       // 
+      this.RedDef5.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+      this.RedDef5.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
       this.RedDef5.BackColor = System.Drawing.Color.Red;
       this.RedDef5.FormattingEnabled = true;
       this.RedDef5.Items.AddRange(new object[] {
@@ -336,13 +362,17 @@
             "Rock Wall",
             "Rough Terrain",
             "Sally Port"});
-      this.RedDef5.Location = new System.Drawing.Point(526, 258);
+      this.RedDef5.Location = new System.Drawing.Point(526, 296);
       this.RedDef5.Name = "RedDef5";
       this.RedDef5.Size = new System.Drawing.Size(121, 21);
-      this.RedDef5.TabIndex = 27;
+      this.RedDef5.Sorted = true;
+      this.RedDef5.TabIndex = 0;
+      this.RedDef5.TabStop = false;
       // 
       // BlueDef5
       // 
+      this.BlueDef5.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+      this.BlueDef5.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
       this.BlueDef5.BackColor = System.Drawing.Color.DodgerBlue;
       this.BlueDef5.FormattingEnabled = true;
       this.BlueDef5.Items.AddRange(new object[] {
@@ -355,13 +385,17 @@
             "Rock Wall",
             "Rough Terrain",
             "Sally Port"});
-      this.BlueDef5.Location = new System.Drawing.Point(526, 285);
+      this.BlueDef5.Location = new System.Drawing.Point(526, 323);
       this.BlueDef5.Name = "BlueDef5";
       this.BlueDef5.Size = new System.Drawing.Size(121, 21);
-      this.BlueDef5.TabIndex = 32;
+      this.BlueDef5.Sorted = true;
+      this.BlueDef5.TabIndex = 0;
+      this.BlueDef5.TabStop = false;
       // 
       // BlueDef4
       // 
+      this.BlueDef4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+      this.BlueDef4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
       this.BlueDef4.BackColor = System.Drawing.Color.DodgerBlue;
       this.BlueDef4.FormattingEnabled = true;
       this.BlueDef4.Items.AddRange(new object[] {
@@ -374,13 +408,17 @@
             "Rock Wall",
             "Rough Terrain",
             "Sally Port"});
-      this.BlueDef4.Location = new System.Drawing.Point(399, 285);
+      this.BlueDef4.Location = new System.Drawing.Point(399, 323);
       this.BlueDef4.Name = "BlueDef4";
       this.BlueDef4.Size = new System.Drawing.Size(121, 21);
-      this.BlueDef4.TabIndex = 31;
+      this.BlueDef4.Sorted = true;
+      this.BlueDef4.TabIndex = 0;
+      this.BlueDef4.TabStop = false;
       // 
       // BlueDef3
       // 
+      this.BlueDef3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+      this.BlueDef3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
       this.BlueDef3.BackColor = System.Drawing.Color.DodgerBlue;
       this.BlueDef3.FormattingEnabled = true;
       this.BlueDef3.Items.AddRange(new object[] {
@@ -393,13 +431,17 @@
             "Rock Wall",
             "Rough Terrain",
             "Sally Port"});
-      this.BlueDef3.Location = new System.Drawing.Point(272, 285);
+      this.BlueDef3.Location = new System.Drawing.Point(272, 323);
       this.BlueDef3.Name = "BlueDef3";
       this.BlueDef3.Size = new System.Drawing.Size(121, 21);
-      this.BlueDef3.TabIndex = 30;
+      this.BlueDef3.Sorted = true;
+      this.BlueDef3.TabIndex = 0;
+      this.BlueDef3.TabStop = false;
       // 
       // BlueDef2
       // 
+      this.BlueDef2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+      this.BlueDef2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
       this.BlueDef2.BackColor = System.Drawing.Color.DodgerBlue;
       this.BlueDef2.FormattingEnabled = true;
       this.BlueDef2.Items.AddRange(new object[] {
@@ -412,75 +454,33 @@
             "Rock Wall",
             "Rough Terrain",
             "Sally Port"});
-      this.BlueDef2.Location = new System.Drawing.Point(145, 285);
+      this.BlueDef2.Location = new System.Drawing.Point(145, 323);
       this.BlueDef2.Name = "BlueDef2";
       this.BlueDef2.Size = new System.Drawing.Size(121, 21);
-      this.BlueDef2.TabIndex = 29;
+      this.BlueDef2.Sorted = true;
+      this.BlueDef2.TabIndex = 0;
+      this.BlueDef2.TabStop = false;
       // 
       // BlueDef1
       // 
+      this.BlueDef1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+      this.BlueDef1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
       this.BlueDef1.BackColor = System.Drawing.Color.DodgerBlue;
       this.BlueDef1.FormattingEnabled = true;
       this.BlueDef1.Items.AddRange(new object[] {
             "Low Bar"});
-      this.BlueDef1.Location = new System.Drawing.Point(18, 285);
+      this.BlueDef1.Location = new System.Drawing.Point(18, 323);
       this.BlueDef1.Name = "BlueDef1";
       this.BlueDef1.Size = new System.Drawing.Size(121, 21);
-      this.BlueDef1.TabIndex = 28;
+      this.BlueDef1.Sorted = true;
+      this.BlueDef1.TabIndex = 0;
+      this.BlueDef1.TabStop = false;
       this.BlueDef1.Text = "Low Bar";
-      // 
-      // scoutControl6
-      // 
-      this.scoutControl6.BackColor = System.Drawing.Color.DodgerBlue;
-      this.scoutControl6.Location = new System.Drawing.Point(404, 174);
-      this.scoutControl6.Name = "scoutControl6";
-      this.scoutControl6.Size = new System.Drawing.Size(187, 65);
-      this.scoutControl6.TabIndex = 21;
-      // 
-      // scoutControl5
-      // 
-      this.scoutControl5.BackColor = System.Drawing.Color.DodgerBlue;
-      this.scoutControl5.Location = new System.Drawing.Point(211, 174);
-      this.scoutControl5.Name = "scoutControl5";
-      this.scoutControl5.Size = new System.Drawing.Size(187, 65);
-      this.scoutControl5.TabIndex = 20;
-      // 
-      // scoutControl4
-      // 
-      this.scoutControl4.BackColor = System.Drawing.Color.DodgerBlue;
-      this.scoutControl4.Location = new System.Drawing.Point(18, 174);
-      this.scoutControl4.Name = "scoutControl4";
-      this.scoutControl4.Size = new System.Drawing.Size(187, 65);
-      this.scoutControl4.TabIndex = 19;
-      // 
-      // scoutControl3
-      // 
-      this.scoutControl3.BackColor = System.Drawing.Color.Red;
-      this.scoutControl3.Location = new System.Drawing.Point(404, 103);
-      this.scoutControl3.Name = "scoutControl3";
-      this.scoutControl3.Size = new System.Drawing.Size(187, 65);
-      this.scoutControl3.TabIndex = 18;
-      // 
-      // scoutControl2
-      // 
-      this.scoutControl2.BackColor = System.Drawing.Color.Red;
-      this.scoutControl2.Location = new System.Drawing.Point(211, 103);
-      this.scoutControl2.Name = "scoutControl2";
-      this.scoutControl2.Size = new System.Drawing.Size(187, 65);
-      this.scoutControl2.TabIndex = 17;
-      // 
-      // scoutControl1
-      // 
-      this.scoutControl1.BackColor = System.Drawing.Color.Red;
-      this.scoutControl1.Location = new System.Drawing.Point(17, 103);
-      this.scoutControl1.Name = "scoutControl1";
-      this.scoutControl1.Size = new System.Drawing.Size(187, 65);
-      this.scoutControl1.TabIndex = 16;
       // 
       // label8
       // 
       this.label8.AutoSize = true;
-      this.label8.Location = new System.Drawing.Point(269, 242);
+      this.label8.Location = new System.Drawing.Point(269, 280);
       this.label8.Name = "label8";
       this.label8.Size = new System.Drawing.Size(56, 13);
       this.label8.TabIndex = 33;
@@ -489,7 +489,7 @@
       // label9
       // 
       this.label9.AutoSize = true;
-      this.label9.Location = new System.Drawing.Point(401, 242);
+      this.label9.Location = new System.Drawing.Point(401, 280);
       this.label9.Name = "label9";
       this.label9.Size = new System.Drawing.Size(56, 13);
       this.label9.TabIndex = 34;
@@ -498,7 +498,7 @@
       // label10
       // 
       this.label10.AutoSize = true;
-      this.label10.Location = new System.Drawing.Point(526, 242);
+      this.label10.Location = new System.Drawing.Point(526, 280);
       this.label10.Name = "label10";
       this.label10.Size = new System.Drawing.Size(56, 13);
       this.label10.TabIndex = 35;
@@ -507,7 +507,7 @@
       // label11
       // 
       this.label11.AutoSize = true;
-      this.label11.Location = new System.Drawing.Point(145, 242);
+      this.label11.Location = new System.Drawing.Point(145, 280);
       this.label11.Name = "label11";
       this.label11.Size = new System.Drawing.Size(56, 13);
       this.label11.TabIndex = 36;
@@ -516,17 +516,93 @@
       // label12
       // 
       this.label12.AutoSize = true;
-      this.label12.Location = new System.Drawing.Point(15, 242);
+      this.label12.Location = new System.Drawing.Point(15, 280);
       this.label12.Name = "label12";
       this.label12.Size = new System.Drawing.Size(104, 13);
       this.label12.TabIndex = 37;
       this.label12.Text = "Defense 1 (Low Bar)";
       // 
+      // button1
+      // 
+      this.button1.Location = new System.Drawing.Point(653, 307);
+      this.button1.Name = "button1";
+      this.button1.Size = new System.Drawing.Size(75, 23);
+      this.button1.TabIndex = 38;
+      this.button1.Text = "Set Defense";
+      this.button1.UseVisualStyleBackColor = true;
+      this.button1.Click += new System.EventHandler(this.button1_Click);
+      // 
+      // scoutControl6
+      // 
+      this.scoutControl6.BackColor = System.Drawing.Color.DodgerBlue;
+      this.scoutControl6.Location = new System.Drawing.Point(404, 192);
+      this.scoutControl6.Name = "scoutControl6";
+      this.scoutControl6.Size = new System.Drawing.Size(187, 84);
+      this.scoutControl6.TabIndex = 21;
+      this.scoutControl6.TabStop = false;
+      // 
+      // scoutControl5
+      // 
+      this.scoutControl5.BackColor = System.Drawing.Color.DodgerBlue;
+      this.scoutControl5.Location = new System.Drawing.Point(211, 192);
+      this.scoutControl5.Name = "scoutControl5";
+      this.scoutControl5.Size = new System.Drawing.Size(187, 84);
+      this.scoutControl5.TabIndex = 20;
+      this.scoutControl5.TabStop = false;
+      // 
+      // scoutControl4
+      // 
+      this.scoutControl4.BackColor = System.Drawing.Color.DodgerBlue;
+      this.scoutControl4.Location = new System.Drawing.Point(18, 192);
+      this.scoutControl4.Name = "scoutControl4";
+      this.scoutControl4.Size = new System.Drawing.Size(187, 84);
+      this.scoutControl4.TabIndex = 19;
+      this.scoutControl4.TabStop = false;
+      // 
+      // scoutControl3
+      // 
+      this.scoutControl3.BackColor = System.Drawing.Color.Red;
+      this.scoutControl3.Location = new System.Drawing.Point(404, 103);
+      this.scoutControl3.Name = "scoutControl3";
+      this.scoutControl3.Size = new System.Drawing.Size(187, 83);
+      this.scoutControl3.TabIndex = 18;
+      this.scoutControl3.TabStop = false;
+      // 
+      // scoutControl2
+      // 
+      this.scoutControl2.BackColor = System.Drawing.Color.Red;
+      this.scoutControl2.Location = new System.Drawing.Point(211, 103);
+      this.scoutControl2.Name = "scoutControl2";
+      this.scoutControl2.Size = new System.Drawing.Size(187, 83);
+      this.scoutControl2.TabIndex = 17;
+      this.scoutControl2.TabStop = false;
+      // 
+      // scoutControl1
+      // 
+      this.scoutControl1.BackColor = System.Drawing.Color.Red;
+      this.scoutControl1.Location = new System.Drawing.Point(17, 103);
+      this.scoutControl1.Name = "scoutControl1";
+      this.scoutControl1.Size = new System.Drawing.Size(187, 83);
+      this.scoutControl1.TabIndex = 16;
+      this.scoutControl1.TabStop = false;
+      // 
+      // SaveMatchButton
+      // 
+      this.SaveMatchButton.Location = new System.Drawing.Point(343, 12);
+      this.SaveMatchButton.Name = "SaveMatchButton";
+      this.SaveMatchButton.Size = new System.Drawing.Size(75, 23);
+      this.SaveMatchButton.TabIndex = 39;
+      this.SaveMatchButton.Text = "Save";
+      this.SaveMatchButton.UseVisualStyleBackColor = true;
+      this.SaveMatchButton.Click += new System.EventHandler(this.SaveMatchButton_Click);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(778, 318);
+      this.ClientSize = new System.Drawing.Size(778, 352);
+      this.Controls.Add(this.SaveMatchButton);
+      this.Controls.Add(this.button1);
       this.Controls.Add(this.label12);
       this.Controls.Add(this.label11);
       this.Controls.Add(this.label10);
@@ -623,6 +699,8 @@
     private System.Windows.Forms.Label label10;
     private System.Windows.Forms.Label label11;
     private System.Windows.Forms.Label label12;
-  }
+    private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button SaveMatchButton;
+    }
 }
 

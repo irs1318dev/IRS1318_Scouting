@@ -115,8 +115,9 @@ namespace Scouting_Server
       return data;
     }
 
-    //for the 2016 game
-    private void SendDefenseData()
+    //don't call this. this is mine
+    //seriously don't
+    private void SDD()
     {
       string data = "";
 
@@ -135,9 +136,23 @@ namespace Scouting_Server
       Serv.SendPacket("DefenseInfo", data);
     }
 
+    //for the 2016 game
+    private void SendDefenseData()
+    {
+      if (InvokeRequired)
+      {
+        BeginInvoke(new MethodInvoker(() =>
+        {
+          SDD();
+        }));
+      }
+      else
+        SDD();
+    }
+
     private void SendData(TcpClient to)
     {
-      foreach(var match in Matches.GetAll())
+      foreach (var match in Matches.GetAll())
       {
         Serv.SendPacket("Matchdata", GetDataPacket(match.R1TeamKey, match), to);
         Serv.SendPacket("Matchdata", GetDataPacket(match.R2TeamKey, match), to);
@@ -169,11 +184,7 @@ namespace Scouting_Server
           ev.MatchKey = current.Match.id;
           ev.TeamKey = current.Teams[EventData.ScoutNumber].id;
           RobotEvents.Add(ev);
-          ThreadPool.QueueUserWorkItem(
-            (object state) =>
-          {
-            RobotEvents.Save();
-          });
+          RobotEvents.Save();
         }
         else if (packet.Name == "Undo")
         {
@@ -194,19 +205,29 @@ namespace Scouting_Server
         else if (packet.Name == "Hello")
         {
           var scoutNumber = packet.DataAsInt;
-          if(ScoutersDictionary.ContainsKey(packet.Sender))
+
+          if (Scouters[scoutNumber] != null && Scouters[scoutNumber] != packet.Sender)
           {
-            Scouters[ScoutersDictionary[packet.Sender]] = null;
+            ScoutersDictionary.Remove(Scouters[scoutNumber]);
+            Serv.DisconnectClient(Scouters[scoutNumber]);
+          }
+          if (ScoutersDictionary.ContainsKey(packet.Sender))
+          {
+            int oldnum = ScoutersDictionary[packet.Sender];
+
+            ScouterControls[oldnum].SetMatchNumber(0);
+            ScouterControls[oldnum].SetStatus("None");
+            ScouterControls[oldnum].SetTeamNumber(0);
+
+            Scouters[oldnum] = null;
             ScoutersDictionary.Remove(packet.Sender);
           }
           ScoutersDictionary.Add(packet.Sender, scoutNumber);
           Scouters[scoutNumber] = packet.Sender;
-          ScouterControls[scoutNumber].SetMatchNumber(0);
-          ScouterControls[scoutNumber].SetStatus("Connected");
-          ScouterControls[scoutNumber].SetTeamNumber(0);
+          ScouterControls[scoutNumber].SetLastIP(packet.Sender.Client.LocalEndPoint.ToString());
 
           var info = new NetworkData.MatchInfoTransferData();
-          if(current.Match != null)
+          if (current.Match != null)
           {
             info.MatchNumber = current.Match.MatchNumber;
             info.TeamName = current.Teams[scoutNumber].TeamName;
@@ -214,7 +235,6 @@ namespace Scouting_Server
           }
 
           Serv.SendPacket("Match", info.ToString(), packet.Sender);
-          SendDefenseData();
         }
         else if (packet.Name == "GetData")
         {
@@ -251,11 +271,13 @@ namespace Scouting_Server
       XmlNodeList actions = category.GetElementsByTagName("Action");
       for (int i = 0; i < actions.Count; i++)
       {
-        int j = 1;
-        if (actions[i].Attributes["Number"] != null) j = int.Parse(actions[i].Attributes["Number"].Value);
-        while (j > 0)
+        int j = 0;
+        while (j < actions[i].Attributes["Number"])
         {
-          ObjectName.Add(actions[i].Attributes["Name"].Value);
+          string name = actions[i].Attributes["Name"].Value;
+          if(actions[i].Attributes["Number"] != null) 
+          	name += # + (j + 1);
+          ObjectName.Add(name);
           switch (actions[i].Attributes["Type"].Value)
           {
             case "Switch":
@@ -273,11 +295,11 @@ namespace Scouting_Server
             case "Label":
               ObjectType.Add(7);
               break;
-                        case "Change":
-                            ObjectType.Add(8);
-                            break;
-                    }
-          j--;
+            case "Change":
+              ObjectType.Add(8);
+              break;
+          }
+          j++;
         }
       }
     }
@@ -324,6 +346,108 @@ namespace Scouting_Server
       return matches.ToArray()[0];
     }
 
+    private void SaveMatchButton_Click(object sender, EventArgs e)
+    {
+      bool update = true;
+      Models.Match m;
+
+      try
+      {
+        m = GetMatchByNumber((int)matchNumber.Value);
+      }
+      catch (IndexOutOfRangeException)
+      {
+        update = false;
+        m = new Models.Match();
+      }
+
+
+      #region getTeams
+      Models.Team red1;
+      Models.Team red2;
+      Models.Team red3;
+      Models.Team blue1;
+      Models.Team blue2;
+      Models.Team blue3;
+      //RED 1
+      try
+      {
+        red1 = GetTeamByNumber((int)red1Team.Value);
+        m.R1TeamKey = red1.id;
+      }
+      catch (IndexOutOfRangeException)
+      {
+        Error("Match could not be set. Team: " + (int)red1Team.Value + " not found");
+        return;
+      }
+      //RED 2
+      try
+      {
+        red2 = GetTeamByNumber((int)red2Team.Value);
+        m.R2TeamKey = red2.id;
+      }
+      catch (IndexOutOfRangeException)
+      {
+        Error("Match could not be set. Team: " + (int)red2Team.Value + " not found");
+        return;
+      }
+      //RED 3
+      try
+      {
+        red3 = GetTeamByNumber((int)red3Team.Value);
+        m.R3TeamKey = red3.id;
+      }
+      catch (IndexOutOfRangeException)
+      {
+        Error("Match could not be set. Team: " + (int)red3Team.Value + " not found");
+        return;
+      }
+      //BLUE 1
+      try
+      {
+        blue1 = GetTeamByNumber((int)blue1Team.Value);
+        m.B1TeamKey = blue1.id;
+      }
+      catch (IndexOutOfRangeException)
+      {
+        Error("Match could not be set. Team: " + (int)blue1Team.Value + " not found");
+        return;
+      }
+      //BLUE 2
+      try
+      {
+        blue2 = GetTeamByNumber((int)blue2Team.Value);
+        m.B2TeamKey = blue2.id;
+      }
+      catch (IndexOutOfRangeException)
+      {
+        Error("Match could not be set. Team: " + (int)blue2Team.Value + " not found");
+        return;
+      }
+      //BLUE 3
+      try
+      {
+        blue3 = GetTeamByNumber((int)blue3Team.Value);
+        m.B3TeamKey = blue3.id;
+      }
+      catch (IndexOutOfRangeException)
+      {
+        Error("Match could not be set. Team: " + (int)blue3Team.Value + " not found");
+        return;
+      }
+      #endregion
+
+      m.MatchNumber = (int)matchNumber.Value;
+
+      if (update)
+        Matches.Update(m);
+      else
+        Matches.Add(m);
+
+      Matches.Save();
+      
+      Message("Match Saved");
+    }
     private void SetMatchButton_Click(object sender, EventArgs e)
     {
       bool update = true;
@@ -445,10 +569,8 @@ namespace Scouting_Server
         }
       }
 
-      SendDefenseData();
       Message("Match Set");
     }
-
     private void LoadMatchButton_Click(object sender, EventArgs e)
     {
       int num = (int)matchNumber.Value;
@@ -474,10 +596,25 @@ namespace Scouting_Server
 
     private void pulse_Tick(object sender, EventArgs e)
     {
-      if(Serv != null)
+      if (Serv != null)
       {
         Serv.SendPacket("PING", "");
       }
+    }
+
+    private void matchNumber_ValueChanged(object sender, EventArgs e)
+    {
+      red1Team.Value = 0;
+      red2Team.Value = 0;
+      red3Team.Value = 0;
+      blue1Team.Value = 0;
+      blue2Team.Value = 0;
+      blue3Team.Value = 0;
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+      SendDefenseData();
     }
   }
 }

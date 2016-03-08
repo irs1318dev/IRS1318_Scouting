@@ -118,16 +118,24 @@ namespace Scouting_Server.Data
     public void Save()
     {
       FileInfo info = new FileInfo(Path);
-      StreamWriter stream = new StreamWriter(info.Open(FileMode.Create));
+            try
+            {
+                StreamWriter stream = new StreamWriter(info.Open(FileMode.Create));
 
-      WriteHeaders(stream);
 
-      foreach(var pair in rows)
-      {
-        WriteRow(pair.Value, stream);
-      }
+                WriteHeaders(stream);
+                foreach (var pair in rows)
+                {
+                    WriteRow(pair.Value, stream);
+                }
 
-      stream.Close();
+                stream.Close();
+            }
+            catch
+            {
+                return;
+            }
+
     }
 
     private void Load()
