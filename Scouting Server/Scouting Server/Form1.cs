@@ -271,11 +271,13 @@ namespace Scouting_Server
       XmlNodeList actions = category.GetElementsByTagName("Action");
       for (int i = 0; i < actions.Count; i++)
       {
-        int j = 1;
-        if (actions[i].Attributes["Number"] != null) j = int.Parse(actions[i].Attributes["Number"].Value);
-        while (j > 0)
+        int j = 0;
+        while (j < actions[i].Attributes["Number"])
         {
-          ObjectName.Add(actions[i].Attributes["Name"].Value);
+          string name = actions[i].Attributes["Name"].Value;
+          if(actions[i].Attributes["Number"] != null) 
+          	name += # + (j + 1);
+          ObjectName.Add(name);
           switch (actions[i].Attributes["Type"].Value)
           {
             case "Switch":
@@ -297,7 +299,7 @@ namespace Scouting_Server
               ObjectType.Add(8);
               break;
           }
-          j--;
+          j++;
         }
       }
     }

@@ -234,6 +234,7 @@ public class MainInput extends Activity {
         //Creating actual form
         for (i = 0; i < objectNum; i++) {
             text = objectName[i];
+			if(text.contains("#")) text = text.split("#")[0];
             switch (objectType[i]) {
                 case 1:
                     //Page
