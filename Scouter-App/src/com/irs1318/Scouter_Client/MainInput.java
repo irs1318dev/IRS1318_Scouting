@@ -360,7 +360,7 @@ public class MainInput extends Activity {
                 case 8:
                     //Change
                     textView = new TextView(this);
-                    text = changes[Integer.valueOf(objectName[i])];
+                    text = changes[Integer.valueOf(objectName[i]) - 1];
                     makeView(textView, lineLayout);
                     textView.setTextColor(Color.rgb(249,178,52));
                     break;
