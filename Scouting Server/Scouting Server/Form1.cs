@@ -272,11 +272,13 @@ namespace Scouting_Server
       for (int i = 0; i < actions.Count; i++)
       {
         int j = 0;
-        while (j < actions[i].Attributes["Number"])
+                int num = 1;
+                if (actions[i].Attributes["Number"] != null) num = int.Parse(actions[i].Attributes["Number"].Value);
+                while (j < num)
         {
           string name = actions[i].Attributes["Name"].Value;
-          if(actions[i].Attributes["Number"] != null) 
-          	name += # + (j + 1);
+                    if (actions[i].Attributes["Number"] != null)
+                        name += "#" + (j + 1);
           ObjectName.Add(name);
           switch (actions[i].Attributes["Type"].Value)
           {
