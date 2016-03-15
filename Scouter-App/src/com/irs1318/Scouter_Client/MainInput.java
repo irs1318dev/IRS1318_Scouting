@@ -102,18 +102,16 @@ public class MainInput extends Activity {
                 @Override
                 public void Call(TCPClient sender) {
                     NetworkPacket[] networkPackets = client.GetPackets();
-                    boolean gamePackets = false;
                     for (i = 0; i < networkPackets.length; ++i) {
+                        if (networkPackets[i].Name.equals("GameStart")) {
+                            objectNum = networkPackets[i].DataAsInt();
+                            objectName = new String[objectNum];
+                            objectType = new int[objectNum];
+                            objectValue = new int[objectNum];
+                            page = 0;
+                        }
                         if (networkPackets[i].Name.equals("Game")) {
                             //Reading first Packets of data
-                            if(!gamePackets) {
-                                objectNum = networkPackets.length;
-                                objectName = new String[objectNum];
-                                objectType = new int[objectNum];
-                                objectValue = new int[objectNum];
-                                page = 0;
-                                gamePackets = true;
-                            }
                             objectName[i] = networkPackets[i].Data.split(",")[0];
                             text = networkPackets[i].Data.split(",")[1];
                             objectType[i] = Integer.valueOf(text);
@@ -168,22 +166,22 @@ public class MainInput extends Activity {
                                 }
                             });
                         }
-                    }
-                    if(gamePackets) {
-                        pageId = new int[page + 1];
-                        page = 0;
-                        if (match == -1) loading = true;
-                        setConnect();
-                        Handler mainHandle = new Handler(getMainLooper());
-                        mainHandle.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                findViewById(R.id.startLayout).setVisibility(View.GONE);
-                                findViewById(R.id.TopLine).setVisibility(View.VISIBLE);
-                                if (loading)
-                                    findViewById(R.id.Loading).setVisibility(View.VISIBLE);
-                            }
-                        });
+                        if (networkPackets[i].Name.equals("GameEnd")) {
+                            pageId = new int[page + 1];
+                            page = 0;
+                            if (match == -1) loading = true;
+                            setConnect();
+                            Handler mainHandle = new Handler(getMainLooper());
+                            mainHandle.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    findViewById(R.id.startLayout).setVisibility(View.GONE);
+                                    findViewById(R.id.TopLine).setVisibility(View.VISIBLE);
+                                    if (loading)
+                                        findViewById(R.id.Loading).setVisibility(View.VISIBLE);
+                                }
+                            });
+                        }
                     }
                 }
             });
