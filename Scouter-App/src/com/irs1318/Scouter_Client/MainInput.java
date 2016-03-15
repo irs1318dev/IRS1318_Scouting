@@ -15,7 +15,7 @@ import java.io.IOException;
 public class MainInput extends Activity {
     //Basic variables
     int objectNum;
-    int currentCount;
+    int currentCount = 0;
     int i;
     int page = 0;
     int column = 0;
