@@ -448,6 +448,7 @@ namespace Scouting_Server
       
       Message("Match Saved");
     }
+
     private void SetMatchButton_Click(object sender, EventArgs e)
     {
       bool update = true;
@@ -571,6 +572,7 @@ namespace Scouting_Server
 
       Message("Match Set");
     }
+
     private void LoadMatchButton_Click(object sender, EventArgs e)
     {
       int num = (int)matchNumber.Value;
