@@ -15,6 +15,7 @@ import java.io.IOException;
 public class MainInput extends Activity {
     //Basic variables
     int objectNum;
+    int currentCount;
     int i;
     int page = 0;
     int column = 0;
@@ -104,6 +105,7 @@ public class MainInput extends Activity {
                     NetworkPacket[] networkPackets = client.GetPackets();
                     for (i = 0; i < networkPackets.length; ++i) {
                         if (networkPackets[i].Name.equals("GameStart")) {
+                            currentCount = 0;
                             objectNum = networkPackets[i].DataAsInt();
                             objectName = new String[objectNum];
                             objectType = new int[objectNum];
@@ -112,10 +114,11 @@ public class MainInput extends Activity {
                         }
                         if (networkPackets[i].Name.equals("Game")) {
                             //Reading first Packets of data
-                            objectName[i] = networkPackets[i].Data.split(",")[0];
+                            objectName[currentCount] = networkPackets[i].Data.split(",")[0];
                             text = networkPackets[i].Data.split(",")[1];
-                            objectType[i] = Integer.valueOf(text);
-                            if (objectType[i] == 1) page++;
+                            objectType[currentCount] = Integer.valueOf(text);
+                            if (objectType[currentCount] == 1) page++;
+                            currentCount++;
                         }
                         if (networkPackets[i].Name.equals("Match")) {
                             if (!networkPackets[i].Data.equals(lastMatch)) {
