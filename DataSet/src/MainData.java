@@ -81,7 +81,7 @@ public class MainData
 	{
         for (i = 0; i < objectName.length; i++)
 		{
-            System.out.print(objectName[i]);
+            System.out.println(objectName[i]);
         }
     }
 }
