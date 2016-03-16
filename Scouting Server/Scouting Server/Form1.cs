@@ -154,6 +154,22 @@ namespace Scouting_Server
     {
       foreach (var match in Matches.GetAll())
       {
+        string data = "";
+
+        data = match.MatchNumber + "&";
+        data += match.RedDef1 + ",";
+        data += match.RedDef2 + ",";
+        data += match.RedDef3 + ",";
+        data += match.RedDef4 + ",";
+        data += match.RedDef5 + "&";
+
+        data += match.BlueDef1 + ",";
+        data += match.BlueDef2 + ",";
+        data += match.BlueDef3 + ",";
+        data += match.BlueDef4 + ",";
+        data += match.BlueDef5;
+
+        Serv.SendPacket("DefenseInfo", data, to);
         Serv.SendPacket("Matchdata", GetDataPacket(match.R1TeamKey, match), to);
         Serv.SendPacket("Matchdata", GetDataPacket(match.R2TeamKey, match), to);
         Serv.SendPacket("Matchdata", GetDataPacket(match.R3TeamKey, match), to);
@@ -626,6 +642,24 @@ namespace Scouting_Server
     private void button1_Click(object sender, EventArgs e)
     {
       SendDefenseData();
+
+      if(current.Match != null)
+      {
+        current.Match.RedDef1 = RedDef1.Text;
+        current.Match.RedDef2 = RedDef2.Text;
+        current.Match.RedDef3 = RedDef3.Text;
+        current.Match.RedDef4 = RedDef4.Text;
+        current.Match.RedDef5 = RedDef5.Text;
+
+        current.Match.BlueDef1 = BlueDef1.Text;
+        current.Match.BlueDef2 = BlueDef2.Text;
+        current.Match.BlueDef3 = BlueDef3.Text;
+        current.Match.BlueDef4 = BlueDef4.Text;
+        current.Match.BlueDef5 = BlueDef5.Text;
+
+        Matches.Update(current.Match);
+        Matches.Save();
+      }
     }
   }
 }
