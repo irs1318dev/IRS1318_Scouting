@@ -260,10 +260,12 @@ namespace Scouting_Server
     private void Serv_Connected1(object sender)
     {
       TcpClient client = (TcpClient)sender;
+      Serv.SendPacket("GameStart", ObjectType.Count.ToString(), client);
       for (int i = 0; i < ObjectType.Count; i++)
       {
         Serv.SendPacket("Game", ObjectName[i] + "," + ObjectType[i].ToString(), client);
       }
+      Serv.SendPacket("GameEnd", "", client);
     }
 
     public void loadObjects(XmlElement category)

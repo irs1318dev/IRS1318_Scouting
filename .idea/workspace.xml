@@ -34,11 +34,23 @@
       <file leaf-file-name="MainInput.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.385567">
-              <caret line="96" column="33" selection-start-line="96" selection-start-column="33" selection-end-line="96" selection-end-column="33" />
+            <state vertical-scroll-proportion="4.7237115">
+              <caret line="243" column="78" selection-start-line="243" selection-start-column="78" selection-end-line="243" selection-end-column="78" />
               <folding>
                 <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+                <element signature="e#4766#5998#0" expanded="true" />
+                <element signature="e#5997#5998#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TCPClient.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -505,7 +517,7 @@
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="15" />
+      <option name="time" value="20" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -520,6 +532,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#4766#5998#0" expanded="true" />
+            <element signature="e#5997#5998#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -530,6 +544,8 @@
           <caret line="83" column="13" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
           <folding>
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#4766#5998#0" expanded="true" />
+            <element signature="e#5997#5998#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -540,24 +556,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#4766#5998#0" expanded="true" />
+            <element signature="e#5997#5998#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -576,6 +576,28 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#4766#5998#0" expanded="true" />
+            <element signature="e#5997#5998#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#4766#5998#0" expanded="true" />
+            <element signature="e#5997#5998#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -586,6 +608,8 @@
           <caret line="315" column="50" selection-start-line="315" selection-start-column="50" selection-end-line="315" selection-end-column="50" />
           <folding>
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#4766#5998#0" expanded="true" />
+            <element signature="e#5997#5998#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -604,6 +628,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#4766#5998#0" expanded="true" />
+            <element signature="e#5997#5998#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -622,6 +648,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#4766#5998#0" expanded="true" />
+            <element signature="e#5997#5998#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -640,6 +668,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#4766#5998#0" expanded="true" />
+            <element signature="e#5997#5998#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -658,6 +688,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#4766#5998#0" expanded="true" />
+            <element signature="e#5997#5998#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -703,14 +735,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="31" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Scouter-App/res/layout/main.xml">
       <provider selected="true" editor-type-id="android-designer">
         <state />
@@ -722,12 +746,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/Net/TCPClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.385567">
-          <caret line="96" column="33" selection-start-line="96" selection-start-column="33" selection-end-line="96" selection-end-column="33" />
+        <state vertical-scroll-proportion="4.7237115">
+          <caret line="243" column="78" selection-start-line="243" selection-start-column="78" selection-end-line="243" selection-end-column="78" />
           <folding>
             <element signature="method#onCreate#0;class#MainInput#0" expanded="false" />
+            <element signature="e#4766#5998#0" expanded="true" />
+            <element signature="e#5997#5998#0" expanded="true" />
           </folding>
         </state>
       </provider>
