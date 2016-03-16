@@ -222,6 +222,11 @@ namespace Scouting_Server
             Scouters[oldnum] = null;
             ScoutersDictionary.Remove(packet.Sender);
           }
+
+          ScouterControls[scoutNumber].SetMatchNumber(0);
+          ScouterControls[scoutNumber].SetStatus("Connected");
+          ScouterControls[scoutNumber].SetTeamNumber(0);
+
           ScoutersDictionary.Add(packet.Sender, scoutNumber);
           Scouters[scoutNumber] = packet.Sender;
           ScouterControls[scoutNumber].SetLastIP(packet.Sender.Client.LocalEndPoint.ToString());
