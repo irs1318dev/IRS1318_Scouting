@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Scouting_Server.Data
 {
-  public class DataFile <DataModel>
+  public class DataFile<DataModel>
   {
     string Path;
     ASCIIEncoding Enc;
@@ -36,7 +36,7 @@ namespace Scouting_Server.Data
 
       var props = t.GetProperties();
 
-      foreach(var prop in props)
+      foreach (var prop in props)
       {
         properties.Add(prop.Name.ToLower(), prop);
       }
@@ -118,23 +118,21 @@ namespace Scouting_Server.Data
     public void Save()
     {
       FileInfo info = new FileInfo(Path);
-            try
-            {
-                StreamWriter stream = new StreamWriter(info.Open(FileMode.Create));
-
-
-                WriteHeaders(stream);
-                foreach (var pair in rows)
-                {
-                    WriteRow(pair.Value, stream);
-                }
-
-                stream.Close();
-            }
-            catch
-            {
-                return;
-            }
+      try
+      {
+        using (StreamWriter stream = new StreamWriter(info.Open(FileMode.Create)))
+        {
+          WriteHeaders(stream);
+          foreach (var pair in rows)
+          {
+            WriteRow(pair.Value, stream);
+          }
+        }
+      }
+      catch
+      {
+        return;
+      }
 
     }
 
