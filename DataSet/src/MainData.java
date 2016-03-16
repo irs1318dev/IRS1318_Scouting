@@ -9,9 +9,12 @@ public class MainData
     int i = 0;
     int j = 0;
     int inMatch = 0;
+    int currentCount = 0;
     int[] objectType;
+    File matches;
     String text;
-    String[] objectName;
+    String page;
+    List<String> columnNames;
     List<Integer> teams;
     List<List<Integer[]>> dataValue;
     boolean connected = false;
@@ -53,21 +56,31 @@ public class MainData
 				@Override
 				public void Call(TCPClient sender)
 				{
-					boolean gamePackets = false;
 					NetworkPacket[] networkPackets = client.GetPackets();
+                    String
 					for (i = 0; i < networkPackets.length; ++i)
 					{
+                        if (networkPackets[i].Name.equals("GameStart"))
+                        {
+                            currentCount = 0;
+                            try {
+                                matches = new File("Matches.csv");
+                                FileWriter fileWriter = new FileWriter(matches);
+                                fileWriter.write("Match,Team,Side,\n");
+                                fileWriter.close();
+                            }catch (IOException e) {}
+                        }
 						if (networkPackets[i].Name.equals("Game"))
 						{
-							if (!gamePackets)
-							{
-								objectName = new String[networkPackets.length];
-								objectType = new int[networkPackets.length];
-								gamePackets = true;
-							}
-							objectName[i] = networkPackets[i].Data.split(",")[0];
-							text = networkPackets[i].Data.split(",")[1];
-							objectType[i] = Integer.valueOf(text);
+                            switch(Integer.valueOf(networkPackets[i].Data.split(",")[1])) {
+                                case 1:
+                                    page = "(" + networkPackets[i].Data.split(",")[0].charAt(0) + ")";
+                                    break;
+                                case 3:case 4:case 5:
+                                    text = networkPackets[i].Data.split(",")[0];
+                                    columnNames.add(page + text);
+                            }
+                            currentCount++;
 						}
                         if (networkPackets[i].Name.equals("MatchData"))
                         {
@@ -78,8 +91,7 @@ public class MainData
                             if(inMatch > 3) text = "Blue";
                             else text = "Red";
                             try {
-                                File file = new File("Matches.csv");
-                                FileWriter fileWriter = new FileWriter(file);
+                                FileWriter fileWriter = new FileWriter(matches);
                                 fileWriter.write(networkPackets[i].Data.split("&")[0].split(",")[1] + "," + team + "," + text + "\n");
                                 fileWriter.close();
                             }catch (IOException e) {}
@@ -103,15 +115,13 @@ public class MainData
 	{
         try {
             File file = new File("Data.csv");
-            file.createNewFile();
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write("team,");
 
             for (i = 0; i < objectName.length; i++) fileWriter.write(objectName[i] + ",");
 
             for(i = 0; i < teams.size(); i++) {
-                fileWriter.write("\n");
-                fileWriter.write(teams.get(i) + ",");
+                fileWriter.write("\n" + teams.get(i) + ",");
                 List<Integer[]> matchList = dataValue.get(i);
                 for(j = 0; j < objectName.length; j++) fileWriter.write((matchList.get(matchList.size() - 1)[j] + matchList.get(matchList.size() - 2)[j] + matchList.get(matchList.size() - 3)[j]) + ",");
             }

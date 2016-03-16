@@ -115,6 +115,7 @@ public class MainInput extends Activity {
                         if (networkPackets[i].Name.equals("Game")) {
                             //Reading first Packets of data
                             objectName[currentCount] = networkPackets[i].Data.split(",")[0];
+                            if(objectName[currentCount].contains("#")) objectName[currentCount] = objectName[currentCount].split("#")[0];
                             text = networkPackets[i].Data.split(",")[1];
                             objectType[currentCount] = Integer.valueOf(text);
                             if (objectType[currentCount] == 1) page++;
@@ -235,7 +236,6 @@ public class MainInput extends Activity {
         //Creating actual form
         for (i = 0; i < objectNum; i++) {
             text = objectName[i];
-			if(text.contains("#")) text = text.split("#")[0];
             switch (objectType[i]) {
                 case 1:
                     //Page
