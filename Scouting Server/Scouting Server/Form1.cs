@@ -154,6 +154,22 @@ namespace Scouting_Server
     {
       foreach (var match in Matches.GetAll())
       {
+        string data = "";
+
+        data = match.MatchNumber + "&";
+        data += match.RedDef1 + ",";
+        data += match.RedDef2 + ",";
+        data += match.RedDef3 + ",";
+        data += match.RedDef4 + ",";
+        data += match.RedDef5 + "&";
+
+        data += match.BlueDef1 + ",";
+        data += match.BlueDef2 + ",";
+        data += match.BlueDef3 + ",";
+        data += match.BlueDef4 + ",";
+        data += match.BlueDef5;
+
+        Serv.SendPacket("DefenseInfo", data, to);
         Serv.SendPacket("Matchdata", GetDataPacket(match.R1TeamKey, match), to);
         Serv.SendPacket("Matchdata", GetDataPacket(match.R2TeamKey, match), to);
         Serv.SendPacket("Matchdata", GetDataPacket(match.R3TeamKey, match), to);
@@ -222,6 +238,11 @@ namespace Scouting_Server
             Scouters[oldnum] = null;
             ScoutersDictionary.Remove(packet.Sender);
           }
+
+          ScouterControls[scoutNumber].SetMatchNumber(0);
+          ScouterControls[scoutNumber].SetStatus("Connected");
+          ScouterControls[scoutNumber].SetTeamNumber(0);
+
           ScoutersDictionary.Add(packet.Sender, scoutNumber);
           Scouters[scoutNumber] = packet.Sender;
           ScouterControls[scoutNumber].SetLastIP(packet.Sender.Client.LocalEndPoint.ToString());
@@ -260,10 +281,12 @@ namespace Scouting_Server
     private void Serv_Connected1(object sender)
     {
       TcpClient client = (TcpClient)sender;
+      Serv.SendPacket("GameStart", ObjectType.Count.ToString(), client);
       for (int i = 0; i < ObjectType.Count; i++)
       {
         Serv.SendPacket("Game", ObjectName[i] + "," + ObjectType[i].ToString(), client);
       }
+      Serv.SendPacket("GameEnd", "", client);
     }
 
     public void loadObjects(XmlElement category)
@@ -272,11 +295,13 @@ namespace Scouting_Server
       for (int i = 0; i < actions.Count; i++)
       {
         int j = 0;
-        while (j < actions[i].Attributes["Number"])
+                int num = 1;
+                if (actions[i].Attributes["Number"] != null) num = int.Parse(actions[i].Attributes["Number"].Value);
+                while (j < num)
         {
           string name = actions[i].Attributes["Name"].Value;
-          if(actions[i].Attributes["Number"] != null) 
-          	name += # + (j + 1);
+                    if (actions[i].Attributes["Number"] != null)
+                        name += "#" + (j + 1);
           ObjectName.Add(name);
           switch (actions[i].Attributes["Type"].Value)
           {
@@ -448,6 +473,7 @@ namespace Scouting_Server
       
       Message("Match Saved");
     }
+
     private void SetMatchButton_Click(object sender, EventArgs e)
     {
       bool update = true;
@@ -571,6 +597,7 @@ namespace Scouting_Server
 
       Message("Match Set");
     }
+
     private void LoadMatchButton_Click(object sender, EventArgs e)
     {
       int num = (int)matchNumber.Value;
@@ -615,6 +642,24 @@ namespace Scouting_Server
     private void button1_Click(object sender, EventArgs e)
     {
       SendDefenseData();
+
+      if(current.Match != null)
+      {
+        current.Match.RedDef1 = RedDef1.Text;
+        current.Match.RedDef2 = RedDef2.Text;
+        current.Match.RedDef3 = RedDef3.Text;
+        current.Match.RedDef4 = RedDef4.Text;
+        current.Match.RedDef5 = RedDef5.Text;
+
+        current.Match.BlueDef1 = BlueDef1.Text;
+        current.Match.BlueDef2 = BlueDef2.Text;
+        current.Match.BlueDef3 = BlueDef3.Text;
+        current.Match.BlueDef4 = BlueDef4.Text;
+        current.Match.BlueDef5 = BlueDef5.Text;
+
+        Matches.Update(current.Match);
+        Matches.Save();
+      }
     }
   }
 }

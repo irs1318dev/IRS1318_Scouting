@@ -23,7 +23,10 @@ namespace Scouting_Server.NetworkData
 
     public override string ToString()
     {
-      return MatchNumber + "," + TeamNumber + ',' + TeamName;
+      if(!String.IsNullOrEmpty(TeamName))
+        return MatchNumber + "," + TeamNumber + ',' + TeamName;
+      else
+        return MatchNumber + "," + TeamNumber + ",NULL";
     }
   }
 }

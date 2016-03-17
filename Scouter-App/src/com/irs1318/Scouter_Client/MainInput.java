@@ -15,6 +15,7 @@ import java.io.IOException;
 public class MainInput extends Activity {
     //Basic variables
     int objectNum;
+    int currentCount = 0;
     int i;
     int page = 0;
     int column = 0;
@@ -102,22 +103,23 @@ public class MainInput extends Activity {
                 @Override
                 public void Call(TCPClient sender) {
                     NetworkPacket[] networkPackets = client.GetPackets();
-                    boolean gamePackets = false;
                     for (i = 0; i < networkPackets.length; ++i) {
+                        if (networkPackets[i].Name.equals("GameStart")) {
+                            currentCount = 0;
+                            objectNum = networkPackets[i].DataAsInt();
+                            objectName = new String[objectNum];
+                            objectType = new int[objectNum];
+                            objectValue = new int[objectNum];
+                            page = 0;
+                        }
                         if (networkPackets[i].Name.equals("Game")) {
                             //Reading first Packets of data
-                            if(!gamePackets) {
-                                objectNum = networkPackets.length;
-                                objectName = new String[objectNum];
-                                objectType = new int[objectNum];
-                                objectValue = new int[objectNum];
-                                page = 0;
-                                gamePackets = true;
-                            }
-                            objectName[i] = networkPackets[i].Data.split(",")[0];
+                            objectName[currentCount] = networkPackets[i].Data.split(",")[0];
+                            if(objectName[currentCount].contains("#")) objectName[currentCount] = objectName[currentCount].split("#")[0];
                             text = networkPackets[i].Data.split(",")[1];
-                            objectType[i] = Integer.valueOf(text);
-                            if (objectType[i] == 1) page++;
+                            objectType[currentCount] = Integer.valueOf(text);
+                            if (objectType[currentCount] == 1) page++;
+                            currentCount++;
                         }
                         if (networkPackets[i].Name.equals("Match")) {
                             if (!networkPackets[i].Data.equals(lastMatch)) {
@@ -168,22 +170,22 @@ public class MainInput extends Activity {
                                 }
                             });
                         }
-                    }
-                    if(gamePackets) {
-                        pageId = new int[page + 1];
-                        page = 0;
-                        if (match == -1) loading = true;
-                        setConnect();
-                        Handler mainHandle = new Handler(getMainLooper());
-                        mainHandle.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                findViewById(R.id.startLayout).setVisibility(View.GONE);
-                                findViewById(R.id.TopLine).setVisibility(View.VISIBLE);
-                                if (loading)
-                                    findViewById(R.id.Loading).setVisibility(View.VISIBLE);
-                            }
-                        });
+                        if (networkPackets[i].Name.equals("GameEnd")) {
+                            pageId = new int[page + 1];
+                            page = 0;
+                            if (match == -1) loading = true;
+                            setConnect();
+                            Handler mainHandle = new Handler(getMainLooper());
+                            mainHandle.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    findViewById(R.id.startLayout).setVisibility(View.GONE);
+                                    findViewById(R.id.TopLine).setVisibility(View.VISIBLE);
+                                    if (loading)
+                                        findViewById(R.id.Loading).setVisibility(View.VISIBLE);
+                                }
+                            });
+                        }
                     }
                 }
             });
@@ -234,7 +236,6 @@ public class MainInput extends Activity {
         //Creating actual form
         for (i = 0; i < objectNum; i++) {
             text = objectName[i];
-			if(text.contains("#")) text = text.split("#")[0];
             switch (objectType[i]) {
                 case 1:
                     //Page
@@ -359,7 +360,7 @@ public class MainInput extends Activity {
                 case 8:
                     //Change
                     textView = new TextView(this);
-                    text = changes[Integer.valueOf(objectName[i])];
+                    text = changes[Integer.valueOf(objectName[i]) - 1];
                     makeView(textView, lineLayout);
                     textView.setTextColor(Color.rgb(249,178,52));
                     break;
