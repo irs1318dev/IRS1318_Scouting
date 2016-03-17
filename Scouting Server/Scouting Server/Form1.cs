@@ -215,7 +215,10 @@ namespace Scouting_Server
                       select evnt;
 
           if (query.Count() > 0)
+          {
             RobotEvents.Remove(query.ToArray()[query.Count() - 1]);
+            RobotEvents.Save();
+          }
 
         }
         else if (packet.Name == "Hello")

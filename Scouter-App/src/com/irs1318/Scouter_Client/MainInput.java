@@ -463,6 +463,9 @@ public class MainInput extends Activity {
             //Finding clicked object
             i = v.getId();
             if(i >= objectNum) i = i - objectNum;
+            String EvType = "";
+            if(reverse) EvType = "Undo";
+            else EvType = "Event";
 
             //Making background changes
             switch (objectType[i]) {
@@ -472,10 +475,12 @@ public class MainInput extends Activity {
                     if(objectValue[i] == 1) {
                         aSwitch.setChecked(false);
                         objectValue[i] = 0;
+                        EvType = "Undo";
                     }
                     else {
                         aSwitch.setChecked(true);
                         objectValue[i] = 1;
+                        EvType = "Event";
                     }
                     break;
                 case 4:
@@ -494,6 +499,11 @@ public class MainInput extends Activity {
                     while(objectType[j] == 5) {
                         RadioButton radioButton = (RadioButton) findViewById(j);
                         radioButton.setChecked(false);
+                        //Notifying server of change
+                        try {
+                            if (connected) client.SendPacket("Undo", scouter + "," + j);
+                        } catch (IOException ie) {
+                        }
                         objectValue[j] = 0;
                         if(i == j && !reverse) radioButton.setChecked(true);
                         j--;
@@ -501,11 +511,9 @@ public class MainInput extends Activity {
                     objectValue[i] = 1;
                     break;
             }
-            if(reverse) text = "Undo";
-            else text = "Event";
             //Notifying server of change
             try {
-                if (connected) client.SendPacket(text, scouter + "," + i);
+                if (connected) client.SendPacket(EvType, scouter + "," + i);
             } catch (IOException ie) {
             }
         }
