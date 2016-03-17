@@ -91,6 +91,9 @@ public class MainData {
                             for(j = 0; j < data.length; j++) {
 								int id = Integer.valueOf(data[j].split(":")[0]);
                                 String name = objectName[id];
+                                if(name.contains("#")) {
+                                    
+                                }
 								if(!columnNames.contains(name)) columnNames.add(name);
 								
 								values[id] = Integer.valueOf(data[j].split(":")[1]);
