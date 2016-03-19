@@ -7,30 +7,42 @@ import java.util.*;
 
 public class MainData {
     int i = 0;
-    int j = 0;
+    int uses = 3;
     int inMatch = 0;
     int currentCount = 0;
+    int startMatch;
     int[] objectType;
     File matches;
     String text;
+    String defences;
 	String[] objectName;
     List<String> columnNames;
     List<Integer> teams;
-    List<List<Integer[]>> dataValue;
+    List<List<Integer[][]>> dataValue;
     boolean connected = false;
+    boolean eachMatch = true;
     TCPClient client;
+    
+    public void start() {
+        System.out.println("start at match:");
+        Scanner scanner = new Scanner(System.in);
+        text = scanner.nextLine();
+        startMatch = Integer.valueOf(text);
+        if(startMatch == 0) {
+            eachMatch = false;
+            uses = 1;
+        }
+        run(true);
+    }
 
     public void run(boolean first) {
-        if (connected) saveData();
-        else {
-			if (!first) System.out.println("No connection found");
-            System.out.println("Enter Server Address:");
-            Scanner scanner = new Scanner(System.in);
-            text = scanner.nextLine();
-            try {
-                connect();
-            }catch (Exception e) {}
-        }
+        if (!first) System.out.println("No connection found");
+        System.out.println("Enter Server Address:");
+        Scanner scanner = new Scanner(System.in);
+        text = scanner.nextLine();
+        try {
+            connect();
+        }catch (Exception e) {}
     }
 
     public void connect() {
@@ -39,12 +51,14 @@ public class MainData {
 				@Override
 				public void Call(TCPClient sender) {
 					connected = true;
+                    System.out.println("Connected");
 				}
 			});
 		client.OnDisconnected.add(new NetworkEvent() {
 				@Override
 				public void Call(TCPClient sender) {
 					connected = false;
+                    System.out.println("Disconnected");
 				}
 			});
         client.OnDataAvailable.add(new NetworkEvent() {
@@ -56,12 +70,13 @@ public class MainData {
 							objectName = new String[networkPackets[i].DataAsInt()];
 							objectType = new int[networkPackets[i].DataAsInt()];
                             currentCount = 0;
-                            try {
+                            if(!eachMatch) try {
                                 matches = new File("Matches.csv");
                                 FileWriter fileWriter = new FileWriter(matches);
                                 fileWriter.write("Match,Team,Side,\n");
                                 fileWriter.close();
                             }catch (IOException e) {}
+                            System.out.println("Loading Game...");
                         }
 						if (networkPackets[i].Name.equals("Game")) {
                             switch(Integer.valueOf(networkPackets[i].Data.split(",")[1])) {
@@ -76,38 +91,44 @@ public class MainData {
 									break;
                             }
 						}
+                        if (networkPackets[i].Name.equals("GameEnd")) System.out.println("Done");
 						if(networkPackets[i].Name.equals("DefenceInfo")) {
-							if (inMatch > 2) text = networkPackets[i].Data.split("&")[1];
-                            else text = networkPackets[i].Data.split("&")[2];
+                            System.out.println("Loading Match " + networkPackets[i].Data.split("&")[0]);
+							if (inMatch > 2) defences = networkPackets[i].Data.split("&")[1];
+                            else defences = networkPackets[i].Data.split("&")[2];
 						}
                         if (networkPackets[i].Name.equals("MatchData")) {
+                            System.out.print(" .");
                             int team = Integer.valueOf(networkPackets[i].Data.split("&")[0].split(",")[0]);
+                            int match = Integer.valueOf(networkPackets[i].Data.split("&")[0].split(",")[1]);
                             if(!teams.contains(team)) teams.add(team);
                             inMatch++;
                             if(inMatch > 6) inMatch = 1;
 
                             String[] data = networkPackets[i].Data.split("&")[1].split(",");
-                            Integer[] values = new Integer[data.length];
-                            for(j = 0; j < data.length; j++) {
-								int id = Integer.valueOf(data[j].split(":")[0]);
-                                String name = objectName[id];
-                                if(name.contains("#")) {
-                                    
-                                }
+                            Integer[][] values = new Integer[data.length][2];
+                            values[0][1] = match;
+                            for(int j = 0; j < data.length; j++) {
+                                String name = objectName[Integer.valueOf(data[j].split(":")[0])];
+                                if(name.contains("#")) name = name.split("#")[0] + ":" + defences.split(",")[Integer.valueOf(name.split("#")[1])];
 								if(!columnNames.contains(name)) columnNames.add(name);
-								
-								values[id] = Integer.valueOf(data[j].split(":")[1]);
+								values[columnNames.indexOf(name)][0] = Integer.valueOf(data[j].split(":")[1]);
 							}
 
                             dataValue.get(teams.indexOf(team)).add(values);
 							
 							if(inMatch > 3) text = "Blue";
                             else text = "Red";
-                            try {
+                            if(!eachMatch) try {
                                 FileWriter fileWriter = new FileWriter(matches);
-                                fileWriter.write(networkPackets[i].Data.split("&")[0].split(",")[1] + "," + team + "," + text + "\n");
+                                fileWriter.write(match + "," + team + "," + text + "\n");
                                 fileWriter.close();
                             }catch (IOException e) {}
+                        }
+                        if(networkPackets[i].Name.equals("MatchEnd")) {
+                            System.out.println("Done");
+                            System.out.println("Printing Data");
+                            saveData();
                         }
 					}
 				}
@@ -127,14 +148,39 @@ public class MainData {
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write("team,");
 
-            for (i = 0; i < objectName.length; i++) fileWriter.write(objectName[i] + ",");
-
+            for (i = 0; i < columnNames.size(); i++) columnNames.set(i,columnNames.get(i) + i);
+            Collections.sort(columnNames);
+            for (i = 0; i < columnNames.size(); i++) fileWriter.write((columnNames.get(i).subSequence(0,columnNames.get(i).length() - 2)) + ",");
             for(i = 0; i < teams.size(); i++) {
-                fileWriter.write("\n" + teams.get(i) + ",");
-                List<Integer[]> matchList = dataValue.get(i);
-                for(j = 0; j < objectName.length; j++) fileWriter.write((matchList.get(matchList.size() - 1)[j] + matchList.get(matchList.size() - 2)[j] + matchList.get(matchList.size() - 3)[j]) + ",");
+                List<Integer[][]> matchList = dataValue.get(i);
+                if(eachMatch) for(int m = startMatch; m < matchList.size(); m++) {
+                    fileWriter.write("\n" + teams.get(i) + "," + matchList.get(m)[0][0]);
+                    writeLine(matchList,fileWriter,m);
+                }
+                if(!eachMatch) {
+                    fileWriter.write("\n" + teams.get(i) + ",");
+                    writeLine(matchList,fileWriter,0);
+                }
             }
             fileWriter.close();
         }catch (IOException e) {}
+        System.out.println("Done");
+        System.out.println("Update Complete: Restarting");
+        try {
+            client.Disconnect();
+        } catch (Exception e) {}
+        start();
 	}
+    public void writeLine(List<Integer[][]> matchList,FileWriter fileWriter, int m) {
+        try {
+            for(int j = 1; j < columnNames.size(); j++) {
+                text = columnNames.get(j);
+                int id = text.charAt(text.length() - 1);
+                int value = 0;
+                if(eachMatch) value = matchList.get(m)[id][0];
+                else for(int l = 0; l <= uses; l++) if(matchList.size() > l) value += matchList.get(matchList.size() - l)[id][0];
+                fileWriter.write(value + ",");
+            }
+        } catch (IOException e) {}
+    }
 }
