@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.List;
 import java.util.Scanner;
 import java.util.*;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 public class MainData {
     int i = 0;
@@ -36,13 +38,16 @@ public class MainData {
     }
 
     public void run(boolean first) {
-        if (!first) System.out.println("No connection found");
-        System.out.println("Enter Server Address:");
-        Scanner scanner = new Scanner(System.in);
-        text = scanner.nextLine();
-        try {
-            connect();
-        }catch (Exception e) {}
+        if(!first) System.out.println("Testing...");
+        if(!connected) {
+            System.out.println("Enter Server Address:");
+            Scanner scanner = new Scanner(System.in);
+            text = scanner.nextLine();
+            try {
+                connect();
+            } catch (Exception e) {
+            }
+        }
     }
 
     public void connect() {
@@ -66,7 +71,7 @@ public class MainData {
 				public void Call(TCPClient sender) {
 					NetworkPacket[] networkPackets = client.GetPackets();
 					for (i = 0; i < networkPackets.length; ++i) {
-                        if (networkPackets[i].Name.equals("GameStart")) {
+                        if(networkPackets[i].Name.equals("GameStart")) {
 							objectName = new String[networkPackets[i].DataAsInt()];
 							objectType = new int[networkPackets[i].DataAsInt()];
                             currentCount = 0;
@@ -76,9 +81,10 @@ public class MainData {
                                 fileWriter.write("Match,Team,Side,\n");
                                 fileWriter.close();
                             }catch (IOException e) {}
-                            System.out.println("Loading Game...");
+                            System.out.println("Loading Game");
                         }
-						if (networkPackets[i].Name.equals("Game")) {
+						if(networkPackets[i].Name.equals("Game")) {
+                            System.out.print(".");
                             switch(Integer.valueOf(networkPackets[i].Data.split(",")[1])) {
                                 case 1:
                                     text = "(" + networkPackets[i].Data.split(",")[0].charAt(0) + ")";
@@ -91,7 +97,12 @@ public class MainData {
 									break;
                             }
 						}
-                        if (networkPackets[i].Name.equals("GameEnd")) System.out.println("Done");
+                        if(networkPackets[i].Name.equals("GameEnd")) {
+                            System.out.println("Done");
+                            try {
+                                client.SendPacket("GetData", "");
+                            } catch(IOException e) {}
+                        }
 						if(networkPackets[i].Name.equals("DefenceInfo")) {
                             System.out.println("Loading Match " + networkPackets[i].Data.split("&")[0]);
 							if (inMatch > 2) defences = networkPackets[i].Data.split("&")[1];
@@ -131,6 +142,7 @@ public class MainData {
                             saveData();
                         }
 					}
+                    run(false);
 				}
 			});
         try {
@@ -171,6 +183,7 @@ public class MainData {
         } catch (Exception e) {}
         start();
 	}
+
     public void writeLine(List<Integer[][]> matchList,FileWriter fileWriter, int m) {
         try {
             for(int j = 1; j < columnNames.size(); j++) {
