@@ -4,38 +4,21 @@ import java.io.*;
 import java.util.List;
 import java.util.Scanner;
 import java.util.*;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 public class MainData {
     int i = 0;
-    int uses = 3;
-    int inMatch = 0;
-    int currentCount = 0;
-    int startMatch;
+    int match;
+    int position = 0;
     int[] objectType;
-    File matches;
+    FileWriter fileWriter;
     String text;
     String defences;
 	String[] objectName;
-    List<String> columnNames;
-    List<Integer> teams;
-    List<List<Integer[][]>> dataValue;
+    List<String> columnNames = new ArrayList<>();
+    List<String> matches = new ArrayList<>();
+    List<Integer[]> dataValue = new ArrayList<>();
     boolean connected = false;
-    boolean eachMatch = true;
     TCPClient client;
-    
-    public void start() {
-        System.out.println("start at match:");
-        Scanner scanner = new Scanner(System.in);
-        text = scanner.nextLine();
-        startMatch = Integer.valueOf(text);
-        if(startMatch == 0) {
-            eachMatch = false;
-            uses = 1;
-        }
-        run(true);
-    }
 
     public void run(boolean first) {
         if(!first) System.out.println("Testing...");
@@ -70,130 +53,110 @@ public class MainData {
 				@Override
 				public void Call(TCPClient sender) {
 					NetworkPacket[] networkPackets = client.GetPackets();
+                    int object = 0;
 					for (i = 0; i < networkPackets.length; ++i) {
                         if(networkPackets[i].Name.equals("GameStart")) {
 							objectName = new String[networkPackets[i].DataAsInt()];
 							objectType = new int[networkPackets[i].DataAsInt()];
-                            currentCount = 0;
-                            if(!eachMatch) try {
-                                matches = new File("Matches.csv");
-                                FileWriter fileWriter = new FileWriter(matches);
-                                fileWriter.write("Match,Team,Side,\n");
-                                fileWriter.close();
-                            }catch (IOException e) {}
+                            object = 0;
                             System.out.println("Loading Game");
                         }
 						if(networkPackets[i].Name.equals("Game")) {
-                            System.out.print(".");
                             switch(Integer.valueOf(networkPackets[i].Data.split(",")[1])) {
                                 case 1:
                                     text = "(" + networkPackets[i].Data.split(",")[0].charAt(0) + ")";
                                     break;
                                 case 3:case 4:case 5:
-                                    text += networkPackets[i].Data.split(",")[0];
-                                    objectName[currentCount] = text;
-									objectType[currentCount] = Integer.valueOf(networkPackets[i].Data.split(",")[1]);
-									currentCount++;
+                                    String data = text + networkPackets[i].Data.split(",")[0];
+                                    objectName[object] = data;
+									objectType[object] = Integer.valueOf(networkPackets[i].Data.split(",")[1]);
 									break;
+                                case 10:
+                                    defences = networkPackets[i].Data.split(",")[0];
+                                    break;
                             }
+                            object++;
 						}
                         if(networkPackets[i].Name.equals("GameEnd")) {
                             System.out.println("Done");
                             try {
-                                client.SendPacket("GetData", "");
-                            } catch(IOException e) {}
+                                client.SendPacket("GetData", " ");
+                            } catch (IOException e) {
+                            }
+                            for (int j = 0; j < objectName.length; j++)
+                                if (objectName[j] != null) {
+                                    if (!objectName[j].contains("#")) columnNames.add(objectName[j]);
+                                    else if (objectName[j].split("#")[1].equals("1"))
+                                        for (int l = 0; l < defences.split("&").length; l++)
+                                            columnNames.add(objectName[j].split("#")[0] + ":" + defences.split("&")[l]);
+                                }
                         }
-						if(networkPackets[i].Name.equals("DefenceInfo")) {
-                            System.out.println("Loading Match " + networkPackets[i].Data.split("&")[0]);
-							if (inMatch > 2) defences = networkPackets[i].Data.split("&")[1];
+						if(networkPackets[i].Name.equals("DefenseInfo")) {
+                            match = Integer.valueOf(networkPackets[i].Data.split("&")[0]);
+                            System.out.println("Loading Match " + match);
+                            if (position > 2) defences = networkPackets[i].Data.split("&")[1];
                             else defences = networkPackets[i].Data.split("&")[2];
 						}
                         if (networkPackets[i].Name.equals("MatchData")) {
-                            System.out.print(" .");
-                            int team = Integer.valueOf(networkPackets[i].Data.split("&")[0].split(",")[0]);
-                            int match = Integer.valueOf(networkPackets[i].Data.split("&")[0].split(",")[1]);
-                            if(!teams.contains(team)) teams.add(team);
-                            inMatch++;
-                            if(inMatch > 6) inMatch = 1;
-
-                            String[] data = networkPackets[i].Data.split("&")[1].split(",");
-                            Integer[][] values = new Integer[data.length][2];
-                            values[0][1] = match;
-                            for(int j = 0; j < data.length; j++) {
-                                String name = objectName[Integer.valueOf(data[j].split(":")[0])];
-                                if(name.contains("#")) name = name.split("#")[0] + ":" + defences.split(",")[Integer.valueOf(name.split("#")[1])];
-								if(!columnNames.contains(name)) columnNames.add(name);
-								values[columnNames.indexOf(name)][0] = Integer.valueOf(data[j].split(":")[1]);
-							}
-
-                            dataValue.get(teams.indexOf(team)).add(values);
-							
-							if(inMatch > 3) text = "Blue";
+                            int team = Integer.valueOf(networkPackets[i].Data.split("&")[0].split(",")[1]);
+                            position++;
+                            if (position > 6) position = 1;
+                            if(position > 3) text = "blue";
                             else text = "Red";
-                            if(!eachMatch) try {
-                                FileWriter fileWriter = new FileWriter(matches);
-                                fileWriter.write(match + "," + team + "," + text + "\n");
-                                fileWriter.close();
-                            }catch (IOException e) {}
+                            matches.add(match + "," + team + "," + text);
+                            String[] data = networkPackets[i].Data.split("&")[1].split(",");
+                            Integer[] values = new Integer[data.length + columnNames.size()];
+                            for (int j = 0; j < data.length; j++) {
+                                int id = Integer.valueOf(data[j].split(":")[0]);
+                                String name = objectName[id];
+                                if (name.contains("#")) name = name.split("#")[0] + ":" + defences.split(",")[Integer.valueOf(name.split("#")[1]) - 1];
+                                if(!columnNames.contains(name)) columnNames.add(name);
+                                values[columnNames.indexOf(name)] = Integer.valueOf(data[j].split(":")[1]);
+                            }
+                            dataValue.add(values);
                         }
                         if(networkPackets[i].Name.equals("MatchEnd")) {
                             System.out.println("Done");
                             System.out.println("Printing Data");
                             saveData();
                         }
-					}
-                    run(false);
-				}
-			});
-        try {
-            client.Connect();
-        }catch (Exception e) {}
-        run(false);
-    }
+                    }
+                }
+            });
+            try {
+               client.Connect();
+            }catch (Exception e) {}
+            run(false);
+        }
 
 	public void saveData() {
-        for (i = 0; i < objectName.length; i++) {
-            System.out.println(objectName[i]);
-        }
         try {
-            File file = new File("Data.csv");
-            FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write("team,");
-
-            for (i = 0; i < columnNames.size(); i++) columnNames.set(i,columnNames.get(i) + i);
-            Collections.sort(columnNames);
-            for (i = 0; i < columnNames.size(); i++) fileWriter.write((columnNames.get(i).subSequence(0,columnNames.get(i).length() - 2)) + ",");
-            for(i = 0; i < teams.size(); i++) {
-                List<Integer[][]> matchList = dataValue.get(i);
-                if(eachMatch) for(int m = startMatch; m < matchList.size(); m++) {
-                    fileWriter.write("\n" + teams.get(i) + "," + matchList.get(m)[0][0]);
-                    writeLine(matchList,fileWriter,m);
-                }
-                if(!eachMatch) {
-                    fileWriter.write("\n" + teams.get(i) + ",");
-                    writeLine(matchList,fileWriter,0);
-                }
+            File file = new File("AllData.csv");
+            fileWriter = new FileWriter(file);
+            fileWriter.write("Team,Match,Alliance,");
+            for (i = 0; i < columnNames.size(); i++)
+                fileWriter.write(columnNames.get(i) + ",");
+            for(i = 0; i < matches.size(); i++) {
+                Integer[] matchList = dataValue.get(i);
+                fileWriter.write("\n" + matches.get(i).split(",")[1] + ',' + matches.get(i).split(",")[0] + ',' + matches.get(i).split(",")[2] + ',');
+                writeLine(matchList, fileWriter);
             }
             fileWriter.close();
         }catch (IOException e) {}
         System.out.println("Done");
-        System.out.println("Update Complete: Restarting");
         try {
             client.Disconnect();
         } catch (Exception e) {}
-        start();
+        System.out.println("Update Complete");
+        System.exit(0);
 	}
 
-    public void writeLine(List<Integer[][]> matchList,FileWriter fileWriter, int m) {
+    public void writeLine(Integer[] matchList,FileWriter fileWriter) {
         try {
-            for(int j = 1; j < columnNames.size(); j++) {
-                text = columnNames.get(j);
-                int id = text.charAt(text.length() - 1);
-                int value = 0;
-                if(eachMatch) value = matchList.get(m)[id][0];
-                else for(int l = 0; l <= uses; l++) if(matchList.size() > l) value += matchList.get(matchList.size() - l)[id][0];
-                fileWriter.write(value + ",");
-            }
+            for(int j = 0; j < columnNames.size(); j++) if(j < matchList.length && matchList[j] != null) {
+                fileWriter.write(matchList[j] + ",");
+            } else fileWriter.write(",");
         } catch (IOException e) {}
     }
+
 }

@@ -141,11 +141,15 @@
             android:text="Waiting for server..."
             android:id="@+id/Loading" android:layout_centerVertical="true" android:layout_centerHorizontal="true"
             android:textSize="75dp" android:visibility="gone"/>
-    <Switch
+    <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reverse"
-            android:id="@+id/Reverse" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
-            android:onClick="reverse" android:textColor="#f9b234" android:textSize="40dp" android:visibility="gone"/>
+            android:layout_height="wrap_content" android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" android:id="@+id/linearLayout" android:onClick="reverse">
+        <Switch android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Reverse"
+                android:id="@+id/Reverse"
+                android:onClick="reverse" android:textColor="#f9b234" android:textSize="40dp"
+                android:layout_alignBottom="@+id/linearLayout" android:layout_centerHorizontal="true"/>
+    </LinearLayout>
 
 </RelativeLayout>
