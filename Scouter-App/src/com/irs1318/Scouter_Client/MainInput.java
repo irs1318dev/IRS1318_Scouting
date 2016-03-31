@@ -406,8 +406,13 @@ public class MainInput extends Activity {
     public void pageSwap(View v) {
         //Displaying correct page
         findViewById(pageId[page]).setVisibility(View.GONE);
-        if (v.getId() == R.id.NextPage) page++;
-        if (v.getId() == R.id.LastPage) page--;
+        if (v.getId() == R.id.NextPage) {
+            page++;
+            if(objectName[pageId[page]].contains("?")) page++;
+        } else if (v.getId() == R.id.LastPage) {
+            page--;
+            if(objectName[pageId[page]].contains("?")) page--;
+        }
         findViewById(pageId[page]).setVisibility(View.VISIBLE);
 
         //Displaying correct buttons
@@ -445,8 +450,10 @@ public class MainInput extends Activity {
     }
 
     public void reverse(View v) {
-        Switch aSwitch = (Switch) v;
-        reverse = aSwitch.isChecked();
+        Switch aSwitch = (Switch) findViewById(R.id.Reverse);
+        if(!reverse) reverse = true;
+        else reverse = false;
+        aSwitch.setChecked(reverse);
     }
 
     public void onBackPressed() {
@@ -463,6 +470,7 @@ public class MainInput extends Activity {
             //Finding clicked object
             i = v.getId();
             if(i >= objectNum) i = i - objectNum;
+            boolean changed = false;
 
             //Making background changes
             switch (objectType[i]) {
@@ -472,17 +480,25 @@ public class MainInput extends Activity {
                     if(objectValue[i] == 1) {
                         aSwitch.setChecked(false);
                         objectValue[i] = 0;
+                        changed = true;
+                        reverse = true;
                     }
-                    else {
+                    else if(!reverse) {
                         aSwitch.setChecked(true);
                         objectValue[i] = 1;
+                        changed = true;
                     }
                     break;
                 case 4:
                     //Count
                     Button button = (Button) v;
-                    if(!reverse) objectValue[i]++;
-                    else if(objectValue[i] > 0) objectValue[i]--;
+                    if(!reverse) {
+                        objectValue[i]++;
+                        changed = true;
+                    } else if(objectValue[i] > 0) {
+                        objectValue[i]--;
+                        changed = true;
+                    }
                     text = objectName[i] + ": " + objectValue[i];
                     button.setText(text);
                     break;
@@ -493,9 +509,16 @@ public class MainInput extends Activity {
                     j--;
                     while(objectType[j] == 5) {
                         RadioButton radioButton = (RadioButton) findViewById(j);
-                        radioButton.setChecked(false);
                         objectValue[j] = 0;
-                        if(i == j && !reverse) radioButton.setChecked(true);
+                        if(i == j && !reverse) {
+                            radioButton.setChecked(true);
+                            changed = true;
+                        } else if(radioButton.isChecked()) {
+                            radioButton.setChecked(false);
+                            try {
+                                if (connected) client.SendPacket("Undo", scouter + "," + j);
+                            } catch (IOException ie) {}
+                        }
                         j--;
                     }
                     objectValue[i] = 1;
@@ -505,9 +528,11 @@ public class MainInput extends Activity {
             else text = "Event";
             //Notifying server of change
             try {
-                if (connected) client.SendPacket(text, scouter + "," + i);
+                if (connected && changed) client.SendPacket(text, scouter + "," + i);
             } catch (IOException ie) {
             }
+            Switch aSwitch = (Switch) findViewById(R.id.Reverse);
+            reverse = aSwitch.isChecked();
         }
     };
 }
