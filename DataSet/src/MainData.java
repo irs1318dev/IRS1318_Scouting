@@ -85,13 +85,13 @@ public class MainData {
                             }
                             for (int j = 0; j < objectName.length; j++)
                                 if (objectName[j] != null) {
-                                    if (!objectName[j].contains("#")) {
-                                        if(objectName[j].contains("^0")) columnNames.add(objectName[j].split("^")[0]);
-                                        else if(!objectName[j].contains("^"))columnNames.add(objectName[j]);
-                                    }
-                                    else if (objectName[j].split("#")[1].equals("1"))
-                                        for (int l = 0; l < defences.split("&").length; l++)
-                                            columnNames.add(objectName[j].split("#")[0] + ":" + defences.split("&")[l]);
+                                    String name = objectName[j];
+                                    if(name.contains("#"))
+                                        for (int l = 0; l < defences.split("&").length; l++) {
+                                            name = objectName[j].split("#")[0] + ":" + defences.split("&")[l];
+                                            if(!columnNames.contains(name)) columnNames.add(name);
+                                        }
+                                    else if(!columnNames.contains(name)) columnNames.add(name);
                                 }
                         }
 						if(networkPackets[i].Name.equals("DefenseInfo")) {
@@ -112,16 +112,19 @@ public class MainData {
                             for (int j = 0; j < data.length; j++) {
                                 int id = Integer.valueOf(data[j].split(":")[0]);
                                 String name = objectName[id];
-                                if (name.contains("#")) name = name.split("#")[0] + ":" + defences.split(",")[Integer.valueOf(name.split("#")[1]) - 1];
-                                if(name.contains("^")) {
-                                    name = name.split("^")[0];
-                                    if(!columnNames.contains(name)) columnNames.add(name);
-                                    int value = values[columnNames.indexOf(name)];
-                                    value += Integer.valueOf(data[j].split(":")[1]) * 10 ^ Integer.valueOf(objectName[id].split("^")[1]);
-                                    values[columnNames.indexOf(name)] = value;
-                                } else {
-                                    if(!columnNames.contains(name)) columnNames.add(name);
-                                    values[columnNames.indexOf(name)] = Integer.valueOf(data[j].split(":")[1]);
+                                if(name != null) {
+                                    if (name.contains("#"))
+                                        name = name.split("#")[0] + ":" + defences.split(",")[Integer.valueOf(name.split("#")[1]) - 1];
+                                    if (objectType[id] == 9) {
+                                        if(!columnNames.contains(name)) columnNames.add(name);
+                                        String value = "";
+                                        if(values[columnNames.indexOf(name)] != null) value = String.valueOf(values[columnNames.indexOf(name)]);
+                                        value += data[j].split(":")[1];
+                                        values[columnNames.indexOf(name)] = Integer.valueOf(value);
+                                    } else {
+                                        if (!columnNames.contains(name)) columnNames.add(name);
+                                        values[columnNames.indexOf(name)] = Integer.valueOf(data[j].split(":")[1]);
+                                    }
                                 }
                             }
                             dataValue.add(values);
@@ -166,7 +169,7 @@ public class MainData {
         try {
             for(int j = 0; j < columnNames.size(); j++) if(j < matchList.length && matchList[j] != null) {
                 fileWriter.write(matchList[j] + ",");
-            } else fileWriter.write(",");
+            } else fileWriter.write("0,");
         } catch (IOException e) {}
     }
 

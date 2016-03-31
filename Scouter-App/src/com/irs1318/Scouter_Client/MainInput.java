@@ -160,7 +160,7 @@ public class MainInput extends Activity {
                         if (networkPackets[i].Name.equals("DefenseInfo")) {
                             if (scouter > 2) text = networkPackets[i].Data.split("&")[0];
                             else text = networkPackets[i].Data.split("&")[1];
-                            for (int j = 0; j < changes.length; j++) {
+                            for (int j = 0; j < text.split(",").length; j++) {
                                 changes[j] = text.split(",")[j];
                             }
                             Handler mainHandle = new Handler(getMainLooper());
@@ -370,8 +370,11 @@ public class MainInput extends Activity {
                     //Number
                     NumberPicker numberPicker = new NumberPicker(this);
                     numberPicker.setId(i);
+                    numberPicker.setMaxValue(9);
                     numberPicker.setOnValueChangedListener(valueChangeListener);
                     lineLayout.addView(numberPicker);
+                    column++;
+                    if(column == lineLength) makeLine();
                     break;
             }
         }
@@ -417,10 +420,10 @@ public class MainInput extends Activity {
         findViewById(pageId[page]).setVisibility(View.GONE);
         if (v.getId() == R.id.NextPage) {
             page++;
-            if(objectName[pageId[page]].contains("?") && scouter != 6 && scouter != 3) page++;
+            if(objectName[pageId[page]].contains("?") && scouter != 5 && scouter != 2) page++;
         } else if (v.getId() == R.id.LastPage) {
             page--;
-            if(objectName[pageId[page]].contains("?") && scouter != 6 && scouter != 3) page--;
+            if(objectName[pageId[page]].contains("?") && scouter != 5 && scouter != 2) page--;
         }
         findViewById(pageId[page]).setVisibility(View.VISIBLE);
 
@@ -549,7 +552,7 @@ public class MainInput extends Activity {
         public void onValueChange(NumberPicker p1, int p2, int p3) {
             i = p1.getId();
             int j = p3 - p2;
-            if(j > 0) text = "Event";
+            if(j >= 0) text = "Event";
             else {
                 text = "Reverse";
                 j = -j;

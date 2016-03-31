@@ -327,6 +327,9 @@ namespace Scouting_Server
                         case "Change":
                             ObjectType.Add(8);
                             break;
+                        case "Number":
+                            ObjectType.Add(9);
+                            break;
                     }
                     j++;
                 }
