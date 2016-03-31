@@ -27,18 +27,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0be26f4-3c48-42e0-8254-8defc485f39a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/DataView.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DataSet/out/META-INF/MANIFEST.MF" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Scouter-App/Scouter-App.unaligned.apk" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DataSet/DataSet.iml" afterPath="$PROJECT_DIR$/DataSet/DataSet.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DataSet/src/Main.java" afterPath="$PROJECT_DIR$/DataSet/src/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DataSet/src/MainData.java" afterPath="$PROJECT_DIR$/DataSet/src/MainData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/Scouter-App.iml" afterPath="$PROJECT_DIR$/Scouter-App/Scouter-App.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/res/layout/main.xml" afterPath="$PROJECT_DIR$/Scouter-App/res/layout/main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java" afterPath="$PROJECT_DIR$/Scouter-App/src/com/irs1318/Scouter_Client/MainInput.java" />
     </list>
     <list id="d79f7ea1-8482-47ec-ad0c-95bcfed59d7f" name="New changelist" comment="" />
     <ignored path="IRS1318_Scouting.iws" />
