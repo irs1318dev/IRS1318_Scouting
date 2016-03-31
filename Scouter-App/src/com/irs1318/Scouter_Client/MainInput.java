@@ -11,6 +11,7 @@ import android.widget.*;
 import com.irs1318.Scouter_Client.Net.*;
 
 import java.io.IOException;
+import android.widget.NumberPicker.*;
 
 public class MainInput extends Activity {
     //Basic variables
@@ -231,6 +232,7 @@ public class MainInput extends Activity {
 
         makeLine();
         int newPage = 0;
+        int digit = 0;
         text = objectName[0];
 
         //Creating actual form
@@ -364,6 +366,13 @@ public class MainInput extends Activity {
                     makeView(textView, lineLayout);
                     textView.setTextColor(Color.rgb(249,178,52));
                     break;
+                case 9:
+                    //Number
+                    NumberPicker numberPicker = new NumberPicker(this);
+                    numberPicker.setId(i);
+                    numberPicker.setOnValueChangedListener(valueChangeListener);
+                    lineLayout.addView(numberPicker);
+                    break;
             }
         }
         i = 0;
@@ -408,10 +417,10 @@ public class MainInput extends Activity {
         findViewById(pageId[page]).setVisibility(View.GONE);
         if (v.getId() == R.id.NextPage) {
             page++;
-            if(objectName[pageId[page]].contains("?")) page++;
+            if(objectName[pageId[page]].contains("?") && scouter != 6 && scouter != 3) page++;
         } else if (v.getId() == R.id.LastPage) {
             page--;
-            if(objectName[pageId[page]].contains("?")) page--;
+            if(objectName[pageId[page]].contains("?") && scouter != 6 && scouter != 3) page--;
         }
         findViewById(pageId[page]).setVisibility(View.VISIBLE);
 
@@ -533,6 +542,24 @@ public class MainInput extends Activity {
             }
             Switch aSwitch = (Switch) findViewById(R.id.Reverse);
             reverse = aSwitch.isChecked();
+        }
+    };
+    NumberPicker.OnValueChangeListener valueChangeListener = new NumberPicker.OnValueChangeListener() {
+        @Override
+        public void onValueChange(NumberPicker p1, int p2, int p3) {
+            i = p1.getId();
+            int j = p3 - p2;
+            if(j > 0) text = "Event";
+            else {
+                text = "Reverse";
+                j = -j;
+            }
+            try {
+                if (connected) while(j > 0) {
+                    j--;
+                    client.SendPacket(text, scouter + "," + i);
+                }
+            } catch (IOException ie) {}
         }
     };
 }

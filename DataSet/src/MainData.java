@@ -66,7 +66,7 @@ public class MainData {
                                 case 1:
                                     text = "(" + networkPackets[i].Data.split(",")[0].charAt(0) + ")";
                                     break;
-                                case 3:case 4:case 5:
+                                case 3:case 4:case 5:case 9:
                                     String data = text + networkPackets[i].Data.split(",")[0];
                                     objectName[object] = data;
 									objectType[object] = Integer.valueOf(networkPackets[i].Data.split(",")[1]);
@@ -85,7 +85,10 @@ public class MainData {
                             }
                             for (int j = 0; j < objectName.length; j++)
                                 if (objectName[j] != null) {
-                                    if (!objectName[j].contains("#")) columnNames.add(objectName[j]);
+                                    if (!objectName[j].contains("#")) {
+                                        if(objectName[j].contains("^0")) columnNames.add(objectName[j].split("^")[0]);
+                                        else if(!objectName[j].contains("^"))columnNames.add(objectName[j]);
+                                    }
                                     else if (objectName[j].split("#")[1].equals("1"))
                                         for (int l = 0; l < defences.split("&").length; l++)
                                             columnNames.add(objectName[j].split("#")[0] + ":" + defences.split("&")[l]);
@@ -110,8 +113,16 @@ public class MainData {
                                 int id = Integer.valueOf(data[j].split(":")[0]);
                                 String name = objectName[id];
                                 if (name.contains("#")) name = name.split("#")[0] + ":" + defences.split(",")[Integer.valueOf(name.split("#")[1]) - 1];
-                                if(!columnNames.contains(name)) columnNames.add(name);
-                                values[columnNames.indexOf(name)] = Integer.valueOf(data[j].split(":")[1]);
+                                if(name.contains("^")) {
+                                    name = name.split("^")[0];
+                                    if(!columnNames.contains(name)) columnNames.add(name);
+                                    int value = values[columnNames.indexOf(name)];
+                                    value += Integer.valueOf(data[j].split(":")[1]) * 10 ^ Integer.valueOf(objectName[id].split("^")[1]);
+                                    values[columnNames.indexOf(name)] = value;
+                                } else {
+                                    if(!columnNames.contains(name)) columnNames.add(name);
+                                    values[columnNames.indexOf(name)] = Integer.valueOf(data[j].split(":")[1]);
+                                }
                             }
                             dataValue.add(values);
                         }

@@ -8,11 +8,11 @@
       <Action Type="Change" Name="4"/>
       <Action Type="Change" Name="5"/>
       <Action Type="Choice" Name="Start" Number="5"/>
-      <Action Type="Count" Name="Cross" Number="5"/>
-      <Action Type="Choice" Name="End" Number="5"/>
-      <Action Type="Line" Name="2"/>
-      <Action Type="Switch" Name="Spy"/>
-      <Action Type="Switch" Name="Reach"/>
+      <Action Type="Line" Name="4"/>
+      <Action Type="Choice" Name="Spy"/>
+      <Action Type="Choice" Name="Cross"/>
+      <Action Type="Choice" Name="Reach"/>
+      <Action Type="Choice" Name="None"/>
       <Action Type="Label" Name="Fouls"/>
       <Action Type="Line" Name="2"/>
       <Action Type="Count" Name="Foul"/>
@@ -27,10 +27,6 @@
       <Action Type="Count" Name="Miss"/>
       <Action Type="Count" Name="Bar High"/>
       <Action Type="Count" Name="Bar Low"/>
-      <Action Type="Label" Name="Possession"/>
-      <Action Type="Line" Name="1"/>
-      <Action Type="Switch" Name="Start with Ball"/>
-      <Action Type="Switch" Name="End with Ball"/>
     </Actions>
   </Category>
   <Category Name="OuterWorks" Page="Teleop">
@@ -74,4 +70,13 @@
       <Action Type="Choice" Name="Scale"/>
     </Actions>
   </Category>
+  <Category Name="Score" Page="Final?">
+      <Action Type="Line" Name="3"/>
+      <Action Type="Number" Name="Total Score^0"/>
+      <Action Type="Number" Name="Total Score^1"/>
+      <Action Type="Number" Name="Total Score^2"/>
+      <Action Type="Switch" Name="Win"/>
+      <Action Type="Switch" Name="Breach"/>
+      <Action Type="Switch" Name="Capture"/>
+  </Category>    
 </Scouter>
