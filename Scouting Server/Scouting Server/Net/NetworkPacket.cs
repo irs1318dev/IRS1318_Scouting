@@ -115,6 +115,7 @@ namespace Scouting_Server.Net
 
     public byte[] ToByteBuffer()
     {
+      //todo replacing values like this is bad!
       string str = Name.Replace('\x0', ' ') + (char)(0) + Data.Replace('\x0', ' ') + (char)(0);
       ASCIIEncoding ascii = new ASCIIEncoding();
       return ascii.GetBytes(str);
