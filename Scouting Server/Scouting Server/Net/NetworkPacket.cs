@@ -115,7 +115,7 @@ namespace Scouting_Server.Net
 
     public byte[] ToByteBuffer()
     {
-      string str = Name + (char)(0) + Data + (char)(0);
+      string str = Name.Replace('\x0', ' ') + (char)(0) + Data.Replace('\x0', ' ') + (char)(0);
       ASCIIEncoding ascii = new ASCIIEncoding();
       return ascii.GetBytes(str);
     }
