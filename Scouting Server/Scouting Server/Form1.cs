@@ -39,7 +39,7 @@ namespace Scouting_Server
             RobotEvents = new Data.DataFile<Models.Event>("Events.csv");
 
             XmlDocument doc = new XmlDocument();
-            doc.Load("../../path.xml");
+            doc.Load("layout.xml");
             string pageName = "";
             XmlElement v = doc.DocumentElement;
             XmlNodeList mainlist = v.GetElementsByTagName("Category");
@@ -60,7 +60,11 @@ namespace Scouting_Server
             }
             PageNames.Add("Waiting for server...");
             string defences = "";
+            for (int i = 0; i < RedDef1.Items.Count; i++) defences += RedDef1.Items[i] + "&";
             for (int i = 0; i < RedDef2.Items.Count; i++) defences += RedDef2.Items[i] + "&";
+            for (int i = 0; i < RedDef3.Items.Count; i++) defences += RedDef3.Items[i] + "&";
+            for (int i = 0; i < RedDef4.Items.Count; i++) defences += RedDef4.Items[i] + "&";
+            for (int i = 0; i < RedDef5.Items.Count; i++) defences += RedDef5.Items[i] + "&";
             ObjectName.Add(defences);
             ObjectType.Add(10);
 
@@ -192,7 +196,7 @@ namespace Scouting_Server
                     // ScoutNumber,PageNumber,MatchNumber,TeamNumber
                     var PageInfo = packet.GetDataAs<NetworkData.PageChangeTransferData>();
                     ScouterControls[PageInfo.ScoutNumber].SetMatchNumber(PageInfo.MatchNumber);
-                    ScouterControls[PageInfo.ScoutNumber].SetStatus("Page: " + PageInfo.PageNumber);
+                    ScouterControls[PageInfo.ScoutNumber].SetStatus("Page: " + PageNames[PageInfo.PageNumber]);
                     ScouterControls[PageInfo.ScoutNumber].SetTeamNumber(PageInfo.TeamNumber);
                 }
                 else if (packet.Name == "Event")

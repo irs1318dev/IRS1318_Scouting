@@ -13,7 +13,6 @@
       <Action Type="Choice" Name="Spy"/>
       <Action Type="Choice" Name="Cross"/>
       <Action Type="Choice" Name="Reach"/>
-      <Action Type="Choice" Name="None"/>
       <Action Type="Label" Name="Fouls"/>
       <Action Type="Line" Name="2"/>
       <Action Type="Count" Name="Foul"/>
@@ -24,10 +23,11 @@
     <Actions>
       <Action Type="Count" Name="Passage High"/>
       <Action Type="Count" Name="Passage Low"/>
-      <Action Type="Count" Name="Center High"/>
-      <Action Type="Count" Name="Miss"/>
+      <Action Type="Count" Name="Center Near"/>
+      <Action Type="Count" Name="Center Far"/>
       <Action Type="Count" Name="Bar High"/>
       <Action Type="Count" Name="Bar Low"/>
+      <Action Type="Count" Name="Miss"/>
     </Actions>
   </Category>
   <Category Name="OuterWorks" Page="Teleop">
@@ -56,10 +56,12 @@
     <Actions>
       <Action Type="Count" Name="Passage High"/>
       <Action Type="Count" Name="Passage Low"/>
-      <Action Type="Count" Name="Center High"/>
-      <Action Type="Count" Name="Miss"/>
+      <Action Type="Count" Name="Center Near"/>
+      <Action Type="Count" Name="Center Far"/>
       <Action Type="Count" Name="Bar High"/>
       <Action Type="Count" Name="Bar Low"/>
+      <Action Type="Count" Name="Miss"/>
+      <Action Type="Line" Name="1"/>
       <Action Type="Label" Name="End Game"/>
       <Action Type="Line" Name="3"/>
       <Action Type="Choice" Name="Challenge"/>

@@ -25,7 +25,7 @@ public class MainInput extends Activity {
     int match = -1;
     int team = 0;
     String text;
-    String lastMatch;
+    String lastMatch = "0,0,";
     String scoutName;
     String teamName = "";
     String[] changes = new String[6];
@@ -123,7 +123,7 @@ public class MainInput extends Activity {
                             currentCount++;
                         }
                         if (networkPackets[i].Name.equals("Match")) {
-                            if (!networkPackets[i].Data.equals(lastMatch)) {
+                            if (!networkPackets[i].Data.contains(lastMatch)) {
                                 if(match != -1) page = 0;
                                 match = Integer.valueOf(networkPackets[i].Data.split(",")[0]);
                                 team = Integer.valueOf(networkPackets[i].Data.split(",")[1]);
@@ -199,8 +199,10 @@ public class MainInput extends Activity {
             });
             try {
                 client.Connect();
-            } catch (Exception e) {
-            }
+            } catch (Exception e) {}
+            try {
+                if (connected) client.SendPacket("Page", scouter + "," + page + "," + match + "," + team);
+            } catch (IOException ie) {}
         }
     }
 
@@ -365,16 +367,6 @@ public class MainInput extends Activity {
                     text = changes[Integer.valueOf(objectName[i]) - 1];
                     makeView(textView, lineLayout);
                     textView.setTextColor(Color.rgb(249,178,52));
-                    break;
-                case 9:
-                    //Number
-                    NumberPicker numberPicker = new NumberPicker(this);
-                    numberPicker.setId(i);
-                    numberPicker.setMaxValue(9);
-                    numberPicker.setOnValueChangedListener(valueChangeListener);
-                    lineLayout.addView(numberPicker);
-                    column++;
-                    if(column == lineLength) makeLine();
                     break;
             }
         }
@@ -545,24 +537,6 @@ public class MainInput extends Activity {
             }
             Switch aSwitch = (Switch) findViewById(R.id.Reverse);
             reverse = aSwitch.isChecked();
-        }
-    };
-    NumberPicker.OnValueChangeListener valueChangeListener = new NumberPicker.OnValueChangeListener() {
-        @Override
-        public void onValueChange(NumberPicker p1, int p2, int p3) {
-            i = p1.getId();
-            int j = p3 - p2;
-            if(j >= 0) text = "Event";
-            else {
-                text = "Reverse";
-                j = -j;
-            }
-            try {
-                if (connected) while(j > 0) {
-                    j--;
-                    client.SendPacket(text, scouter + "," + i);
-                }
-            } catch (IOException ie) {}
         }
     };
 }

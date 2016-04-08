@@ -55,6 +55,7 @@ public class MainData {
 					NetworkPacket[] networkPackets = client.GetPackets();
                     int object = 0;
 					for (i = 0; i < networkPackets.length; ++i) {
+                        System.out.println(networkPackets[i]);
                         if(networkPackets[i].Name.equals("GameStart")) {
 							objectName = new String[networkPackets[i].DataAsInt()];
 							objectType = new int[networkPackets[i].DataAsInt()];
@@ -66,7 +67,7 @@ public class MainData {
                                 case 1:
                                     text = "(" + networkPackets[i].Data.split(",")[0].charAt(0) + ")";
                                     break;
-                                case 3:case 4:case 5:case 9:
+                                case 3:case 4:case 5:
                                     String data = text + networkPackets[i].Data.split(",")[0];
                                     objectName[object] = data;
 									objectType[object] = Integer.valueOf(networkPackets[i].Data.split(",")[1]);
@@ -104,8 +105,8 @@ public class MainData {
                             int team = Integer.valueOf(networkPackets[i].Data.split("&")[0].split(",")[1]);
                             position++;
                             if (position > 6) position = 1;
-                            if(position > 3) text = "blue";
-                            else text = "Red";
+                            if(position > 3) text = "Blue " + (position - 3);
+                            else text = "Red " + position;
                             matches.add(match + "," + team + "," + text);
                             String[] data = networkPackets[i].Data.split("&")[1].split(",");
                             Integer[] values = new Integer[data.length + columnNames.size()];
@@ -113,18 +114,9 @@ public class MainData {
                                 int id = Integer.valueOf(data[j].split(":")[0]);
                                 String name = objectName[id];
                                 if(name != null) {
-                                    if (name.contains("#"))
-                                        name = name.split("#")[0] + ":" + defences.split(",")[Integer.valueOf(name.split("#")[1]) - 1];
-                                    if (objectType[id] == 9) {
-                                        if(!columnNames.contains(name)) columnNames.add(name);
-                                        String value = "";
-                                        if(values[columnNames.indexOf(name)] != null) value = String.valueOf(values[columnNames.indexOf(name)]);
-                                        value += data[j].split(":")[1];
-                                        values[columnNames.indexOf(name)] = Integer.valueOf(value);
-                                    } else {
-                                        if (!columnNames.contains(name)) columnNames.add(name);
-                                        values[columnNames.indexOf(name)] = Integer.valueOf(data[j].split(":")[1]);
-                                    }
+                                    if (name.contains("#")) name = name.split("#")[0] + ":" + defences.split(",")[Integer.valueOf(name.split("#")[1]) - 1];
+                                    if (!columnNames.contains(name)) columnNames.add(name);
+                                    values[columnNames.indexOf(name)] = Integer.valueOf(data[j].split(":")[1]);
                                 }
                             }
                             dataValue.add(values);
