@@ -101,11 +101,11 @@ public class MainData {
                             System.out.println("Loading Match " + match);
                             if (position > 2) defences = networkPackets[i].Data.split("&")[1];
                             else defences = networkPackets[i].Data.split("&")[2];
+                            position = 0;
 						}
                         if (networkPackets[i].Name.equals("MatchData")) {
                             int team = Integer.valueOf(networkPackets[i].Data.split("&")[0].split(",")[1]);
                             position++;
-                            if (position > 6) position = 1;
                             if(position > 3) text = "Blue " + (position - 3);
                             else text = "Red " + position;
                             matches.add(match + "," + team + "," + text + ",");
@@ -154,9 +154,6 @@ public class MainData {
             fileWriter.close();
         }catch (IOException e) {}
         System.out.println("Done");
-        try {
-            client.Disconnect();
-        } catch (Exception e) {}
         System.out.println("Printing Team Data");
         saveTeamData();
 	}
@@ -173,10 +170,14 @@ public class MainData {
             for(i = 0; i < matches.size(); i++) {
                 Integer[] matchList = dataValue.get(i);
                 int team = Integer.valueOf(matches.get(i).split(",")[1]);
-                if(!teamNumbers.contains(team)) teamNumbers.add(team);
+                if(!teamNumbers.contains(team)) {
+                    teamNumbers.add(team);
+                    teamValues.add(new ArrayList<>());
+                }
                 int id = teamNumbers.indexOf(team);
                 for(int j = 0; j < matchList.length; j++) {
-                    if(j > teamValues.get(id).size()) teamValues.get(id).add(matchList[j]);
+                    if(matchList[j] == null) matchList[j] = 0;
+                    if(j >= teamValues.get(id).size()) teamValues.get(id).add(matchList[j]);
                     else teamValues.get(id).set(j, teamValues.get(id).get(j) + matchList[j]);
                 }
             }
