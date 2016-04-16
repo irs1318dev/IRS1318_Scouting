@@ -20,21 +20,21 @@ public class MainData {
     boolean connected = false;
     TCPClient client;
 
-    public void run(boolean first) {
-        if(!first) System.out.println("Testing...");
+    public void run() {
+        System.out.println("Testing...");
         if(!connected) {
             System.out.println("Enter Server Address:");
             Scanner scanner = new Scanner(System.in);
             text = scanner.nextLine();
             try {
-                connect();
+                connect(text);
             } catch (Exception e) {
             }
         }
     }
 
-    public void connect() {
-        client = new TCPClient(11111, text);
+    public void connect(String Address) {
+        client = new TCPClient(11111, Address);
         client.OnConnected.add(new NetworkEvent() {
 				@Override
 				public void Call(TCPClient sender) {
@@ -84,6 +84,7 @@ public class MainData {
                                 client.SendPacket("GetData", " ");
                             } catch (IOException e) {
                             }
+                            columnNames.add("Entered");
                             for (int j = 0; j < objectName.length; j++)
                                 if (objectName[j] != null) {
                                     String name = objectName[j];
@@ -107,9 +108,10 @@ public class MainData {
                             if (position > 6) position = 1;
                             if(position > 3) text = "Blue " + (position - 3);
                             else text = "Red " + position;
-                            matches.add(match + "," + team + "," + text);
+                            matches.add(match + "," + team + "," + text + ",");
                             String[] data = networkPackets[i].Data.split("&")[1].split(",");
                             Integer[] values = new Integer[data.length + columnNames.size()];
+                            if(data.length > 0) values[0] = 1;
                             for (int j = 0; j < data.length; j++) {
                                 int id = Integer.valueOf(data[j].split(":")[0]);
                                 String name = objectName[id];
@@ -123,8 +125,8 @@ public class MainData {
                         }
                         if(networkPackets[i].Name.equals("MatchEnd")) {
                             System.out.println("Done");
-                            System.out.println("Printing Data");
-                            saveData();
+                            System.out.println("Printing Match Data");
+                            saveMatchData();
                         }
                     }
                 }
@@ -132,20 +134,57 @@ public class MainData {
             try {
                client.Connect();
             }catch (Exception e) {}
-            run(false);
+            run();
         }
 
-	public void saveData() {
+	public void saveMatchData() {
         try {
-            File file = new File("AllData.csv");
+            File file = new File("MatchData.csv");
             fileWriter = new FileWriter(file);
-            fileWriter.write("Team,Match,Alliance,");
+            fileWriter.write("Match,Team,Alliance,");
             for (i = 0; i < columnNames.size(); i++)
                 fileWriter.write(columnNames.get(i) + ",");
             for(i = 0; i < matches.size(); i++) {
                 Integer[] matchList = dataValue.get(i);
-                fileWriter.write("\n" + matches.get(i).split(",")[1] + ',' + matches.get(i).split(",")[0] + ',' + matches.get(i).split(",")[2] + ',');
-                writeLine(matchList, fileWriter);
+                fileWriter.write("\n" + matches.get(i));
+                for(int j = 0; j < columnNames.size(); j++) if(j < matchList.length && matchList[j] != null)
+                    fileWriter.write(matchList[j] + ",");
+                else fileWriter.write("0,");
+            }
+            fileWriter.close();
+        }catch (IOException e) {}
+        System.out.println("Done");
+        try {
+            client.Disconnect();
+        } catch (Exception e) {}
+        System.out.println("Printing Team Data");
+        saveTeamData();
+	}
+    
+    public void saveTeamData() {
+        try {
+            List<Integer> teamNumbers = new ArrayList<>();
+            List<List<Integer>> teamValues = new ArrayList<>();
+            File file = new File("TeamData.csv");
+            fileWriter = new FileWriter(file);
+            fileWriter.write("Team,");
+            for (i = 0; i < columnNames.size(); i++)
+                fileWriter.write(columnNames.get(i) + ",");
+            for(i = 0; i < matches.size(); i++) {
+                Integer[] matchList = dataValue.get(i);
+                int team = Integer.valueOf(matches.get(i).split(",")[1]);
+                if(!teamNumbers.contains(team)) teamNumbers.add(team);
+                int id = teamNumbers.indexOf(team);
+                for(int j = 0; j < matchList.length; j++) {
+                    if(j > teamValues.get(id).size()) teamValues.get(id).add(matchList[j]);
+                    else teamValues.get(id).set(j, teamValues.get(id).get(j) + matchList[j]);
+                }
+            }
+            for(i = 0; i < teamValues.size(); i++) {
+                fileWriter.write("\n" + teamNumbers.get(i) + ',');
+                for(int j = 0; j < columnNames.size(); j++) if(j < teamValues.size())
+                    fileWriter.write(teamValues.get(i).get(j) + ",");
+                else fileWriter.write("0,");
             }
             fileWriter.close();
         }catch (IOException e) {}
@@ -155,14 +194,5 @@ public class MainData {
         } catch (Exception e) {}
         System.out.println("Update Complete");
         System.exit(0);
-	}
-
-    public void writeLine(Integer[] matchList,FileWriter fileWriter) {
-        try {
-            for(int j = 0; j < columnNames.size(); j++) if(j < matchList.length && matchList[j] != null) {
-                fileWriter.write(matchList[j] + ",");
-            } else fileWriter.write("0,");
-        } catch (IOException e) {}
     }
-
 }
