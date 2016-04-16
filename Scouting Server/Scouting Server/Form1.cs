@@ -38,6 +38,7 @@ namespace Scouting_Server
             Teams = new Data.DataFile<Models.Team>("Teams.csv");
             RobotEvents = new Data.DataFile<Models.Event>("Events.csv");
 
+            MatchCount.Text = Matches.GetAll().Length.ToString() + " matches set";
             XmlDocument doc = new XmlDocument();
             doc.Load("layout.xml");
             string pageName = "";
@@ -146,6 +147,7 @@ namespace Scouting_Server
         //for the 2016 game
         private void SendDefenseData()
         {
+            Message("Defenses set");
             if (InvokeRequired)
             {
                 BeginInvoke(new MethodInvoker(() =>
@@ -481,7 +483,7 @@ namespace Scouting_Server
                 Matches.Add(m);
 
             Matches.Save();
-
+            MatchCount.Text = Matches.GetAll().Length.ToString() + " matches set";
             Message("Match Saved");
         }
 
@@ -606,6 +608,7 @@ namespace Scouting_Server
                 }
             }
 
+            MatchCount.Text = Matches.GetAll().Length.ToString() + " matches set";
             Message("Match Set");
         }
 

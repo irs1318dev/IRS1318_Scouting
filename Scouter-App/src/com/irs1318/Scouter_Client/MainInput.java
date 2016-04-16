@@ -28,10 +28,14 @@ public class MainInput extends Activity {
     int lineLength = 0;
     int match = -1;
     int team = 0;
+    int[] pageId;
+    int[] objectType;
+    int[] objectValue;
     String text;
     String lastMatch = "0,0,";
     String scoutName;
     String teamName = "";
+    String[] objectName;
     String[] changes = new String[6];
     boolean connected = false;
     boolean inRadio = false;
@@ -42,13 +46,9 @@ public class MainInput extends Activity {
     LinearLayout sideLayout;
     LinearLayout mainLayout;
     LinearLayout lineLayout;
-    List<String> messageLog = new ArrayList<>();
+    List<NetworkPacket> messageLog = new ArrayList<>();
 
-    //Complex variables
-    int[] pageId;
-    int[] objectType;
-    int[] objectValue;
-    String[] objectName;
+
 
     //Setting up the Activity
     @Override
@@ -103,9 +103,7 @@ public class MainInput extends Activity {
                         public void run() {
                             RadioButton radioButton = (RadioButton) findViewById(R.id.Connect);
                             radioButton.setChecked(true);
-                            for(String message : messageLog) {
-                                sendMessage(message.split(",")[0], message.split(",")[1]);
-                            }
+                            for(NetworkPacket networkPacket : messageLog) sendMessage(networkPacket.Name, networkPacket.Data);
                             messageLog.clear();
                         }
                     });
@@ -221,9 +219,15 @@ public class MainInput extends Activity {
 
     public void sendMessage(String name, String data) {
         if(connected) try {
+            client.SendPacket("PING"," ");
+        } catch (Exception ie) {}
+        if(connected) try {
                 client.SendPacket(name, data);
             } catch (Exception ie) {}
-        else messageLog.add(name + "," + data);
+        else {
+            NetworkPacket networkPacket = new NetworkPacket(name, data);
+            messageLog.add(networkPacket);
+        }
     }
 
     public void loadObjects(View v) {
