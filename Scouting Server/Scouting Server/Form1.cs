@@ -39,35 +39,36 @@ namespace Scouting_Server
       Teams = new Data.DataFile<Models.Team>("Teams.csv");
       RobotEvents = new Data.DataFile<Models.Event>("Events.csv");
 
-      XmlDocument doc = new XmlDocument();
-      doc.Load("layout.xml");
-      string pageName = "";
-      XmlElement v = doc.DocumentElement;
-      XmlNodeList mainlist = v.GetElementsByTagName("Category");
-      for (int i = 0; i < mainlist.Count; i++)
-      {
-        XmlNode category = mainlist[i];
-        if (pageName != category.Attributes["Page"].Value)
-        {
-          ObjectName.Add(category.Attributes["Page"].Value);
-          ObjectType.Add(1);
-          PageNames.Add(category.Attributes["Page"].Value);
-          pageName = category.Attributes["Page"].Value;
-        }
-        ObjectName.Add(category.Attributes["Name"].Value);
-        ObjectType.Add(2);
-        XmlElement actions = category["Actions"];
-        loadObjects(actions);
-      }
-      PageNames.Add("Waiting for server...");
-      string defences = "";
-      for (int i = 0; i < RedDef1.Items.Count; i++) defences += RedDef1.Items[i] + "&";
-      for (int i = 0; i < RedDef2.Items.Count; i++) defences += RedDef2.Items[i] + "&";
-      for (int i = 0; i < RedDef3.Items.Count; i++) defences += RedDef3.Items[i] + "&";
-      for (int i = 0; i < RedDef4.Items.Count; i++) defences += RedDef4.Items[i] + "&";
-      for (int i = 0; i < RedDef5.Items.Count; i++) defences += RedDef5.Items[i] + "&";
-      ObjectName.Add(defences);
-      ObjectType.Add(10);
+            MatchCount.Text = Matches.GetAll().Length.ToString() + " matches set";
+            XmlDocument doc = new XmlDocument();
+            doc.Load("layout.xml");
+            string pageName = "";
+            XmlElement v = doc.DocumentElement;
+            XmlNodeList mainlist = v.GetElementsByTagName("Category");
+            for (int i = 0; i < mainlist.Count; i++)
+            {
+                XmlNode category = mainlist[i];
+                if (pageName != category.Attributes["Page"].Value)
+                {
+                    ObjectName.Add(category.Attributes["Page"].Value);
+                    ObjectType.Add(1);
+                    PageNames.Add(category.Attributes["Page"].Value);
+                    pageName = category.Attributes["Page"].Value;
+                }
+                ObjectName.Add(category.Attributes["Name"].Value);
+                ObjectType.Add(2);
+                XmlElement actions = category["Actions"];
+                loadObjects(actions);
+            }
+            PageNames.Add("Waiting for server...");
+            string defences = "";
+            for (int i = 0; i < RedDef1.Items.Count; i++) defences += RedDef1.Items[i] + "&";
+            for (int i = 0; i < RedDef2.Items.Count; i++) defences += RedDef2.Items[i] + "&";
+            for (int i = 0; i < RedDef3.Items.Count; i++) defences += RedDef3.Items[i] + "&";
+            for (int i = 0; i < RedDef4.Items.Count; i++) defences += RedDef4.Items[i] + "&";
+            for (int i = 0; i < RedDef5.Items.Count; i++) defences += RedDef5.Items[i] + "&";
+            ObjectName.Add(defences);
+            ObjectType.Add(10);
 
       ScoutersDictionary = new Dictionary<TcpClient, int>();
       Scouters = new TcpClient[6];
@@ -486,10 +487,10 @@ namespace Scouting_Server
       else
         Matches.Add(m);
 
-      Matches.Save();
-
-      Message("Match Saved");
-    }
+            Matches.Save();
+            MatchCount.Text = Matches.GetAll().Length.ToString() + " matches set";
+            Message("Match Saved");
+        }
 
     private void SetMatchButton_Click(object sender, EventArgs e)
     {
@@ -612,8 +613,9 @@ namespace Scouting_Server
         }
       }
 
-      Message("Match Set");
-    }
+            MatchCount.Text = Matches.GetAll().Length.ToString() + " matches set";
+            Message("Match Set");
+        }
 
     private void LoadMatchButton_Click(object sender, EventArgs e)
     {

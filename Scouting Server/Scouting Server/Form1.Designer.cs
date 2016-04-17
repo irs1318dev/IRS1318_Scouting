@@ -64,6 +64,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.SaveMatchButton = new System.Windows.Forms.Button();
+            this.MatchCount = new System.Windows.Forms.Label();
             this.scoutControl6 = new Scouting_Server.ScoutControl();
             this.scoutControl5 = new Scouting_Server.ScoutControl();
             this.scoutControl4 = new Scouting_Server.ScoutControl();
@@ -486,6 +487,15 @@
             this.SaveMatchButton.UseVisualStyleBackColor = true;
             this.SaveMatchButton.Click += new System.EventHandler(this.SaveMatchButton_Click);
             // 
+            // MatchCount
+            // 
+            this.MatchCount.AutoSize = true;
+            this.MatchCount.Location = new System.Drawing.Point(687, 17);
+            this.MatchCount.Name = "MatchCount";
+            this.MatchCount.Size = new System.Drawing.Size(41, 13);
+            this.MatchCount.TabIndex = 40;
+            this.MatchCount.Text = "label13";
+            // 
             // scoutControl6
             // 
             this.scoutControl6.BackColor = System.Drawing.Color.DodgerBlue;
@@ -545,6 +555,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(778, 352);
+            this.Controls.Add(this.MatchCount);
             this.Controls.Add(this.SaveMatchButton);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label12);
@@ -645,6 +656,7 @@
     private System.Windows.Forms.Label label12;
     private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button SaveMatchButton;
+        private System.Windows.Forms.Label MatchCount;
     }
 }
 
