@@ -86,7 +86,6 @@ namespace Scouting_Server
       Serv.DataAvailable += Serv_DataAvailable1;
       Serv.Start(PORT);
 
-      SendData(null);
     }
 
     private void ErrorTimer_Tick(object sender, EventArgs e)
@@ -162,7 +161,7 @@ namespace Scouting_Server
 
     private void SendData(TcpClient to)
     {
-      string path = Environment.SpecialFolder.Desktop + "/data.csv";
+      string path = AppDomain.CurrentDomain.BaseDirectory + "/data.csv";
       using (StreamWriter writer = new StreamWriter(path))
       {
         foreach (var match in Matches.GetAll())

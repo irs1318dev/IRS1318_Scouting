@@ -56,7 +56,7 @@ public class MainData {
 					NetworkPacket[] networkPackets = client.GetPackets();
                     int object = 0;
 					for (NetworkPacket networkPacket : networkPackets) {
-                        System.out.println(networkPacket);
+                        //System.out.println(networkPacket);
                         if(networkPacket.Name.equals("GameStart")) {
 							objectName = new String[networkPacket.DataAsInt()];
 							objectType = new int[networkPacket.DataAsInt()];
@@ -97,7 +97,8 @@ public class MainData {
                                     else if(!columnNames.contains(name)) columnNames.add(name);
                                 }
                         }
-						if(networkPacket.Name.equals("DataPath")) {
+						if(networkPacket.Name.equals("MatchEnd")) {
+                            System.out.println("Locating file");
                             File file = new File(networkPacket.Data);
                             readFile(file);
                         }
@@ -113,42 +114,48 @@ public class MainData {
     public void readFile(File file) {
         try {
             Scanner scanner = new Scanner(file);
+            System.out.println("Found");
+            position = 0;
             while(scanner.hasNextLine()) {
-                String[] packet = scanner.nextLine().split(",");
-                if(packet[0].equals("DefenseInfo")) {
-                    match = Integer.valueOf(packet[1].split("&")[0]);
+                String[] line = scanner.nextLine().split("&");
+                if(position == 0) {
+                    match = Integer.valueOf(line[0].split(",")[0]);
                     System.out.println("Loading Match " + match);
-                    if (position > 2) defences = packet[1].split("&")[1];
-                    else defences = packet[1].split("&")[2];
-                    position = 0;
-                }
-                if(packet[0].equals("MatchData")) {
-                    int team = Integer.valueOf(packet[1].split("&")[0].split(",")[1]);
+                    defences = line[1] + "," + line[2];
                     position++;
+                } else {
+                    int team = Integer.valueOf(line[0].split(",")[1]);
                     if (position > 3) text = "Blue " + (position - 3);
                     else text = "Red " + position;
+                    int j = -1;
+                    if(position > 3) j = 4;
+                    position++;
+                    if(position > 6) position = 0;
+
                     matches.add(match + "," + team + "," + text + ",");
-                    String[] data = packet[1].split("&")[1].split(",");
-                    Integer[] values = new Integer[data.length + columnNames.size()];
-                    if (data.length > 0) values[0] = 1;
-                    for (i = 0; i < data.length; i++) {
-                        int id = Integer.valueOf(data[i].split(":")[0]);
-                        String name = objectName[id];
-                        if (name != null) {
-                            if (name.contains("#"))
-                                name = name.split("#")[0] + ":" + defences.split(",")[Integer.valueOf(name.split("#")[1]) - 1];
-                            if (!columnNames.contains(name)) columnNames.add(name);
-                            values[columnNames.indexOf(name)] = Integer.valueOf(data[i].split(":")[1]);
+                    if(line.length > 1) {
+                        String[] data = line[1].split(",");
+                        Integer[] values = new Integer[data.length + columnNames.size()];
+                        if (data.length > 0) values[0] = 1;
+                        for (i = 0; i < data.length; i++) {
+                            int id = Integer.valueOf(data[i].split(":")[0]);
+                            String name = objectName[id];
+                            if (name != null) {
+                                if (name.contains("#"))
+                                    name = name.split("#")[0] + ":" + defences.split(",")[Integer.valueOf(name.split("#")[1]) + j];
+                                if (!columnNames.contains(name)) columnNames.add(name);
+                                values[columnNames.indexOf(name)] = Integer.valueOf(data[i].split(":")[1]);
+                            }
                         }
-                    }
-                    dataValue.add(values);
+                        dataValue.add(values);
+                    } else dataValue.add(new Integer[0]);
                 }
             }
             scanner.close();
             System.out.println("Done");
             System.out.println("Printing Match Data");
             saveMatchData();
-        } catch(FileNotFoundException e) {}
+        } catch(FileNotFoundException e) {System.out.println("Not found");}
     }
 
 	public void saveMatchData() {
