@@ -131,7 +131,7 @@ public class MainData {
                     else text = "Red " + position;
                     int j = -1;
                     if(position > 3) i = 4;
-                    if(position == 4) savedPoints.clear();
+                    if(position == 4 || position == 6) savedPoints.clear();
                     position++;
                     if(position > 6) position = 0;
                     
@@ -149,9 +149,11 @@ public class MainData {
                             int id = Integer.valueOf(data[i].split(":")[0]);
                             String name = objectName[id];
                             boolean stay = true;
-                            if(name.contains("$")) {
-                                int l = Integer.valueOf(name.split("$")[0]);
-                                if(l == position || l == position - 3) name = name.split("$")[1];
+                            if(name != null && name.contains("$")) {
+                                int l;
+                                if(name.split("$").length < 2) l = 0;
+                                else l = Integer.valueOf(name.split("$")[1]);
+                                if(l == position || l == position - 3) name = name.split("$")[0];
                                 else if(l == 0) savedPoints.add(data[i]);
                                 else {
                                     savedPoints.add(data[i]);
