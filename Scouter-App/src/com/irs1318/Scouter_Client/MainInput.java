@@ -246,7 +246,6 @@ public class MainInput extends Activity {
 
         makeLine();
         int newPage = 0;
-        int digit = 0;
         text = objectName[0];
 
         //Creating actual form
@@ -424,10 +423,10 @@ public class MainInput extends Activity {
         findViewById(pageId[page]).setVisibility(View.GONE);
         if (v.getId() == R.id.NextPage) {
             page++;
-            if(objectName[pageId[page]].contains("?") && scouter != 5 && scouter != 2) page++;
+            if(objectName[pageId[page]].contains("?") && scouter != 0 && scouter != 3) page++;
         } else if (v.getId() == R.id.LastPage) {
             page--;
-            if(objectName[pageId[page]].contains("?") && scouter != 5 && scouter != 2) page--;
+            if(objectName[pageId[page]].contains("?") && scouter != 0 && scouter != 3) page--;
         }
         findViewById(pageId[page]).setVisibility(View.VISIBLE);
 

@@ -68,7 +68,7 @@ public class MainData {
                                 case 1:
                                     text = "(" + networkPacket.Data.split(",")[0].charAt(0) + ")";
                                     break;
-                                case 3:case 4:case 5:
+                                case 3:case 4:case 5:case 9:
                                     String data = text + networkPacket.Data.split(",")[0];
                                     objectName[object] = data;
 									objectType[object] = Integer.valueOf(networkPacket.Data.split(",")[1]);
@@ -89,6 +89,7 @@ public class MainData {
                             for(i = 0; i < objectName.length; i++)
                                 if (objectName[i] != null) {
                                     String name = objectName[i];
+                                    if(name.contains("$")) name = name.split("$")[0];
                                     if(name.contains("#"))
                                         for (int j = 0; j < defences.split("&").length; j++) {
                                             name = objectName[i].split("#")[0] + ":" + defences.split("&")[j];
@@ -116,6 +117,7 @@ public class MainData {
             Scanner scanner = new Scanner(file);
             System.out.println("Found");
             position = 0;
+            List<String> savedPoints = new ArrayList<>();
             while(scanner.hasNextLine()) {
                 String[] line = scanner.nextLine().split("&");
                 if(position == 0) {
@@ -128,19 +130,35 @@ public class MainData {
                     if (position > 3) text = "Blue " + (position - 3);
                     else text = "Red " + position;
                     int j = -1;
-                    if(position > 3) j = 4;
+                    if(position > 3) i = 4;
+                    if(position == 4) savedPoints.clear();
                     position++;
                     if(position > 6) position = 0;
-
+                    
+                    List<String> points = new ArrayList<>();
+                    for(String point : line) points.add(point);
+                    for(String savedPoint : savedPoints) points.add(savedPoint);
+                    savedPoints.clear();
+                    
                     matches.add(match + "," + team + "," + text + ",");
-                    if(line.length > 1) {
-                        String[] data = line[1].split(",");
+                    if(points.size() > 1) {
+                        String[] data = points.get(1).split(",");
                         Integer[] values = new Integer[data.length + columnNames.size()];
                         if (data.length > 0) values[0] = 1;
                         for (i = 0; i < data.length; i++) {
                             int id = Integer.valueOf(data[i].split(":")[0]);
                             String name = objectName[id];
-                            if (name != null) {
+                            boolean stay = true;
+                            if(name.contains("$")) {
+                                int l = Integer.valueOf(name.split("$")[0]);
+                                if(l == position || l == position - 3) name = name.split("$")[1];
+                                else if(l == 0) savedPoints.add(data[i]);
+                                else {
+                                    savedPoints.add(data[i]);
+                                    stay = false;
+                                } 
+                            }
+                            if (name != null && stay) {
                                 if (name.contains("#"))
                                     name = name.split("#")[0] + ":" + defences.split(",")[Integer.valueOf(name.split("#")[1]) + j];
                                 if (!columnNames.contains(name)) columnNames.add(name);
@@ -156,6 +174,10 @@ public class MainData {
             System.out.println("Printing Match Data");
             saveMatchData();
         } catch(FileNotFoundException e) {System.out.println("Not found");}
+    }
+    
+    public void loadLine(String[] data, Integer[] values) {
+       
     }
 
 	public void saveMatchData() {
