@@ -121,7 +121,7 @@ public class MainInput extends Activity {
                             objectName = new String[objectNum];
                             objectType = new int[objectNum];
                             objectValue = new int[objectNum];
-                            page = 0;
+                            i = 0;
                         }
                         if (networkPacket.Name.equals("Game")) {
                             //Reading first Packets of data
@@ -129,8 +129,22 @@ public class MainInput extends Activity {
                             if(objectName[currentCount].contains("#")) objectName[currentCount] = objectName[currentCount].split("#")[0];
                             text = networkPacket.Data.split(",")[1];
                             objectType[currentCount] = Integer.valueOf(text);
-                            if (objectType[currentCount] == 1) page++;
+                            if (objectType[currentCount] == 1) i++;
                             currentCount++;
+                        }
+                        if (networkPacket.Name.equals("GameEnd")) {
+                            pageId = new int[i + 1];
+                            if (match == -1) loading = true;
+                            Handler mainHandle = new Handler(getMainLooper());
+                            mainHandle.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    findViewById(R.id.startLayout).setVisibility(View.GONE);
+                                    findViewById(R.id.TopLine).setVisibility(View.VISIBLE);
+                                    if (loading)
+                                        findViewById(R.id.Loading).setVisibility(View.VISIBLE);
+                                }
+                            });
                         }
                         if (networkPacket.Name.equals("Match")) {
                             if (!networkPacket.Data.contains(lastMatch)) {
@@ -179,21 +193,6 @@ public class MainInput extends Activity {
                                 }
                             });
                         }
-                        if (networkPacket.Name.equals("GameEnd")) {
-                            pageId = new int[page + 1];
-                            page = 0;
-                            if (match == -1) loading = true;
-                            Handler mainHandle = new Handler(getMainLooper());
-                            mainHandle.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    findViewById(R.id.startLayout).setVisibility(View.GONE);
-                                    findViewById(R.id.TopLine).setVisibility(View.VISIBLE);
-                                    if (loading)
-                                        findViewById(R.id.Loading).setVisibility(View.VISIBLE);
-                                }
-                            });
-                        }
                     }
                 }
             });
@@ -219,12 +218,9 @@ public class MainInput extends Activity {
 
     public void sendMessage(String name, String data) {
         if(connected) try {
-            client.SendPacket("PING"," ");
+            client.SendPacket(name, data);
         } catch (Exception ie) {}
-        if(connected) try {
-                client.SendPacket(name, data);
-            } catch (Exception ie) {}
-        else {
+        if(!connected) {
             NetworkPacket networkPacket = new NetworkPacket(name, data);
             messageLog.add(networkPacket);
         }
@@ -423,10 +419,10 @@ public class MainInput extends Activity {
         findViewById(pageId[page]).setVisibility(View.GONE);
         if (v.getId() == R.id.NextPage) {
             page++;
-            if(objectName[pageId[page]].contains("?") && scouter != 0 && scouter != 3) page++;
+            if(objectName[pageId[page]].contains("?") && scouter != 2 && scouter != 5) page++;
         } else if (v.getId() == R.id.LastPage) {
             page--;
-            if(objectName[pageId[page]].contains("?") && scouter != 0 && scouter != 3) page--;
+            if(objectName[pageId[page]].contains("?") && scouter != 2 && scouter != 5) page--;
         }
         findViewById(pageId[page]).setVisibility(View.VISIBLE);
 
