@@ -41,6 +41,7 @@ public class MainInput extends Activity {
     boolean inRadio = false;
     boolean reverse = false;
     boolean loading = false;
+    boolean startUp = true;
     TCPClient client;
     TableLayout tableLayout;
     LinearLayout sideLayout;
@@ -115,7 +116,7 @@ public class MainInput extends Activity {
                 public void Call(TCPClient sender) {
                     NetworkPacket[] networkPackets = client.GetPackets();
                     for (NetworkPacket networkPacket : networkPackets) {
-                        if (networkPacket.Name.equals("GameStart")) {
+                        if (networkPacket.Name.equals("GameStart") && startUp) {
                             currentCount = 0;
                             objectNum = networkPacket.DataAsInt();
                             objectName = new String[objectNum];
@@ -123,7 +124,7 @@ public class MainInput extends Activity {
                             objectValue = new int[objectNum];
                             i = 0;
                         }
-                        if (networkPacket.Name.equals("Game")) {
+                        if (networkPacket.Name.equals("Game") && startUp) {
                             //Reading first Packets of data
                             objectName[currentCount] = networkPacket.Data.split(",")[0];
                             if(objectName[currentCount].contains("#")) objectName[currentCount] = objectName[currentCount].split("#")[0];
@@ -132,7 +133,7 @@ public class MainInput extends Activity {
                             if (objectType[currentCount] == 1) i++;
                             currentCount++;
                         }
-                        if (networkPacket.Name.equals("GameEnd")) {
+                        if (networkPacket.Name.equals("GameEnd") && startUp) {
                             pageId = new int[i + 1];
                             if (match == -1) loading = true;
                             Handler mainHandle = new Handler(getMainLooper());
@@ -146,7 +147,14 @@ public class MainInput extends Activity {
                                 }
                             });
                         }
-                        if (networkPacket.Name.equals("Match")) {
+                        if(networkPacket.Name.equals("MatchData") && startUp) {
+                            String[] dataPoints = networkPacket.Data.split(".");
+                            for(String data : dataPoints) {
+                                i = Integer.valueOf(data.split(":")[0]);
+                                objectValue[i] = Integer.valueOf(data.split(":")[0]);
+                            }
+                        }
+                        if (networkPacket.Name.equals("Match") && loading) {
                             if (!networkPacket.Data.contains(lastMatch)) {
                                 if(match != -1) page = 0;
                                 match = Integer.valueOf(networkPacket.Data.split(",")[0]);
@@ -154,6 +162,7 @@ public class MainInput extends Activity {
                                 teamName = networkPacket.Data.split(",")[2];
                                 lastMatch = networkPacket.Data;
                                 loading = false;
+                                startUp = false;
                                 for(i = 0; i < changes.length; i++) changes[i] = "";
 
 

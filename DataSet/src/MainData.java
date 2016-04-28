@@ -15,7 +15,6 @@ public class MainData {
 	String[] objectName;
     boolean connected = false;
     TCPClient client;
-    FileWriter fileWriter;
     List<String> columnNames = new ArrayList<>();
     List<String> matches = new ArrayList<>();
     List<Integer[]> dataValue = new ArrayList<>();
@@ -101,7 +100,21 @@ public class MainData {
 						if(networkPacket.Name.equals("MatchEnd")) {
                             System.out.println("Locating file");
                             File file = new File(networkPacket.Data);
-                            readFile(file);
+                            try {
+                                readFile(file);
+                            } catch(FileNotFoundException e) {
+                                System.out.println("Not Found");
+                                System.out.println("Enter Drive");
+                                Scanner scanner = new Scanner(System.in);
+                                text = scanner.nextLine() + ":" + networkPacket.Data.split(":")[1];
+                                file = new File(text);
+                                try {
+                                    readFile(file);
+                                } catch(FileNotFoundException ei) {
+                                    System.out.println("Not Found");
+                                    System.exit(0);
+                                }
+                            }
                         }
                     }
                 }
@@ -112,12 +125,10 @@ public class MainData {
         run();
     }
 
-    public void readFile(File file) {
-        try {
+    public void readFile(File file) throws FileNotFoundException{
             Scanner scanner = new Scanner(file);
             System.out.println("Found");
             position = 0;
-            List<String> savedPoints = new ArrayList<>();
             while(scanner.hasNextLine()) {
                 String[] line = scanner.nextLine().split("&");
                 if(position == 0) {
@@ -131,35 +142,18 @@ public class MainData {
                     else text = "Red " + position;
                     int j = -1;
                     if(position > 3) i = 4;
-                    if(position == 4 || position == 6) savedPoints.clear();
                     position++;
                     if(position > 6) position = 0;
                     
-                    List<String> points = new ArrayList<>();
-                    for(String point : line) points.add(point);
-                    for(String savedPoint : savedPoints) points.add(savedPoint);
-                    savedPoints.clear();
-                    
                     matches.add(match + "," + team + "," + text + ",");
-                    if(points.size() > 1) {
-                        String[] data = points.get(1).split(",");
+                    if(line.length > 1) {
+                        String[] data = line[1].split(",");
                         Integer[] values = new Integer[data.length + columnNames.size()];
                         if (data.length > 0) values[0] = 1;
                         for (i = 0; i < data.length; i++) {
                             int id = Integer.valueOf(data[i].split(":")[0]);
                             String name = objectName[id];
                             boolean stay = true;
-                            if(name != null && name.contains("$")) {
-                                int l;
-                                if(name.split("$").length < 2) l = 0;
-                                else l = Integer.valueOf(name.split("$")[1]);
-                                if(l == position || l == position - 3) name = name.split("$")[0];
-                                else if(l == 0) savedPoints.add(data[i]);
-                                else {
-                                    savedPoints.add(data[i]);
-                                    stay = false;
-                                } 
-                            }
                             if (name != null && stay) {
                                 if (name.contains("#"))
                                     name = name.split("#")[0] + ":" + defences.split(",")[Integer.valueOf(name.split("#")[1]) + j];
@@ -175,66 +169,49 @@ public class MainData {
             System.out.println("Done");
             System.out.println("Printing Match Data");
             saveMatchData();
-        } catch(FileNotFoundException e) {System.out.println("Not found");}
-    }
-    
-    public void loadLine(String[] data, Integer[] values) {
-       
     }
 
 	public void saveMatchData() {
         try {
             File file = new File("MatchData.csv");
-            fileWriter = new FileWriter(file);
-            fileWriter.write("Match,Team,Alliance,");
-            for (String columnName : columnNames) fileWriter.write(columnName + ",");
+            FileWriter dataWriter = new FileWriter(file);
+            file = new File("MatchList.csv");
+            FileWriter matchWriter = new FileWriter(file);
+            dataWriter.write("Match,Team,Alliance,");
+            matchWriter.write("Match,Team 1,Team 2,Team 3,Alliance,");
+            for (String columnName : columnNames) {
+                dataWriter.write(columnName + ",");
+                if(columnName.contains("(F)")) matchWriter.write(columnName + ",");
+            }
+            List<List<Integer>> matchData = new ArrayList<>();
+            List<Integer> finalData = new ArrayList<>();
             for(i = 0; i < matches.size(); i++) {
                 Integer[] matchList = dataValue.get(i);
-                fileWriter.write("\n" + matches.get(i));
-                for(int j = 0; j < columnNames.size(); j++) if(j < matchList.length && matchList[j] != null) fileWriter.write(matchList[j] + ",");
-                else fileWriter.write("0,");
+                dataWriter.write("\n" + matches.get(i));
+                if(matches.get(i).split(",")[2].contains("1")) {
+                    matchData.add(finalData);
+                    finalData.clear();
+                }
+                for(int j = 0; j < columnNames.size(); j++) {
+                    Boolean finalScore = false;
+                    if(columnNames.get(j).contains("(F)") && matches.get(i).split(",")[2].contains("3")) finalScore = true;
+                    if(j < matchList.length && matchList[j] != null) {
+                        dataWriter.write(matchList[j] + ",");
+                        if(finalScore) finalData.add(matchList[j]);
+                    }
+                    else {
+                        dataWriter.write("0,");
+                        if(finalScore) finalData.add(matchList[j]);
+                    }
+                }
             }
-            fileWriter.close();
-        }catch (IOException e) {}
-        System.out.println("Done");
-        System.out.println("Printing Team Data");
-        saveTeamData();
-	}
-    
-    public void saveTeamData() {
-        try {
-            List<Integer> teamNumbers = new ArrayList<>();
-            List<List<Integer>> teamValues = new ArrayList<>();
-            File file = new File("TeamData.csv");
-            fileWriter = new FileWriter(file);
-            fileWriter.write("Team,");
-            for (String columnName : columnNames) fileWriter.write(columnName + ",");
+            dataWriter.close();
             for(i = 0; i < matches.size(); i++) {
-                Integer[] matchList = dataValue.get(i);
-                int team = Integer.valueOf(matches.get(i).split(",")[1]);
-                if(!teamNumbers.contains(team)) {
-                    teamNumbers.add(team);
-                    teamValues.add(new ArrayList<>());
-                }
-                int id = teamNumbers.indexOf(team);
-                for(int j = 0; j < matchList.length; j++) {
-                    if(matchList[j] == null) matchList[j] = 0;
-                    if(j >= teamValues.get(id).size()) teamValues.get(id).add(matchList[j]);
-                    else teamValues.get(id).set(j, teamValues.get(id).get(j) + matchList[j]);
-                }
+                matchWriter.write("\n" + matches.get(i));
+                for(List<Integer> data : matchData) matchWriter.write(data + ",");
             }
-            for(i = 0; i < teamValues.size(); i++) {
-                fileWriter.write("\n" + teamNumbers.get(i) + ',');
-                for(int j = 0; j < columnNames.size(); j++) if(j < teamValues.size()) fileWriter.write(teamValues.get(i).get(j) + ",");
-                else fileWriter.write("0,");
-            }
-            fileWriter.close();
         }catch (IOException e) {}
         System.out.println("Done");
-        try {
-            client.Disconnect();
-        } catch (Exception e) {}
-        System.out.println("Update Complete");
         System.exit(0);
-    }
+	}
 }
