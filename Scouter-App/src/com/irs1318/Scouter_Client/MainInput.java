@@ -120,7 +120,7 @@ public class MainInput extends Activity {
                             objectNum = networkPacket.DataAsInt();
                             objectName = new String[objectNum];
                             objectType = new int[objectNum];
-                            objectValue = new int[objectNum];
+                            if(match == -1) objectValue = new int[objectNum];
                             i = 0;
                         }
                         if (networkPacket.Name.equals("Game")) {
