@@ -36,9 +36,7 @@ public class MainInput extends Activity {
     String scoutName;
     String teamName = "";
     String[] objectName;
-    String[] changes = new String[6];
     boolean connected = false;
-    boolean inRadio = false;
     boolean reverse = false;
     boolean loading = false;
     boolean startUp = true;
@@ -47,7 +45,7 @@ public class MainInput extends Activity {
     LinearLayout sideLayout;
     LinearLayout mainLayout;
     LinearLayout lineLayout;
-    List<NetworkPacket> messageLog = new ArrayList<>();
+    List<NetworkPacket> dataLog;
 
 
 
@@ -62,6 +60,7 @@ public class MainInput extends Activity {
     //Connecting to PC
     public void connect(View v) {
         if (!connected) {
+            //Set current scouter
             switch (v.getId()) {
                 case R.id.S0:
                     scouter = 0;
@@ -89,27 +88,32 @@ public class MainInput extends Activity {
                     break;
             }
 
+            //Start connection
             EditText editText = (EditText) findViewById(R.id.editText);
             text = String.valueOf(editText.getText());
             client = new TCPClient(11111, text);
             client.OnConnected.add(new NetworkEvent() {
                 @Override
                 public void Call(TCPClient sender) {
-                    sendMessage("Hello", String.valueOf(scouter));
-                    sendMessage("Page", scouter + "," + page + "," + match + "," + team);
+                    //Send startup messages
+                    try {
+                        client.SendPacket("Hello", String.valueOf(scouter));
+                        client.SendPacket("Page", scouter + "," + page + "," + match + "," + team);
+                    } catch (Exception ie) {}
                     connected = true;
+
+                    //Update interface
                     Handler mainHandle = new Handler(getMainLooper());
                     mainHandle.post(new Runnable() {
                         @Override
                         public void run() {
                             RadioButton radioButton = (RadioButton) findViewById(R.id.Connect);
                             radioButton.setChecked(true);
-                            for(NetworkPacket networkPacket : messageLog) sendMessage(networkPacket.Name, networkPacket.Data);
-                            messageLog.clear();
                         }
                     });
                 }
             });
+
             //When receiving data
             client.OnDataAvailable.add(new NetworkEvent() {
                 @Override
@@ -117,6 +121,7 @@ public class MainInput extends Activity {
                     NetworkPacket[] networkPackets = client.GetPackets();
                     for (NetworkPacket networkPacket : networkPackets) {
                         if (networkPacket.Name.equals("GameStart") && startUp) {
+                            //Preparing to update interface
                             currentCount = 0;
                             objectNum = networkPacket.DataAsInt();
                             objectName = new String[objectNum];
@@ -125,7 +130,7 @@ public class MainInput extends Activity {
                             i = 0;
                         }
                         if (networkPacket.Name.equals("Game") && startUp) {
-                            //Reading first Packets of data
+                            //Receiving update packets
                             objectName[currentCount] = networkPacket.Data.split(",")[0];
                             if(objectName[currentCount].contains("#")) objectName[currentCount] = objectName[currentCount].split("#")[0];
                             text = networkPacket.Data.split(",")[1];
@@ -134,6 +139,7 @@ public class MainInput extends Activity {
                             currentCount++;
                         }
                         if (networkPacket.Name.equals("GameEnd") && startUp) {
+                            //Finalizing update
                             pageId = new int[i + 1];
                             if (match == -1) loading = true;
                             Handler mainHandle = new Handler(getMainLooper());
@@ -148,13 +154,10 @@ public class MainInput extends Activity {
                             });
                         }
                         if(networkPacket.Name.equals("MatchData") && startUp) {
-                            String[] dataPoints = networkPacket.Data.split(".");
-                            for(String data : dataPoints) {
-                                i = Integer.valueOf(data.split(":")[0]);
-                                objectValue[i] = Integer.valueOf(data.split(":")[0]);
-                            }
+
                         }
                         if (networkPacket.Name.equals("Match") && loading) {
+                            //Setting new match
                             if (!networkPacket.Data.contains(lastMatch)) {
                                 if(match != -1) page = 0;
                                 match = Integer.valueOf(networkPacket.Data.split(",")[0]);
@@ -163,9 +166,9 @@ public class MainInput extends Activity {
                                 lastMatch = networkPacket.Data;
                                 loading = false;
                                 startUp = false;
-                                for(i = 0; i < changes.length; i++) changes[i] = "";
+                                dataLog.clear();
 
-
+                                //Clearing screen
                                 Handler mainHandle = new Handler(getMainLooper());
                                 mainHandle.post(new Runnable() {
                                     @Override
@@ -185,23 +188,18 @@ public class MainInput extends Activity {
                                         loadObjects(null);
                                     }
                                 });
-                                sendMessage("Page", scouter + ",0" + "," + match + "," + team);
+                                try {
+                                    client.SendPacket("Page", scouter + ",0" + "," + match + "," + team);
+                                } catch (Exception ie) {}
                             }
                         }
-                        if (networkPacket.Name.equals("DefenseInfo")) {
-                            if (scouter > 2) text = networkPacket.Data.split("&")[0];
-                            else text = networkPacket.Data.split("&")[1];
-                            for (i = 0; i < text.split(",").length; i++) {
-                                changes[i] = text.split(",")[i];
-                            }
-                            Handler mainHandle = new Handler(getMainLooper());
-                            mainHandle.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    loadObjects(null);
-                                }
-                            });
+                        if(!dataLog.isEmpty()) {
+                            try {
+                                for(NetworkPacket p : dataLog) client.SendPacket(p.Name,p.Data);
+                            } catch (Exception ie) {}
+                            dataLog.clear();
                         }
+
                     }
                 }
             });
@@ -222,16 +220,6 @@ public class MainInput extends Activity {
             try {
                 client.Connect();
             } catch (Exception e) {}
-        }
-    }
-
-    public void sendMessage(String name, String data) {
-        if(connected) try {
-            client.SendPacket(name, data);
-        } catch (Exception ie) {}
-        if(!connected) {
-            NetworkPacket networkPacket = new NetworkPacket(name, data);
-            messageLog.add(networkPacket);
         }
     }
 
@@ -377,13 +365,6 @@ public class MainInput extends Activity {
                     textView.setTextSize(25);
                     textView.setTextColor(Color.rgb(249,178,52));
                     break;
-                case 8:
-                    //Change
-                    textView = new TextView(this);
-                    text = changes[Integer.valueOf(objectName[i]) - 1];
-                    makeView(textView, lineLayout);
-                    textView.setTextColor(Color.rgb(249,178,52));
-                    break;
             }
         }
         i = 0;
@@ -403,7 +384,6 @@ public class MainInput extends Activity {
 
         //Resetting other variables
         column = 0;
-        inRadio = false;
     }
 
     //Finalizing the object
@@ -463,7 +443,9 @@ public class MainInput extends Activity {
 
 
         //Sending page update
-        sendMessage("Page", scouter + "," + page + "," + match + "," + team);
+        try {
+            client.SendPacket("Page", scouter + "," + page + "," + match + "," + team);
+        } catch (Exception ie) {}
     }
 
     public void reverse(View v) {
@@ -532,7 +514,7 @@ public class MainInput extends Activity {
                             changed = true;
                         } else if(radioButton.isChecked()) {
                             radioButton.setChecked(false);
-                            sendMessage("Undo", scouter + "," + j);
+                            dataLog.add(new NetworkPacket("Undo", scouter + "," + j));
                         }
                         j--;
                     }
@@ -542,7 +524,7 @@ public class MainInput extends Activity {
             if(reverse) text = "Undo";
             else text = "Event";
             //Notifying server of change
-            if(changed) sendMessage(text, scouter + "," + i);
+            if(changed) dataLog.add(new NetworkPacket(text, scouter + "," + i));
             Switch aSwitch = (Switch) findViewById(R.id.Reverse);
             reverse = aSwitch.isChecked();
         }
