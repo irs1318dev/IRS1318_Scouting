@@ -102,19 +102,7 @@ public class MainData {
                             File file = new File(networkPacket.Data);
                             try {
                                 readFile(file);
-                            } catch(FileNotFoundException e) {
-                                System.out.println("Not Found");
-                                System.out.println("Enter Drive");
-                                Scanner scanner = new Scanner(System.in);
-                                text = scanner.nextLine() + ":" + networkPacket.Data.split(":")[1];
-                                file = new File(text);
-                                try {
-                                    readFile(file);
-                                } catch(FileNotFoundException ei) {
-                                    System.out.println("Not Found");
-                                    System.exit(0);
-                                }
-                            }
+                            } catch(FileNotFoundException e) {System.out.println("Not Found");}
                         }
                     }
                 }
@@ -175,41 +163,19 @@ public class MainData {
         try {
             File file = new File("MatchData.csv");
             FileWriter dataWriter = new FileWriter(file);
-            file = new File("MatchList.csv");
-            FileWriter matchWriter = new FileWriter(file);
             dataWriter.write("Match,Team,Alliance,");
-            matchWriter.write("Match,Team 1,Team 2,Team 3,Alliance,");
             for (String columnName : columnNames) {
                 dataWriter.write(columnName + ",");
-                if(columnName.contains("(F)")) matchWriter.write(columnName + ",");
             }
-            List<List<Integer>> matchData = new ArrayList<>();
-            List<Integer> finalData = new ArrayList<>();
             for(i = 0; i < matches.size(); i++) {
                 Integer[] matchList = dataValue.get(i);
                 dataWriter.write("\n" + matches.get(i));
-                if(matches.get(i).split(",")[2].contains("1")) {
-                    matchData.add(finalData);
-                    finalData.clear();
-                }
                 for(int j = 0; j < columnNames.size(); j++) {
-                    Boolean finalScore = false;
-                    if(columnNames.get(j).contains("(F)") && matches.get(i).split(",")[2].contains("3")) finalScore = true;
-                    if(j < matchList.length && matchList[j] != null) {
-                        dataWriter.write(matchList[j] + ",");
-                        if(finalScore) finalData.add(matchList[j]);
-                    }
-                    else {
-                        dataWriter.write("0,");
-                        if(finalScore) finalData.add(matchList[j]);
-                    }
+                    if(j < matchList.length && matchList[j] != null) dataWriter.write(matchList[j] + ",");
+                    else dataWriter.write("0,");
                 }
             }
             dataWriter.close();
-            for(i = 0; i < matches.size(); i++) {
-                matchWriter.write("\n" + matches.get(i));
-                for(List<Integer> data : matchData) matchWriter.write(data + ",");
-            }
         }catch (IOException e) {}
         System.out.println("Done");
         System.exit(0);
