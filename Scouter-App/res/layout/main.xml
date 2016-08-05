@@ -151,5 +151,12 @@
                 android:onClick="reverse" android:textColor="#f9b234" android:textSize="40dp"
                 android:layout_alignBottom="@+id/linearLayout" android:layout_centerHorizontal="true"/>
     </LinearLayout>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test mode"
+            android:id="@+id/button"
+            android:layout_above="@+id/linearLayout" android:layout_centerHorizontal="true"
+            android:onClick="TestLayout"/>
 
 </RelativeLayout>
