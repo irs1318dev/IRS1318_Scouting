@@ -173,12 +173,6 @@ public class ScoutForm {
                     textView.setTextSize(25);
                     textView.setTextColor(Color.rgb(249, 178, 52));
                     break;
-                case 8:
-                    //Slider
-                    SeekBar seekBar = new SeekBar(context);
-                    seekBar.setMax(Integer.valueOf(objectName[i]));
-                    lineLayout.addView(seekBar);
-                    break;
             }
         }
         i = 0;

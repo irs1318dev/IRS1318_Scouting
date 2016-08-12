@@ -11,7 +11,6 @@ public class MainData {
     int position = 0;
     int[] objectType;
     String text;
-    String defences;
 	String[] objectName;
     boolean connected = false;
     TCPClient client;
@@ -72,9 +71,6 @@ public class MainData {
                                     objectName[object] = data;
 									objectType[object] = Integer.valueOf(networkPacket.Data.split(",")[1]);
 									break;
-                                case 10:
-                                    defences = networkPacket.Data.split(",")[0];
-                                    break;
                             }
                             object++;
 						}
@@ -89,11 +85,6 @@ public class MainData {
                                 if (objectName[i] != null) {
                                     String name = objectName[i];
                                     if(name.contains("$")) name = name.split("$")[0];
-                                    if(name.contains("#"))
-                                        for (int j = 0; j < defences.split("&").length; j++) {
-                                            name = objectName[i].split("#")[0] + ":" + defences.split("&")[j];
-                                            if(!columnNames.contains(name)) columnNames.add(name);
-                                        }
                                     else if(!columnNames.contains(name)) columnNames.add(name);
                                 }
                         }
@@ -122,7 +113,6 @@ public class MainData {
                 if(position == 0) {
                     match = Integer.valueOf(line[0].split(",")[0]);
                     System.out.println("Loading Match " + match);
-                    defences = line[1] + "," + line[2];
                     position++;
                 } else {
                     int team = Integer.valueOf(line[0].split(",")[1]);
@@ -143,8 +133,6 @@ public class MainData {
                             String name = objectName[id];
                             boolean stay = true;
                             if (name != null && stay) {
-                                if (name.contains("#"))
-                                    name = name.split("#")[0] + ":" + defences.split(",")[Integer.valueOf(name.split("#")[1]) + j];
                                 if (!columnNames.contains(name)) columnNames.add(name);
                                 values[columnNames.indexOf(name)] = Integer.valueOf(data[i].split(":")[1]);
                             }

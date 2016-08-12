@@ -34,11 +34,10 @@ public class MainInput extends Activity {
     String teamName = "";
     String[] objectName;
     boolean connected = false;
-    boolean loading = false;
+    boolean loading = true;
     TCPClient client;
     ScoutForm scoutForm;
     LinearLayout mainLayout;
-
 
 
     //Setting up the Activity
@@ -50,13 +49,15 @@ public class MainInput extends Activity {
         scoutForm = new ScoutForm();
         scoutForm.context = this;
         scoutForm.mainInput = this;
+        scoutForm.dataLog = new ArrayList<>();
+
     }
 
     //Connecting to PC
     public void connect(View v) {
-        if (!connected) {
+        if(!connected) {
             //Set current scouter
-            switch (v.getId()) {
+            switch(v.getId()) {
                 case R.id.S0:
                     scouter = 0;
                     scoutName = "(Red 1)";
@@ -94,7 +95,8 @@ public class MainInput extends Activity {
                     try {
                         client.SendPacket("Hello", String.valueOf(scouter));
                         client.SendPacket("Page", scouter + "," + page + "," + match + "," + team);
-                    } catch (Exception ie) {}
+                    } catch(Exception ie) {
+                    }
                     connected = true;
 
                     //Update interface
@@ -115,8 +117,8 @@ public class MainInput extends Activity {
                 public void Call(TCPClient sender) {
                     List<ButtonPress> dataLog = scoutForm.dataLog;
                     NetworkPacket[] networkPackets = client.GetPackets();
-                    for (NetworkPacket networkPacket : networkPackets) {
-                        if (networkPacket.Name.equals("GameStart")) {
+                    for(NetworkPacket networkPacket : networkPackets) {
+                        if(networkPacket.Name.equals("GameStart") && loading) {
                             //Preparing to update interface
                             currentCount = 0;
                             objectNum = networkPacket.DataAsInt();
@@ -130,66 +132,69 @@ public class MainInput extends Activity {
                                 public void run() {
                                     findViewById(R.id.startLayout).setVisibility(View.GONE);
                                     findViewById(R.id.TopLine).setVisibility(View.VISIBLE);
-                                    if (loading)
-                                        findViewById(R.id.Loading).setVisibility(View.VISIBLE);
+                                    findViewById(R.id.Testing).setVisibility(View.GONE);
+                                    if(loading) findViewById(R.id.Loading).setVisibility(View.VISIBLE);
                                 }
                             });
                         }
-                        if (networkPacket.Name.equals("Game")) {
+                        if(networkPacket.Name.equals("Game") && loading) {
                             //Reading first Packets of data
                             objectName[currentCount] = networkPacket.Data.split(",")[0];
-                            if(objectName[currentCount].contains("#")) objectName[currentCount] = objectName[currentCount].split("#")[0];
+                            if(objectName[currentCount].contains("#"))
+                                objectName[currentCount] = objectName[currentCount].split("#")[0];
                             text = networkPacket.Data.split(",")[1];
                             objectType[currentCount] = Integer.valueOf(text);
-                            if (objectType[currentCount] == 1) i++;
+                            if(objectType[currentCount] == 1) i++;
                             currentCount++;
                         }
-                        if (networkPacket.Name.equals("GameEnd")) {
+                        if(networkPacket.Name.equals("GameEnd") && loading) {
                             scoutForm.pageId = new int[i + 1];
-                            if (match == -1) loading = true;
+                            if(match == -1) loading = true;
                         }
-                        if (networkPacket.Name.equals("Match")) {
+                        if(networkPacket.Name.equals("Match")) {
                             if (!networkPacket.Data.contains(lastMatch)) {
-                                if(match != -1) page = 0;
-                                match = Integer.valueOf(networkPacket.Data.split(",")[0]);
-                                team = Integer.valueOf(networkPacket.Data.split(",")[1]);
-                                teamName = networkPacket.Data.split(",")[2];
-                                lastMatch = networkPacket.Data;
-                                loading = false;
-                                dataLog.clear();
+                            if(match != -1) page = 0;
+                            match = Integer.valueOf(networkPacket.Data.split(",")[0]);
+                            team = Integer.valueOf(networkPacket.Data.split(",")[1]);
+                            teamName = networkPacket.Data.split(",")[2];
+                            lastMatch = networkPacket.Data;
+                            loading = false;
+                            dataLog.clear();
 
-                                //Clearing screen
-                                Handler mainHandle = new Handler(getMainLooper());
-                                mainHandle.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        TextView textView = (TextView) findViewById(R.id.teamName);
-                                        textView.setText(team + " " + teamName + " " + scoutName);
-                                        for (i = 0; i < objectNum; i++) objectValue[i] = 0;
+                            //Clearing screen
+                            Handler mainHandle = new Handler(getMainLooper());
+                            mainHandle.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    TextView textView = (TextView) findViewById(R.id.teamName);
+                                    textView.setText(team + " " + teamName + " " + scoutName);
+                                    for(i = 0; i < objectNum; i++) objectValue[i] = 0;
 
-                                        //Showing required parts
-                                        Button button = (Button) findViewById(R.id.NextPage);
-                                        button.setText("Next Page -->");
-                                        button.setVisibility(View.VISIBLE);
-                                        findViewById(R.id.Loading).setVisibility(View.GONE);
-                                        findViewById(R.id.LastPage).setVisibility(View.GONE);
-                                        findViewById(R.id.Reverse).setVisibility(View.VISIBLE);
-                                        findViewById(R.id.Refresh).setVisibility(View.VISIBLE);
-                                        loadObjects(null);
-                                    }
-                                });
-                                try {
-                                    client.SendPacket("Page", scouter + ",0" + "," + match + "," + team);
-                                } catch (Exception ie) {}
+                                    //Showing required parts
+                                    Button button = (Button) findViewById(R.id.NextPage);
+                                    button.setText("Next Page -->");
+                                    button.setVisibility(View.VISIBLE);
+                                    findViewById(R.id.Loading).setVisibility(View.GONE);
+                                    findViewById(R.id.LastPage).setVisibility(View.GONE);
+                                    findViewById(R.id.Reverse).setVisibility(View.VISIBLE);
+                                    findViewById(R.id.Refresh).setVisibility(View.VISIBLE);
+                                    loadObjects(null);
+                                }
+                            });
+
+                            try {
+                                client.SendPacket("Page", scouter + ",0" + "," + match + "," + team);
+                            } catch(Exception ie) {
+                            }
                             }
                         }
                         if(!dataLog.isEmpty()) {
                             try {
                                 for(ButtonPress p : dataLog) client.SendPacket(p.Name, scouter + "," + p.Data);
-                            } catch (Exception ie) {}
+                            } catch(Exception ie) {
+                            }
                             dataLog.clear();
                         }
-
                     }
                 }
             });
@@ -209,7 +214,8 @@ public class MainInput extends Activity {
             });
             try {
                 client.Connect();
-            } catch (Exception e) {}
+            } catch(Exception e) {
+            }
         }
     }
 
@@ -229,10 +235,10 @@ public class MainInput extends Activity {
         int[] pageId = scoutForm.pageId;
         //Displaying correct page
         findViewById(pageId[page]).setVisibility(View.GONE);
-        if (v.getId() == R.id.NextPage) {
+        if(v.getId() == R.id.NextPage) {
             page++;
             if(objectName[pageId[page]].contains("?") && scouter != 2 && scouter != 5) page++;
-        } else if (v.getId() == R.id.LastPage) {
+        } else if(v.getId() == R.id.LastPage) {
             page--;
             if(objectName[pageId[page]].contains("?") && scouter != 2 && scouter != 5) page--;
         }
@@ -241,7 +247,7 @@ public class MainInput extends Activity {
         //Displaying correct buttons
         findViewById(R.id.LastPage).setVisibility(View.VISIBLE);
         findViewById(R.id.NextPage).setVisibility(View.VISIBLE);
-        if (page == 0 || page == pageId.length - 1) v.setVisibility(View.GONE);
+        if(page == 0 || page == pageId.length - 1) v.setVisibility(View.GONE);
         Button button = (Button) findViewById(R.id.NextPage);
         if(page == pageId.length - 2) button.setText("Next Match -->");
         else button.setText("Next Page -->");
@@ -255,8 +261,7 @@ public class MainInput extends Activity {
             findViewById(R.id.Reverse).setVisibility(View.GONE);
             mainLayout.setVisibility(View.GONE);
             loading = true;
-        }
-        else {
+        } else {
             textView.setText(objectName[pageId[page]] + " Match: " + match);
             mainLayout.setVisibility(View.VISIBLE);
             findViewById(R.id.Loading).setVisibility(View.GONE);
@@ -268,7 +273,8 @@ public class MainInput extends Activity {
         //Sending page update
         try {
             client.SendPacket("Page", scouter + "," + page + "," + match + "," + team);
-        } catch (Exception ie) {}
+        } catch(Exception ie) {
+        }
     }
 
     public void reverse(View v) {
@@ -280,8 +286,8 @@ public class MainInput extends Activity {
 
     public void onBackPressed() {
         try {
-            if (connected) client.Disconnect();
-        } catch (Exception e) {
+            if(connected) client.Disconnect();
+        } catch(Exception e) {
         }
     }
 
@@ -289,8 +295,8 @@ public class MainInput extends Activity {
         objectNum = 10;
         scoutForm.pageId = new int[2];
 
-        String[] name = {"Main page","Column 1","2","Switch 1","Button 1","Switch 2","Button 2","Column 2","Choice 1","Choice 2","Second page","slider bar","5"};
-        int[] type = {1,2,6,3,4,3,4,2,5,5,1,2,8};
+        String[] name = {"Main page", "Column 1", "2", "Switch 1", "Button 1", "Switch 2", "Button 2", "Column 2", "Choice 1", "Choice 2", "Second page", "slider bar", "5"};
+        int[] type = {1, 2, 6, 3, 4, 3, 4, 2, 5, 5, 1, 2, 8};
 
         objectName = name;
         objectType = type;

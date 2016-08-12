@@ -18,6 +18,7 @@ namespace Scouting_Server
         Data.DataFile<Models.Event> RobotEvents;
         MatchInfo current;
         Net.NetworkServer Serv;
+        string[] scoutNames = new string[6];
         List<String> ObjectName = new List<String>();
         List<String> PageNames = new List<String>();
         List<int> ObjectType = new List<int>();
@@ -61,14 +62,6 @@ namespace Scouting_Server
                 loadObjects(actions);
             }
             PageNames.Add("Waiting for server...");
-            string defences = "";
-            for (int i = 0; i < RedDef1.Items.Count; i++) defences += RedDef1.Items[i] + "&";
-            for (int i = 0; i < RedDef2.Items.Count; i++) defences += RedDef2.Items[i] + "&";
-            for (int i = 0; i < RedDef3.Items.Count; i++) defences += RedDef3.Items[i] + "&";
-            for (int i = 0; i < RedDef4.Items.Count; i++) defences += RedDef4.Items[i] + "&";
-            for (int i = 0; i < RedDef5.Items.Count; i++) defences += RedDef5.Items[i] + "&";
-            ObjectName.Add(defences);
-            ObjectType.Add(10);
 
             ScoutersDictionary = new Dictionary<TcpClient, int>();
             Scouters = new TcpClient[6];
@@ -79,6 +72,13 @@ namespace Scouting_Server
             ScouterControls[3] = scoutControl4;
             ScouterControls[4] = scoutControl5;
             ScouterControls[5] = scoutControl6;
+
+            scoutNames[0] = "Red 1";
+            scoutNames[1] = "Red 2";
+            scoutNames[2] = "Red 3";
+            scoutNames[3] = "Blue 1";
+            scoutNames[4] = "Blue 2";
+            scoutNames[5] = "Blue 3";
 
             Serv = new Net.NetworkServer(PORT);
             Serv.Connected += Serv_Connected1;
@@ -124,41 +124,6 @@ namespace Scouting_Server
             return data;
         }
 
-        //don't call this. this is mine
-        //seriously don't
-        private void SDD()
-        {
-            string data = "";
-
-            data += RedDef1.Text + ",";
-            data += RedDef2.Text + ",";
-            data += RedDef3.Text + ",";
-            data += RedDef4.Text + ",";
-            data += RedDef5.Text + "&";
-
-            data += BlueDef1.Text + ",";
-            data += BlueDef2.Text + ",";
-            data += BlueDef3.Text + ",";
-            data += BlueDef4.Text + ",";
-            data += BlueDef5.Text;
-
-            Serv.SendPacket("DefenseInfo", data);
-        }
-
-        //for the 2016 game
-        private void SendDefenseData()
-        {
-            if (InvokeRequired)
-            {
-                BeginInvoke(new MethodInvoker(() =>
-                {
-                    SDD();
-                }));
-            }
-            else
-                SDD();
-        }
-
         private void SendData(TcpClient to)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory + "/data.csv";
@@ -191,6 +156,7 @@ namespace Scouting_Server
                 }
             }
             Serv.SendPacket("MatchEnd", path, to);
+            Message("Sent Data");
         }
 
         private void Serv_DataAvailable1(object sender)
@@ -270,6 +236,7 @@ namespace Scouting_Server
                     }
 
                     Serv.SendPacket("Match", info.ToString(), packet.Sender);
+                    Message(scoutNames[scoutNumber] + " Has Connected");
                 }
                 else if (packet.Name == "GetData")
                 {
@@ -289,6 +256,7 @@ namespace Scouting_Server
                 ScouterControls[scoutnum].SetTeamNumber(0);
                 ScoutersDictionary.Remove(client);
                 Scouters[scoutnum] = null;
+                Error(scoutNames[scoutnum] + " Has Disconnected");
             }
         }
 
@@ -655,29 +623,6 @@ namespace Scouting_Server
             blue1Team.Value = 0;
             blue2Team.Value = 0;
             blue3Team.Value = 0;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            SendDefenseData();
-
-            if (current.Match != null)
-            {
-                current.Match.RedDef1 = RedDef1.Text;
-                current.Match.RedDef2 = RedDef2.Text;
-                current.Match.RedDef3 = RedDef3.Text;
-                current.Match.RedDef4 = RedDef4.Text;
-                current.Match.RedDef5 = RedDef5.Text;
-
-                current.Match.BlueDef1 = BlueDef1.Text;
-                current.Match.BlueDef2 = BlueDef2.Text;
-                current.Match.BlueDef3 = BlueDef3.Text;
-                current.Match.BlueDef4 = BlueDef4.Text;
-                current.Match.BlueDef5 = BlueDef5.Text;
-
-                Matches.Update(current.Match);
-                Matches.Save();
-            }
         }
     }
 }
