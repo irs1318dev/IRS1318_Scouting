@@ -135,8 +135,7 @@ public class MainInput extends Activity {
                                     if(loading) findViewById(R.id.Loading).setVisibility(View.VISIBLE);
                                 }
                             });
-                        }
-                        else if(networkPacket.Name.equals("Game") && loading) {
+                        } else if(networkPacket.Name.equals("Game") && loading) {
                             //Reading first Packets of data
                             objectName[currentCount] = networkPacket.Data.split(",")[0];
                             if(objectName[currentCount].contains("#"))
@@ -145,53 +144,58 @@ public class MainInput extends Activity {
                             objectType[currentCount] = Integer.valueOf(text);
                             if(objectType[currentCount] == 1) i++;
                             currentCount++;
-                        }
-                        else if(networkPacket.Name.equals("GameEnd") && loading) {
+                        } else if(networkPacket.Name.equals("GameEnd") && loading) {
                             scoutForm.pageId = new int[i + 1];
                             if(match == -1) loading = true;
-                        }
-                        else if(networkPacket.Name.equals("Match")) {
-                            if (!networkPacket.Data.contains(lastMatch)) {
-                            if(match != -1) page = 0;
-                            match = Integer.valueOf(networkPacket.Data.split(",")[0]);
-                            team = Integer.valueOf(networkPacket.Data.split(",")[1]);
-                            teamName = networkPacket.Data.split(",")[2];
-                            lastMatch = networkPacket.Data;
-                            loading = false;
-                            scoutForm.dataLog.clear();
+                        } else if(networkPacket.Name.equals("Match")) {
+                            System.out.println(networkPacket);
+                            if(!networkPacket.Data.contains(lastMatch)) {
+                                if(match != -1) page = 0;
+                                match = Integer.valueOf(networkPacket.Data.split(",")[0]);
+                                team = Integer.valueOf(networkPacket.Data.split(",")[1]);
+                                teamName = networkPacket.Data.split(",")[2];
+                                lastMatch = networkPacket.Data;
+                                loading = false;
+                                scoutForm.dataLog.clear();
 
-                            //Clearing screen
+                                //Clearing screen
+                                Handler mainHandle = new Handler(getMainLooper());
+                                mainHandle.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        TextView textView = (TextView) findViewById(R.id.teamName);
+                                        textView.setText(team + " " + teamName + " " + scoutName);
+
+                                        //Showing required parts
+                                        Button button = (Button) findViewById(R.id.NextPage);
+                                        button.setText("Next Page -->");
+                                        button.setVisibility(View.VISIBLE);
+                                        findViewById(R.id.Loading).setVisibility(View.GONE);
+                                        findViewById(R.id.LastPage).setVisibility(View.GONE);
+                                        findViewById(R.id.Reverse).setVisibility(View.VISIBLE);
+                                        findViewById(R.id.Refresh).setVisibility(View.VISIBLE);
+                                        loadObjects(null);
+                                    }
+                                });
+
+                                try {
+                                    client.SendPacket("Page", scouter + ",0" + "," + match + "," + team);
+                                } catch(Exception ie) {
+                                }
+                            }
+                        } else if(networkPacket.Name.equals("MatchData")) {
+                            System.out.println(networkPacket);
+                            objectValue = new int[objectNum];
+                            for(String s : networkPacket.Data.split("&")[1].split(",")) {
+                                objectValue[Integer.valueOf(s.split(":")[0])] = Integer.valueOf(s.split(":")[1]);
+                            }
                             Handler mainHandle = new Handler(getMainLooper());
                             mainHandle.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    TextView textView = (TextView) findViewById(R.id.teamName);
-                                    textView.setText(team + " " + teamName + " " + scoutName);
-
-                                    //Showing required parts
-                                    Button button = (Button) findViewById(R.id.NextPage);
-                                    button.setText("Next Page -->");
-                                    button.setVisibility(View.VISIBLE);
-                                    findViewById(R.id.Loading).setVisibility(View.GONE);
-                                    findViewById(R.id.LastPage).setVisibility(View.GONE);
-                                    findViewById(R.id.Reverse).setVisibility(View.VISIBLE);
-                                    findViewById(R.id.Refresh).setVisibility(View.VISIBLE);
                                     loadObjects(null);
                                 }
                             });
-
-                            try {
-                                client.SendPacket("Page", scouter + ",0" + "," + match + "," + team);
-                            } catch(Exception ie) {
-                            }
-                            }
-                        }
-                        else if(networkPacket.Name.equals("MatchData")) {
-                            System.out.println(networkPacket);
-                            for(String s : networkPacket.Data.split("&")[1].split(",")) {
-                                objectValue[Integer.valueOf(s.split(":")[0])] = Integer.valueOf(s.split(":")[1]);
-                            }
-
                         }
                     }
                 }
