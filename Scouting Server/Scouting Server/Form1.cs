@@ -131,22 +131,7 @@ namespace Scouting_Server
             {
                 foreach (var match in Matches.GetAll())
                 {
-                    string data = "";
-
-                    data = match.MatchNumber + "&";
-                    data += match.RedDef1 + ",";
-                    data += match.RedDef2 + ",";
-                    data += match.RedDef3 + ",";
-                    data += match.RedDef4 + ",";
-                    data += match.RedDef5 + "&";
-
-                    data += match.BlueDef1 + ",";
-                    data += match.BlueDef2 + ",";
-                    data += match.BlueDef3 + ",";
-                    data += match.BlueDef4 + ",";
-                    data += match.BlueDef5;
-
-                    writer.WriteLine(data);
+                    writer.WriteLine(match.MatchNumber);
                     writer.WriteLine(GetDataPacket(match.R1TeamKey, match));
                     writer.WriteLine(GetDataPacket(match.R2TeamKey, match));
                     writer.WriteLine(GetDataPacket(match.R3TeamKey, match));
@@ -237,6 +222,8 @@ namespace Scouting_Server
 
                     Serv.SendPacket("Match", info.ToString(), packet.Sender);
                     Message(scoutNames[scoutNumber] + " Has Connected");
+
+                    if(matchNumber.Value > 0) Serv.SendPacket("MatchData", GetDataPacket(current.Teams[scoutNumber].id, Matches.Get(current.Match.id)), packet.Sender);
                 }
                 else if (packet.Name == "GetData")
                 {
@@ -318,7 +305,7 @@ namespace Scouting_Server
         {
             ErrorTimer.Stop();
             errorMessage.ForeColor = Color.Red;
-            errorMessage.Text = DateTime.Now.ToLongTimeString() + ": " + message;
+            Invoke(new Action(() => { errorMessage.Text = DateTime.Now.ToLongTimeString() + ": " + message; }));
             ErrorTimer.Start();
         }
 
@@ -326,7 +313,7 @@ namespace Scouting_Server
         {
             ErrorTimer.Stop();
             errorMessage.ForeColor = Color.Goldenrod;
-            errorMessage.Text = DateTime.Now.ToLongTimeString() + ": " + message;
+            Invoke(new Action(() => { errorMessage.Text = DateTime.Now.ToLongTimeString() + ": " + message; }));
             ErrorTimer.Start();
         }
 
@@ -334,7 +321,7 @@ namespace Scouting_Server
         {
             ErrorTimer.Stop();
             errorMessage.ForeColor = Color.Black;
-            errorMessage.Text = DateTime.Now.ToLongTimeString() + ": " + message;
+            Invoke(new Action(() => { errorMessage.Text = DateTime.Now.ToLongTimeString() + ": " + message; }));
             ErrorTimer.Start();
         }
 
@@ -576,6 +563,7 @@ namespace Scouting_Server
                     inf.MatchNumber = current.Match.MatchNumber;
                     inf.TeamName = current.Teams[i].TeamName;
                     inf.TeamNumber = current.Teams[i].TeamNumber;
+                    Serv.SendPacket("MatchData", GetDataPacket(current.Teams[i].id, Matches.Get(current.Match.id)), Scouters[i]);
                     Serv.SendPacket("Match", inf.ToString(), Scouters[i]);
                 }
             }

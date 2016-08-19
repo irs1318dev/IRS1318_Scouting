@@ -115,7 +115,6 @@ public class MainInput extends Activity {
             client.OnDataAvailable.add(new NetworkEvent() {
                 @Override
                 public void Call(TCPClient sender) {
-                    List<ButtonPress> dataLog = scoutForm.dataLog;
                     NetworkPacket[] networkPackets = client.GetPackets();
                     for(NetworkPacket networkPacket : networkPackets) {
                         if(networkPacket.Name.equals("GameStart") && loading) {
@@ -137,7 +136,7 @@ public class MainInput extends Activity {
                                 }
                             });
                         }
-                        if(networkPacket.Name.equals("Game") && loading) {
+                        else if(networkPacket.Name.equals("Game") && loading) {
                             //Reading first Packets of data
                             objectName[currentCount] = networkPacket.Data.split(",")[0];
                             if(objectName[currentCount].contains("#"))
@@ -147,11 +146,11 @@ public class MainInput extends Activity {
                             if(objectType[currentCount] == 1) i++;
                             currentCount++;
                         }
-                        if(networkPacket.Name.equals("GameEnd") && loading) {
+                        else if(networkPacket.Name.equals("GameEnd") && loading) {
                             scoutForm.pageId = new int[i + 1];
                             if(match == -1) loading = true;
                         }
-                        if(networkPacket.Name.equals("Match")) {
+                        else if(networkPacket.Name.equals("Match")) {
                             if (!networkPacket.Data.contains(lastMatch)) {
                             if(match != -1) page = 0;
                             match = Integer.valueOf(networkPacket.Data.split(",")[0]);
@@ -159,7 +158,7 @@ public class MainInput extends Activity {
                             teamName = networkPacket.Data.split(",")[2];
                             lastMatch = networkPacket.Data;
                             loading = false;
-                            dataLog.clear();
+                            scoutForm.dataLog.clear();
 
                             //Clearing screen
                             Handler mainHandle = new Handler(getMainLooper());
@@ -168,7 +167,6 @@ public class MainInput extends Activity {
                                 public void run() {
                                     TextView textView = (TextView) findViewById(R.id.teamName);
                                     textView.setText(team + " " + teamName + " " + scoutName);
-                                    for(i = 0; i < objectNum; i++) objectValue[i] = 0;
 
                                     //Showing required parts
                                     Button button = (Button) findViewById(R.id.NextPage);
@@ -188,12 +186,12 @@ public class MainInput extends Activity {
                             }
                             }
                         }
-                        if(!dataLog.isEmpty()) {
-                            try {
-                                for(ButtonPress p : dataLog) client.SendPacket(p.Name, scouter + "," + p.Data);
-                            } catch(Exception ie) {
+                        else if(networkPacket.Name.equals("MatchData")) {
+                            System.out.println(networkPacket);
+                            for(String s : networkPacket.Data.split("&")[1].split(",")) {
+                                objectValue[Integer.valueOf(s.split(":")[0])] = Integer.valueOf(s.split(":")[1]);
                             }
-                            dataLog.clear();
+
                         }
                     }
                 }
@@ -216,6 +214,17 @@ public class MainInput extends Activity {
                 client.Connect();
             } catch(Exception e) {
             }
+        }
+    }
+
+    public void send() {
+        List<ButtonPress> dataLog = scoutForm.dataLog;
+        if(dataLog.size() > 0) {
+            try {
+                for(ButtonPress p : dataLog) client.SendPacket(p.Name, scouter + "," + p.Data);
+            } catch(Exception ie) {
+            }
+            scoutForm.dataLog.clear();
         }
     }
 

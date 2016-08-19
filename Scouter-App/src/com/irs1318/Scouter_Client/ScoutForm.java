@@ -264,10 +264,14 @@ public class ScoutForm {
                     objectValue[i] = 1;
                     break;
             }
+
             if(reverse) text = "Undo";
             else text = "Event";
+
             //Notifying server of change
             if(changed) dataLog.add(new ButtonPress(text, i));
+            mainInput.send();
+
             Switch aSwitch = (Switch) mainInput.findViewById(R.id.Reverse);
             reverse = aSwitch.isChecked();
         }
