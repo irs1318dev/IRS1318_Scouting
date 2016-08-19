@@ -259,7 +259,7 @@
             // MatchCount
             // 
             this.MatchCount.AutoSize = true;
-            this.MatchCount.Location = new System.Drawing.Point(687, 17);
+            this.MatchCount.Location = new System.Drawing.Point(642, 103);
             this.MatchCount.Name = "MatchCount";
             this.MatchCount.Size = new System.Drawing.Size(41, 13);
             this.MatchCount.TabIndex = 40;
@@ -323,7 +323,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(778, 352);
+            this.ClientSize = new System.Drawing.Size(778, 292);
             this.Controls.Add(this.MatchCount);
             this.Controls.Add(this.SaveMatchButton);
             this.Controls.Add(this.errorMessage);

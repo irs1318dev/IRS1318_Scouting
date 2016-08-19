@@ -35,6 +35,7 @@ public class MainInput extends Activity {
     String[] objectName;
     boolean connected = false;
     boolean loading = true;
+    boolean newMatch = true;
     TCPClient client;
     ScoutForm scoutForm;
     LinearLayout mainLayout;
@@ -148,7 +149,6 @@ public class MainInput extends Activity {
                             scoutForm.pageId = new int[i + 1];
                             if(match == -1) loading = true;
                         } else if(networkPacket.Name.equals("Match")) {
-                            System.out.println(networkPacket);
                             if(!networkPacket.Data.contains(lastMatch)) {
                                 if(match != -1) page = 0;
                                 match = Integer.valueOf(networkPacket.Data.split(",")[0]);
@@ -156,6 +156,7 @@ public class MainInput extends Activity {
                                 teamName = networkPacket.Data.split(",")[2];
                                 lastMatch = networkPacket.Data;
                                 loading = false;
+                                newMatch = true;
                                 scoutForm.dataLog.clear();
 
                                 //Clearing screen
@@ -184,19 +185,22 @@ public class MainInput extends Activity {
                                 }
                             }
                         } else if(networkPacket.Name.equals("MatchData")) {
-                            System.out.println(networkPacket);
-                            objectValue = new int[objectNum];
-                            for(String s : networkPacket.Data.split("&")[1].split(",")) {
-                                objectValue[Integer.valueOf(s.split(":")[0])] = Integer.valueOf(s.split(":")[1]);
-                            }
-                            Handler mainHandle = new Handler(getMainLooper());
-                            mainHandle.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    loadObjects(null);
+                            if(newMatch) {
+                                objectValue = new int[objectNum];
+                                newMatch = false;
+                                for(String s : networkPacket.Data.split("&")[1].split(",")) {
+                                    objectValue[Integer.valueOf(s.split(":")[0])] = Integer.valueOf(s.split(":")[1]);
                                 }
-                            });
+                                Handler mainHandle = new Handler(getMainLooper());
+                                mainHandle.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        loadObjects(null);
+                                    }
+                                });
+                            }
                         }
+                        send();
                     }
                 }
             });

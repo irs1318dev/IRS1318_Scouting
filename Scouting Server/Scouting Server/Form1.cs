@@ -537,6 +537,14 @@ namespace Scouting_Server
             }
             #endregion
 
+            for (int i = 0; i < 6; ++i)
+            {
+                if (Scouters[i] != null)
+                {
+                    Serv.SendPacket("Ping", "hi", Scouters[i]);
+                }
+            }
+
             m.MatchNumber = (int)matchNumber.Value;
 
             if (update)
@@ -563,8 +571,8 @@ namespace Scouting_Server
                     inf.MatchNumber = current.Match.MatchNumber;
                     inf.TeamName = current.Teams[i].TeamName;
                     inf.TeamNumber = current.Teams[i].TeamNumber;
-                    Serv.SendPacket("MatchData", GetDataPacket(current.Teams[i].id, Matches.Get(current.Match.id)), Scouters[i]);
                     Serv.SendPacket("Match", inf.ToString(), Scouters[i]);
+                    Serv.SendPacket("MatchData", GetDataPacket(current.Teams[i].id, Matches.Get(current.Match.id)), Scouters[i]);
                 }
             }
 
