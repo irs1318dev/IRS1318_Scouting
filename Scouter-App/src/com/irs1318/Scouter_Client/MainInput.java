@@ -47,6 +47,7 @@ public class MainInput extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         if(getActionBar() != null) getActionBar().hide();
+
         scoutForm = new ScoutForm();
         scoutForm.context = this;
         scoutForm.mainInput = this;
@@ -89,6 +90,7 @@ public class MainInput extends Activity {
             EditText editText = (EditText) findViewById(R.id.editText);
             text = String.valueOf(editText.getText());
             client = new TCPClient(11111, text);
+
             client.OnConnected.add(new NetworkEvent() {
                 @Override
                 public void Call(TCPClient sender) {
@@ -105,6 +107,7 @@ public class MainInput extends Activity {
                     mainHandle.post(new Runnable() {
                         @Override
                         public void run() {
+                            //Show connected status
                             RadioButton radioButton = (RadioButton) findViewById(R.id.Connect);
                             radioButton.setChecked(true);
                         }
@@ -126,6 +129,7 @@ public class MainInput extends Activity {
                             objectType = new int[objectNum];
                             if(match == -1) objectValue = new int[objectNum];
                             i = 0;
+
                             Handler mainHandle = new Handler(getMainLooper());
                             mainHandle.post(new Runnable() {
                                 @Override
@@ -139,17 +143,16 @@ public class MainInput extends Activity {
                         } else if(networkPacket.Name.equals("Game") && loading) {
                             //Reading first Packets of data
                             objectName[currentCount] = networkPacket.Data.split(",")[0];
-                            if(objectName[currentCount].contains("#"))
-                                objectName[currentCount] = objectName[currentCount].split("#")[0];
-                            text = networkPacket.Data.split(",")[1];
-                            objectType[currentCount] = Integer.valueOf(text);
+                            objectType[currentCount] = Integer.valueOf(networkPacket.Data.split(",")[1]);
                             if(objectType[currentCount] == 1) i++;
                             currentCount++;
                         } else if(networkPacket.Name.equals("GameEnd") && loading) {
+                            //finalize interface
                             scoutForm.pageId = new int[i + 1];
                             if(match == -1) loading = true;
                         } else if(networkPacket.Name.equals("Match")) {
                             if(!networkPacket.Data.contains(lastMatch)) {
+                                //load up match details
                                 if(match != -1) page = 0;
                                 match = Integer.valueOf(networkPacket.Data.split(",")[0]);
                                 team = Integer.valueOf(networkPacket.Data.split(",")[1]);
@@ -186,11 +189,12 @@ public class MainInput extends Activity {
                             }
                         } else if(networkPacket.Name.equals("MatchData")) {
                             if(newMatch) {
+                                //reload old data
                                 objectValue = new int[objectNum];
                                 newMatch = false;
-                                for(String s : networkPacket.Data.split("&")[1].split(",")) {
-                                    objectValue[Integer.valueOf(s.split(":")[0])] = Integer.valueOf(s.split(":")[1]);
-                                }
+                                for(String s : networkPacket.Data.split("&")[1].split(",")) objectValue[Integer.valueOf(s.split(":")[0])] = Integer.valueOf(s.split(":")[1]);
+
+                                //Refresh screen
                                 Handler mainHandle = new Handler(getMainLooper());
                                 mainHandle.post(new Runnable() {
                                     @Override
@@ -208,6 +212,7 @@ public class MainInput extends Activity {
                 @Override
                 public void Call(TCPClient sender) {
                     connected = false;
+                    //Set connect button to false
                     Handler mainHandle = new Handler(getMainLooper());
                     mainHandle.post(new Runnable() {
                         @Override
@@ -218,6 +223,8 @@ public class MainInput extends Activity {
                     });
                 }
             });
+
+            //Actually connect
             try {
                 client.Connect();
             } catch(Exception e) {
@@ -226,6 +233,7 @@ public class MainInput extends Activity {
     }
 
     public void send() {
+        //Send button presses to server
         List<ButtonPress> dataLog = scoutForm.dataLog;
         if(dataLog.size() > 0) {
             try {
@@ -237,6 +245,7 @@ public class MainInput extends Activity {
     }
 
     public void loadObjects(View v) {
+        //Start showing form
         scoutForm.objectName = objectName;
         scoutForm.objectType = objectType;
         scoutForm.objectValue = objectValue;
@@ -250,8 +259,11 @@ public class MainInput extends Activity {
     //Changing page
     public void pageSwap(View v) {
         int[] pageId = scoutForm.pageId;
-        //Displaying correct page
+
+        //Hide current page
         findViewById(pageId[page]).setVisibility(View.GONE);
+
+        //Choose next page
         if(v.getId() == R.id.NextPage) {
             page++;
             if(objectName[pageId[page]].contains("?") && scouter != 2 && scouter != 5) page++;
@@ -259,16 +271,14 @@ public class MainInput extends Activity {
             page--;
             if(objectName[pageId[page]].contains("?") && scouter != 2 && scouter != 5) page--;
         }
+
+        //Show new page
         findViewById(pageId[page]).setVisibility(View.VISIBLE);
 
         //Displaying correct buttons
         findViewById(R.id.LastPage).setVisibility(View.VISIBLE);
         findViewById(R.id.NextPage).setVisibility(View.VISIBLE);
         if(page == 0 || page == pageId.length - 1) v.setVisibility(View.GONE);
-        Button button = (Button) findViewById(R.id.NextPage);
-        if(page == pageId.length - 2) button.setText("Next Match -->");
-        else button.setText("Next Page -->");
-
 
         //Changing title
         TextView textView = (TextView) findViewById(R.id.PageText);
@@ -295,6 +305,7 @@ public class MainInput extends Activity {
     }
 
     public void reverse(View v) {
+        //Toggle reverse mode
         Switch aSwitch = (Switch) findViewById(R.id.Reverse);
         if(!scoutForm.reverse) scoutForm.reverse = true;
         else scoutForm.reverse = false;
@@ -302,6 +313,7 @@ public class MainInput extends Activity {
     }
 
     public void onBackPressed() {
+        //Disconnect from server
         try {
             if(connected) client.Disconnect();
         } catch(Exception e) {

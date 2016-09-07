@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class ScoutForm {
         LinearLayout linearLayout = (LinearLayout) mainInput.findViewById(R.id.mainLayout);
         linearLayout.removeView(mainLayout);
 
-        //Adding essential variables
+        //Creating blank layout
         mainLayout = new LinearLayout(context);
         mainInput.mainLayout = mainLayout;
         mainLayout.setGravity(1);
@@ -49,7 +48,7 @@ public class ScoutForm {
         int newPage = 0;
         text = objectName[0];
 
-        //Creating actual form
+        //Creating each object
         for (i = 0; i < objectNum; i++) {
             text = objectName[i];
             switch (objectType[i]) {
@@ -66,7 +65,7 @@ public class ScoutForm {
                     newPage++;
                     break;
                 case 2:
-                    //Category
+                    //Column
                     //First Divider
                     TextView divider = new TextView(context);
                     divider.setWidth(5);
@@ -78,10 +77,17 @@ public class ScoutForm {
                     space.setMinimumWidth(5);
                     linearLayout.addView(space);
 
+                    //Actual Layout
                     sideLayout = new LinearLayout(context);
                     sideLayout.setGravity(1);
                     sideLayout.setOrientation(LinearLayout.VERTICAL);
                     linearLayout.addView(sideLayout);
+
+                    //Labelling
+                    TextView textView = new TextView(context);
+                    makeView(textView, sideLayout);
+                    textView.setTextSize(25);
+                    textView.setTextColor(Color.rgb(249, 178, 52));
 
                     //Second divider
                     space = new Space(context);
@@ -94,18 +100,11 @@ public class ScoutForm {
                     divider.setHeight(650);
                     linearLayout.addView(divider);
 
-                    //Labelling
-                    TextView textView = new TextView(context);
-                    makeView(textView, sideLayout);
-                    textView.setTextSize(25);
-                    textView.setTextColor(Color.rgb(249, 178, 52));
-
+                    //Setting new line
                     tableLayout = new TableLayout(context);
                     sideLayout.addView(tableLayout);
                     makeLine();
-
                     break;
-
                 case 3:
                     //Switch
                     LinearLayout switchLayout = new LinearLayout(context);
@@ -114,16 +113,17 @@ public class ScoutForm {
                     switchLayout.setOnClickListener(clickListener);
                     lineLayout.addView(switchLayout);
 
+                    //Name
                     textView = new TextView(context);
                     makeView(textView, switchLayout);
                     column--;
                     text = "";
 
+                    //Switch
                     Switch aSwitch = new Switch(context);
                     aSwitch.setOnClickListener(clickListener);
                     aSwitch.setId(i);
                     if (objectValue[i] == 1) aSwitch.setChecked(true);
-                    aSwitch.setGravity(1);
                     makeView(aSwitch, switchLayout);
                     break;
                 case 4:
@@ -152,7 +152,7 @@ public class ScoutForm {
                     //Button
                     RadioButton radioButton = new RadioButton(context);
                     radioButton.setId(i);
-                    if (objectValue[i] == 1) radioButton.setChecked(true);
+                    if(objectValue[i] == 1) radioButton.setChecked(true);
                     radioButton.setOnClickListener(clickListener);
                     makeView(radioButton, radioGroup);
                     break;
@@ -247,15 +247,19 @@ public class ScoutForm {
                 case 5:
                     //Choice
                     int j = i;
+                    //Find last connected choice
                     while(objectType[j] == 5) j++;
                     j--;
                     while(objectType[j] == 5) {
                         RadioButton radioButton = (RadioButton) mainInput.findViewById(j);
                         objectValue[j] = 0;
+
                         if(i == j && !reverse) {
+                            //Set checked button
                             radioButton.setChecked(true);
                             changed = true;
                         } else if(radioButton.isChecked()) {
+                            //Uncheck other buttons
                             radioButton.setChecked(false);
                             dataLog.add(new ButtonPress("Undo", j));
                         }
