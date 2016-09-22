@@ -1,43 +1,36 @@
 package com.irs1318.Scouter_Client;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.*;
 
 import com.irs1318.Scouter_Client.Net.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
-
-import android.widget.NumberPicker.*;
 
 public class MainInput extends Activity {
     //Basic variables
-    int objectNum;
-    int currentCount = 0;
-    int i;
-    int page = 0;
-    int scouter = -1;
-    int match = -1;
-    int team = 0;
-    int[] objectType;
-    int[] objectValue;
-    String text;
-    String lastMatch = "0,0,";
-    String scoutName;
-    String teamName = "";
-    String[] objectName;
-    boolean connected = false;
-    boolean loading = true;
-    boolean newMatch = true;
-    TCPClient client;
-    ScoutForm scoutForm;
+    private int objectNum;
+    private int currentCount = 0;
+    private int i;
+    private int page = 0;
+    private int scouter = -1;
+    private int match = -1;
+    private int team = 0;
+    private int[] objectType;
+    private int[] objectValue;
+    private String lastMatch = "0,0,";
+    private String scoutName;
+    private String teamName = "";
+    private String[] objectName;
+    private boolean connected = false;
+    private boolean loading = true;
+    private boolean newMatch = true;
+    private TCPClient client;
+    private ScoutForm scoutForm;
     LinearLayout mainLayout;
 
 
@@ -88,7 +81,7 @@ public class MainInput extends Activity {
 
             //Start connection
             EditText editText = (EditText) findViewById(R.id.editText);
-            text = String.valueOf(editText.getText());
+            String text = String.valueOf(editText.getText());
             client = new TCPClient(11111, text);
 
             client.OnConnected.add(new NetworkEvent() {
@@ -98,7 +91,7 @@ public class MainInput extends Activity {
                     try {
                         client.SendPacket("Hello", String.valueOf(scouter));
                         client.SendPacket("Page", scouter + "," + page + "," + match + "," + team);
-                    } catch(Exception ie) {
+                    } catch(Exception ie) {//Check
                     }
                     connected = true;
 
@@ -168,11 +161,13 @@ public class MainInput extends Activity {
                                     @Override
                                     public void run() {
                                         TextView textView = (TextView) findViewById(R.id.teamName);
-                                        textView.setText(team + " " + teamName + " " + scoutName);
+                                        String t = team + " " + teamName + " " + scoutName;
+                                        textView.setText(t);
 
                                         //Showing required parts
                                         Button button = (Button) findViewById(R.id.NextPage);
-                                        button.setText("Next Page -->");
+                                        t = "Next Page -->";
+                                        button.setText(t);
                                         button.setVisibility(View.VISIBLE);
                                         findViewById(R.id.Loading).setVisibility(View.GONE);
                                         findViewById(R.id.LastPage).setVisibility(View.GONE);
@@ -184,7 +179,7 @@ public class MainInput extends Activity {
 
                                 try {
                                     client.SendPacket("Page", scouter + ",0" + "," + match + "," + team);
-                                } catch(Exception ie) {
+                                } catch(Exception ie) {//Check
                                 }
                             }
                         } else if(networkPacket.Name.equals("MatchData")) {
@@ -227,18 +222,18 @@ public class MainInput extends Activity {
             //Actually connect
             try {
                 client.Connect();
-            } catch(Exception e) {
+            } catch(Exception e) {//Check
             }
         }
     }
 
-    public void send() {
+    private void send() {
         //Send button presses to server
         List<ButtonPress> dataLog = scoutForm.dataLog;
         if(dataLog.size() > 0) {
             try {
                 for(ButtonPress p : dataLog) client.SendPacket(p.Name, scouter + "," + p.Data);
-            } catch(Exception ie) {
+            } catch(Exception ie) {//Check
             }
             scoutForm.dataLog.clear();
         }
@@ -253,7 +248,8 @@ public class MainInput extends Activity {
 
         //Changing Title
         TextView textView = (TextView) findViewById(R.id.PageText);
-        textView.setText(objectName[scoutForm.pageId[page]] + " Match: " + match);
+        String t = objectName[scoutForm.pageId[page]] + " Match: " + match;
+        textView.setText(t);
     }
 
     //Changing page
@@ -283,13 +279,15 @@ public class MainInput extends Activity {
         //Changing title
         TextView textView = (TextView) findViewById(R.id.PageText);
         if(page == pageId.length - 1) {
-            textView.setText("Match: " + match);
+            String t = "Match: " + match;
+            textView.setText(t);
             findViewById(R.id.Loading).setVisibility(View.VISIBLE);
             findViewById(R.id.Reverse).setVisibility(View.GONE);
             mainLayout.setVisibility(View.GONE);
             loading = true;
         } else {
-            textView.setText(objectName[pageId[page]] + " Match: " + match);
+            String t = objectName[pageId[page]] + " Match: " + match;
+            textView.setText(t);
             mainLayout.setVisibility(View.VISIBLE);
             findViewById(R.id.Loading).setVisibility(View.GONE);
             findViewById(R.id.Reverse).setVisibility(View.VISIBLE);
@@ -300,15 +298,14 @@ public class MainInput extends Activity {
         //Sending page update
         try {
             client.SendPacket("Page", scouter + "," + page + "," + match + "," + team);
-        } catch(Exception ie) {
+        } catch(Exception ie) {//Check
         }
     }
 
     public void reverse(View v) {
         //Toggle reverse mode
         Switch aSwitch = (Switch) findViewById(R.id.Reverse);
-        if(!scoutForm.reverse) scoutForm.reverse = true;
-        else scoutForm.reverse = false;
+        scoutForm.reverse = !scoutForm.reverse;
         aSwitch.setChecked(scoutForm.reverse);
     }
 
@@ -316,7 +313,7 @@ public class MainInput extends Activity {
         //Disconnect from server
         try {
             if(connected) client.Disconnect();
-        } catch(Exception e) {
+        } catch(Exception e) {//Check
         }
     }
 
@@ -334,7 +331,8 @@ public class MainInput extends Activity {
         findViewById(R.id.startLayout).setVisibility(View.GONE);
         findViewById(R.id.TopLine).setVisibility(View.VISIBLE);
         Button button = (Button) findViewById(R.id.NextPage);
-        button.setText("Next Page -->");
+        String t = "Next Page -->";
+        button.setText(t);
         button.setVisibility(View.VISIBLE);
         findViewById(R.id.Reverse).setVisibility(View.VISIBLE);
         findViewById(R.id.Refresh).setVisibility(View.VISIBLE);

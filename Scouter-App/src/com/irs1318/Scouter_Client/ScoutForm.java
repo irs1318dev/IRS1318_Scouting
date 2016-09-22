@@ -8,26 +8,27 @@ import android.widget.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScoutForm {
-    int objectNum;
-    int i;
-    int column = 0;
-    int lineLength = 0;
+class ScoutForm {
+
     int[] pageId;
     int[] objectType;
     int[] objectValue;
-    String text;
     String[] objectName;
     boolean reverse;
-    TableLayout tableLayout;
-    LinearLayout sideLayout;
-    LinearLayout lineLayout;
-    LinearLayout mainLayout;
     List<ButtonPress> dataLog;
     Context context;
     MainInput mainInput;
 
-    public void loadObjects(int page) {
+    private String text;
+    private int objectNum;
+    private int i;
+    private int column = 0;
+    private int lineLength = 0;
+    private TableLayout tableLayout;
+    private LinearLayout lineLayout;
+    private LinearLayout mainLayout;
+
+    void loadObjects(int page) {
         dataLog = new ArrayList<>();
         objectNum = objectValue.length;
 
@@ -41,7 +42,7 @@ public class ScoutForm {
         mainLayout.setGravity(1);
         linearLayout.addView(mainLayout);
 
-        sideLayout = new LinearLayout(context);
+        LinearLayout sideLayout = new LinearLayout(context);
         tableLayout = new TableLayout(context);
 
         makeLine();
@@ -179,7 +180,7 @@ public class ScoutForm {
     }
 
     //Creating a grid for other objects
-    public void makeLine() {
+    private void makeLine() {
         //New line
         lineLayout = new TableRow(context);
         lineLayout.setGravity(1);
@@ -190,7 +191,7 @@ public class ScoutForm {
     }
 
     //Finalizing the object
-    public void makeView(TextView textView, ViewGroup viewGroup) {
+    private void makeView(TextView textView, ViewGroup viewGroup) {
         //Formatting and adding object
         textView.setText(text);
         textView.setTextSize(20);
@@ -205,7 +206,7 @@ public class ScoutForm {
         if (column == lineLength) makeLine();
     }
 
-    Button.OnClickListener clickListener = new Button.OnClickListener() {
+    private Button.OnClickListener clickListener = new Button.OnClickListener() {
         @Override
         public void onClick(View v) {
 
@@ -259,7 +260,7 @@ public class ScoutForm {
                             radioButton.setChecked(true);
                             changed = true;
                         } else if(radioButton.isChecked()) {
-                            //Uncheck other buttons
+                            //Un-check other buttons
                             radioButton.setChecked(false);
                             dataLog.add(new ButtonPress("Undo", j));
                         }
