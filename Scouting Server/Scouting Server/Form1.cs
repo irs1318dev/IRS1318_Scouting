@@ -80,6 +80,15 @@ namespace Scouting_Server
             scoutNames[4] = "Blue 2";
             scoutNames[5] = "Blue 3";
 
+            string[] dropMenu = new string[Teams.GetAll().Length];
+            for (int i = 0; i < dropMenu.Length; i++) dropMenu[i] = Teams.Get((ulong)i).TeamNumber + "";
+            setDropDown(red1Team, dropMenu);
+            setDropDown(red2Team, dropMenu);
+            setDropDown(red3Team, dropMenu);
+            setDropDown(blue1Team, dropMenu);
+            setDropDown(blue2Team, dropMenu);
+            setDropDown(blue3Team, dropMenu);
+
             Serv = new Net.NetworkServer(PORT);
             Serv.Connected += Serv_Connected1;
             Serv.Disconnected += Serv_Disconnected;
@@ -88,6 +97,17 @@ namespace Scouting_Server
 
         }
 
+        private void setDropDown(ComboBox comboBox, string[] dropMenu){
+            comboBox.Items.AddRange(dropMenu);
+            comboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBox.Leave += comboBox_Leave;
+        }
+        private void comboBox_Leave(object sender, System.EventArgs e) {
+            ComboBox comboBox = (ComboBox) sender;
+            if (!comboBox.Items.Contains(comboBox.Text)) comboBox.Text = "0";
+        }
+        
         private void ErrorTimer_Tick(object sender, EventArgs e)
         {
             errorMessage.Text = "";
@@ -369,67 +389,67 @@ namespace Scouting_Server
             //RED 1
             try
             {
-                red1 = GetTeamByNumber((int)red1Team.Value);
+                red1 = GetTeamByNumber(int.Parse(red1Team.Text));
                 m.R1TeamKey = red1.id;
             }
             catch (IndexOutOfRangeException)
             {
-                Error("Match could not be set. Team: " + (int)red1Team.Value + " not found");
+                Error("Match could not be set. Team: " + int.Parse(red1Team.Text) + " not found");
                 return;
             }
             //RED 2
             try
             {
-                red2 = GetTeamByNumber((int)red2Team.Value);
+                red2 = GetTeamByNumber(int.Parse(red2Team.Text));
                 m.R2TeamKey = red2.id;
             }
             catch (IndexOutOfRangeException)
             {
-                Error("Match could not be set. Team: " + (int)red2Team.Value + " not found");
+                Error("Match could not be set. Team: " + int.Parse(red2Team.Text) + " not found");
                 return;
             }
             //RED 3
             try
             {
-                red3 = GetTeamByNumber((int)red3Team.Value);
+                red3 = GetTeamByNumber(int.Parse(red3Team.Text));
                 m.R3TeamKey = red3.id;
             }
             catch (IndexOutOfRangeException)
             {
-                Error("Match could not be set. Team: " + (int)red3Team.Value + " not found");
+                Error("Match could not be set. Team: " + int.Parse(red3Team.Text) + " not found");
                 return;
             }
             //BLUE 1
             try
             {
-                blue1 = GetTeamByNumber((int)blue1Team.Value);
+                blue1 = GetTeamByNumber(int.Parse(blue1Team.Text));
                 m.B1TeamKey = blue1.id;
             }
             catch (IndexOutOfRangeException)
             {
-                Error("Match could not be set. Team: " + (int)blue1Team.Value + " not found");
+                Error("Match could not be set. Team: " + int.Parse(blue1Team.Text) + " not found");
                 return;
             }
             //BLUE 2
             try
             {
-                blue2 = GetTeamByNumber((int)blue2Team.Value);
+                blue2 = GetTeamByNumber(int.Parse(blue2Team.Text));
                 m.B2TeamKey = blue2.id;
             }
             catch (IndexOutOfRangeException)
             {
-                Error("Match could not be set. Team: " + (int)blue2Team.Value + " not found");
+                Error("Match could not be set. Team: " + int.Parse(blue2Team.Text) + " not found");
                 return;
             }
             //BLUE 3
             try
             {
-                blue3 = GetTeamByNumber((int)blue3Team.Value);
+                blue3 = GetTeamByNumber(int.Parse(blue3Team.Text));
                 m.B3TeamKey = blue3.id;
             }
             catch (IndexOutOfRangeException)
             {
-                Error("Match could not be set. Team: " + (int)blue3Team.Value + " not found");
+                Error("Match could not be set. Team: " + int.Parse(blue3Team.Text) + " not found");
                 return;
             }
             #endregion
@@ -472,67 +492,67 @@ namespace Scouting_Server
             //RED 1
             try
             {
-                red1 = GetTeamByNumber((int)red1Team.Value);
+                red1 = GetTeamByNumber(int.Parse(red1Team.SelectedText));
                 m.R1TeamKey = red1.id;
             }
             catch (IndexOutOfRangeException)
             {
-                Error("Match could not be set. Team: " + (int)red1Team.Value + " not found");
+                Error("Match could not be set. Team: " + int.Parse(red1Team.SelectedText) + " not found");
                 return;
             }
             //RED 2
             try
             {
-                red2 = GetTeamByNumber((int)red2Team.Value);
+                red2 = GetTeamByNumber(int.Parse(red2Team.SelectedText));
                 m.R2TeamKey = red2.id;
             }
             catch (IndexOutOfRangeException)
             {
-                Error("Match could not be set. Team: " + (int)red2Team.Value + " not found");
+                Error("Match could not be set. Team: " + int.Parse(red2Team.SelectedText) + " not found");
                 return;
             }
             //RED 3
             try
             {
-                red3 = GetTeamByNumber((int)red3Team.Value);
+                red3 = GetTeamByNumber(int.Parse(red3Team.SelectedText));
                 m.R3TeamKey = red3.id;
             }
             catch (IndexOutOfRangeException)
             {
-                Error("Match could not be set. Team: " + (int)red3Team.Value + " not found");
+                Error("Match could not be set. Team: " + int.Parse(red3Team.SelectedText) + " not found");
                 return;
             }
             //BLUE 1
             try
             {
-                blue1 = GetTeamByNumber((int)blue1Team.Value);
+                blue1 = GetTeamByNumber(int.Parse(blue1Team.SelectedText));
                 m.B1TeamKey = blue1.id;
             }
             catch (IndexOutOfRangeException)
             {
-                Error("Match could not be set. Team: " + (int)blue1Team.Value + " not found");
+                Error("Match could not be set. Team: " + int.Parse(blue1Team.SelectedText) + " not found");
                 return;
             }
             //BLUE 2
             try
             {
-                blue2 = GetTeamByNumber((int)blue2Team.Value);
+                blue2 = GetTeamByNumber(int.Parse(blue2Team.SelectedText));
                 m.B2TeamKey = blue2.id;
             }
             catch (IndexOutOfRangeException)
             {
-                Error("Match could not be set. Team: " + (int)blue2Team.Value + " not found");
+                Error("Match could not be set. Team: " + int.Parse(blue2Team.SelectedText) + " not found");
                 return;
             }
             //BLUE 3
             try
             {
-                blue3 = GetTeamByNumber((int)blue3Team.Value);
+                blue3 = GetTeamByNumber(int.Parse(blue3Team.SelectedText));
                 m.B3TeamKey = blue3.id;
             }
             catch (IndexOutOfRangeException)
             {
-                Error("Match could not be set. Team: " + (int)blue3Team.Value + " not found");
+                Error("Match could not be set. Team: " + int.Parse(blue3Team.SelectedText) + " not found");
                 return;
             }
             #endregion
@@ -595,12 +615,12 @@ namespace Scouting_Server
 
             var match = matches.ToArray()[0];
 
-            red1Team.Value = Teams.Get(match.R1TeamKey).TeamNumber;
-            red2Team.Value = Teams.Get(match.R2TeamKey).TeamNumber;
-            red3Team.Value = Teams.Get(match.R3TeamKey).TeamNumber;
-            blue1Team.Value = Teams.Get(match.B1TeamKey).TeamNumber;
-            blue2Team.Value = Teams.Get(match.B2TeamKey).TeamNumber;
-            blue3Team.Value = Teams.Get(match.B3TeamKey).TeamNumber;
+            red1Team.Text = Teams.Get(match.R1TeamKey).TeamNumber + "";
+            red2Team.Text = Teams.Get(match.R2TeamKey).TeamNumber + "";
+            red3Team.Text = Teams.Get(match.R3TeamKey).TeamNumber + "";
+            blue1Team.Text = Teams.Get(match.B1TeamKey).TeamNumber + "";
+            blue2Team.Text = Teams.Get(match.B2TeamKey).TeamNumber + "";
+            blue3Team.Text = Teams.Get(match.B3TeamKey).TeamNumber + "";
         }
 
         private void pulse_Tick(object sender, EventArgs e)
@@ -613,12 +633,12 @@ namespace Scouting_Server
 
         private void matchNumber_ValueChanged(object sender, EventArgs e)
         {
-            red1Team.Value = 0;
-            red2Team.Value = 0;
-            red3Team.Value = 0;
-            blue1Team.Value = 0;
-            blue2Team.Value = 0;
-            blue3Team.Value = 0;
+            red1Team.Text = "0";
+            red2Team.Text = "0";
+            red3Team.Text = "0";
+            blue1Team.Text = "0";
+            blue2Team.Text = "0";
+            blue3Team.Text = "0";
         }
     }
 }
